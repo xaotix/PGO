@@ -1,0 +1,54 @@
+﻿<Window x:Class="PGO.Ponderadores_Determinar"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                  xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+                  mc:Ignorable="d" 
+                    xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+                  Width="350"
+                  Height="300"
+                  Title="ModernWindow"
+        WindowStyle="ToolWindow"
+        WindowStartupLocation="CenterScreen"
+        Topmost="True"
+                  >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="25"></RowDefinition>
+        </Grid.RowDefinitions>
+        <telerik:RadGridView Margin="5,5,5,5" Name="lista"  ShowColumnHeaders="True" ItemsSource="{Binding ponderadores}" ShowSearchPanel="False" ShowColumnFooters="True" ShowGroupPanel="False" IsReadOnly="False" CanUserDeleteRows="False" AutoGenerateColumns="False" SelectionMode="Extended">
+            <telerik:RadGridView.Columns>
+                <telerik:GridViewDataColumn  Header="Ponderador" DataMemberBinding="{Binding ponderador,Mode=TwoWay, StringFormat={}{0}%}" Width="*">
+                    <telerik:GridViewDataColumn.AggregateFunctions>
+                        <telerik:SumFunction Caption="Tot.: " />
+                    </telerik:GridViewDataColumn.AggregateFunctions>
+                </telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn  Header="Área" DataMemberBinding="{Binding area,Mode=OneWay, StringFormat='0,0.00 m²'}" Width="auto" IsReadOnly="True"/>
+                <telerik:GridViewDataColumn  Header="Peso Tot." DataMemberBinding="{Binding peso,Mode=OneWay, StringFormat='0,0.00'}" Width="auto" IsReadOnly="True">
+                    <telerik:GridViewDataColumn.AggregateFunctions>
+                        <telerik:SumFunction Caption="Tot. (Ton.): " />
+                    </telerik:GridViewDataColumn.AggregateFunctions>
+                </telerik:GridViewDataColumn>
+            </telerik:RadGridView.Columns>
+        </telerik:RadGridView>
+        <WrapPanel Grid.Row="30" HorizontalAlignment="Right" Grid.Column="2" VerticalAlignment="Center">
+            <Label Name="saldo" Content="Saldo Disponível no prédio: "></Label>
+            <Button Grid.Column="1" Grid.Row="30" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" IsCancel="True" Click="cancelar" VerticalAlignment="Center" HorizontalAlignment="Right">
+                <WrapPanel>
+                    <Image Source="Resources/dialog-error.png" Height="16" Width="16"/>
+                    <Label Content="Cancelar"/>
+                    <!--<Label Content=" "></Label>-->
+                </WrapPanel>
+            </Button>
+            <Button Grid.Column="1" Grid.Row="30" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" IsDefault="True" Click="adicionar_ponderador" VerticalAlignment="Center" HorizontalAlignment="Right">
+                <WrapPanel>
+                    <Image Source="Resources/dialog-ok-apply.png" Height="16" Width="16"/>
+                    <Label Content="Adicionar"/>
+                    <!--<Label Content=" "></Label>-->
+                </WrapPanel>
+            </Button>
+        </WrapPanel>
+    </Grid>
+</Window>

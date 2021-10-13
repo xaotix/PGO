@@ -1,0 +1,465 @@
+﻿<mui:ModernWindow x:Class="Orc_Gambi.Listas_Tecnicas"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                  xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+                  xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" 
+                  mc:Ignorable="d" 
+                   xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+
+                  Title="Listas Técnicas"
+                  Style="{StaticResource BlankWindow}" WindowState="Maximized" Height="527" Width="1008" Loaded="ModernWindow_Loaded" FontSize="11">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <WrapPanel Grid.Row="0">
+            <Image Source="Resources/Novo_Logo_2018.orc.png" HorizontalAlignment="Left"></Image>
+            <Image Source="Resources/administrador.png" HorizontalAlignment="Right" Margin="30,0,0,0"></Image>
+
+        </WrapPanel>
+        <TabControl Grid.Row="1">
+        <TabItem Header="Cadastro">
+            
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+    <Grid Grid.Row="1">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" MaxWidth="475" Name="coluna1"></ColumnDefinition>
+            <ColumnDefinition Width="3"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.Resources>
+            <Style TargetType="{x:Type telerik:GridViewRow}" x:Key="GridRowStyle">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Status}" Value="Liberado">
+                        <Setter Property="Background" Value="LightGreen"></Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Status}" Value="Liberado_Atrasado">
+                        <Setter Property="Background" Value="LightSalmon"></Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Status}" Value="Não_Iniciou_Atrasado">
+                        <Setter Property="Background" Value="LightCoral"></Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Status}" Value="Em_detalhamento">
+                        <Setter Property="Background" Value="LightYellow"></Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Status}" Value="Em_detalhamento_Atrasado">
+                        <Setter Property="Background" Value="LightCoral"></Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Status}" Value="Não_Iniciou">
+                        <Setter Property="Background" Value="LightGray"></Setter>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="GridAlternateRowStyle" BasedOn="{StaticResource GridRowStyle}" TargetType="{x:Type telerik:GridViewRow}">
+                <Setter Property="Background" Value="Gray" />
+            </Style>
+        </Grid.Resources>
+                    <Grid Name="lista_esquerda">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="25"></RowDefinition>
+                </Grid.RowDefinitions>
+        <telerik:RadGridView Grid.Row="0" ShowColumnFooters="False" IsReadOnly="True" AutoGenerateColumns="False"   Name="Lista_Produtos"
+             Background="Transparent"    SelectionChanged="Lista_Produtos_SelectionChanged" ShowSearchPanel="True" SelectionMode="Single" Width="450" Visibility="Visible">
+
+                                        <telerik:RadGridView.Columns>
+
+                                            <telerik:GridViewDataColumn>
+                                                <telerik:GridViewDataColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Image Source="{Binding Imagem}" Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                    </DataTemplate>
+                                                </telerik:GridViewDataColumn.CellTemplate>
+                                            </telerik:GridViewDataColumn>
+                                <telerik:GridViewDataColumn  Header="Nome" DataMemberBinding="{Binding descricao,Mode=OneWay}" Width="*"/>
+                             
+
+                            </telerik:RadGridView.Columns>
+
+                                        <telerik:RadGridView.ChildTableDefinitions>
+                                            <telerik:GridViewTableDefinition>
+                                                <telerik:GridViewTableDefinition.Relation>
+                                                    <telerik:PropertyRelation ParentPropertyName="Posicoes" />
+                                                </telerik:GridViewTableDefinition.Relation>
+                                            </telerik:GridViewTableDefinition>
+                                        </telerik:RadGridView.ChildTableDefinitions>
+                                        <telerik:RadGridView.HierarchyChildTemplate>
+                                            <DataTemplate>
+                                    <telerik:RadGridView IsReadOnly="True" ShowGroupPanel="False" AutoGenerateColumns="False" ItemsSource="{Binding Produtos}" ShowColumnFooters="False" ShowColumnHeaders="True" ShowColumnSortIndexes="True" ShowGroupFooters="False" ShowSearchPanel="False" SelectionChanged="ListaProdutos_SelectionChanged"   SelectionMode="Single">
+                                    <telerik:RadGridView.Columns>
+                                                <telerik:GridViewDataColumn Header="A" DataMemberBinding="{Binding ativo}" IsFilterable="True">
+                                                    <telerik:GridViewDataColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Image Source="{Binding Imagem}" Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center" ToolTip="Range Ativo"/>
+                                                        </DataTemplate>
+                                                    </telerik:GridViewDataColumn.CellTemplate>
+                                                </telerik:GridViewDataColumn>
+                                                <!--<telerik:GridViewDataColumn  Header="Ativo" DataMemberBinding="{Binding ativo,Mode=OneWay}" Width="45"/>-->
+
+                                                <telerik:GridViewDataColumn  Header="V" DataMemberBinding="{Binding Verificado}" IsFilterable="True">
+                                <telerik:GridViewDataColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Image Source="{Binding ImagemVerificado}" Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center" ToolTip="Range verificado"/>
+                                    </DataTemplate>
+                                </telerik:GridViewDataColumn.CellTemplate>
+                            </telerik:GridViewDataColumn>
+                                                <telerik:GridViewDataColumn  Header="S" DataMemberBinding="{Binding Enviado_SAP}" IsFilterable="True">
+                                <telerik:GridViewDataColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Image Source="{Binding ImagemEnviadoSAP}" Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center" ToolTip="Range enviado ao SAP"/>
+                                    </DataTemplate>
+                                </telerik:GridViewDataColumn.CellTemplate>
+                            </telerik:GridViewDataColumn>
+                                                <telerik:GridViewDataColumn Header="Nome" DataMemberBinding="{Binding produtos,Mode=OneWay}"/>
+                                                <telerik:GridViewDataColumn Header="Fert" DataMemberBinding="{Binding FERT,Mode=OneWay}"  Width="50" />
+                                                <telerik:GridViewDataColumn Header="Id" DataMemberBinding="{Binding id,Mode=OneWay}"  Width="50" />
+                                    </telerik:RadGridView.Columns>
+                                    </telerik:RadGridView>
+                                            </DataTemplate>
+                                        </telerik:RadGridView.HierarchyChildTemplate>
+                                    </telerik:RadGridView>
+                <WrapPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right">
+                    <Label Name="Status"></Label>
+                </WrapPanel>
+            </Grid>
+            <GridSplitter Grid.Column="1"></GridSplitter>
+
+                    <TabControl Grid.Column="2" >
+                        <TabControl.Background>
+                            <ImageBrush ImageSource="Resources/logo.png" Stretch="Uniform" Opacity="0.2"/>
+                        </TabControl.Background>
+                        <TabItem Header="Itens" Background="Transparent">
+                            
+                            <telerik:RadGridView ShowSearchPanel="True"  ShowColumnFooters="False" Grid.Row="3" Grid.Column="2" IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Extended"   Name="Lista_Pecas" RowStyle="{StaticResource GridRowStyle}" AlternateRowStyle="{StaticResource GridAlternateRowStyle}">
+
+                                <telerik:RadGridView.Columns>
+
+                                    <telerik:GridViewDataColumn>
+                                        <telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Image Source="{Binding Imagem}" Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center" ToolTip="Peça Definida"/>
+                                            </DataTemplate>
+                                        </telerik:GridViewDataColumn.CellTemplate>
+                                    </telerik:GridViewDataColumn>
+                                    <telerik:GridViewDataColumn IsReadOnly="True" Header=""     Width="40"     DataMemberBinding="{Binding Ativo}"  IsFilterable="True" IsGroupable="True" IsReorderable="True" IsSortable="True" ShowFilterButton="True" ShowToolTipOnTrimmedText="False" ShowDistinctFilters="True" AllowDrop="False">
+                                        <telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="16"/>
+                                                        <ColumnDefinition Width="65"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Image Source="{Binding ImagemAtivo}" Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center" ToolTip="Ativo"/>
+
+                                                </Grid>
+                                            </DataTemplate>
+                                        </telerik:GridViewDataColumn.CellTemplate>
+                                    </telerik:GridViewDataColumn>
+                                    <telerik:GridViewDataColumn IsReadOnly="True" Header=""  Width="40"         DataMemberBinding="{Binding Peca.Orcamento}"   IsFilterable="True" IsGroupable="True" IsReorderable="True" IsSortable="True" ShowFilterButton="True" ShowToolTipOnTrimmedText="False" ShowDistinctFilters="True" AllowDrop="False">
+                                        <telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="16"/>
+                                                        <ColumnDefinition Width="65"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Image Source="{Binding Peca.ImagemOrcamento}" Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center" ToolTip="Liberável"/>
+
+                                                </Grid>
+                                            </DataTemplate>
+                                        </telerik:GridViewDataColumn.CellTemplate>
+                                    </telerik:GridViewDataColumn>
+
+                                    <telerik:GridViewDataColumn Name="grupo_grid" Header="Grupo" DataMemberBinding="{Binding Produto.grupo,Mode=OneWay}"  />
+                                    <telerik:GridViewDataColumn Name="nome_grid" Header="Nome" DataMemberBinding="{Binding Produto.produtos,Mode=OneWay}"  />
+                                    <telerik:GridViewDataColumn Name="fert_grid" Header="Fert" DataMemberBinding="{Binding Produto.FERT,Mode=OneWay}"  />
+                                    <telerik:GridViewDataColumn  Header="Forçar Peso" DataMemberBinding="{Binding ForcarPeso,Mode=OneWay}"/>
+                                    <telerik:GridViewDataColumn  Header="Forçar Área Pintura" DataMemberBinding="{Binding Forcar_Area_Pintura,Mode=OneWay}"/>
+                                    <telerik:GridViewDataColumn  Header="Área x Kilo" DataMemberBinding="{Binding Area_x_Kilo,Mode=OneWay}"/>
+                                    <telerik:GridViewDataColumn Name="unidade_grid" Header="Unidade" DataMemberBinding="{Binding Produto.unidade,Mode=OneWay}"  />
+                                    <telerik:GridViewDataColumn Header="Id" DataMemberBinding="{Binding Produto.id,Mode=OneWay}"  />
+                                    <!--<telerik:GridViewDataColumn  Header="Ativo" DataMemberBinding="{Binding Ativo,Mode=OneWay}"/>-->
+                                    <!--<telerik:GridViewDataColumn  Header="Peça Liberável" DataMemberBinding="{Binding Peca.Ativo,Mode=OneWay}"/>-->
+                                    <telerik:GridViewDataColumn  Header="Tipo" DataMemberBinding="{Binding Tipo,Mode=OneWay}" />
+                                    <!--<telerik:GridViewDataColumn  Header="Unidade" DataMemberBinding="{Binding Unidade_Fabril,Mode=OneWay}" />-->
+                                    <telerik:GridViewDataColumn  Header="Quantidade" DataMemberBinding="{Binding Quantidade,Mode=OneWay}"/>
+                                    <telerik:GridViewDataColumn  Header="Código" DataMemberBinding="{Binding Codigo,Mode=OneWay}" />
+                                    <telerik:GridViewDataColumn  Header="Descrição" DataMemberBinding="{Binding Descricao,Mode=OneWay}" />
+                                    <telerik:GridViewDataColumn  Header="Peso Unit." DataMemberBinding="{Binding Peca.PesoUnit,Mode=OneWay}" />
+                                    <telerik:GridViewDataColumn  Header="Comprimento" DataMemberBinding="{Binding Comprimento,Mode=OneWay}" />
+                                    <telerik:GridViewDataColumn  Header="Ficha" DataMemberBinding="{Binding Ficha,Mode=OneWay}"/>
+                                    <telerik:GridViewDataColumn  Header="Bobina" DataMemberBinding="{Binding Bobina.SAP,Mode=OneWay}" />
+                                    <telerik:GridViewDataColumn  Header="Face Ext" DataMemberBinding="{Binding Fexterna,Mode=OneWay}" />
+                                    <telerik:GridViewDataColumn  Header="Face Int" DataMemberBinding="{Binding Finterna,Mode=OneWay}" />
+                                    <telerik:GridViewDataColumn  Header="Observações" DataMemberBinding="{Binding Observacoes}"/>
+                                    <telerik:GridViewDataColumn  Header="Usuário" DataMemberBinding="{Binding User,Mode=OneWay}"/>
+
+                                    <telerik:GridViewDataColumn  Header="Arredondar" DataMemberBinding="{Binding Arredondar,Mode=OneWay}"/>
+                                </telerik:RadGridView.Columns>
+                                <telerik:RadGridView.ContextMenu>
+
+                                    <ContextMenu Name="Edicao">
+                                        <MenuItem Header="Ver Desenho" Click="abre_pecas"></MenuItem>
+                                        <MenuItem Header="Propriedades" Click="propriedades_pecas"></MenuItem>
+                                        <Separator></Separator>
+                                        
+                                        <MenuItem Header="Exportar" Click="Exportar">
+                                            <MenuItem.Icon>
+                                                <Image Source="Resources/circulo_16x16.png" Width="16" Height="16"/>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="Adicionar / Duplicar" Name="adicionar_item">
+                                            <MenuItem.Icon>
+                                                <Image Source="Resources/circulo_16x16.png" Width="16" Height="16"/>
+                                            </MenuItem.Icon>
+                                            <MenuItem Header="Adicionar" Click="MenuItem_Click"></MenuItem>
+                                            <MenuItem Header="Duplicar" Click="duplica_pcs"></MenuItem>
+                                        </MenuItem>
+                                        <MenuItem Header="Remover" Click="MenuItem_Click_1">
+                                            <MenuItem.Icon>
+                                                <Image Source="Resources/circulo_16x16.png" Width="16" Height="16"/>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <!--<MenuItem Header="Importar de Outro Range..."></MenuItem>-->
+                                        <MenuItem Header="Editar">
+                                            <MenuItem.Icon>
+                                                <Image Source="Resources/circulo_16x16.png" Width="16" Height="16"/>
+                                            </MenuItem.Icon>
+                                            <MenuItem Header="Edição Completa" Click="MenuItem_Click_2" Name="edicao_completa"></MenuItem>
+                                            <MenuItem Header="Quantidade" Click="editar_quantidade"></MenuItem>
+                                            <!--<MenuItem Header="Atualizar Descrição e código" Click="editar_descricao"></MenuItem>-->
+                                            <MenuItem Header="Comprimento" Click="editar_comprimento"></MenuItem>
+                                            <MenuItem Header="Observações" Click="editar_observacoes"></MenuItem>
+                                            <MenuItem Header="Ficha" Click="editar_ficha"></MenuItem>
+                                            <!--<MenuItem Header="Unidade Fabril" Click="editar_unidade_fabril"></MenuItem>-->
+                                            <MenuItem Header="Arredontar">
+                                                <MenuItem Header="Sim" Click="set_arredondar1"></MenuItem>
+                                                <MenuItem Header="Não" Click="set_arredondar2"></MenuItem>
+                                            </MenuItem>
+                                            <MenuItem Header="Forçar Peso">
+                                                <MenuItem Header="Sim" Click="set_forcar_peso1"></MenuItem>
+                                                <MenuItem Header="Não" Click="set_forcar_peso2"></MenuItem>
+                                            </MenuItem>
+                                            <MenuItem Header="Forçar Área Pintura">
+                                                <MenuItem Header="Ativar" Click="set_forcar_area_pintura"></MenuItem>
+                                                <MenuItem Header="Desativar" Click="set_forcar_area_pintura_false"></MenuItem>
+                                                <MenuItem Header="Definir valor" Click="area_x_kilo_valor"></MenuItem>
+                                            </MenuItem>
+                                            <MenuItem Header="Substituir..." Click="MenuItem_Click_4"></MenuItem>
+                                            <MenuItem Header="Importar de outro Produto..." Click="Importar_itens" Name="Importar"></MenuItem>
+                                        </MenuItem>
+                                        <Separator></Separator>
+                                        <MenuItem Header="Ativar/Desativar">
+                                            <MenuItem.Icon>
+                                                <Image Source="Resources/circulo_16x16.png" Width="16" Height="16"/>
+                                            </MenuItem.Icon>
+                                            <MenuItem Header="Ativar" Click="set_ativar1"></MenuItem>
+                                            <MenuItem Header="Desativar" Click="setativo2"></MenuItem>
+                                        </MenuItem>
+                                    </ContextMenu>
+                                </telerik:RadGridView.ContextMenu>
+                            </telerik:RadGridView>
+
+                        </TabItem>
+                        <TabItem Header="Dados" Name="ferts">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="25"></RowDefinition>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <WrapPanel VerticalAlignment="Center" Name="titulo_range">
+                                    <Image  Margin="3" Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center" Source="Resources/currency-dollar-cashier-money-icon.png" />
+                                    <Label Margin="5,0,0,0"  Name="nome_selecao" FontWeight="Bold" Content="Nome" VerticalAlignment="Center"></Label>
+                                </WrapPanel>
+                                <TabControl Grid.Row="1">
+                                <TabItem Header="Propriedades do Range">
+                                    <Grid Grid.Row="1">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"></RowDefinition>
+                                                <RowDefinition Height="150"></RowDefinition>
+                                            <RowDefinition Height="25"></RowDefinition>
+                                        </Grid.RowDefinitions>
+
+                                            <ScrollViewer>
+                                                
+                                        <xctk:PropertyGrid x:Name="propriedades_produto"  Grid.Row="0"  AutoGenerateProperties="True" ShowSortOptions="False" ShowSearchBox="True" ShowPreview="False"  ShowSummary="False" IsCategorized="True" Grid.Column="0" Grid.RowSpan="2" Background="Transparent" ShowAdvancedOptions="False" ShowTitle="False">
+                                        </xctk:PropertyGrid>
+                                            </ScrollViewer>
+                                            <TextBox TextWrapping="Wrap" AcceptsReturn="True" Name="Input" MaxLength="300" BorderThickness="1" BorderBrush="Black" Grid.Row="1"></TextBox>
+                                            <Menu Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center" Background="Transparent">
+                                                <MenuItem Header="Alterar Grupo de Mercadoria" Click="alterar_grupo_de_Mercadoria">
+                                                    <MenuItem.Icon>
+                                                        <Image Source="Resources/document-edit3.png" Width="16" Height="16"></Image>
+                                                    </MenuItem.Icon>
+                                                </MenuItem>
+                                                    <MenuItem Header="Alterar Fert" Click="alterar_fert">
+                                                        <MenuItem.Icon>
+                                                            <Image Source="Resources/document-edit3.png" Width="16" Height="16"></Image>
+                                                        </MenuItem.Icon>
+                                                    </MenuItem>
+                                                    <MenuItem Header="Simular" Click="simular">
+                                                    <MenuItem.Icon>
+                                                        <Image Source="Resources/help-about.png" Width="16" Height="16"></Image>
+                                                    </MenuItem.Icon>
+                                                </MenuItem>
+                                                <MenuItem Header="Salvar alterações" Click="salvar_produto">
+                                                    <MenuItem.Icon>
+                                                        <Image Source="Resources/document-save.png" Width="16" Height="16"></Image>
+                                                    </MenuItem.Icon>
+                                                </MenuItem>
+                                            </Menu>
+
+                                    </Grid>
+                                </TabItem>
+                                    <TabItem Header="Memoriais de cálculo">
+                                        <Grid Name="container_memoriais"></Grid>
+                                    </TabItem>
+
+                            </TabControl>
+                            </Grid>
+                        </TabItem>
+                    </TabControl>
+
+        
+        <!--<TreeView Name="Lista" SelectedItemChanged="Selecao_Lista_Tecnica"></TreeView>-->
+    </Grid>
+        <Menu Background="Transparent">
+            <MenuItem Header="Arquivo" Background="Transparent">
+                <MenuItem Header="Importar Listagem de Almox" Click="Importar_Almox"></MenuItem>
+                <MenuItem Header="Importar Listagem de Arremates, Peças e Almox" Click="Importar_Arremates"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Ferramentas" Background="Transparent">
+                <MenuItem Header="Listar LTs sem material" Click="MenuItem_Click_3"></MenuItem>
+                        <MenuItem Header="Extrair Lista de Ranges" Click="MenuItem_Click_6"></MenuItem>
+                            <MenuItem Header="Ativar / Desativar" Background="Transparent">
+                                <MenuItem Header="Ativar" Click="ativar_selecao"></MenuItem>
+                                <MenuItem Header="Desativar" Click="desativar_lista"></MenuItem>
+                            </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Exibir / Filtrar" Background="Transparent">
+                <RadioButton Content="Tudo" Name="Tudo" IsChecked="True" Checked="troca_filtro"></RadioButton>
+                <RadioButton Content="Sem Material" Name="Sem_Materiais" IsChecked="False" Checked="troca_filtro"></RadioButton>
+                        <RadioButton Content="Com material inválido" Name="Material_Invalido" IsChecked="False" Checked="troca_filtro"></RadioButton>
+                        <Separator></Separator>
+                        <RadioButton Content="Falta Verificar" Name="Falta_Verificar" IsChecked="False" Checked="troca_filtro"></RadioButton>
+                        <RadioButton Content="Falta Enviar para o SAP" Name="Falta_Enviar_SAP" IsChecked="False" Checked="troca_filtro"></RadioButton>
+                        <Separator></Separator>
+                        <RadioButton Content="Verificado" Name="Verificado" IsChecked="False" Checked="troca_filtro"></RadioButton>
+                        <RadioButton Content="Enviado para o SAP" Name="Enviado_SAP" IsChecked="False" Checked="troca_filtro"></RadioButton>
+                        <Separator></Separator>
+                        <RadioButton Content="Com FERT em branco" Name="Fert_em_branco" IsChecked="False" Checked="troca_filtro"></RadioButton>
+                        <!--<RadioButton Content="Com Unidade Fabril em Branco" Name="Unidade_Fabril" IsChecked="False" Checked="troca_filtro"></RadioButton>-->
+                <RadioButton Content="Filtrar um item..." Name="Um_Item" Checked="troca_filtro"></RadioButton>
+            </MenuItem>
+            <MenuItem Header="Visualizar" Background="Transparent">
+                <RadioButton Content="Árvore" Name="ver_arvore" IsChecked="True" Checked="troca_filtro" ></RadioButton>
+                <RadioButton Content="Agrupado" Name="ver_agrupado" IsChecked="False" Checked="troca_filtro" ></RadioButton>          
+            </MenuItem>
+        </Menu>
+        
+    </Grid>
+        </TabItem>
+        <TabItem Header="Consulta de Uso">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="25"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <WrapPanel >
+                    <Label Content=" De: " VerticalAlignment="Center" Background="Transparent"></Label>
+                    <DatePicker Name="DataDe" Background="Transparent"></DatePicker>
+                    <Label Content="Até: " VerticalAlignment="Center" Background="Transparent"></Label>
+
+                    <DatePicker Name="DataAte" Background="Transparent"></DatePicker>
+                    <MenuItem Name="ok" Header="Ok" VerticalAlignment="Center" HorizontalAlignment="Right" Background="Transparent" Click="get_pecas_por_data"></MenuItem>
+                </WrapPanel>
+
+                <telerik:RadGridView ShowSearchPanel="True" ShowColumnFooters="False" Grid.Row="1" Grid.Column="2" IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Extended"   Name="Lista_Uso" >
+
+                    <telerik:RadGridView.Columns>
+                        <telerik:GridViewDataColumn>
+                            <telerik:GridViewDataColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image Source="{Binding Imagem}" Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                </DataTemplate>
+                            </telerik:GridViewDataColumn.CellTemplate>
+                        </telerik:GridViewDataColumn>
+                        <!--<telerik:GridViewDataColumn Header="Quantidade Total" DataMemberBinding="{Binding Quantidade,Mode=OneWay}"  />-->
+                        <!--<telerik:GridViewDataColumn Header="Peso Total" DataMemberBinding="{Binding PesoTotal,Mode=OneWay}"  />-->
+                        <telerik:GridViewDataColumn Width="150" Header="Quantidade" DataMemberBinding="{Binding Quantidade,Mode=OneWay}" >
+                            <telerik:GridViewDataColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <ProgressBar Height="15" Value="{Binding Quantidade,Mode=OneWay}" Maximum="{Binding MaxQuantidade,Mode=OneWay}" Width="150" Opacity="0.5"/>
+                                        <TextBlock Text="{Binding Quantidade}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Grid>
+                                </DataTemplate>
+                            </telerik:GridViewDataColumn.CellTemplate>
+                        </telerik:GridViewDataColumn>
+                        <telerik:GridViewDataColumn Width="150" Header="Peso Total" DataMemberBinding="{Binding PesoTotal,Mode=OneWay}" >
+                            <telerik:GridViewDataColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <ProgressBar Height="15" Value="{Binding PesoTotal,Mode=OneWay}" Maximum="{Binding MaxPesoTotal,Mode=OneWay}" Width="150" Opacity="0.5"/>
+                                        <TextBlock Text="{Binding PesoTotal}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Grid>
+                                </DataTemplate>
+                            </telerik:GridViewDataColumn.CellTemplate>
+                        </telerik:GridViewDataColumn>
+                        <telerik:GridViewDataColumn Width="150" Header="Inserções" DataMemberBinding="{Binding Insercoes,Mode=OneWay}" >
+                            <telerik:GridViewDataColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <ProgressBar Height="15" Value="{Binding Insercoes,Mode=OneWay}" Maximum="{Binding MaxInsercoes,Mode=OneWay}" Width="150" Opacity="0.5"/>
+                                        <TextBlock Text="{Binding Insercoes}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Grid>
+                                </DataTemplate>
+                            </telerik:GridViewDataColumn.CellTemplate>
+                        </telerik:GridViewDataColumn>
+                        <!--<telerik:GridViewDataColumn Header="Inserções" DataMemberBinding="{Binding Insercoes,Mode=OneWay}"  />-->
+                        <telerik:GridViewDataColumn Header="Grupo" DataMemberBinding="{Binding grupo,Mode=OneWay}"  />
+                        <telerik:GridViewDataColumn Header="Grupo de Mercadoria" DataMemberBinding="{Binding produtos,Mode=OneWay}"  />
+                        <telerik:GridViewDataColumn Header="Fert" DataMemberBinding="{Binding FERT,Mode=OneWay}"  />
+                        <telerik:GridViewDataColumn Header="Id" DataMemberBinding="{Binding id,Mode=OneWay}"  />
+                    </telerik:RadGridView.Columns>
+
+                </telerik:RadGridView>
+                <Menu Grid.Row="2" HorizontalAlignment="Right">
+                    <MenuItem Header="Exportar Lista" Click="exportar_report_uso"></MenuItem>
+                </Menu>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Indicadores">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <WrapPanel >
+                    <Label Content=" De: " VerticalAlignment="Center" Background="Transparent"></Label>
+                    <DatePicker Name="DataDeIndicador" Background="Transparent"></DatePicker>
+                    <Label Content="Até: " VerticalAlignment="Center" Background="Transparent"></Label>
+
+                    <DatePicker Name="DataAteIndicador" Background="Transparent"></DatePicker>
+                    <ComboBox Name="Selecao" SelectedIndex="0">
+                        <Label Content="Peso Por Setor de Atividade" Name="PorSetor"></Label>
+                        <Label Content="Valor Por Setor de Atividade" Name="PorValor"></Label>
+
+                    </ComboBox>
+                    <MenuItem Name="Okindicador" Header="Ok" VerticalAlignment="Center" HorizontalAlignment="Right" Background="Transparent" Click="get_indicadores"></MenuItem>
+                </WrapPanel>
+                <telerik:RadCartesianChart Grid.Row="2" Name="grafico"></telerik:RadCartesianChart>
+            </Grid>
+        </TabItem>
+    </TabControl>
+    </Grid>
+</mui:ModernWindow>

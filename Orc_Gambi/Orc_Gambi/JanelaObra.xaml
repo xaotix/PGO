@@ -1,0 +1,741 @@
+﻿<mui:ModernWindow
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                  xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+                  xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" 
+                  xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+                  xmlns:local="clr-namespace:Orc_Gambi" x:Class="Orc_Gambi.JanelaObra"
+    xmlns:controles="clr-namespace:Orc_Gambi.Controles"
+ 
+                  mc:Ignorable="d" 
+                  Title="Janela Obra"
+                  Style="{StaticResource BlankWindow}"
+    FontSize="11"
+    Height="830.92" Width="1252.407" WindowStartupLocation="CenterScreen" WindowState="Maximized" Loaded="ModernWindow_Loaded" KeyDown="monitora_key" Closing="ModernWindow_Closing">
+
+    <Window.Resources>
+        <MenuItem x:Shared="False" Visibility="{Binding Menus_Orcamento}"  x:Key="menu1" Header="Informações" ToolTip="Propriedades" Name="campo_propriedades">
+            <MenuItem.Icon>
+                <Image Source="Resources/dialog-information.png" Width="16" Height="16"/>
+            </MenuItem.Icon>
+            <MenuItem  Header="Propriedades" Click="ver_props" ToolTip="Propriedades">
+                <MenuItem.Icon>
+                    <Image Source="Resources/dialog-information.png" Width="16" Height="16"/>
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem  Header="Ver Peças" Click="ver_pecas_varios" ToolTip="Ver Peças">
+                <MenuItem.Icon>
+                    <Image Source="Resources/dialog-information.png" Width="16" Height="16"/>
+                </MenuItem.Icon>
+            </MenuItem>
+        </MenuItem>
+
+        <MenuItem x:Shared="False" Visibility="{Binding Menus_Editar}"  x:Key="menu2" Header="Editar">
+            <MenuItem.Icon>
+                <Image Source="Resources/document-edit3.png" Width="16" Height="16"/>
+            </MenuItem.Icon>
+            <MenuItem Header="Alterar Mercadoria Externa" Click="Editar_Mercadoria_Externa">
+                <MenuItem.Icon>
+                    <Image Source="Resources/document-edit3.png" Width="16" Height="16"/>
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Quantidade" Click="editar_quantidade" >
+                <MenuItem.Icon>
+                    <Image Source="Resources/document-edit3.png" Width="16" Height="16"/>
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Esquema de Pintura" Click="set_esquema" >
+                <MenuItem.Icon>
+                    <Image Source="Resources/pintura_32x32.png" Width="16" Height="16"/>
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Tipo de Carreta" Click="editar_carreta_multiplo" >
+                <MenuItem.Icon>
+                    <Image Source="Resources/truck-icon.png" Width="16" Height="16"/>
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Excluir" Click="excluir_ranges" >
+                <MenuItem.Icon>
+                    <Image Source="Resources/dialog-error.png" Width="16" Height="16"/>
+                </MenuItem.Icon>
+            </MenuItem>
+        </MenuItem>
+        <MenuItem  x:Shared="False"  x:Key="menu3" Header="Atualizar" Visibility="{Binding Menus_Editar}" >
+            <MenuItem.Icon>
+                <Image Source="Resources/vcs-update-required.png" Width="16" Height="16"/>
+            </MenuItem.Icon>
+            <MenuItem Header="Atualizar Custos" Click="atualizar_custos">
+                <MenuItem.Icon>
+                    <Image Source="Resources/vcs-update-required.png" Width="16" Height="16"/>
+                </MenuItem.Icon>
+            </MenuItem>
+
+        </MenuItem>
+        <MenuItem x:Shared="False" x:Key="menu4" Visibility="{Binding Menus_Orcamento}"  Header="Folha Margem" Click="exportar_folha_margem" Background="Transparent" ToolTip="Gerar Folha Margem">
+            <MenuItem.Icon>
+                <Image Source="Resources/cash.png" Width="16" Height="16"/>
+            </MenuItem.Icon>
+        </MenuItem>
+        <MenuItem x:Shared="False" x:Key="menu5" Header="Fert" Background="Transparent" VerticalAlignment="Center">
+            <MenuItem.Icon>
+                <Image Source="Resources/view-time-schedule-edit.png" Width="16" Height="16"/>
+            </MenuItem.Icon>
+            <MenuItem Header="Alterar" Click="MenuItem_Click_3">
+                <MenuItem.Icon>
+                    <Image Source="Resources/document-edit3.png" Width="16" Height="16"/>
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Retornar para o Fert default da LT" Click="retorna_fert">
+                <MenuItem.Icon>
+                    <Image Source="Resources/document-revert.png" Width="16" Height="16"/>
+                </MenuItem.Icon>
+            </MenuItem>
+        </MenuItem>
+        <MenuItem  x:Shared="False" x:Key="menu6" Header="Verbas" Background="Transparent">
+            <MenuItem.Icon>
+                <Image Source="Resources/document-edit3.png" Width="16" Height="16"/>
+            </MenuItem.Icon>
+            <MenuItem Header="Atribuir Código MP" Click="Atribuir_material_range" Visibility="{Binding Menus_Editar}">
+                <MenuItem.Icon>
+                    <Image Source="Resources/document-edit3.png" Width="16" Height="16"/>
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Atribuir Quantidade MP" Click="atribuir_quantidade_mp" Visibility="{Binding Menus_Editar}">
+                <MenuItem.Icon>
+                    <Image Source="Resources/document-edit3.png" Width="16" Height="16"/>
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Remover MP" Click="remover_mp" Visibility="{Binding Menus_Editar}">
+                <MenuItem.Icon>
+                    <Image Source="Resources/dialog-error.png" Width="16" Height="16"/>
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Editar Peso" Click="editar_peso_verba" Visibility="{Binding Menus_Editar}">
+                <MenuItem.Icon>
+                    <Image Source="Resources/document-edit3.png" Width="16" Height="16"/>
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Zerar Peso" Click="editar_peso_verba_zerar" Visibility="{Binding Menus_Editar}">
+                <MenuItem.Icon>
+                    <Image Source="Resources/document-edit3.png" Width="16" Height="16"/>
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Visualizar Material" Click="get_material_range">
+                <MenuItem.Icon>
+                    <Image Source="Resources/dialog-information.png" Width="16" Height="16"/>
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Setar peso baseado no Material SAP" Click="set_material_range">
+                <MenuItem.Icon>
+                    <Image Source="Resources/dialog-information.png" Width="16" Height="16"/>
+                </MenuItem.Icon>
+            </MenuItem>
+        </MenuItem>
+        <MenuItem  x:Shared="False" x:Key="menu7" Header="Exportar Excel" Click="exportar_excel">
+            <MenuItem.Icon>
+                <Image Source="Resources/document-export-table.png" Width="16" Height="16"/>
+            </MenuItem.Icon>
+        </MenuItem>
+        <MenuItem x:Shared="False" x:Key="menu8" Header="Atualizar Estrutura" Click="Atualizar_estrutura" >
+            <MenuItem.Icon>
+                <Image Source="Resources/view-refresh.png" Width="16" Height="16"/>
+            </MenuItem.Icon>
+        </MenuItem>
+    </Window.Resources>
+    <Grid>
+        <Grid.Resources>
+            <Image x:Key="Salvar" Source="Resources/document-save.png" Width="16" Height="16"/>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="125"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="400"></ColumnDefinition>
+            <ColumnDefinition Width="5"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+
+        <Menu Background="Transparent" Grid.ColumnSpan="10" VerticalAlignment="Center" Name="menu_principal">
+            <MenuItem Header="Arquivo" Background="Transparent">
+                <MenuItem.Icon>
+                    <Image Source="Resources/list-add.png" Width="16" Height="16"/>
+                </MenuItem.Icon>
+                <MenuItem Header="Novo Prédio" Background="Transparent" Click="adicionar_predio">
+                    <MenuItem.Icon>
+                        <Image Source="Resources/circulo_16x16.png" Width="16" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Ferramentas" Background="Transparent">
+                <MenuItem.Icon>
+                    <Image Source="Resources/go-home.png" Width="16" Height="16"/>
+                </MenuItem.Icon>
+                <StaticResource ResourceKey="menu8"/>
+                
+                <!--<MenuItem Header="Teste" Click="teste"></MenuItem>-->
+                <!--<MenuItem Header="Atribuir Contrato SAP" Click="salva_contrato">
+                    <MenuItem.Icon>
+                        <Image Source="Resources/circulo_16x16.png" Width="16" Height="16"></Image>
+                    </MenuItem.Icon>
+                </MenuItem>-->
+                <!--<MenuItem Header="Atualizar Custos da Obra" Click="MenuItem_Click_2"></MenuItem>-->
+                <MenuItem Header="Gerar CSV Comparativo de Atualização" Click="MenuItem_Click" Visibility="{Binding Menus_Orcamento}">
+                    <MenuItem.Icon>
+                        <Image Source="Resources/circulo_16x16.png" Width="16" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Proposta Aberta e Folha Margem" Click="calculo_folha_margem" Visibility="{Binding Menus_Orcamento}">
+                    <MenuItem.Icon>
+                        <Image Source="Resources/circulo_16x16.png" Width="16" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <!--<MenuItem Header="Exportar Proposta Aberta e Folha Margem" Click="gerar_proposta">
+                    <MenuItem.Icon>
+                        <Image Source="Resources/circulo_16x16.png" Width="16" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>-->
+                <MenuItem Header="Gerar Excel para análise de custos" Click="FazerAnaliseClick" Visibility="{Binding Menus_Orcamento}">
+                    <MenuItem.Icon>
+                        <Image Source="Resources/circulo_16x16.png" Width="16" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <!--<MenuItem Header="Proposta Consolidada" Click="mostrar_proposta">
+                    <MenuItem.Icon>
+                        <Image Source="Resources/circulo_16x16.png" Width="16" Height="16"></Image>
+                    </MenuItem.Icon>
+                </MenuItem>-->
+                <!--<MenuItem Header="Gerar Material" VerticalAlignment="Center" Click="gerar_material"></MenuItem>-->
+                <!--<MenuItem Header="Pacotes" Click="gerar_lista_pecas">
+                    <MenuItem.Icon>
+                        <Image Source="Resources/circulo_16x16.png" Width="16" Height="16"></Image>
+                    </MenuItem.Icon>
+                </MenuItem>-->
+                <Separator>
+
+                </Separator>
+
+                <MenuItem Header="Proposta Consolidada" Click="gerar_materiais_manual">
+                    <MenuItem.Icon>
+                        <Image Source="Resources/circulo_16x16.png" Width="16" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Frete" Click="calculo_frete">
+                    <MenuItem.Icon>
+                        <Image Source="Resources/circulo_16x16.png" Width="16" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator></Separator>
+                <MenuItem Header="Etapas" Click="ver_etapas" >
+                    <MenuItem.Icon>
+                        <Image Source="Resources/blockdevice.png" Width="16" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Etapas - Listar Materiais" Click="ver_materiais_etapas">
+                    <MenuItem.Icon>
+                        <Image Source="Resources/blockdevice.png" Width="16" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator></Separator>
+
+                <MenuItem Header="Meus Acessos" Click="ver_acessos">
+                    <MenuItem.Icon>
+                        <Image Source="Resources/circulo_16x16.png" Width="16" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+
+            </MenuItem>
+            <MenuItem Header="Editar" Background="Transparent" VerticalAlignment="Center">
+                <MenuItem.Icon>
+                    <Image Source="Resources/document-edit3.png" Width="16" Height="16"/>
+                </MenuItem.Icon>
+                <MenuItem Header="Dados Gerais" Click="propriedades_obra">
+                    <MenuItem.Icon>
+                        <Image Source="Resources/circulo_16x16.png" Width="16" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Dados Financeiros" Click="editar_financeiro">
+                    <MenuItem.Icon>
+                        <Image Source="Resources/circulo_16x16.png" Width="16" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Endereço de Destino" Click="editar_endereço">
+                    <MenuItem.Icon>
+                        <Image Source="Resources/circulo_16x16.png" Width="16" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Visualizar" Background="Transparent" Name="visualizar">
+                <MenuItem.Icon>
+                    <Image Source="Resources/view-process-system.png" Width="16" Height="16"/>
+                </MenuItem.Icon>
+                <!--<CheckBox Margin="5,0,0,0" Content="Obra" Name="chk_Obra"></CheckBox>-->
+                <CheckBox Margin="5,0,0,0" Content="Prédio" Name="chk_Predio"></CheckBox>
+                <CheckBox Margin="5,0,0,0" Content="Local" Name="chk_Local"></CheckBox>
+                <CheckBox Margin="5,0,0,0" Content="Grupo" Name="chk_Grupo"></CheckBox>
+                <CheckBox Margin="5,0,0,0" Content="Mercadoria" Name="chk_Mercadoria" IsChecked="True"></CheckBox>
+                <CheckBox Margin="5,0,0,0" Content="Mercadoria Externa" Name="chk_Mercadoria_Externa" IsChecked="True"></CheckBox>
+                <CheckBox Margin="5,0,0,0" Content="FERT" Name="chk_FERT" IsChecked="False"></CheckBox>
+                <CheckBox Margin="5,0,0,0" Content="Esquema de Pintura" Name="chk_Esquema" IsChecked="True"></CheckBox>
+                <CheckBox Margin="5,0,0,0" Content="Tipo de Carreta" Name="chk_Carreta" IsChecked="True"></CheckBox>
+            </MenuItem>
+
+        </Menu>
+        <Image Grid.Row="1" Source="Resources/Novo_Logo_2018.orc.png" HorizontalAlignment="Left">
+
+
+        </Image>
+        <!--<GridSplitter Grid.Column="1" Grid.Row="1" Grid.RowSpan="3"></GridSplitter>-->
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Border BorderBrush="Black" BorderThickness="1" CornerRadius="10" Grid.Row="0" Margin="5,5,5,5">
+                <TreeView Name="Arvore" SelectedItemChanged="arvore_selecao" Grid.Row="0" Margin="5,19,5,5">
+
+                    <!--<TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{Binding Tag.Imagem}" Margin="0,0,5,0" />
+                        <TextBlock Text="{Binding Tag}" Margin="0,0,4,0" />
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="TreeViewItem">
+                    <Setter Property="IsSelected" Value="{Binding IsSelected}" />
+                    <Setter Property="IsExpanded" Value="{Binding IsExpanded}" />
+                </Style>
+            </TreeView.ItemContainerStyle>-->
+                    <TreeView.ContextMenu>
+                        <ContextMenu Visibility="{Binding Menus_Editar}">
+                            <StaticResource ResourceKey="menu8"/>
+
+                            <MenuItem Header="Novo Predio" Click="novo_predio" Name="Obra_Novo_Predio" Visibility="Visible">
+                                <MenuItem.Icon>
+                                    <Image  Source="Resources/get-hot-new-stuff.png"  Width="16" Height="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <Separator></Separator>
+                            <MenuItem Header="Editar" Click="editar_dados" Name="Predio_Editar" Visibility="Collapsed">
+                                <MenuItem.Icon>
+                                    <Image  Source="Resources/document-edit3.png"  Width="16" Height="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Excluir" Click="excluir_predio" Visibility="Collapsed" Name="Predio_Exlcuir">
+                                <MenuItem.Icon>
+                                    <Image  Source="Resources/dialog-error.png"  Width="16" Height="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Duplicar" Click="criar_revisao" Visibility="Collapsed" Name="Predio_Duplicar">
+                                <MenuItem.Icon>
+                                    <Image  Source="Resources/object-ungroup.png"  Width="16" Height="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Adicionar Range" Click="adicionar_range" Visibility="Collapsed" Name="Grupo_AdicionarRange">
+                                <MenuItem.Icon>
+                                    <Image  Source="Resources/list-add.png"  Width="16" Height="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </ContextMenu>
+                    </TreeView.ContextMenu>
+                </TreeView>
+            </Border>
+            <Border BorderBrush="Black" BorderThickness="1" CornerRadius="10" Grid.Row="10" Margin="5,5,5,5" Visibility="Collapsed">
+                <Grid>
+                    <Expander  Grid.Row="10" IsExpanded="False" Name="tab_observacoes">
+                        <Expander.Header>
+                            <Button Grid.Column="4" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"  Click="editar_observacoes"  VerticalAlignment="Center" HorizontalAlignment="Left">
+                                <WrapPanel VerticalAlignment="Center">
+                                    <Label Content="Observações" Grid.Column="2" VerticalAlignment="Center" Margin="5,0,5,0"></Label>
+                                    <Image  Source="Resources/document-edit3.png" Width="16" Height="16"  ToolTip="Editar"/>
+
+                                </WrapPanel>
+                            </Button>
+                        </Expander.Header>
+                    </Expander>
+                </Grid>
+            </Border>
+        </Grid>
+        <!--<GridSplitter Grid.Column="1" Grid.Row="1" Grid.RowSpan="10" Margin="0,15,0,15"></GridSplitter>-->
+                <Border Grid.Column="2" Grid.RowSpan="3" BorderBrush="Black" BorderThickness="1" CornerRadius="10" Grid.Row="1" Margin="5,5,5,5">
+            <TabControl Margin="5,5,5,5">
+                <TabItem Header="Ranges">
+                    <Grid Grid.Column="2" Grid.RowSpan="3" Grid.Row="1">
+                        <Grid.Background>
+                            <ImageBrush ImageSource="Resources/logo.png" Opacity="0.17" Stretch="Uniform"/>
+                        </Grid.Background>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="5"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <WrapPanel VerticalAlignment="Center" Margin="25,10,10,5">
+                            <Image Margin="5,0,5,0" Name="Imagem_Sel" VerticalAlignment="Center" Width="16"  Height="16"></Image>
+                            <Label  Name="Label_Sel" VerticalAlignment="Center" Margin="5,0,5,0" FontWeight="Bold" FontSize="14"></Label>
+
+                        </WrapPanel>
+                        <Separator BorderBrush="Black" BorderThickness="2" Grid.Row="1" Margin="20,0,20,0"></Separator>
+                        <Grid Grid.Row="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Menu Background="Transparent" VerticalAlignment="Center" Name="menu_ranges" Margin="5,0,5,0">
+                                <StaticResource ResourceKey="menu1"/>
+                                <StaticResource ResourceKey="menu2"/>
+                                <StaticResource ResourceKey="menu3"/>
+                                <StaticResource ResourceKey="menu4"/>
+                                <StaticResource ResourceKey="menu5"/>
+                                <StaticResource ResourceKey="menu6"/>
+                                <StaticResource ResourceKey="menu7"/>
+                                <StaticResource ResourceKey="menu8"/>
+                            </Menu>
+                            <telerik:RadGridView  FontSize="11" BorderThickness="0" Grid.Row="2" Margin="5,5,5,5" ItemsSource="{Binding Ranges}" x:Name="Lista_ranges" ShowColumnFooters="True" AutoGenerateColumns="False" IsReadOnly="True" IsSearchingDeferred="True" ShowSearchPanel="True" ShowGroupPanel="True" SelectionMode="Extended" CellEditEnded="teste_selecao" KeyDown="monitora_key">
+                                <telerik:RadGridView.AlternateRowBackground>
+                                    <ImageBrush ImageSource="Resources/logo.png">
+                                    </ImageBrush>
+                                </telerik:RadGridView.AlternateRowBackground>
+                                <telerik:RadGridView.Background>
+                                    <ImageBrush/>
+                                </telerik:RadGridView.Background>
+
+                                <telerik:RadGridView.Columns>
+                                    <telerik:GridViewDataColumn Name="col_predio" MinWidth="25" IsVisible="{Binding IsChecked,ElementName=chk_Predio}" DataMemberBinding="{Binding Predio.nomefim}" IsReadOnly="True" Width="30" Header="" IsFilterable="True" IsGroupable="True" IsReorderable="True" IsSortable="True" ShowFilterButton="True" ShowToolTipOnTrimmedText="True" ShowDistinctFilters="True" AllowDrop="False">
+                                        <telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <WrapPanel>
+                                                    <Image Source="{Binding Predio.Imagem}" Height="16" Width="16" ToolTip="{Binding Predio.nomefim}"/>
+                                                </WrapPanel>
+                                            </DataTemplate>
+                                        </telerik:GridViewDataColumn.CellTemplate>
+                                    </telerik:GridViewDataColumn>
+                                    <telerik:GridViewDataColumn Name="col_Local"  MinWidth="25" IsVisible="{Binding IsChecked,ElementName=chk_Local}" DataMemberBinding="{Binding Grupo.Local.nome}" IsReadOnly="True" Width="30" Header="" IsFilterable="True" IsGroupable="True" IsReorderable="True" IsSortable="True" ShowFilterButton="True" ShowToolTipOnTrimmedText="True" ShowDistinctFilters="True" AllowDrop="False">
+                                        <telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <WrapPanel>
+                                                    <Image Source="{Binding Grupo.Local.Imagem}" Height="16" Width="16" ToolTip="{Binding Grupo.Local.nome}"/>
+                                                </WrapPanel>
+                                            </DataTemplate>
+                                        </telerik:GridViewDataColumn.CellTemplate>
+                                    </telerik:GridViewDataColumn>
+                                    <telerik:GridViewDataColumn Name="col_Grupo"  MinWidth="25" IsVisible="{Binding IsChecked,ElementName=chk_Grupo}" DataMemberBinding="{Binding Grupo.nome}" IsReadOnly="True" Width="30" Header="" IsFilterable="True" IsGroupable="True" IsReorderable="True" IsSortable="True" ShowFilterButton="True" ShowToolTipOnTrimmedText="True" ShowDistinctFilters="True" AllowDrop="False">
+                                        <telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <WrapPanel>
+                                                    <Image Source="{Binding Grupo.Imagem}" Height="16" Width="16" ToolTip="{Binding Grupo.nome}"/>
+                                                </WrapPanel>
+                                            </DataTemplate>
+                                        </telerik:GridViewDataColumn.CellTemplate>
+                                    </telerik:GridViewDataColumn>
+
+
+
+
+                                    <telerik:GridViewDataColumn  IsVisible="{Binding IsChecked,ElementName=chk_Mercadoria}" IsReadOnly="True" Header="Mercadoria"  DataMemberBinding="{Binding Grupo_de_Mercadoria}"  Width="200" IsFilterable="True" IsGroupable="True" IsReorderable="True" IsSortable="True" ShowFilterButton="True" ShowToolTipOnTrimmedText="True" ShowDistinctFilters="True">
+                                        <telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <WrapPanel VerticalAlignment="Center">
+                                                    <Image Source="{Binding Imagem}" Height="16" Width="16" Margin="5,0,5,0"  VerticalAlignment="Center"/>
+                                                    <Label Content="{Binding Grupo_de_Mercadoria}"  Grid.Column="1"  VerticalAlignment="Center"/>
+                                                </WrapPanel>
+
+                                            </DataTemplate>
+                                        </telerik:GridViewDataColumn.CellTemplate>
+                                    </telerik:GridViewDataColumn>
+                                    <telerik:GridViewDataColumn   IsVisible="{Binding IsChecked,ElementName=chk_Mercadoria_Externa}"  IsReadOnly="True" Header="Mercadoria Externa" DataMemberBinding="{Binding Produto.produtos}" MinWidth="330"  Width="*" IsFilterable="True" IsGroupable="True" IsReorderable="True" IsSortable="True" ShowFilterButton="True" ShowToolTipOnTrimmedText="True" ShowDistinctFilters="True">
+                                        <telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Grid VerticalAlignment="Center">
+                                                    <WrapPanel  VerticalAlignment="Center">
+                                                        <Button  Margin="5,0,5,0" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="duplicar_range" VerticalAlignment="Center" HorizontalAlignment="Left" ToolTip="Duplicar">
+                                                            <WrapPanel>
+                                                                <Image Source="Resources/object-ungroup.png" Height="16" Width="16"/>
+                                                            </WrapPanel>
+                                                        </Button>
+                                                        <Button Margin="5,0,5,0" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="editar_produto" VerticalAlignment="Center" HorizontalAlignment="Left" ToolTip="Trocar">
+                                                            <WrapPanel>
+                                                                <Image Source="{Binding Produto.Imagem}" Height="16" Width="16"  Margin="0,0,5,0"/>
+                                                            </WrapPanel>
+                                                        </Button>
+                                                        <Label Content="{Binding Produto.produtos, Mode=OneWay}"/>
+                                                    </WrapPanel>
+                                                </Grid>
+
+                                            </DataTemplate>
+                                        </telerik:GridViewDataColumn.CellTemplate>
+                                        <telerik:GridViewDataColumn.AggregateFunctions>
+                                            <telerik:CountFunction Caption="Ranges: " />
+                                        </telerik:GridViewDataColumn.AggregateFunctions>
+                                    </telerik:GridViewDataColumn>
+
+                                    <telerik:GridViewDataColumn Header="Qtd." Width="auto" DataMemberBinding="{Binding Quantidade}" IsReadOnly="True">
+                                        <telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <WrapPanel HorizontalAlignment="Right"  VerticalAlignment="Center">
+
+                                                    <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="editar_quantidade_sel" VerticalAlignment="Center" HorizontalAlignment="Left" ToolTip="{Binding Quantidade}">
+                                                        <WrapPanel>
+                                                            <Label Content="{Binding Quantidade, StringFormat='0,0.00'}"  Margin="5,0,5,0"/>
+                                                            <Label Content="{Binding Unidade}"  Margin="5,0,5,0"/>
+                                                        </WrapPanel>
+                                                    </Button>
+                                                    <!--<Label Content="{Binding Tratamento.Descricao, Mode=OneWay}"/>-->
+                                                </WrapPanel>
+                                            </DataTemplate>
+                                        </telerik:GridViewDataColumn.CellTemplate>
+
+
+                                        <telerik:GridViewDataColumn.AggregateFunctions>
+                                            <telerik:SumFunction Caption="Quantidade Total: " />
+                                        </telerik:GridViewDataColumn.AggregateFunctions>
+                                        <telerik:GridViewDataColumn.Footer>
+                                            <WrapPanel>
+                                                <TextBlock Text="{Binding Value, StringFormat='0,0.00'}" VerticalAlignment="Center" TextWrapping="Wrap" Grid.Column="1" />
+                                            </WrapPanel>
+                                        </telerik:GridViewDataColumn.Footer>
+                                    </telerik:GridViewDataColumn>
+                                    <telerik:GridViewDataColumn  Header="Peso"          DataMemberBinding="{Binding PesoTotal , StringFormat='0,0.00'}" Width="auto">
+                                        <telerik:GridViewDataColumn.AggregateFunctions>
+                                            <telerik:SumFunction Caption="Peso Total: " />
+                                        </telerik:GridViewDataColumn.AggregateFunctions>
+                                        <telerik:GridViewDataColumn.Footer>
+                                            <WrapPanel>
+                                                <TextBlock Text="{Binding Value, StringFormat='0,0.00 Kg'}" VerticalAlignment="Center" TextWrapping="Wrap" Grid.Column="1" />
+                                            </WrapPanel>
+                                        </telerik:GridViewDataColumn.Footer>
+                                    </telerik:GridViewDataColumn>
+                                    <telerik:GridViewDataColumn Name="campo_valor" Header="Valor" Width="125" DataMemberBinding="{Binding Atual.Valor_Total, StringFormat=\{0:C\}}" IsReadOnly="True">
+                                        <telerik:GridViewDataColumn.AggregateFunctions>
+                                            <telerik:SumFunction Caption="Valor Total: " ResultFormatString="C" />
+                                        </telerik:GridViewDataColumn.AggregateFunctions>
+                                        <telerik:GridViewDataColumn.Footer>
+                                            <WrapPanel>
+                                                <TextBlock Text="{Binding Value, StringFormat=C}" VerticalAlignment="Center" Grid.Column="1"/>
+                                            </WrapPanel>
+                                        </telerik:GridViewDataColumn.Footer>
+                                    </telerik:GridViewDataColumn>
+
+
+                                    <telerik:GridViewDataColumn   IsVisible="{Binding IsChecked,ElementName=chk_Carreta}" Width="32" MinWidth="32" MaxWidth="32"  IsReadOnly="True" Header="" DataMemberBinding="{Binding Tipo_De_Carreta.descricao}"  IsFilterable="True" IsGroupable="True" IsReorderable="True" IsSortable="True" ShowFilterButton="True" ShowToolTipOnTrimmedText="True" ShowDistinctFilters="True" AllowDrop="False">
+                                        <telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <WrapPanel>
+                                                    <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="editar_carreta" VerticalAlignment="Center" HorizontalAlignment="Left" ToolTip="{Binding Tipo_De_Carreta.descricao}">
+                                                        <WrapPanel>
+                                                            <Image Source="{Binding Tipo_De_Carreta.Imagem}" Height="16" Width="16"/>
+                                                        </WrapPanel>
+                                                    </Button>
+                                                    <!--<Label Content="{Binding Tipo_De_Carreta.sigla, Mode=OneWay}"/>-->
+                                                </WrapPanel>
+                                            </DataTemplate>
+                                        </telerik:GridViewDataColumn.CellTemplate>
+                                        <telerik:GridViewDataColumn.CellStyle>
+                                            <Style TargetType="telerik:GridViewCell">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Tipo_De_Carreta.id}" Value="1">
+                                                        <Setter Property="Background" Value="#FFCCFFD7"></Setter>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Tipo_De_Carreta.id}" Value="2">
+                                                        <Setter Property="Background" Value="#FFB4C0FD"></Setter>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Tipo_De_Carreta.id}" Value="3">
+                                                        <Setter Property="Background" Value="#FFFBFFA9"></Setter>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Tipo_De_Carreta.id}" Value="4">
+                                                        <Setter Property="Background" Value="#FFB6B6B6"></Setter>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Tipo_De_Carreta.id}" Value="5">
+                                                        <Setter Property="Background" Value="#FF647EF9"></Setter>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Tipo_De_Carreta.id}" Value="6">
+                                                        <Setter Property="Background" Value="#FFC17CFB"></Setter>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </telerik:GridViewDataColumn.CellStyle>
+                                    </telerik:GridViewDataColumn>
+                                    <telerik:GridViewDataColumn   IsVisible="{Binding IsChecked,ElementName=chk_Esquema}"  IsReadOnly="True" Width="32" MinWidth="32" MaxWidth="32" Header="" DataMemberBinding="{Binding Tratamento.Descricao}"  IsFilterable="True" IsGroupable="True" IsReorderable="True" IsSortable="True" ShowFilterButton="True" ShowToolTipOnTrimmedText="True" ShowDistinctFilters="True" AllowDrop="False">
+                                        <telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <WrapPanel>
+
+                                                    <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="editar_tratamento" VerticalAlignment="Center" HorizontalAlignment="Left" ToolTip="{Binding Tratamento}" IsEnabled="{Binding Produto.TemPintura}">
+                                                        <WrapPanel>
+                                                            <Image Source="{Binding Tratamento.Imagem}" Height="16" Width="16"/>
+                                                        </WrapPanel>
+                                                    </Button>
+                                                    <!--<Label Content="{Binding Tratamento.Descricao, Mode=OneWay}"/>-->
+                                                </WrapPanel>
+                                            </DataTemplate>
+                                        </telerik:GridViewDataColumn.CellTemplate>
+                                    </telerik:GridViewDataColumn>
+                                    <telerik:GridViewDataColumn   IsVisible="{Binding IsChecked,ElementName=chk_FERT}" MinWidth="75"  IsReadOnly="True" Width="auto" Header="FERT" DataMemberBinding="{Binding De_Para.FERT}"  IsFilterable="True" IsGroupable="True" IsReorderable="True" IsSortable="True" ShowFilterButton="True" ShowToolTipOnTrimmedText="True" ShowDistinctFilters="True" AllowDrop="False">
+                                        <telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <WrapPanel VerticalAlignment="Center">
+
+                                                    <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="editar_fert" VerticalAlignment="Center" HorizontalAlignment="Left" ToolTip="{Binding De_Para}">
+                                                        <WrapPanel>
+                                                            <Image Source="{Binding Imagem_Fert}" Height="16" Width="16"/>
+                                                        </WrapPanel>
+                                                    </Button>
+                                                    <Label Content="{Binding De_Para.FERT, Mode=OneWay}"/>
+                                                    <Label Content="."/>
+                                                    <Label Content="{Binding De_Para.MT, Mode=OneWay}"/>
+                                                </WrapPanel>
+                                            </DataTemplate>
+                                        </telerik:GridViewDataColumn.CellTemplate>
+                                    </telerik:GridViewDataColumn>
+                                    <telerik:GridViewDataColumn   IsReadOnly="True" Width="auto" Header="PEP" DataMemberBinding="{Binding De_Para.PEP}"    IsVisible="{Binding IsChecked,ElementName=chk_FERT}"  IsFilterable="True" IsGroupable="True" IsReorderable="True" IsSortable="True" ShowFilterButton="True" ShowToolTipOnTrimmedText="True" ShowDistinctFilters="True" AllowDrop="False"/>
+                                    <telerik:GridViewDataColumn  Header="Ações" Width="auto">
+                                        <telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <WrapPanel>
+                                                    <Button Grid.Column="1" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="ver_pecas_fim" VerticalAlignment="Center" ToolTip="Ver Peças">
+                                                        <Image Source="Resources/dialog-information.png" Width="16" Height="16" Margin="0,0,0,0" />
+                                                    </Button>
+                                                </WrapPanel>
+                                            </DataTemplate>
+                                        </telerik:GridViewDataColumn.CellTemplate>
+                                    </telerik:GridViewDataColumn>
+
+
+
+                                </telerik:RadGridView.Columns>
+                                <telerik:RadGridView.ContextMenu>
+                                    <ContextMenu >
+                                        <StaticResource ResourceKey="menu1"/>
+                                        <StaticResource ResourceKey="menu2"/>
+                                        <StaticResource ResourceKey="menu3"/>
+                                        <StaticResource ResourceKey="menu4"/>
+                                        <StaticResource ResourceKey="menu5"/>
+                                        <StaticResource ResourceKey="menu6"/>
+                                        <StaticResource ResourceKey="menu7"/>
+                                        <StaticResource ResourceKey="menu8"/>
+
+                                    </ContextMenu>
+                                </telerik:RadGridView.ContextMenu>
+
+                            </telerik:RadGridView>
+                        </Grid>
+                        <Expander  Grid.Row="10" IsExpanded="False" Margin="5,5,5,5" Name="Grupo_Add_Barra" IsEnabled="{Binding Menus_Editar_Bool}">
+                            <Expander.Header>
+                                <WrapPanel VerticalAlignment="Center" Grid.Row="2">
+                                    <Label Content="Adicionar..." Margin="0,0,50,0" VerticalAlignment="Center" FontWeight="Bold" FontSize="14"></Label>
+                                    <Button  Margin="10,0,10,0" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="adicionar_item" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                        <WrapPanel>
+                                            <Image Source="Resources/list-add.png" Height="16" Width="16"/>
+                                            <Label Content="Outros Ranges..."></Label>
+                                        </WrapPanel>
+                                    </Button>
+                                    <Button  Margin="10,0,10,0" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="add_verba" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                        <WrapPanel>
+                                            <Image Source="Resources/list-add.png" Height="16" Width="16"/>
+                                            <Label Content="Verba"></Label>
+                                        </WrapPanel>
+                                    </Button>
+                                    <Button  Margin="10,0,10,0" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="add_verba_pintura" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                        <WrapPanel>
+                                            <Image Source="Resources/list-add.png" Height="16" Width="16"/>
+                                            <Label Content="Verba Pintura Acabamento"></Label>
+                                        </WrapPanel>
+                                    </Button>
+                                </WrapPanel>
+                            </Expander.Header>
+                            <StackPanel>
+
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"></RowDefinition>
+                                        <!--<RowDefinition Height="25"></RowDefinition>-->
+                                    </Grid.RowDefinitions>
+                                    <telerik:RadGridView BorderThickness="0" Height="200" Name="Lista_Ranges_Padrao" AutoGenerateColumns="False" ShowColumnHeaders="False" ShowGroupPanel="False" Background="Transparent" MaxHeight="200">
+                                        <telerik:RadGridView.Columns>
+                                            <telerik:GridViewDataColumn IsReadOnly="True" Header="Mercadoria"  DataMemberBinding="{Binding Grupo_De_Mercadoria.descricao}"  Width="*" IsFilterable="True" IsGroupable="True" IsReorderable="True" IsSortable="True" ShowFilterButton="True" ShowToolTipOnTrimmedText="True" ShowDistinctFilters="True">
+                                                <telerik:GridViewDataColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <WrapPanel>
+                                                            <Image Source="{Binding Imagem}" Margin="5,0,5,0" Height="16" Width="16"/>
+                                                            <Label Content="{Binding Grupo_De_Mercadoria}"  Grid.Column="1"/>
+                                                        </WrapPanel>
+                                                    </DataTemplate>
+                                                </telerik:GridViewDataColumn.CellTemplate>
+                                            </telerik:GridViewDataColumn>
+                                            <telerik:GridViewDataColumn IsReadOnly="True" Header="Mercadoria Externa"  DataMemberBinding="{Binding Produto_Padrao.produtos}"  Width="*" IsFilterable="True" IsGroupable="True" IsReorderable="False" IsSortable="False" ShowFilterButton="False" ShowToolTipOnTrimmedText="False" ShowDistinctFilters="False">
+                                                <telerik:GridViewDataColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <WrapPanel>
+                                                            <WrapPanel>
+
+                                                                <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="adicionar_item_padrao" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                                                    <WrapPanel>
+                                                                        <Image Source="Resources/list-add.png" Height="16" Width="16" Margin="5,0,5,0"/>
+                                                                        <Label Content="{Binding Produto_Padrao.produtos, Mode=OneWay}"/>
+
+                                                                    </WrapPanel>
+                                                                </Button>
+
+
+                                                            </WrapPanel>
+                                                        </WrapPanel>
+
+                                                    </DataTemplate>
+                                                </telerik:GridViewDataColumn.CellTemplate>
+                                            </telerik:GridViewDataColumn>
+                                        </telerik:RadGridView.Columns>
+                                    </telerik:RadGridView>
+                                    <!--<WrapPanel VerticalAlignment="Center" Grid.Row="2">
+                                -->
+                                    <!--<Label Content="Adicionar"></Label>-->
+                                    <!--
+                                <Button  Margin="10,0,10,0" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="adicionar_item" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                    <WrapPanel>
+                                        <Image Source="Resources/list-add.png" Height="16" Width="16"/>
+                                        <Label Content="Outros Ranges..."></Label>
+                                    </WrapPanel>
+                                </Button>
+                                <Button  Margin="10,0,10,0" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="add_verba" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                    <WrapPanel>
+                                        <Image Source="Resources/list-add.png" Height="16" Width="16"/>
+                                        <Label Content="Verba"></Label>
+                                    </WrapPanel>
+                                </Button>
+                            </WrapPanel>-->
+                                </Grid>
+                            </StackPanel>
+                        </Expander>
+
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Observações">
+                    <Grid>
+                        <xctk:RichTextBox BorderBrush="Black" IsReadOnly="True" BorderThickness="2" Grid.Row="2" Text="{Binding Obra.observacoes}"  VerticalScrollBarVisibility="Visible" Name="Input"   Margin="5,5,5,25">
+                            <xctk:RichTextBoxFormatBarManager.FormatBar>
+                                <xctk:RichTextBoxFormatBar Visibility="Visible"/>
+                            </xctk:RichTextBoxFormatBarManager.FormatBar>
+                            <xctk:RichTextBox.InputBindings>
+                                <KeyBinding Key="V" Modifiers="Control" Command="{Binding Path=Colar}" />
+                            </xctk:RichTextBox.InputBindings>
+                        </xctk:RichTextBox>
+                        
+                        <Button Margin="2,2,2,2" VerticalAlignment="Bottom" HorizontalAlignment="Right" Grid.Column="4" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"  Click="editar_observacoes">
+                            <WrapPanel VerticalAlignment="Center">
+                                <Label Content="Editar..." Grid.Column="2" VerticalAlignment="Center" Margin="5,0,5,0"></Label>
+                                <Image  Source="Resources/document-edit3.png" Width="16" Height="16"  ToolTip="Editar"/>
+
+                            </WrapPanel>
+                        </Button>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+                </Border>
+    </Grid>
+
+</mui:ModernWindow>

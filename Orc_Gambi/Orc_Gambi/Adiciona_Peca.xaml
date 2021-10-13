@@ -1,0 +1,92 @@
+﻿<mui:ModernWindow x:Class="Orc_Gambi.Adiciona_Peca"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                  xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+                  mc:Ignorable="d"
+                  Title="Adicionar Peça"
+                  Style="{StaticResource BlankWindow}" Height="562.831" Width="547.492" WindowStartupLocation="CenterScreen" WindowState="Maximized" Closing="ModernWindow_Closing" Loaded="ModernWindow_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="25"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="5" ></ColumnDefinition>
+                <ColumnDefinition Width="auto" MaxWidth="650"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="28"></RowDefinition>
+                <RowDefinition Height="28"></RowDefinition>
+                <RowDefinition Height="28"></RowDefinition>
+                <RowDefinition Height="28"></RowDefinition>
+                <RowDefinition Height="28"></RowDefinition>
+                <RowDefinition Height="28"></RowDefinition>
+                <RowDefinition Height="28"></RowDefinition>
+                <RowDefinition Height="28"></RowDefinition>
+                <RowDefinition Height="28"></RowDefinition>
+                <RowDefinition Height="28"></RowDefinition>
+                <RowDefinition Height="28"></RowDefinition>
+                <RowDefinition Height="28"></RowDefinition>
+                <RowDefinition Height="28"></RowDefinition>
+                <RowDefinition Height="28"></RowDefinition>
+                <RowDefinition Height="28"></RowDefinition>
+                <RowDefinition Height="28"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Content="Código:" Grid.Row="0" VerticalAlignment="Center"></Label>
+            <Label Content="{Binding Peca.Codigo}" Grid.Row="0" VerticalAlignment="Center"  Grid.Column="1" ></Label>
+            <Label Content="Tipo:" Grid.Row="1" VerticalAlignment="Center"></Label>
+            <Grid  Grid.Row="1" Grid.Column="1" >
+                <ComboBox Margin="0,0,55,0"  SelectionChanged="Tipo_SelectionChanged" SelectedValue="{Binding Path=Peca.Tipo,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding Path=Tipos}"/>
+                <Button Content="..." HorizontalAlignment="Right" Width="50" Click="Procurar_Peca"></Button>
+            </Grid>
+            <Label Content="Quantidade:" Grid.Row="2" VerticalAlignment="Center"></Label>
+                <TextBox Grid.Row="2" Grid.Column="1" Margin="5,2,5,2" Text="{Binding Peca.Quantidade,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <Label Content="Comprimento:" Grid.Row="3" VerticalAlignment="Center"></Label>
+            <TextBox Grid.Row="3" Grid.Column="1" Margin="5,2,5,2" Text="{Binding Peca.Comprimento,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <Label Content="Observações:" Grid.Row="4" VerticalAlignment="Center"></Label>
+            <TextBox Grid.Row="4" Grid.Column="1" Margin="5,2,5,2" Text="{Binding Peca.Observacoes,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <Label Content="Descrição:" Grid.Row="5" VerticalAlignment="Center"></Label>
+            <TextBlock Grid.Row="5" Grid.Column="1" Margin="5,2,5,2" Text="{Binding Peca.Descricao,Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"></TextBlock>
+            <CheckBox Content="Arredontar" VerticalAlignment="Center" Grid.Row="6" Grid.Column="1" IsChecked="{Binding Peca.Arredondar,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></CheckBox>
+            <CheckBox Content="Ativo" Grid.Row="7" Grid.Column="1" IsChecked="{Binding Peca.Ativo,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></CheckBox>
+            <ComboBox Grid.Row="8" Grid.Column="1" Margin="5,2,5,2" Text="{Binding Peca.Ficha,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  ItemsSource="{Binding Tratamentos}"  SelectedValue="{Binding Path=Peca.Ficha,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ></ComboBox>
+            <Label Content="Ficha de Pintura:" Grid.Row="8" VerticalAlignment="Center"></Label>
+            <CheckBox Content="Inverter Cores" Grid.Row="11" Grid.Column="1" IsChecked="{Binding Peca.Inverter_Cor,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></CheckBox>
+            <Label Content="Bobina:" Grid.Row="10" VerticalAlignment="Center"></Label>
+            <WrapPanel Grid.Row="10" Grid.Column="1"  VerticalAlignment="Center">
+
+                <Button Content="..." HorizontalAlignment="Right" Margin="5,0,5,0" Click="Button_Click"></Button>
+                <Label Content="{Binding Peca.Bobina.SAP,Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center"  Margin="5,0,5,0"></Label>
+            </WrapPanel>
+            <Label Content="Face Externa:" Grid.Row="12" VerticalAlignment="Center"></Label>
+            <Label Content="{Binding Peca.Fexterna,Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="12" VerticalAlignment="Center"></Label>
+            <Label Content="Face Interna:" Grid.Row="13" VerticalAlignment="Center"></Label>
+            <Label Content="{Binding Peca.Finterna,Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="13" VerticalAlignment="Center"></Label>
+
+            <Label Content="Espessura:" Grid.Row="14" VerticalAlignment="Center"></Label>
+            <Label Content="{Binding Peca.Bobina.Espessura,Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="14" VerticalAlignment="Center"></Label>
+
+
+            <Label Content="Material:" Grid.Row="15" VerticalAlignment="Center"></Label>
+            <Label Content="{Binding Peca.Bobina.Material,Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="15" VerticalAlignment="Center"></Label>
+
+        </Grid>
+            
+            <GridSplitter Grid.Column="1"></GridSplitter>
+            <Grid Name="container_pdf" Grid.Column="2"></Grid>
+        </Grid>
+        <Menu Grid.Row="10" HorizontalAlignment="Right">
+            <MenuItem Header="Ok" Name="Bt_Acao" Click="Bt_Acao_Click"></MenuItem>
+            <MenuItem Header="Cancelar" Click="MenuItem_Click"></MenuItem>
+        </Menu>
+    </Grid>
+</mui:ModernWindow>

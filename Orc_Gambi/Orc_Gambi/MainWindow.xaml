@@ -1,0 +1,284 @@
+﻿<mui:ModernWindow x:Class="Orc_Gambi.MainWindow"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+                  xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" 
+                  
+                  Title="ORC" 
+                   xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"   
+                  xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+                  
+                  Style="{StaticResource BlankWindow}" Loaded="ModernWindow_Loaded" Closed="ModernWindow_Closed" WindowStartupLocation="CenterScreen" WindowState="Maximized" Height="809.5" Width="1503" FontSize="11">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition Height="0"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="25"></RowDefinition>
+        </Grid.RowDefinitions>
+        <!--<Image Grid.Row="1" Source="Resources/Novo_Logo_2018.orc.png" HorizontalAlignment="Left"></Image>-->
+        <Menu Background="Transparent" VerticalAlignment="Center" Name="menu_principal">
+            
+            <MenuItem Header="Arquivo" Background="Transparent">
+                <MenuItem Header="Atualizar Estrutura" Click="Atualizar_estrutura"/>
+                <MenuItem Header="Nova Obra" Background="Transparent" Click="add_obra" Name="nova_obra_add"  Visibility="{Binding Menus_Orcamento}" />
+                <MenuItem Header="Novo SEC" Background="Transparent" Click="add_sec"/>
+            </MenuItem>
+            <MenuItem Header="Consultas" Background="Transparent">
+                <MenuItem Header="Justin" Click="consulta_estimativo" Background="Transparent"/>
+                <MenuItem Header="Consultar Itens Padronizados..." Click="consulta_cadastos" Background="Transparent"/>
+                <MenuItem Header="Consultar Estoque" Click="consulta_estoque" Background="Transparent"/>
+                <MenuItem Header="Simular Frete" Click="mostra_menu_endereco"/>
+                <MenuItem Header="Meus Acessos" Click="meus_acessos" Background="Transparent"/>
+            </MenuItem>
+            <MenuItem Header="Ferramentas" Background="Transparent" Name="ferramentas">
+                <MenuItem Header="PMP de Orçamento" Click="pmp_orcamento"/>
+                <Separator></Separator>
+                <MenuItem Header="Calcular Novamente as rotas" Click="calcula_rotas"/>
+                <MenuItem Header="Gerar Etapas Automaticamente" Click="gerar_etapas"/>
+                <MenuItem Header="Calcular Novamente os Fretes" Click="calcular_fretes"/>
+                <MenuItem Header="Converter Obras para novo Formato" Click="ajustar_ranges"/>
+            </MenuItem>
+            <MenuItem Header="Banco de dados" Background="Transparent" Name="dbases">
+                <MenuItem Header="Atualizar Banco de dados" Click="atualizar_dbase"  Visibility="{Binding Menus_Orcamento}" />
+                <MenuItem Header="Padrão de Preenchimentos" Background="Transparent"  Visibility="{Binding Menus_Orcamento}" >
+                    <MenuItem Header="Nacional" Click="editar_padroes_nacional"/>
+                    <MenuItem Header="Exportação" Click="editar_padroes_exportacao"/>
+                </MenuItem>
+                <MenuItem Header="Frentes de Projeto" Click="cadastro_frentes"/>
+                <MenuItem Header="Tratamentos" Click="Cadastro_Tratamentos"/>
+                <MenuItem Header="Tipos de Pintura" Click="Cadastro_Tipos_Pintura"/>
+                <MenuItem Header="Segmentos" Click="Cadastro_Segmentos"  Visibility="{Binding Menus_Orcamento}" />
+                <MenuItem Header="Grupos" Click="Cadastro_Grupos"  Visibility="{Binding Menus_Orcamento}" />
+                <MenuItem Header="Locais" Click="Cadastro_Locais"  Visibility="{Binding Menus_Orcamento}" />
+                <MenuItem Header="FERTS" Click="Cadastro_FERTS"  Visibility="{Binding Menus_Orcamento}" />
+                <MenuItem Header="Grupos de Mercadoria" Click="Cadastro_Grupo_de_Mercadorias"/>
+                <MenuItem Header="Gestão árvore de produtos" Click="gestao_arvore"/>
+                <MenuItem Header="Fretes" Click="gestao_fretes"/>
+                <MenuItem Header="Listas Técnicas - Cronograma e FERTs" Click="cadastro_ferts_e_cronograma"/>
+                <MenuItem Header="Cadastrar / Editar Listas Técnicas" Click="Cadastro_listas_tecnicas"/>
+                <MenuItem Header="Cadastro / Editar Itens Padronizados" Click="MenuItem_Click_2"/>
+                <MenuItem Header="Arquivar / Desarquivar Obras" Click="Arquivo_Obras"/>
+                <MenuItem Header="Teste MPs" Click="testar_mps"/>
+                <Separator></Separator>
+                <MenuItem Header="Testes" >
+                    <MenuItem Header="Abrir Excel XML" Click="abrir_excel_xml"/>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Ajuda" Background="Transparent">
+                <MenuItem Header="Suporte Remoto" Background="Transparent" Click="abre_team_viewer"/>
+            </MenuItem>
+        </Menu>
+        <Image Source="Resources/positivo.png" HorizontalAlignment="Left" Grid.Row="1" Margin="10,10,10,10" Visibility="Hidden"></Image>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition Width="350" MinWidth="350"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="10">
+                <m:Map Opacity="1" VerticalAlignment="Bottom" Grid.Column="2" Width="350" Height="350" Culture="pt-BR" x:Name="myMap" Center="-14.235,-51.9253" CredentialsProvider="BCDjp0N1tTZL3qwMSWhT~0et6Ey48jFxvQ-vMPFUEIA~AkidRT2WorGGqZmeiZmXsYvpAm9Ni3Jrjugs6cU7ePsX5RLYw2bWFzsjJgjjoNYw"   Grid.Row="0" Grid.RowSpan="3" Padding="5" ZoomLevel="2.000" AnimationLevel="Full" Mode="AerialWithLabels" >
+                    <m:Map.OpacityMask>
+                        <RadialGradientBrush Center="0.5,0.5" ColorInterpolationMode="ScRgbLinearInterpolation" GradientOrigin="0.5,0.5">
+                            <GradientStop Color="#00000000" Offset="1" />
+                            <GradientStop Color="#20000000" Offset="0.99" />
+                            <GradientStop Color="#FF000000" Offset="0.87" />
+                        </RadialGradientBrush>
+                    </m:Map.OpacityMask>
+                </m:Map>
+                <Image Grid.Row="1" Source="Resources/logo.png" Height="250" HorizontalAlignment="Center" VerticalAlignment="Top" Opacity="1"/>
+            </Grid>
+
+            <Grid Grid.Column="0" >
+                <Grid.Background>
+                    <ImageBrush ImageSource="Resources/Novo_Logo_2018.orc.png" Stretch="Uniform" Opacity="0.1"/>
+                </Grid.Background>
+                <Border BorderBrush="Black" BorderThickness="1"  Grid.Row="10" Margin="5,5,5,5" CornerRadius="10">
+                    <telerik:RadGridView FontSize="11" FrozenColumnCount="5" Margin="5,5,5,5" SelectionMode="Extended"  ShowGroupPanel="True"  Name="lista" Grid.Row="0" ItemsSource="{Binding Obras, UpdateSourceTrigger=PropertyChanged}" ShowSearchPanel="True" AutoGenerateColumns="False" ShowColumnHeaders="True"  IsReadOnly="True" CanUserSortGroups="False" MouseDoubleClick="lista_MouseDoubleClick_2" SelectionChanged="lista_SelectionChanged" Template="{DynamicResource TemplateEstilos}">
+                        <telerik:RadGridView.Columns>
+                            <telerik:GridViewDataColumn Header="">
+                                <telerik:GridViewDataColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <WrapPanel>
+                                            <!--<Image Source="{Binding ImagemNacional}" Width="16" Height="16" Margin="0,0,10,0" />-->
+                                            <Button HorizontalAlignment="Left" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="editar_endereco" VerticalAlignment="Center"  ToolTip="{Binding Rotas}">
+                                                <WrapPanel VerticalAlignment="Center">
+                                                    <Image  Source="{Binding Imagem}" Width="16" Height="16" />
+                                                </WrapPanel>
+                                            </Button>
+                                        </WrapPanel>
+                                    </DataTemplate>
+                                </telerik:GridViewDataColumn.CellTemplate>
+                            </telerik:GridViewDataColumn>
+                            <telerik:GridViewDataColumn  Header="Contr."          DataMemberBinding="{Binding Contrato}" Width="auto"></telerik:GridViewDataColumn>
+                            <telerik:GridViewDataColumn  Header="Nome"     MinWidth="150"     DataMemberBinding="{Binding Nome}" Width="*"></telerik:GridViewDataColumn>
+                            <telerik:GridViewDataColumn  Header="Orçamentista"         DataMemberBinding="{Binding Orcamentista}" Width="auto" MaxWidth="150"></telerik:GridViewDataColumn>
+                            <telerik:GridViewDataColumn  Header="Comercial"          DataMemberBinding="{Binding Comercial}" Width="auto"></telerik:GridViewDataColumn>
+                            <telerik:GridViewDataColumn  Header="Pedido"          DataMemberBinding="{Binding PedidoSAP}" Width="auto"></telerik:GridViewDataColumn>
+                            <telerik:GridViewDataColumn  Header="Ranges"          DataMemberBinding="{Binding LinhasRanges}"  Width="auto"></telerik:GridViewDataColumn>
+                            <telerik:GridViewDataColumn  Header="País"          DataMemberBinding="{Binding Rotas.Pais}" Width="auto"></telerik:GridViewDataColumn>
+                            <telerik:GridViewDataColumn  Header="UF"          DataMemberBinding="{Binding Rotas.Estado}" Width="auto"></telerik:GridViewDataColumn>
+                            <telerik:GridViewDataColumn  Header="Cidade"          DataMemberBinding="{Binding Rotas.Cidade}" Width="150"></telerik:GridViewDataColumn>
+                            <telerik:GridViewDataColumn  Header="Criado"          DataMemberBinding="{Binding Criado}" DataFormatString="{} {0:dd/MM/yyyy}"  Width="auto"></telerik:GridViewDataColumn>
+                            <telerik:GridViewDataColumn  Header="Ult. Ed."          DataMemberBinding="{Binding ultima_edicao}" DataFormatString="{} {0:dd/MM/yyyy}"  Width="auto"></telerik:GridViewDataColumn>
+                            <telerik:GridViewDataColumn  Header="Tipo"         DataMemberBinding="{Binding Tipo}" Width="auto" MaxWidth="150"></telerik:GridViewDataColumn>
+                            <telerik:GridViewDataColumn  Header="Segmento"          DataMemberBinding="{Binding Segmento.DESCRICAO}" Width="auto"></telerik:GridViewDataColumn>
+
+                        </telerik:RadGridView.Columns>
+                        <telerik:RadGridView.RowStyle>
+                            <Style TargetType="{x:Type telerik:GridViewRow}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Tipo}" Value="Orçamento">
+                                        <Setter Property="Background" Value="Transparent"></Setter>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Tipo}" Value="SEC">
+                                        <Setter Property="Background" Value="Cyan"></Setter>
+                                    </DataTrigger>
+
+                                </Style.Triggers>
+                            </Style>
+                        </telerik:RadGridView.RowStyle>
+
+
+
+
+
+                        <telerik:RadGridView.ChildTableDefinitions>
+                            <telerik:GridViewTableDefinition />
+                        </telerik:RadGridView.ChildTableDefinitions>
+                        <telerik:RadGridView.HierarchyChildTemplate>
+                            <DataTemplate>
+                                <Border HorizontalAlignment="Left" BorderBrush="Black" BorderThickness="1" CornerRadius="10" Width="800" Margin="50,0,0,0" MaxHeight="400" Background="Transparent">
+                                    <telerik:RadGridView Background="Transparent" Margin="5,5,5,5" BorderThickness="0" Name="lista_filho" SelectedItem="{Binding CurrentItem}" SelectionChanged="RadGridView_SelectionChanged" SelectionMode="Single" MouseDoubleClick="listafilhos_MouseDoubleClick" ItemsSource="{Binding Revisoes}" AutoGenerateColumns="False" ShowColumnFooters="False" ShowColumnSortIndexes="False" ShowGroupPanel="False" ShowSearchPanel="False" ShowToolTipOnTrimmedText="False">
+                                        <telerik:RadGridView.Columns>
+                                            <telerik:GridViewDataColumn  Header="REV." Width="auto">
+                                                <telerik:GridViewDataColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <WrapPanel >
+                                                            <Image Source="{Binding Imagem}" Width="16" Height="16" Margin="0,0,10,0" />
+                                                            <Label Content="{Binding Revisao}" Margin="0,0,5,0"></Label>
+                                                        </WrapPanel>
+                                                    </DataTemplate>
+                                                </telerik:GridViewDataColumn.CellTemplate>
+                                            </telerik:GridViewDataColumn>
+
+                                            <!--<telerik:GridViewDataColumn  Header="REV."          DataMemberBinding="{Binding Revisao}" Width="65"></telerik:GridViewDataColumn>-->
+                                            <!--<telerik:GridViewDataColumn  Header="Peso Total"          DataMemberBinding="{Binding PesoTotal}" Width="150"></telerik:GridViewDataColumn>-->
+                                            <!--<telerik:GridViewDataColumn  Header="Atualização"          DataMemberBinding="{Binding Ultima_Atualizacao}" Width="100"></telerik:GridViewDataColumn>-->
+                                            <!--<telerik:GridViewDataColumn  Header="Versão - Responsável"          DataMemberBinding="{Binding User}" Width="175"></telerik:GridViewDataColumn>-->
+
+
+                                            <telerik:GridViewDataColumn  Header="" Width="auto">
+
+                                                <telerik:GridViewDataColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <WrapPanel>
+                                                            <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="editar_informacoes" VerticalAlignment="Center">
+                                                                <WrapPanel VerticalAlignment="Center">
+                                                                    <Image  Source="Resources/help-about.png" Width="16" Height="16" ToolTip="Editar dados da Obra"/>
+                                                                </WrapPanel>
+                                                            </Button>
+                                                            <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="editar_observacoes" VerticalAlignment="Center">
+                                                                <WrapPanel VerticalAlignment="Center">
+                                                                    <Image  Source="Resources/document-edit3.png" Width="16" Height="16">
+                                                                        <Image.ToolTip>
+                                                                            <xctk:RichTextBox Height="350" Grid.Row="2" Width="350" IsReadOnly="True" Text="{Binding observacoes}"  VerticalScrollBarVisibility="Visible" AcceptsReturn="True" Name="Input"  BorderThickness="0" Margin="5,5,5,5"></xctk:RichTextBox>
+
+                                                                        </Image.ToolTip>
+                                                                    </Image>
+                                                                </WrapPanel>
+                                                            </Button>
+                                                            <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="abre_etapas" VerticalAlignment="Center" ToolTip="Editar Etapas">
+                                                                <WrapPanel VerticalAlignment="Center">
+                                                                    <Image Source="Resources/blockdevice.png" Width="16" Height="16" Margin="0,0,0,0" />
+                                                                </WrapPanel>
+                                                            </Button>
+                                                            <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="abre_etapas_lista_de_peças" VerticalAlignment="Center" ToolTip="Ver Peças - Etapa">
+                                                                <WrapPanel VerticalAlignment="Center">
+                                                                    <Image Source="Resources/fabrica.png" Width="16" Height="16" Margin="0,0,0,0" />
+                                                                </WrapPanel>
+                                                            </Button>
+                                                           
+                                                            <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="ver_folha_margem" VerticalAlignment="Center" ToolTip="Folha Margem">
+                                                                <WrapPanel VerticalAlignment="Center">
+                                                                    <Image  Source="Resources/cash.png" Width="16" Height="16"/>
+                                                                </WrapPanel>
+                                                            </Button>
+                                                            <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=Desbloqueia}" VerticalAlignment="Center" ToolTip="{Binding BloqueadoString}">
+                                                        <WrapPanel VerticalAlignment="Center">
+                                                            <Image Source="{Binding ImagemStatus}" Width="16" Height="16" Margin="0,0,0,0" />
+                                                        </WrapPanel>
+                                                    </Button>
+                                                            <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="criar_revisao" VerticalAlignment="Center" ToolTip="Criar Revisão">
+                                                                <WrapPanel VerticalAlignment="Center">
+                                                                    <Image Source="Resources/view-refresh.png" Width="16" Height="16" Margin="0,0,0,0" />
+                                                                </WrapPanel>
+                                                            </Button>
+                                                            <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="arquivar_obra" VerticalAlignment="Center">
+                                                                <WrapPanel VerticalAlignment="Center">
+                                                                    <Image  Source="Resources/pasta_baixo.png" Width="16" Height="16" ToolTip="Arquivar Obra"/>
+                                                                </WrapPanel>
+                                                            </Button>
+                                                            <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="apaga_revisao" VerticalAlignment="Center" ToolTip="Apagar Revisão">
+                                                                <WrapPanel VerticalAlignment="Center">
+                                                                    <Image Source="Resources/dialog-error.png" Width="16" Height="16" Margin="0,0,0,0" />
+                                                                </WrapPanel>
+                                                            </Button>
+                                                        </WrapPanel>
+                                                    </DataTemplate>
+                                                </telerik:GridViewDataColumn.CellTemplate>
+                                            </telerik:GridViewDataColumn>
+                                            <telerik:GridViewDataColumn  Header="Custos" Width="*">
+                                                <telerik:GridViewDataColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=Executa}" VerticalAlignment="Center" HorizontalAlignment="Left" ToolTip="Atualizar Custos">
+                                                            <WrapPanel >
+                                                                <Image Source="Resources/document-revert.png" Width="16" Height="16" Margin="0,0,10,0" />
+                                                                <!--<Label Content="Atualizar"></Label>-->
+                                                                <Label Content=" ["></Label>
+                                                                <Label Content="{Binding Ultima_Atualizacao}"></Label>
+                                                                <Label Content=" - "></Label>
+                                                                <Label Content="{Binding User}"></Label>
+                                                                <Label Content="]"></Label>
+                                                            </WrapPanel>
+                                                        </Button>
+                                                    </DataTemplate>
+                                                </telerik:GridViewDataColumn.CellTemplate>
+                                            </telerik:GridViewDataColumn>
+                                            <telerik:GridViewDataColumn  Header="Ranges"          DataMemberBinding="{Binding LinhasRanges}"  Width="auto"></telerik:GridViewDataColumn>
+                                            <telerik:GridViewDataColumn  Header="Peso"          DataMemberBinding="{Binding PesoTotalSomado, StringFormat='0,0.00'}"  Width="auto"></telerik:GridViewDataColumn>
+
+                                            <telerik:GridViewDataColumn  Header="Edição"          DataMemberBinding="{Binding ultima_edicao}" DataFormatString="{} {0:dd/MM/yyyy}"  Width="auto"></telerik:GridViewDataColumn>
+                                            <telerik:GridViewDataColumn  Header="Criado"          DataMemberBinding="{Binding Criado}" DataFormatString="{} {0:dd/MM/yyyy}"  Width="auto"></telerik:GridViewDataColumn>
+                                        </telerik:RadGridView.Columns>
+                                        <telerik:RadGridView.RowStyle>
+                                            <Style TargetType="{x:Type telerik:GridViewRow}">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Consolidacao}" Value="True">
+                                                        <Setter Property="Background" Value="LightSeaGreen"></Setter>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Consolidacao}" Value="False">
+                                                        <Setter Property="Background" Value="Transparent"></Setter>
+                                                    </DataTrigger>
+
+                                                </Style.Triggers>
+                                            </Style>
+                                        </telerik:RadGridView.RowStyle>
+                                    </telerik:RadGridView>
+                                </Border>
+                            </DataTemplate>
+                        </telerik:RadGridView.HierarchyChildTemplate>
+     
+                    </telerik:RadGridView>
+                </Border>
+
+            </Grid>
+        </Grid>
+        <WrapPanel Grid.Row="3"  VerticalAlignment="Center" HorizontalAlignment="Right" Margin="20,3,20,0">
+            <Label Content="₢ Medabil - Todos os direitos reservados - 2018 - Equipe de Inovação" HorizontalAlignment="Left"  Margin="5,0,5,0"></Label>
+            <Label Name="Servidor"  Margin="5,0,5,0"></Label>
+            <CheckBox Content="Arquivo de Obras" Checked="CheckBox_Checked" Name="chkdbase" Unchecked="CheckBox_Checked"   Margin="5,0,5,0"></CheckBox>
+        </WrapPanel>
+    </Grid>
+</mui:ModernWindow>

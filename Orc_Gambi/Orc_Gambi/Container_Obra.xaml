@@ -1,0 +1,187 @@
+﻿<UserControl x:Class="Orc_Gambi.Container_Obra"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"             
+             xmlns:local="clr-namespace:Orc_Gambi"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+
+        <telerik:RadGridView Margin="5,5,5,5" Name="Lista" AutoGenerateColumns="False" IsReadOnly="False" IsSearchingDeferred="True" ShowSearchPanel="True" SelectionMode="Extended" CellEditEnded="teste_selecao">
+            <telerik:RadGridView.Columns>
+                <!--<telerik:GridViewDataColumn IsReadOnly="True" Header=""          DataMemberBinding="{Binding Nome}"  Width="25" IsFilterable="False" IsGroupable="False" IsReorderable="False" IsSortable="False" ShowFilterButton="False" ShowToolTipOnTrimmedText="False" ShowDistinctFilters="False" AllowDrop="False">
+                    <telerik:GridViewDataColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="16"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Source="{Binding Imagem}" Height="16" Width="16"/>
+                            </Grid>
+                        </DataTemplate>
+                    </telerik:GridViewDataColumn.CellTemplate>
+                </telerik:GridViewDataColumn>-->
+                <telerik:GridViewCheckBoxColumn Name="chkraiz" IsVisible="{Binding Editavel}" Header="" Width="30" ShowFilterButton="False"  DataMemberBinding="{Binding Selecionado}" AutoSelectOnEdit="True" EditTriggers="CellClick"/>
+                <telerik:GridViewDataColumn IsReadOnly="True"  Header="Num."          DataMemberBinding="{Binding Numero, Mode=OneWay}" Width="65"></telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn IsReadOnly="True"  Header="Nome"          DataMemberBinding="{Binding Nome, Mode=OneWay}" Width="*"></telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn Header="Valor" Width="150" DataMemberBinding="{Binding ValorTotal,StringFormat={}{0:C}}" IsReadOnly="True"/>
+                <telerik:GridViewDataColumn IsReadOnly="True"  Header="Peso"          DataMemberBinding="{Binding PesoTotal,StringFormat={}{0} Kg}" Width="115"></telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn IsReadOnly="True" Header="Ranges"          DataMemberBinding="{Binding RangesSelecionados}"  Width="100" IsFilterable="False" IsGroupable="False" IsReorderable="False" IsSortable="False" ShowFilterButton="False" ShowToolTipOnTrimmedText="False" ShowDistinctFilters="False" AllowDrop="False">
+                    <telerik:GridViewDataColumn.CellTemplate>
+                        <DataTemplate>
+                            <WrapPanel>
+                                <Image Source="{Binding Imagem}" Height="16" Width="16"/>
+                                <Label Content="{Binding RangesSelecionados, Mode=OneWay}"></Label>
+                                <Label Content="/"></Label>
+                                <Label Content="{Binding Ranges.Count, Mode=OneWay}"></Label>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </telerik:GridViewDataColumn.CellTemplate>
+                </telerik:GridViewDataColumn>
+                <!--<telerik:GridViewDataColumn IsReadOnly="True"  Header="Ranges" ShowFilterButton="False"         DataMemberBinding="{Binding Ranges.Count, Mode=OneWay}" Width="75"></telerik:GridViewDataColumn>-->
+                <!--<telerik:GridViewDataColumn IsReadOnly="True"  Header="Selecionados" ShowFilterButton="False"         DataMemberBinding="{Binding RangesSelecionados, Mode=OneWay}" Width="75"></telerik:GridViewDataColumn>-->
+                <telerik:GridViewDataColumn IsReadOnly="True"  Header="Locais" ShowFilterButton="False"          DataMemberBinding="{Binding Locais.Count, Mode=OneWay}" Width="75"></telerik:GridViewDataColumn>
+            </telerik:RadGridView.Columns>
+            <telerik:RadGridView.ChildTableDefinitions>
+                <telerik:GridViewTableDefinition />
+            </telerik:RadGridView.ChildTableDefinitions>
+            <telerik:RadGridView.HierarchyChildTemplate>
+                <DataTemplate>
+                    <telerik:RadGridView ItemsSource="{Binding Locais}" AutoGenerateColumns="False" ShowColumnFooters="False" ShowColumnSortIndexes="False" ShowGroupPanel="False" ShowSearchPanel="False" ShowToolTipOnTrimmedText="False" SelectionMode="Extended" CellEditEnded="teste_selecao">
+                        <telerik:RadGridView.ChildTableDefinitions>
+                            <telerik:GridViewTableDefinition />
+                        </telerik:RadGridView.ChildTableDefinitions>
+                        <telerik:RadGridView.Columns>
+                            <telerik:GridViewCheckBoxColumn IsVisible="{Binding Editavel}"  ShowFilterButton="False" Header="" Width="30" DataMemberBinding="{Binding Selecionado}" AutoSelectOnEdit="True" EditTriggers="CellClick" />
+                            <!--<telerik:GridViewDataColumn IsReadOnly="True"   Header=""          DataMemberBinding="{Binding Nome}"  Width="25" IsFilterable="False" IsGroupable="False" IsReorderable="False" IsSortable="False" ShowFilterButton="False" ShowToolTipOnTrimmedText="False" ShowDistinctFilters="False" AllowDrop="False">
+                                <telerik:GridViewDataColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="16"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Image Source="{Binding Imagem}" Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+                                        </Grid>
+                                    </DataTemplate>
+                                </telerik:GridViewDataColumn.CellTemplate>
+                            </telerik:GridViewDataColumn>-->
+                            <telerik:GridViewDataColumn IsReadOnly="True"  Header="Nome" Width="200" DataMemberBinding="{Binding Nome, Mode=OneWay}"/>
+                            <telerik:GridViewDataColumn IsReadOnly="True"  Header="Grupos"   ShowFilterButton="False"       DataMemberBinding="{Binding Grupos.Count, Mode=OneWay}" Width="50"></telerik:GridViewDataColumn>
+                            <!--<telerik:GridViewDataColumn IsReadOnly="True"  Header="Ranges"   ShowFilterButton="False"       DataMemberBinding="{Binding Ranges.Count, Mode=OneWay}" Width="50"></telerik:GridViewDataColumn>-->
+                            <telerik:GridViewDataColumn IsReadOnly="True" Header="Ranges"          DataMemberBinding="{Binding RangesSelecionados}"  Width="100" IsFilterable="False" IsGroupable="False" IsReorderable="False" IsSortable="False" ShowFilterButton="False" ShowToolTipOnTrimmedText="False" ShowDistinctFilters="False" AllowDrop="False">
+                                <telerik:GridViewDataColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <WrapPanel>
+                                            <!--<Image Source="{Binding Imagem}" Height="16" Width="16"/>-->
+                                            <!--<Label Content="{Binding RangesSelecionados, Mode=OneWay}"></Label>
+                                            <Label Content="/"></Label>-->
+                                            <Label Content="{Binding Ranges.Count, Mode=OneWay}"></Label>
+                                        </WrapPanel>
+                                    </DataTemplate>
+                                </telerik:GridViewDataColumn.CellTemplate>
+                            </telerik:GridViewDataColumn>
+                            <telerik:GridViewDataColumn IsReadOnly="True"  Header="Peso Total"          DataMemberBinding="{Binding PesoTotal,StringFormat={}{0} Kg}" Width="150"></telerik:GridViewDataColumn>
+
+                            <telerik:GridViewDataColumn Header="Valor" Width="125" DataMemberBinding="{Binding ValorTotal,StringFormat={}{0:C}}" IsReadOnly="True"/>
+
+
+                        </telerik:RadGridView.Columns>
+                        <telerik:RadGridView.HierarchyChildTemplate>
+                            <DataTemplate>
+                                <telerik:RadGridView ItemsSource="{Binding Grupos}" AutoGenerateColumns="False" ShowColumnFooters="False" ShowColumnSortIndexes="False" ShowGroupPanel="False" ShowSearchPanel="False" ShowToolTipOnTrimmedText="False" SelectionMode="Extended" CellEditEnded="teste_selecao">
+                                    <telerik:RadGridView.ChildTableDefinitions>
+                                        <telerik:GridViewTableDefinition />
+                                    </telerik:RadGridView.ChildTableDefinitions>
+                                    <telerik:RadGridView.Columns>
+                                        <telerik:GridViewCheckBoxColumn IsVisible="{Binding Editavel}" ShowFilterButton="False" Header="" Width="30" DataMemberBinding="{Binding Selecionado}" AutoSelectOnEdit="True" EditTriggers="CellClick"/>
+                                        <!--<telerik:GridViewDataColumn IsReadOnly="True"  Header=""          DataMemberBinding="{Binding Nome}"  Width="25" IsFilterable="False" IsGroupable="False"  IsReorderable="False" IsSortable="False" ShowFilterButton="False" ShowToolTipOnTrimmedText="False" ShowDistinctFilters="False" AllowDrop="False">
+                                            <telerik:GridViewDataColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="16"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Image Source="{Binding Imagem}" Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </telerik:GridViewDataColumn.CellTemplate>
+                                        </telerik:GridViewDataColumn>-->
+                                        <telerik:GridViewDataColumn IsReadOnly="True"  Header="Nome" Width="200" DataMemberBinding="{Binding Nome, Mode=OneWay}"/>
+                                        <telerik:GridViewDataColumn IsReadOnly="True" Header="Ranges"          DataMemberBinding="{Binding RangesSelecionados}"  Width="100" IsFilterable="False" IsGroupable="False" IsReorderable="False" IsSortable="False" ShowFilterButton="False" ShowToolTipOnTrimmedText="False" ShowDistinctFilters="False" AllowDrop="False">
+                                            <telerik:GridViewDataColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <WrapPanel>
+                                                        <!--<Image Source="{Binding Imagem}" Height="16" Width="16"/>-->
+                                                        <!--<Label Content="{Binding RangesSelecionados, Mode=OneWay}"></Label>
+                                                        <Label Content="/"></Label>-->
+                                                        <Label Content="{Binding Ranges.Count, Mode=OneWay}"></Label>
+                                                    </WrapPanel>
+                                                </DataTemplate>
+                                            </telerik:GridViewDataColumn.CellTemplate>
+                                        </telerik:GridViewDataColumn>
+                                        <!--<telerik:GridViewDataColumn IsReadOnly="True" ShowFilterButton="False"  Header="Ranges"          DataMemberBinding="{Binding Ranges.Count, Mode=OneWay}" Width="75"></telerik:GridViewDataColumn>-->
+                                        <!--<telerik:GridViewDataColumn IsReadOnly="True"  Header="Selecionados" ShowFilterButton="False"         DataMemberBinding="{Binding RangesSelecionados, Mode=OneWay}" Width="75"></telerik:GridViewDataColumn>-->
+                                        <telerik:GridViewDataColumn IsReadOnly="True"  Header="Peso Total"          DataMemberBinding="{Binding PesoTotal,StringFormat={}{0} Kg}" Width="150"></telerik:GridViewDataColumn>
+                                        <telerik:GridViewDataColumn Header="Valor" Width="125" DataMemberBinding="{Binding ValorTotal,StringFormat={}{0:C}}" IsReadOnly="True"/>
+
+
+                                    </telerik:RadGridView.Columns>
+                                    <telerik:RadGridView.HierarchyChildTemplate>
+                                        <DataTemplate>
+                                            <telerik:RadGridView ItemsSource="{Binding Ranges}" AutoGenerateColumns="False" ShowColumnFooters="False" ShowColumnSortIndexes="False" ShowGroupPanel="False" ShowSearchPanel="False" ShowToolTipOnTrimmedText="False" SelectionMode="Extended" CellEditEnded="teste_selecao">
+                                                <telerik:RadGridView.Columns>
+                                                    <telerik:GridViewCheckBoxColumn IsVisible="{Binding Editavel}" Header="" ShowFilterButton="False" Width="30"  DataMemberBinding="{Binding Selecionado}" AutoSelectOnEdit="True" EditTriggers="CellClick"/>
+                                                    <!--<telerik:GridViewDataColumn IsReadOnly="True"   Header=""          DataMemberBinding="{Binding Nome}"  Width="45" IsFilterable="False" IsGroupable="False"  IsReorderable="False" IsSortable="False" ShowFilterButton="False" ShowToolTipOnTrimmedText="False" ShowDistinctFilters="False" AllowDrop="False">
+                                                        <telerik:GridViewDataColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <Grid>
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="16"/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <Image Source="{Binding Imagem}" Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+                                                                </Grid>
+                                                            </DataTemplate>
+                                                        </telerik:GridViewDataColumn.CellTemplate>
+                                                    </telerik:GridViewDataColumn>-->
+                                                    <telerik:GridViewDataColumn IsReadOnly="True"  Header="Fert"          DataMemberBinding="{Binding Fert_User}"  Width="25" IsFilterable="True" IsGroupable="True"  IsReorderable="False" IsSortable="False" ShowFilterButton="False" ShowToolTipOnTrimmedText="False" ShowDistinctFilters="False" AllowDrop="False">
+                                                        <telerik:GridViewDataColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <Grid>
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="16"/>
+                                                                        <ColumnDefinition Width="65"/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <Image Source="{Binding Imagem_Fert}" Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                                    <Label Content="{Binding Fert_User}"  Grid.Column="1"/>
+
+                                                                </Grid>
+                                                            </DataTemplate>
+                                                        </telerik:GridViewDataColumn.CellTemplate>
+                                                    </telerik:GridViewDataColumn>
+                                                    <telerik:GridViewDataColumn IsReadOnly="True" Header="Grupo de Mercadoria" Width="200" DataMemberBinding="{Binding Grupo_de_Mercadoria, Mode=OneWay}"/>
+                                                    <telerik:GridViewDataColumn IsReadOnly="True" Header="Mercadoria Externa" Width="auto" DataMemberBinding="{Binding Mercadoria_Externa, Mode=OneWay}" />
+                                                    <telerik:GridViewDataColumn IsReadOnly="True" Header="Qtd." Width="65" DataMemberBinding="{Binding Quantidade, Mode=OneWay}" />
+                                                    <telerik:GridViewDataColumn IsReadOnly="True" Header="" Width="65" DataMemberBinding="{Binding Unidade, Mode=OneWay}" />
+                                                    <telerik:GridViewDataColumn IsReadOnly="True" Header="Valor" Width="125" DataMemberBinding="{Binding Atual.Valor_Total, Mode=OneWay,StringFormat={}{0:C}}" />
+                                                    <telerik:GridViewDataColumn IsReadOnly="True"  Header="Peso Total"          DataMemberBinding="{Binding PesoTotal,StringFormat={}{0} Kg}" Width="150"></telerik:GridViewDataColumn>
+                                                    <telerik:GridViewDataColumn Header="Valor" Width="125" DataMemberBinding="{Binding ValorTotal,StringFormat={}{0:C}}" IsReadOnly="True"/>
+
+                                                </telerik:RadGridView.Columns>
+                                            </telerik:RadGridView>
+                                        </DataTemplate>
+                                    </telerik:RadGridView.HierarchyChildTemplate>
+                                </telerik:RadGridView>
+                            </DataTemplate>
+                        </telerik:RadGridView.HierarchyChildTemplate>
+                    </telerik:RadGridView>
+                </DataTemplate>
+            </telerik:RadGridView.HierarchyChildTemplate>
+        </telerik:RadGridView>
+
+    </Grid>
+</UserControl>

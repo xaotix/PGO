@@ -1,0 +1,231 @@
+﻿<mui:ModernWindow x:Class="Orc_Gambi.Gestao_Arvore"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                  xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+                  xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+                  
+                  mc:Ignorable="d" 
+                  d:DesignHeight="361.947" d:DesignWidth="435.398"
+                  Title="Gestão Árvore"
+                  Style="{StaticResource BlankWindow}" WindowState="Maximized">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <WrapPanel Grid.Row="0">
+            <Image Source="Resources/Novo_Logo_2018.orc.png" HorizontalAlignment="Left"></Image>
+            <Image Source="Resources/administrador.png" HorizontalAlignment="Right" Margin="30,0,0,0"></Image>
+
+        </WrapPanel>
+        <Grid Grid.Row="1">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <WrapPanel VerticalAlignment="Center">
+            <ComboBox Name="Templates_Selecao" Width="150" SelectionChanged="selecionar"></ComboBox>
+            <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="editar_propriedades" VerticalAlignment="Center" HorizontalAlignment="Left" ToolTip="Editar Propriedades">
+                <WrapPanel>
+                    <Image Margin="5,0,5,0" Source="Resources/dialog-information.png" Height="16" Width="16"/>
+                </WrapPanel>
+            </Button>
+            <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="adicionar_template" VerticalAlignment="Center" HorizontalAlignment="Left" ToolTip="Criar Novo Template">
+                <WrapPanel>
+                    <Image Margin="5,0,5,0" Source="Resources/get-hot-new-stuff.png" Height="16" Width="16"/>
+                </WrapPanel>
+            </Button>
+            <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="adicionar_local" VerticalAlignment="Center" HorizontalAlignment="Left">
+                <WrapPanel>
+                    <Image Margin="5,0,5,0" Source="Resources/list-add.png" Height="16" Width="16"/>
+                    <Label Content="Adicionar Local"></Label>
+                </WrapPanel>
+            </Button>
+        </WrapPanel>
+        <telerik:RadGridView ShowSearchPanel="False" ShowColumnFooters="False" ShowColumnHeaders="False" ShowGroupPanel="False"  Grid.Row="3" Grid.Column="2" IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Extended"   Name="Lista">
+            <telerik:RadGridView.Columns>
+                <telerik:GridViewDataColumn IsReadOnly="True" Header="Local" DataMemberBinding="{Binding nome}" IsFilterable="True" IsGroupable="True" IsReorderable="True" IsSortable="True" ShowFilterButton="True" ShowToolTipOnTrimmedText="True" ShowDistinctFilters="True" AllowDrop="False">
+                    <telerik:GridViewDataColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="editar_local" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                <WrapPanel>
+                                    <Image Margin="5,0,5,0" Source="{Binding Imagem}" Height="16" Width="16"/>
+                                    <Label Content="{Binding nome, Mode=OneWay}" Width="250"/>
+                                </WrapPanel>
+                            </Button>
+                        </DataTemplate>
+                    </telerik:GridViewDataColumn.CellTemplate>
+                </telerik:GridViewDataColumn>
+
+                <telerik:GridViewDataColumn IsReadOnly="True" IsFilterable="False" IsGroupable="False" IsReorderable="False" IsSortable="False" ShowFilterButton="False" ShowToolTipOnTrimmedText="True" ShowDistinctFilters="True" AllowDrop="False">
+                    <telerik:GridViewDataColumn.CellTemplate>
+                        
+                        <DataTemplate>
+                            <WrapPanel>
+                                <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="adicionar_grupo" VerticalAlignment="Center" HorizontalAlignment="Left" ToolTip="Adicionar Grupo">
+                                    <WrapPanel>
+                                        <Image Margin="2,0,2,0" Source="Resources/list-add.png" Height="16" Width="16"/>
+                                    </WrapPanel>
+                                </Button>
+                                <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="apagar_local" VerticalAlignment="Center" HorizontalAlignment="Left" ToolTip="Apagar Local">
+                                <WrapPanel>
+                                    <Image Margin="2,0,2,0" Source="Resources/dialog-error.png" Height="16" Width="16"/>
+                                </WrapPanel>
+                            </Button>
+                                <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="copiar_local" VerticalAlignment="Center" HorizontalAlignment="Left" ToolTip="Copiar itens do Local para outro Local">
+                                    <WrapPanel>
+                                        <Image Margin="2,0,2,0" Source="Resources/object-ungroup.png" Height="16" Width="16"/>
+                                    </WrapPanel>
+                                </Button>
+                                <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="move_local" VerticalAlignment="Center" HorizontalAlignment="Left" ToolTip="Mover itens do Local para outro Local">
+                                    <WrapPanel>
+                                        <Image Margin="2,0,2,0" Source="Resources/go-parent-folder.png" Height="16" Width="16"/>
+                                    </WrapPanel>
+                                </Button>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </telerik:GridViewDataColumn.CellTemplate>
+                </telerik:GridViewDataColumn>
+
+            </telerik:RadGridView.Columns>
+            <telerik:RadGridView.ChildTableDefinitions>
+                <telerik:GridViewTableDefinition />
+            </telerik:RadGridView.ChildTableDefinitions>
+            <telerik:RadGridView.HierarchyChildTemplate>
+                <DataTemplate>
+                    <telerik:RadGridView ShowColumnHeaders="False" ItemsSource="{Binding Grupos}" ShowSearchPanel="False" ShowColumnFooters="False" ShowGroupPanel="False"  Grid.Row="3" Grid.Column="2" IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Extended">
+                        <telerik:RadGridView.Columns>
+                            <telerik:GridViewDataColumn IsReadOnly="True" Header="Grupo" DataMemberBinding="{Binding nome}" IsFilterable="True" IsGroupable="True" IsReorderable="True" IsSortable="True" ShowFilterButton="True" ShowToolTipOnTrimmedText="True" ShowDistinctFilters="True" AllowDrop="False">
+                                <telerik:GridViewDataColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <WrapPanel>
+                                                <Image Margin="5,0,5,0" Source="{Binding Imagem}" Height="16" Width="16"/>
+                                                <Label Content="{Binding nome, Mode=OneWay}" Width="250"/>
+                                            </WrapPanel>
+                                        </Button>
+                                    </DataTemplate>
+                                </telerik:GridViewDataColumn.CellTemplate>
+                            </telerik:GridViewDataColumn>
+
+                            <telerik:GridViewDataColumn IsReadOnly="True" IsFilterable="False" IsGroupable="False" IsReorderable="False" IsSortable="False" ShowFilterButton="False" ShowToolTipOnTrimmedText="True" ShowDistinctFilters="True" AllowDrop="False">
+                                <telerik:GridViewDataColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <WrapPanel>
+                                            
+                                        <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="adicionar_grupo_mercadoria" VerticalAlignment="Center" HorizontalAlignment="Left" ToolTip="Adicionar Novo Grupo de Mercadoria">
+                                            <WrapPanel>
+                                                <Image Margin="2,0,2,0" Source="Resources/list-add.png" Height="16" Width="16"/>
+                                            </WrapPanel>                                            
+                                        </Button>
+                                            <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="apagar_grupo" VerticalAlignment="Center" HorizontalAlignment="Left" ToolTip="Apagar Grupo e todos os sub-itens">
+                                                <WrapPanel>
+                                                    <Image Margin="2,0,2,0" Source="Resources/dialog-error.png" Height="16" Width="16"/>
+                                                </WrapPanel>
+                                            </Button>
+                                            <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="copiar_grupo_mercadoria" VerticalAlignment="Center" HorizontalAlignment="Left" ToolTip="Copiar grupos de mercadoria para outro grupo">
+                                                <WrapPanel>
+                                                    <Image Margin="2,0,2,0" Source="Resources/object-ungroup.png" Height="16" Width="16"/>
+                                                </WrapPanel>
+                                            </Button>
+                                            <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="mover_grupo_de_mercadoria" VerticalAlignment="Center" HorizontalAlignment="Left" ToolTip="Mover grupos de mercadoria para outro grupo">
+                                                <WrapPanel>
+                                                    <Image Margin="2,0,2,0" Source="Resources/go-parent-folder.png" Height="16" Width="16"/>
+                                                </WrapPanel>
+                                            </Button>
+                                        </WrapPanel>
+                                    </DataTemplate>
+                                </telerik:GridViewDataColumn.CellTemplate>
+                            </telerik:GridViewDataColumn>
+                        </telerik:RadGridView.Columns>
+                        <telerik:RadGridView.ChildTableDefinitions>
+                            <telerik:GridViewTableDefinition />
+                        </telerik:RadGridView.ChildTableDefinitions>
+                        <telerik:RadGridView.HierarchyChildTemplate>
+                            <DataTemplate>
+                                <telerik:RadGridView ShowColumnHeaders="True" ItemsSource="{Binding Itens}" ShowSearchPanel="False" ShowColumnFooters="False" ShowGroupPanel="False"  Grid.Row="3" Grid.Column="2" AutoGenerateColumns="False" SelectionMode="Extended">
+                                    <telerik:RadGridView.Columns>
+                                        <telerik:GridViewDataColumn IsReadOnly="True" Header="Grupo de Mercadoria" DataMemberBinding="{Binding Grupo_De_Mercadoria}" IsFilterable="True" IsGroupable="True" IsReorderable="True" IsSortable="True" ShowFilterButton="True" ShowToolTipOnTrimmedText="True" ShowDistinctFilters="True" AllowDrop="False">
+                                            <telerik:GridViewDataColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"  VerticalAlignment="Center" HorizontalAlignment="Left" ToolTip="Editar" Click="editar_grupo_de_mercadoria">
+                                                        <WrapPanel>
+                                                            <Image Margin="5,0,5,0" Source="{Binding Grupo_De_Mercadoria.Imagem}" Height="16" Width="16"/>
+                                                            <Label Content="{Binding Grupo_De_Mercadoria, Mode=OneWay}" Width="250"/>
+                                                        </WrapPanel>
+                                                    </Button>
+                                                </DataTemplate>
+                                            </telerik:GridViewDataColumn.CellTemplate>
+                                        </telerik:GridViewDataColumn>
+                                        <telerik:GridViewDataColumn IsReadOnly="True" Header="Produto Padrão" DataMemberBinding="{Binding Produto_Padrao}" IsFilterable="True" IsGroupable="True" IsReorderable="True" IsSortable="True" ShowFilterButton="True" ShowToolTipOnTrimmedText="True" ShowDistinctFilters="True" AllowDrop="False">
+                                            <telerik:GridViewDataColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="editar_produto_padrao" VerticalAlignment="Center" HorizontalAlignment="Left" ToolTip="Definir Produto Padrão">
+                                                        <WrapPanel>
+                                                            <Image Margin="5,0,5,0" Source="{Binding Produto_Padrao.Imagem}" Height="16" Width="16"/>
+                                                            <Label Content="{Binding Produto_Padrao, Mode=OneWay}"/>
+                                                        </WrapPanel>
+                                                    </Button>
+                                                </DataTemplate>
+                                            </telerik:GridViewDataColumn.CellTemplate>
+                                        </telerik:GridViewDataColumn>
+                                        <telerik:GridViewDataColumn IsReadOnly="True" Header="Multiplicador" DataMemberBinding="{Binding Item_Arvore.multiplicador}" IsFilterable="True" IsGroupable="True" IsReorderable="True" IsSortable="True" ShowFilterButton="True" ShowToolTipOnTrimmedText="True" ShowDistinctFilters="True" AllowDrop="False">
+                                            <telerik:GridViewDataColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="editar_multiplicador" VerticalAlignment="Center" HorizontalAlignment="Left" ToolTip="Definir Produto Padrão">
+                                                        <WrapPanel>
+                                                            <Label Content="{Binding multiplicador, Mode=OneWay}"/>
+                                                        </WrapPanel>
+                                                    </Button>
+                                                </DataTemplate>
+                                            </telerik:GridViewDataColumn.CellTemplate>
+                                        </telerik:GridViewDataColumn>
+                                        <telerik:GridViewDataColumn  Header="Ativo" DataMemberBinding="{Binding ativo}"/>
+                                        <telerik:GridViewDataColumn  Header="Valor Fixo" DataMemberBinding="{Binding valor_fixo}"/>
+                                        <telerik:GridViewDataColumn  Header="Carregar Padrão" DataMemberBinding="{Binding carregar_padrao}"/>
+
+                                        <telerik:GridViewDataColumn IsReadOnly="True" Header="Observações" DataMemberBinding="{Binding observacoes}" IsFilterable="True" IsGroupable="True" IsReorderable="True" IsSortable="True" ShowFilterButton="True" ShowToolTipOnTrimmedText="True" ShowDistinctFilters="True" AllowDrop="False">
+                                            <telerik:GridViewDataColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <WrapPanel>
+                                                        <Button ToolTip="Editar Observações" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="editar_observacoes" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                                            <WrapPanel>
+                                                                <Label Content="{Binding observacoes, Mode=OneWay}"/>
+                                                            </WrapPanel>
+                                                        </Button>
+                                                        <Button ToolTip="Apagar"  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="remover_item_arvore" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                                            <WrapPanel>
+                                                                <Image Margin="2,0,2,0" Source="Resources/dialog-error.png" Height="16" Width="16"/>
+                                                            </WrapPanel>
+                                                        </Button>
+                                                        <Button ToolTip="Subir" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="subir_item_arvore" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                                            <WrapPanel>
+                                                                <Image Margin="2,0,2,0" Source="Resources/arrow-up.png" Height="16" Width="16"/>
+                                                            </WrapPanel>
+                                                        </Button>
+                                                        <Button ToolTip="Descer" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="descer_item_arvore" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                                            <WrapPanel>
+                                                                <Image Margin="2,0,2,0" Source="Resources/arrow-down.png" Height="16" Width="16"/>
+                                                            </WrapPanel>
+                                                        </Button>
+                                                        <Label Margin="5,0,5,0" Content="{Binding ordem}"></Label>
+                                                    </WrapPanel>
+                                              
+                                                </DataTemplate>
+                                            </telerik:GridViewDataColumn.CellTemplate>
+                                        </telerik:GridViewDataColumn>
+
+                                    </telerik:RadGridView.Columns>
+                                </telerik:RadGridView>
+                            </DataTemplate>
+                        </telerik:RadGridView.HierarchyChildTemplate>
+                    </telerik:RadGridView>
+                </DataTemplate>
+            </telerik:RadGridView.HierarchyChildTemplate>
+        </telerik:RadGridView>
+
+    </Grid>
+    </Grid>
+</mui:ModernWindow>

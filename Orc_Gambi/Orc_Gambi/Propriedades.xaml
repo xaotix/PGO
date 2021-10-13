@@ -1,0 +1,85 @@
+﻿<mui:ModernWindow x:Class="Orc_Gambi.Propriedades"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                  xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+                  xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" 
+                  
+                  mc:Ignorable="d" 
+                  Width="500"
+                  Height="500"
+                  Title="Editar Tratamentos"
+                  Style="{StaticResource BlankWindow}" Loaded="Inicializar" WindowState="Maximized">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Menu VerticalAlignment="Center" Background="Transparent">
+            <MenuItem Header="Arquivo" Background="Transparent">
+                <MenuItem Header="Novo..." Click="Arquivo_Novo" Name="bt_novo">
+                    <MenuItem.Icon>
+                        <Image  Source="Resources/get-hot-new-stuff.png"  Width="16" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+    <Grid Grid.Row="1">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"></ColumnDefinition>
+            <ColumnDefinition Width="3"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <TextBox Name="Filtro" TextChanged="Filtrar_txt"></TextBox>
+        <DataGrid Name="Lista" AutoGenerateColumns="False" IsReadOnly="True" Grid.ColumnSpan="2" Margin="3,0,0,0" SelectionChanged="Selecionar" Grid.Row="1">
+            <DataGrid.Columns>
+                <!--<DataGridCheckBoxColumn Header="Reservado" Width="105" Binding="{Binding Path=Reservado, Mode=OneWay}"/>-->
+                <DataGridTemplateColumn Header="" Width="SizeToCells" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding Imagem}" Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="" Width="*" Binding="{Binding}"/>
+            </DataGrid.Columns>
+
+        </DataGrid>
+        </Grid>
+        <GridSplitter Grid.Column="1"></GridSplitter>
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="25"></RowDefinition>
+            </Grid.RowDefinitions>
+        <xctk:PropertyGrid x:Name="Propriedadesm"  
+                                     AutoGenerateProperties="True" ShowSortOptions="True" ShowSearchBox="True" ShowSummary="False"
+                                Grid.Column="2"
+                              Background="Transparent"
+                               >
+            <!-- Only the following properties will be displayed in the PropertyGrid -->
+
+        </xctk:PropertyGrid>
+            <Menu Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <MenuItem Header="Apagar" Click="apagar_item" Name="bt_apagar">
+                        <MenuItem.Icon>
+                            <Image  Source="Resources/dialog-error.png"  Width="16" Height="16"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Salvar" Click="MenuItem_Click">
+                        <MenuItem.Icon>
+                            <Image  Source="Resources/document-save1.png"  Width="16" Height="16"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    
+                </Menu>
+        </Grid>
+    </Grid>
+    </Grid>
+</mui:ModernWindow>

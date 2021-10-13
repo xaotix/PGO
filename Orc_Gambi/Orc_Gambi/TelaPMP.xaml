@@ -1,0 +1,422 @@
+﻿<mui:ModernWindow x:Class="PGO.TelaPMP"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                  xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+                  xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+                 
+                  
+                  mc:Ignorable="d" 
+                  Title="Gerar Materiais"
+                  Style="{StaticResource BlankWindow}"  WindowState="Maximized" FontSize="11">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Menu VerticalAlignment="Center" Background="Transparent">
+            <MenuItem Header="Banco de dados" Background="Transparent">
+                <MenuItem.Icon>
+                    <Image  Source="Resources/dialog-information.png"  Width="16" Height="16"/>
+                </MenuItem.Icon>
+                <MenuItem Header="Frentes de Projeto" Click="cadastro_frentes">
+                    <MenuItem.Icon>
+                        <Image  Source="Resources/view-time-schedule-edit.png"  Width="16" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Tipos de Pintura" Click="Cadastro_Tipos_Pintura">
+                    <MenuItem.Icon>
+                        <Image  Source="Resources/view-time-schedule-edit.png"  Width="16" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="FERTS" Click="Cadastro_FERTS">
+                    <MenuItem.Icon>
+                        <Image  Source="Resources/view-time-schedule-edit.png"  Width="16" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+
+                <MenuItem Header="Editar Dias Úteis Listas Técnicas" Click="Cadastro_listas_tecnicas">
+                    <MenuItem.Icon>
+                        <Image  Source="Resources/view-time-schedule-edit.png"  Width="16" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+
+            </MenuItem>
+
+        </Menu>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <WrapPanel Grid.Row="0">
+                <Image Source="Resources/Novo_Logo_2018.orc.png" HorizontalAlignment="Left"></Image>
+                <Image Source="Resources/administrador.png" HorizontalAlignment="Right" Margin="30,0,0,0"></Image>
+
+            </WrapPanel>
+        <TabControl Grid.Row="1" Name="tab_principal">
+            <TabItem Header="Obras em Orçamento">
+                <TabControl Grid.Row="1">
+                    <TabItem Header="Criar Pacote">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="25"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <WrapPanel>
+                                <Button Margin="10,0,0,0"  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Center" Click="adicionar_obras">
+                                    <WrapPanel VerticalAlignment="Center">
+                                        <Image Source="Resources/pasta_baixo.png" Width="16" Height="16"/>
+                                        <Label Content="Adicionar"></Label>
+
+                                    </WrapPanel>
+                                </Button>
+                                <Button Margin="10,0,0,0"  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Center" Click="limpar_obras">
+                                    <WrapPanel VerticalAlignment="Center">
+                                        <Image Source="Resources/dialog-error.png" Width="16" Height="16"/>
+                                        <Label Content="Limpar Lista"></Label>
+
+                                    </WrapPanel>
+                                </Button>
+                                <Button Margin="10,0,0,0"  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Center" Click="gerar_material">
+                                    <WrapPanel VerticalAlignment="Center">
+                                        <Image Source="Resources/arrow-down-double.png" Width="16" Height="16"/>
+                                        <Label Content="Ver Materiais"></Label>
+
+                                    </WrapPanel>
+                                </Button>
+                                <Button Margin="10,0,0,0"  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Center" Click="gerar_pmp">
+                                    <WrapPanel VerticalAlignment="Center">
+                                        <Image Source="Resources/arrow-down-double.png" Width="16" Height="16"/>
+                                        <Label Content="Gerar PMP"></Label>
+
+                                    </WrapPanel>
+                                </Button>
+
+                            </WrapPanel>
+                                <telerik:RadGridView  FontSize="11"  Grid.Row="1" Name="Lista"  ShowColumnHeaders="True" ItemsSource="{Binding ponderadores}" ShowSearchPanel="True" ShowColumnFooters="True" ShowGroupPanel="True"  Grid.Column="2" IsReadOnly="False" AutoGenerateColumns="False" SelectionMode="Extended">
+                                <telerik:RadGridView.RowStyle>
+                                    <Style TargetType="{x:Type telerik:GridViewRow}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Consolidacao}" Value="True">
+                                                <Setter Property="Background" Value="LightSeaGreen"></Setter>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Consolidacao}" Value="False">
+                                                <Setter Property="Background" Value="Transparent"></Setter>
+                                            </DataTrigger>
+
+                                        </Style.Triggers>
+                                    </Style>
+                                </telerik:RadGridView.RowStyle>
+                                <telerik:RadGridView.Columns>
+                                    <telerik:GridViewCheckBoxColumn  IsReadOnly="True"  Header="NAC" DataMemberBinding="{Binding Nacional}" />
+                                    <telerik:GridViewCheckBoxColumn  IsReadOnly="True"   Header="CON" DataMemberBinding="{Binding Consolidacao}" />
+                                    <telerik:GridViewDataColumn  IsReadOnly="True"   Header="Contrato"          DataMemberBinding="{Binding Contrato}" Width="85"></telerik:GridViewDataColumn>
+                                    <telerik:GridViewDataColumn IsReadOnly="True"   Header="Revisão Sel."          DataMemberBinding="{Binding Revisao}" Width="auto">
+                                        <telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                                                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                                                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label Content="{Binding Revisao}"></Label>
+                                                    <WrapPanel Grid.Column="1">
+                                                        <Label Content=" [Revs.: "></Label>
+                                                        <Label Content="{Binding Revisoes.Count}"></Label>
+                                                        <Label Content="]"></Label>
+                                                    </WrapPanel>
+                                                    <Button Grid.Column="2" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="trocar_revisao" VerticalAlignment="Center" ToolTip="Escolher outra revisão">
+                                                        <Image Source="Resources/document-revert.png" Width="16" Height="16" Margin="0,0,0,0" />
+                                                    </Button>
+
+                                                </Grid>
+                                            </DataTemplate>
+                                        </telerik:GridViewDataColumn.CellTemplate>
+                                    </telerik:GridViewDataColumn>
+                                    <telerik:GridViewDataColumn  Header="Etapa" Width="auto" IsReadOnly="True">
+                                        <telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Button Grid.Column="1" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="editar_etapas" VerticalAlignment="Center" ToolTip="Editar Etapas">
+                                                        <Image Source="Resources/blockdevice.png" Width="16" Height="16" Margin="0,0,0,0" />
+                                                    </Button>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </telerik:GridViewDataColumn.CellTemplate>
+                                    </telerik:GridViewDataColumn>
+                                    <telerik:GridViewDataColumn  Header="Contrato SAP" Width="auto" DataMemberBinding="{Binding Contrato_SAP}">
+                                        <telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBox Text="{Binding Contrato_SAP,Mode=TwoWay}">
+                                                    <TextBox.Template>
+                                                        <ControlTemplate>
+                                                            <Grid>
+                                                                <WrapPanel>
+                                                                    <Label Content="{Binding Segmento.COD}" VerticalAlignment="Center"></Label>
+                                                                    <Label Content="-" VerticalAlignment="Center"></Label>
+                                                                    <TextBox Grid.Column="1" Text="{Binding Contrato_SAP,Mode=TwoWay}" MaxLength="6" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center"></TextBox>
+                                                                    <Label Content="."></Label>
+                                                                    <TextBox Grid.Column="3" Text="{Binding pedido_user,Mode=TwoWay}" MaxLength="3" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center"></TextBox>
+                                                                    <Button Grid.Column="4" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="editar_contrato_sap" VerticalAlignment="Center" ToolTip="Gravar">
+                                                                        <Image Source="Resources/document-save.png" Width="16" Height="16" Margin="0,0,0,0" />
+                                                                    </Button>
+                                                                </WrapPanel>
+
+                                                            </Grid>
+                                                        </ControlTemplate>
+                                                    </TextBox.Template>
+                                                </TextBox>
+                                            </DataTemplate>
+                                        </telerik:GridViewDataColumn.CellTemplate>
+                                    </telerik:GridViewDataColumn>
+                                    <telerik:GridViewDataColumn IsReadOnly="True"   Header="Nome"          DataMemberBinding="{Binding Nome}" Width="200"></telerik:GridViewDataColumn>
+                                    <telerik:GridViewDataColumn IsReadOnly="True" Header="Criado"          DataMemberBinding="{Binding Criado}" DataFormatString="{} {0:dd/MM/yyyy}"  Width="auto"></telerik:GridViewDataColumn>
+                                    <telerik:GridViewDataColumn IsReadOnly="True"  Header="Orçamentista"         DataMemberBinding="{Binding Orcamentista}" Width="150"></telerik:GridViewDataColumn>
+                                    <telerik:GridViewDataColumn IsReadOnly="True" Header="Comercial"          DataMemberBinding="{Binding Comercial}" Width="150"></telerik:GridViewDataColumn>
+
+                                </telerik:RadGridView.Columns>
+                            </telerik:RadGridView>
+
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Editar Criados">
+                            <telerik:RadGridView  FontSize="11"  Grid.Row="1" Name="Lista_Criados"  ShowColumnHeaders="True" ItemsSource="{Binding ponderadores}" ShowSearchPanel="True" ShowColumnFooters="True" ShowGroupPanel="True"  Grid.Column="2" IsReadOnly="False" AutoGenerateColumns="False" SelectionMode="Extended">
+                            <telerik:RadGridView.Columns>
+                                <telerik:GridViewDataColumn  IsReadOnly="True"   Header="Contrato"          DataMemberBinding="{Binding numerocontrato}" Width="auto"></telerik:GridViewDataColumn>
+                                <telerik:GridViewDataColumn  IsReadOnly="True"   Header="Revisão"          DataMemberBinding="{Binding revisao}" Width="auto"></telerik:GridViewDataColumn>
+                                <telerik:GridViewDataColumn  IsReadOnly="True"   Header="Pedido"          DataMemberBinding="{Binding pedido}" Width="auto"></telerik:GridViewDataColumn>
+                                <telerik:GridViewDataColumn  IsReadOnly="True"   Header="Descrição"          DataMemberBinding="{Binding descricao}" Width="auto"></telerik:GridViewDataColumn>
+                                <telerik:GridViewDataColumn  IsReadOnly="True"   Header="Orçamentista"          DataMemberBinding="{Binding orcamentista}" Width="auto"></telerik:GridViewDataColumn>
+                                <telerik:GridViewDataColumn  IsReadOnly="True"   Header="Comercial"          DataMemberBinding="{Binding comercial}" Width="auto"></telerik:GridViewDataColumn>
+                                <telerik:GridViewDataColumn  Header="Criado"          DataMemberBinding="{Binding criacao}" DataFormatString="{} {0:dd/MM/yyyy}"  Width="100"></telerik:GridViewDataColumn>
+                                <!--<telerik:GridViewDataColumn  Header="Obra"          DataMemberBinding="{Binding criacao_obra}" DataFormatString="{} {0:dd/MM/yyyy}"  Width="100"></telerik:GridViewDataColumn>-->
+                                <telerik:GridViewDataColumn Width="auto" Header="Tot. Kg." DataMemberBinding="{Binding peso_total, StringFormat='0,0.00',Mode=OneWay}"/>
+                                <telerik:GridViewDataColumn  Header="Ações" Width="auto" IsReadOnly="True">
+                                    <telerik:GridViewDataColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <WrapPanel>
+                                                <!--<Button Grid.Column="1" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="excluir_pacote" VerticalAlignment="Center" ToolTip="Excluir Pacote">
+                                                    <Image Source="Resources/dialog-error.png" Width="16" Height="16" Margin="0,0,0,0" />
+                                                </Button>-->
+                                                <Button Grid.Column="1" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="atualizar_pacote" VerticalAlignment="Center" ToolTip="Criar Pacote Novamente">
+                                                    <Image Source="Resources/view-refresh.png" Width="16" Height="16" Margin="0,0,0,0" />
+                                                </Button>
+                                                <Button Grid.Column="1" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="editar_etapas_pacote" VerticalAlignment="Center" ToolTip="Editar Etapas do Pacote">
+                                                    <Image Source="Resources/blockdevice.png" Width="16" Height="16" Margin="0,0,0,0" />
+                                                </Button>
+                                            </WrapPanel>
+                                        </DataTemplate>
+                                    </telerik:GridViewDataColumn.CellTemplate>
+                                </telerik:GridViewDataColumn>
+
+                            </telerik:RadGridView.Columns>
+                            <telerik:RadGridView.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Excluir Pacotes" Click="excluir_pacotes"></MenuItem>
+                                    <MenuItem Header="Atualizar Pacotes" Click="autlizar_pacotes"></MenuItem>
+                                </ContextMenu>
+                            </telerik:RadGridView.ContextMenu>
+                        </telerik:RadGridView>
+
+                    </TabItem>
+                </TabControl>
+            </TabItem>
+            <TabItem Header="Obras consolidadas">
+                
+                    <TabControl>
+                        <TabItem Header="Criar Pacotes">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="25"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <WrapPanel>
+                                <Button Margin="10,0,0,0"  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Center" Click="consolidada_add_pedido">
+                                    <WrapPanel VerticalAlignment="Center">
+                                        <Image Source="Resources/pasta_baixo.png" Width="16" Height="16"/>
+                                        <Label Content="Carregar Pedidos..."></Label>
+                                    </WrapPanel>
+                                </Button>
+                                <Button Margin="10,0,0,0"  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Center" Click="MenuItem_Click">
+                                    <WrapPanel VerticalAlignment="Center">
+                                        <Image Source="Resources/pasta_baixo.png" Width="16" Height="16"/>
+                                        <Label Content="Adicionar Arquivos Excel Manualmente"></Label>
+                                    </WrapPanel>
+                                </Button>
+                                <Button Margin="10,0,0,0"  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Center" Click="importar_consolidadas">
+                                    <WrapPanel VerticalAlignment="Center">
+                                        <Image Source="Resources/document-save.png" Width="16" Height="16"/>
+                                        <Label Content="Importar"></Label>
+                                    </WrapPanel>
+                                </Button>
+                                <Button Margin="10,0,0,0"  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Center" Click="limpar_carga">
+                                    <WrapPanel VerticalAlignment="Center">
+                                        <Image Source="Resources/document-revert.png" Width="16" Height="16"/>
+                                        <Label Content="Limpar Carga"></Label>
+                                    </WrapPanel>
+                                </Button>
+                            </WrapPanel>
+                            <telerik:RadGridView FontSize="11" Grid.Row="1" Name="Lista_Criacao"  ShowColumnHeaders="True"  ShowSearchPanel="True" ShowColumnFooters="True" ShowGroupPanel="True"  Grid.Column="2" IsReadOnly="False" AutoGenerateColumns="False" SelectionMode="Extended">
+                                <telerik:RadGridView.Columns>
+                                        <telerik:GridViewDataColumn  IsReadOnly="True"   Header="Pedido"          DataMemberBinding="{Binding pep}" Width="auto"></telerik:GridViewDataColumn>
+                                        <telerik:GridViewDataColumn  IsReadOnly="True"   Header="Arquivos"          DataMemberBinding="{Binding arqs}" Width="auto"></telerik:GridViewDataColumn>
+                                    <!--<telerik:GridViewDataColumn  IsReadOnly="True"   Header="Nome"          DataMemberBinding="{Binding nome}" Width="auto"></telerik:GridViewDataColumn>-->
+                                    <telerik:GridViewDataColumn  IsReadOnly="True"   Header="Peso"          DataMemberBinding="{Binding peso, StringFormat='0,0.00'}" Width="auto">
+                                            <telerik:GridViewDataColumn.AggregateFunctions>
+                                                <telerik:SumFunction/>
+                                            </telerik:GridViewDataColumn.AggregateFunctions>
+                                            <telerik:GridViewDataColumn.Footer>
+                                                <WrapPanel>
+                                                    <TextBlock Text="{Binding Value, StringFormat='0,0.00 Kg'}" VerticalAlignment="Center" TextWrapping="Wrap" Grid.Column="1" />
+                                                </WrapPanel>
+                                            </telerik:GridViewDataColumn.Footer>
+                                        </telerik:GridViewDataColumn>
+                                        <telerik:GridViewDataColumn Width="36" Header="" IsFilterable="True" IsGroupable="True" IsReorderable="True" IsSortable="True" ShowFilterButton="True" ShowToolTipOnTrimmedText="True" ShowDistinctFilters="True" AllowDrop="False" >
+                                            <telerik:GridViewDataColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Button Margin="2,0,2,0" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="editar_pacote" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                        <WrapPanel>
+                                                            <Image Source="Resources/document-edit3.png" Height="16" Width="16"/>
+                                                        </WrapPanel>
+                                                    </Button>
+                                                </DataTemplate>
+                                            </telerik:GridViewDataColumn.CellTemplate>
+                                        </telerik:GridViewDataColumn>
+                                    </telerik:RadGridView.Columns>
+                                    <telerik:RadGridView.ChildTableDefinitions>
+                                                <telerik:GridViewTableDefinition />
+                                            </telerik:RadGridView.ChildTableDefinitions>
+                                            <telerik:RadGridView.HierarchyChildTemplate>
+                                                <DataTemplate> 
+                                                        <telerik:RadGridView SelectionMode="Single"   ItemsSource="{Binding etapas}" AutoGenerateColumns="False" ShowColumnFooters="True" ShowColumnSortIndexes="False" ShowGroupPanel="False" ShowSearchPanel="False" ShowToolTipOnTrimmedText="False">
+                                                            <telerik:RadGridView.Columns>
+                                                                <telerik:GridViewDataColumn  IsReadOnly="True"   Header="Etapa"          DataMemberBinding="{Binding pep}" Width="auto"></telerik:GridViewDataColumn>
+                                                    <telerik:GridViewDataColumn  IsReadOnly="True"   Header="Arquivos"          DataMemberBinding="{Binding arqs}" Width="auto"></telerik:GridViewDataColumn>
+                                                    <telerik:GridViewDataColumn  IsReadOnly="True"   Header="Peso"          DataMemberBinding="{Binding peso, StringFormat='0,0.00'}" Width="auto">
+                                                        <telerik:GridViewDataColumn.AggregateFunctions>
+                                                            <telerik:SumFunction/>
+                                                        </telerik:GridViewDataColumn.AggregateFunctions>
+                                                        <telerik:GridViewDataColumn.Footer>
+                                                            <WrapPanel>
+                                                                <TextBlock Text="{Binding Value, StringFormat='0,0.00 Kg'}" VerticalAlignment="Center" TextWrapping="Wrap" Grid.Column="1" />
+                                                            </WrapPanel>
+                                                        </telerik:GridViewDataColumn.Footer>
+                                                    </telerik:GridViewDataColumn>
+                                                            </telerik:RadGridView.Columns>
+                                                            <telerik:RadGridView.ChildTableDefinitions>
+                                                                <telerik:GridViewTableDefinition />
+                                                            </telerik:RadGridView.ChildTableDefinitions>
+                                                            <telerik:RadGridView.HierarchyChildTemplate>
+                                                                <DataTemplate>
+                                                        <telerik:RadGridView SelectionMode="Single"  ItemsSource="{Binding subetapas}"  ShowColumnHeaders="True"  AutoGenerateColumns="False" ShowColumnFooters="True" ShowColumnSortIndexes="False" ShowGroupPanel="False" ShowSearchPanel="False" ShowToolTipOnTrimmedText="False">
+                                                                        <telerik:RadGridView.Columns>
+                                                                            <telerik:GridViewDataColumn  IsReadOnly="True"   Header="Sub-Etapa"          DataMemberBinding="{Binding pep}" Width="auto"></telerik:GridViewDataColumn>
+                                                                <telerik:GridViewDataColumn  IsReadOnly="True"   Header="Arquivos"          DataMemberBinding="{Binding arqs}" Width="auto"></telerik:GridViewDataColumn>
+                                                                <telerik:GridViewDataColumn  IsReadOnly="True"   Header="Peso"          DataMemberBinding="{Binding peso, StringFormat='0,0.00'}" Width="auto">
+                                                                    <telerik:GridViewDataColumn.AggregateFunctions>
+                                                                        <telerik:SumFunction/>
+                                                                    </telerik:GridViewDataColumn.AggregateFunctions>
+                                                                    <telerik:GridViewDataColumn.Footer>
+                                                                        <WrapPanel>
+                                                                            <TextBlock Text="{Binding Value, StringFormat='0,0.00 Kg'}" VerticalAlignment="Center" TextWrapping="Wrap" Grid.Column="1" />
+                                                                        </WrapPanel>
+                                                                    </telerik:GridViewDataColumn.Footer>
+                                                                </telerik:GridViewDataColumn>
+                                                                        </telerik:RadGridView.Columns>
+                                                                        <telerik:RadGridView.ChildTableDefinitions>
+                                                                            <telerik:GridViewTableDefinition />
+                                                                        </telerik:RadGridView.ChildTableDefinitions>
+                                                                        <telerik:RadGridView.HierarchyChildTemplate>
+                                                                            <DataTemplate>
+                                                                    <telerik:RadGridView SelectionMode="Single"  ItemsSource="{Binding peps}"  ShowColumnHeaders="True"  AutoGenerateColumns="False" ShowColumnFooters="True" ShowColumnSortIndexes="False" ShowGroupPanel="False" ShowSearchPanel="False" ShowToolTipOnTrimmedText="False">
+                                                                        <telerik:RadGridView.Columns>
+                                                                            <telerik:GridViewDataColumn  IsReadOnly="True"   Header="pep"          DataMemberBinding="{Binding pep}" Width="auto"></telerik:GridViewDataColumn>
+                                                                            <telerik:GridViewDataColumn  IsReadOnly="True"   Header="Arquivos"          DataMemberBinding="{Binding arqs}" Width="auto"></telerik:GridViewDataColumn>
+                                                                            <telerik:GridViewDataColumn  IsReadOnly="True"   Header="Peso"          DataMemberBinding="{Binding peso, StringFormat='0,0.00'}" Width="auto">
+                                                                                <telerik:GridViewDataColumn.AggregateFunctions>
+                                                                                    <telerik:SumFunction/>
+                                                                                </telerik:GridViewDataColumn.AggregateFunctions>
+                                                                                <telerik:GridViewDataColumn.Footer>
+                                                                                    <WrapPanel>
+                                                                                        <TextBlock Text="{Binding Value, StringFormat='0,0.00 Kg'}" VerticalAlignment="Center" TextWrapping="Wrap" Grid.Column="1" />
+                                                                                    </WrapPanel>
+                                                                                </telerik:GridViewDataColumn.Footer>
+                                                                            </telerik:GridViewDataColumn>
+                                                                        </telerik:RadGridView.Columns>
+                                                                        <telerik:RadGridView.ChildTableDefinitions>
+                                                                            <telerik:GridViewTableDefinition />
+                                                                        </telerik:RadGridView.ChildTableDefinitions>
+                                                                        <telerik:RadGridView.HierarchyChildTemplate>
+                                                                            <DataTemplate>
+                                                                                <telerik:RadGridView SelectionMode="Single"   ShowColumnHeaders="True"  ItemsSource="{Binding pecas}" AutoGenerateColumns="False" ShowColumnFooters="True" ShowColumnSortIndexes="False" ShowGroupPanel="False" ShowSearchPanel="True" ShowToolTipOnTrimmedText="False">
+                                                                                    <telerik:RadGridView.Columns>
+                                                                                        <telerik:GridViewDataColumn  IsReadOnly="True"   Header="Marca"          DataMemberBinding="{Binding marca}" Width="auto"></telerik:GridViewDataColumn>
+                                                                                        <telerik:GridViewDataColumn  IsReadOnly="True"   Header="Descrição"          DataMemberBinding="{Binding descricao}" Width="auto"></telerik:GridViewDataColumn>
+                                                                                        <telerik:GridViewDataColumn  IsReadOnly="True"   Header="Grupo de Mercadoria"          DataMemberBinding="{Binding grupo_mercadoria}" Width="auto"></telerik:GridViewDataColumn>
+                                                                                        <telerik:GridViewDataColumn  IsReadOnly="True"   Header="Peso"          DataMemberBinding="{Binding peso}" Width="auto">
+                                                                                            
+                                                                                        </telerik:GridViewDataColumn>
+                                                                                        <telerik:GridViewDataColumn  IsReadOnly="True"   Header="Peso T."          DataMemberBinding="{Binding peso_total}" Width="auto">
+                                                                                            <telerik:GridViewDataColumn.AggregateFunctions>
+                                                                                                <telerik:SumFunction/>
+                                                                                            </telerik:GridViewDataColumn.AggregateFunctions>
+                                                                                            <telerik:GridViewDataColumn.Footer>
+                                                                                                <WrapPanel>
+                                                                                                    <TextBlock Text="{Binding Value, StringFormat='0,0.00 Kg'}" VerticalAlignment="Center" TextWrapping="Wrap" Grid.Column="1" />
+                                                                                                </WrapPanel>
+                                                                                            </telerik:GridViewDataColumn.Footer>
+                                                                                        </telerik:GridViewDataColumn>
+                                                                                        <telerik:GridViewDataColumn  IsReadOnly="True"   Header="Qtd."          DataMemberBinding="{Binding quantidade}" Width="auto"></telerik:GridViewDataColumn>
+                                                                                        <telerik:GridViewDataColumn  IsReadOnly="True"   Header="Arquivo"          DataMemberBinding="{Binding arquivo}" Width="auto"></telerik:GridViewDataColumn>
+                                                                                    </telerik:RadGridView.Columns>
+                                                                                </telerik:RadGridView>
+                                                                            </DataTemplate>
+                                                                        </telerik:RadGridView.HierarchyChildTemplate>
+                                                                    </telerik:RadGridView>
+                                                                </DataTemplate>
+                                                                        </telerik:RadGridView.HierarchyChildTemplate>
+                                                                    </telerik:RadGridView>
+                                                                </DataTemplate>
+                                                            </telerik:RadGridView.HierarchyChildTemplate>
+                                                        </telerik:RadGridView>
+
+                                                    </DataTemplate>
+                                            </telerik:RadGridView.HierarchyChildTemplate>
+                                </telerik:RadGridView>
+                        </Grid>
+                    </TabItem>
+                        <TabItem Header="Editar Pacotes">
+                            <telerik:RadGridView  FontSize="11"  Grid.Row="1" Name="Lista_Consolidadas"  ShowColumnHeaders="True"  ShowSearchPanel="True" ShowColumnFooters="True" ShowGroupPanel="True"  Grid.Column="2" IsReadOnly="False" AutoGenerateColumns="False" SelectionMode="Extended">
+                                <telerik:RadGridView.Columns>
+                                    <telerik:GridViewDataColumn  IsReadOnly="True"   Header="Pedido"          DataMemberBinding="{Binding pedido}" Width="auto"></telerik:GridViewDataColumn>
+                                    <telerik:GridViewDataColumn  IsReadOnly="True"   Header="Descrição"          DataMemberBinding="{Binding nome}" Width="auto"></telerik:GridViewDataColumn>
+                                    <telerik:GridViewDataColumn  Header="Criado"          DataMemberBinding="{Binding criacao}" DataFormatString="{} {0:dd/MM/yyyy}"  Width="100"></telerik:GridViewDataColumn>
+                                    <telerik:GridViewDataColumn Width="auto" Header="Tot. Kg." DataMemberBinding="{Binding peso_total, StringFormat='0,0.00',Mode=OneWay}"/>
+                                    <telerik:GridViewDataColumn Width="36" Header="" IsFilterable="True" IsGroupable="True" IsReorderable="True" IsSortable="True" ShowFilterButton="True" ShowToolTipOnTrimmedText="True" ShowDistinctFilters="True" AllowDrop="False" >
+                                        <telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Margin="2,0,2,0" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="excluir_pacote_consolidada" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                    <WrapPanel>
+                                                        <Image Source="Resources/dialog-error.png" Height="16" Width="16"/>
+                                                    </WrapPanel>
+                                                </Button>
+                                            </DataTemplate>
+                                        </telerik:GridViewDataColumn.CellTemplate>
+                                    </telerik:GridViewDataColumn>
+                                </telerik:RadGridView.Columns>
+                                <!--<telerik:RadGridView.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Excluir Pacotes" Click="excluir_pacotes_consolidadas"></MenuItem>
+                                    </ContextMenu>
+                                </telerik:RadGridView.ContextMenu>-->
+                            </telerik:RadGridView>
+                        </TabItem>
+                    </TabControl>
+            </TabItem>
+        </TabControl>
+</Grid>
+    </Grid>
+</mui:ModernWindow>

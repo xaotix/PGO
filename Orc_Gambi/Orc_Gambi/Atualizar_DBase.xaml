@@ -1,0 +1,55 @@
+﻿<mui:ModernWindow x:Class="Orc_Gambi.Atualizar_DBase"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                  xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+                  mc:Ignorable="d" 
+              
+                  Title="Atualizar Banco de Dados"
+                  Style="{StaticResource BlankWindow}" Loaded="ModernWindow_Loaded" WindowState="Maximized">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="25"></RowDefinition>
+        </Grid.RowDefinitions>
+ 
+            <TextBox Name="arquivo" IsReadOnly="True" Margin="10,0,60,0"></TextBox>
+            <Button Content="..." Width="55" HorizontalAlignment="Right" Click="Button_Click"></Button>
+        <DataGrid Name="Lista_Ranges" AutoGenerateColumns="False" IsReadOnly="True" Grid.Row="1">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="" Width="SizeToCells" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding Imagem}" Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Grupo" Width="150" Binding="{Binding Grupo_De_Mercadoria}"/>
+                <DataGridTextColumn Header="Produtos" Width="*" Binding="{Binding produtos}"/>
+                <DataGridTextColumn Header="MP" Width="75" Binding="{Binding custo_mp}"/>
+                <DataGridTextColumn Header="Over Head" Width="75" Binding="{Binding overhead}"/>
+                <DataGridTextColumn Header="Capacidade" Width="75" Binding="{Binding capacidade}"/>
+                <DataGridTextColumn Header="Un." Width="75" Binding="{Binding unidade}"/>
+                <DataGridTextColumn Header="Pintura" Width="75" Binding="{Binding pintura}"/>
+                <DataGridTextColumn Header="Local" Width="75" Binding="{Binding local}"/>
+                <DataGridTextColumn Header="Peso" Width="75" Binding="{Binding peso_unitario}"/>
+                <DataGridTextColumn Header="Over Head 2" Width="75" Binding="{Binding overhead_2}"/>
+                <!--<DataGridTextColumn Header="Versão" Width="150" Binding="{Binding versao}"/>-->
+            </DataGrid.Columns>
+        </DataGrid>
+        <Menu Grid.Row="2" HorizontalAlignment="Right">
+            <MenuItem Header="Backup" Click="realizar_backup">
+                <MenuItem.Icon>
+                    <Image  Source="Resources/document-save.png"  Width="16" Height="16" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Atualizar!" Click="Executa_Update">
+                <MenuItem.Icon>
+                    <Image  Source="Resources/view-refresh.png"  Width="16" Height="16"/>
+                </MenuItem.Icon>
+            </MenuItem>
+        </Menu>
+    </Grid>
+</mui:ModernWindow>

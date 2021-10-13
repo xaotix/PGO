@@ -1,0 +1,93 @@
+﻿<Window x:Class="Orc_Gambi.Controles.Dados_obra"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                  xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+                          xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+                  mc:Ignorable="d"
+                  Title="Editar Dados"
+                  xmlns:controles="clr-namespace:Orc_Gambi.Controles" Height="511.504" Width="401.77" >
+    <Grid Margin="5,5,5,5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="25"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <WrapPanel VerticalAlignment="Center" Grid.Row="0">
+            <Image Width="16" Height="16" Source="/PGO;component/Resources/circulo_verde_16x16.png"/>
+            <Label Content="Contrato SAP" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"/>
+        </WrapPanel>
+        <TextBox Margin="5,0,5,0" Grid.Row="0" Grid.Column="1" Text="{Binding Obra.Contrato_SAP}" MaxLength="6"  HorizontalAlignment="Stretch"  TextAlignment="Right"/>
+
+        <WrapPanel VerticalAlignment="Center" Grid.Row="1">
+            <Image Width="16" Height="16" Source="/PGO;component/Resources/circulo_verde_16x16.png"/>
+            <Label Content="Nome do Projeto" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"/>
+        </WrapPanel>        
+        <TextBox Margin="5,0,5,0" Grid.Row="1" Grid.Column="1" Text="{Binding Obra.Custos.Nome_Projeto}" MaxLength="6"  HorizontalAlignment="Stretch"  TextAlignment="Right"/>
+
+
+        <WrapPanel VerticalAlignment="Center" Grid.Row="2" Grid.ColumnSpan="3">
+            <Image Width="16" Height="16" Source="/PGO;component/Resources/circulo_verde_16x16.png"/>
+            <Label Content="Esquemas de Pintura" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"/>
+        </WrapPanel>
+
+
+
+        <telerik:RadGridView Grid.ColumnSpan="3" BorderThickness="0" Grid.Row="3" Margin="5,5,5,5" ItemsSource="{Binding Obra.Tratamentos}" x:Name="Esquemas_de_Pintura" ShowColumnFooters="False" AutoGenerateColumns="False" IsReadOnly="True" IsSearchingDeferred="True" ShowSearchPanel="False" ShowGroupPanel="False" SelectionMode="Single">
+            <telerik:RadGridView.AlternateRowBackground>
+                <ImageBrush ImageSource="/PGO;component/Resources/logo.png">
+                </ImageBrush>
+            </telerik:RadGridView.AlternateRowBackground>
+            <telerik:RadGridView.Background>
+                <ImageBrush/>
+            </telerik:RadGridView.Background>
+
+            <telerik:RadGridView.Columns>
+                <telerik:GridViewDataColumn  Header="Descrição" DataMemberBinding="{Binding Descricao,Mode=OneWay}"  Width="auto" />
+
+                <telerik:GridViewDataColumn Header="Código"   IsVisible="{Binding IsChecked,ElementName=chk_Esquema}"  IsReadOnly="True" Width="*" DataMemberBinding="{Binding Tratamento.Descricao}"  IsFilterable="True" IsGroupable="True" IsReorderable="True" IsSortable="True" ShowFilterButton="True" ShowToolTipOnTrimmedText="True" ShowDistinctFilters="True" AllowDrop="False">
+                    <telerik:GridViewDataColumn.CellTemplate>
+                        <DataTemplate>
+                            <WrapPanel>
+
+                                <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="editar_tratamento" VerticalAlignment="Center" HorizontalAlignment="Left" ToolTip="{Binding Tratamento}" IsEnabled="{Binding Produto.TemPintura}">
+                                    <WrapPanel>
+                                        <Image Source="{Binding Imagem}" Height="16" Width="16"/>
+                                    </WrapPanel>
+                                </Button>
+                                <Label Content="{Binding Codigo, Mode=OneWay}"/>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </telerik:GridViewDataColumn.CellTemplate>
+                </telerik:GridViewDataColumn>
+          
+
+            </telerik:RadGridView.Columns>
+            <telerik:RadGridView.ContextMenu>
+                <ContextMenu Name="menu_propriedades">
+                    <MenuItem Header="Editar" Click="atribuir_codigo_esquema_pintura"
+></MenuItem>
+                </ContextMenu>
+            </telerik:RadGridView.ContextMenu>
+
+        </telerik:RadGridView>
+
+
+        <StackPanel HorizontalAlignment="Right" Grid.Row="10" Grid.Column="3" VerticalAlignment="Center">
+            <Button x:Name="bt_salvar" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="salvar_propriedades_pacote" VerticalAlignment="Center">
+                <WrapPanel VerticalAlignment="Center">
+                    <Image Source="/PGO;component/Resources/document-save1.png" Width="16" Height="16" Margin="0,0,10,0" />
+                    <Label Content="Salvar Alterações"/>
+                </WrapPanel>
+            </Button>
+        </StackPanel>
+    </Grid>
+
+</Window>

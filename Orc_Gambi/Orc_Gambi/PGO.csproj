@@ -1,0 +1,473 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{96F912B4-420B-4891-953F-970F5906DB38}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PGO</RootNamespace>
+    <AssemblyName>PGO</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\DLLS\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>handshake.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BingMapsRESTToolkit, Version=1.1.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\BingMapsRESTToolkit.1.1.4\lib\net45\BingMapsRESTToolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="DataGridExtensions, Version=2.5.12.0, Culture=neutral, PublicKeyToken=43de855f87de903a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\DLLS\DataGridExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="DataGridFilterLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\DLLS\DataGridFilterLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="DLMCam">
+      <HintPath>..\..\..\DLLS\DLMCam.dll</HintPath>
+    </Reference>
+    <Reference Include="ExplorerPLM, Version=1.6.5.10, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\DLLS\ExplorerPLM.exe</HintPath>
+    </Reference>
+    <Reference Include="FirstFloor.ModernUI, Version=1.0.9.0, Culture=neutral, PublicKeyToken=bc9b0c37bf06c6a9, processorArchitecture=MSIL">
+      <HintPath>..\packages\ModernUI.WPF.1.0.9\lib\net45\FirstFloor.ModernUI.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Maps.MapControl.WPF, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Maps.MapControl.WPF.1.0.0.3\lib\net40-Client\Microsoft.Maps.MapControl.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="MoonPdfLib, Version=0.3.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\ModernUIApp1\PDF\MoonPdfLib.dll</HintPath>
+    </Reference>
+    <Reference Include="MouseKeyboardActivityMonitor, Version=3.0.1.29653, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\ModernUIApp1\PDF\MouseKeyboardActivityMonitor.dll</HintPath>
+    </Reference>
+    <Reference Include="mysql.data">
+      <HintPath>..\..\..\DLLS\mysql.data.dll</HintPath>
+    </Reference>
+    <Reference Include="MySqlBackup">
+      <HintPath>..\..\..\DLLS\MySqlBackup.dll</HintPath>
+    </Reference>
+    <Reference Include="netDxf">
+      <HintPath>..\..\..\DLLS\netDxf.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls">
+      <HintPath>..\..\..\DLLS\Telerik.Windows.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Chart">
+      <HintPath>..\..\..\DLLS\Telerik.Windows.Controls.Chart.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Docking">
+      <HintPath>..\..\..\DLLS\Telerik.Windows.Controls.Docking.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.GridView">
+      <HintPath>..\..\..\DLLS\Telerik.Windows.Controls.GridView.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Input">
+      <HintPath>..\..\..\DLLS\Telerik.Windows.Controls.Input.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Navigation">
+      <HintPath>..\..\..\DLLS\Telerik.Windows.Controls.Navigation.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Data">
+      <HintPath>..\..\..\DLLS\Telerik.Windows.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="Xceed.Wpf.AvalonDock, Version=3.4.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\DLLS\Xceed.Wpf.AvalonDock.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=3.4.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\DLLS\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=3.4.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\DLLS\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=3.4.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\DLLS\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.DataGrid, Version=3.4.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\DLLS\Xceed.Wpf.DataGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=3.4.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\DLLS\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="AddRange.xaml.cs">
+      <DependentUpon>AddRange.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Adicionar_Editar_Item.xaml.cs">
+      <DependentUpon>Adicionar_Editar_Item.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Adiciona_Peca.xaml.cs">
+      <DependentUpon>Adiciona_Peca.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Arquivo.xaml.cs">
+      <DependentUpon>Arquivo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AtualizarDados.xaml.cs">
+      <DependentUpon>AtualizarDados.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Atualizar_DBase.xaml.cs">
+      <DependentUpon>Atualizar_DBase.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Container_Obra.xaml.cs">
+      <DependentUpon>Container_Obra.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controles\Dados_obra.xaml.cs">
+      <DependentUpon>Dados_obra.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EditarPacote.xaml.cs">
+      <DependentUpon>EditarPacote.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Erros.xaml.cs">
+      <DependentUpon>Erros.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Etapas.xaml.cs">
+      <DependentUpon>Etapas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Gestao_Arvore.xaml.cs">
+      <DependentUpon>Gestao_Arvore.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GridTraducao.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GridTraducao.resx</DependentUpon>
+    </Compile>
+    <Compile Include="JanelaObra.xaml.cs">
+      <DependentUpon>JanelaObra.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="JanelaPacote.xaml.cs">
+      <DependentUpon>JanelaPacote.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="JanelaSelecionarRanges.xaml.cs">
+      <DependentUpon>JanelaSelecionarRanges.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Justin_Tela.xaml.cs">
+      <DependentUpon>Justin_Tela.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LinhaDoTempo.cs" />
+    <Compile Include="Listas_Tecnicas.xaml.cs">
+      <DependentUpon>Listas_Tecnicas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Listas_Tecnicas_Cronograma.xaml.cs">
+      <DependentUpon>Listas_Tecnicas_Cronograma.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Loading.xaml.cs">
+      <DependentUpon>Loading.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NovaObra.xaml.cs">
+      <DependentUpon>NovaObra.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ponderadores_Determinar.xaml.cs">
+      <DependentUpon>Ponderadores_Determinar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Porcentagem_Editar.xaml.cs">
+      <DependentUpon>Porcentagem_Editar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Propriedades.xaml.cs">
+      <DependentUpon>Propriedades.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RadCalendarEx.cs" />
+    <Compile Include="TelaPMP.xaml.cs">
+      <DependentUpon>TelaPMP.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tela_Folha_Margem.xaml.cs">
+      <DependentUpon>Tela_Folha_Margem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Utilidades.cs" />
+    <Page Include="AddRange.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Adicionar_Editar_Item.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Adiciona_Peca.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Arquivo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AtualizarDados.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Atualizar_DBase.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Container_Obra.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controles\Dados_obra.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EditarPacote.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Erros.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Etapas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Gestao_Arvore.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="JanelaObra.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="JanelaPacote.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="JanelaSelecionarRanges.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Justin_Tela.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Listas_Tecnicas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Listas_Tecnicas_Cronograma.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Loading.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Page Include="NovaObra.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ponderadores_Determinar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Porcentagem_Editar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Propriedades.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TelaPMP.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tela_Folha_Margem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="GridTraducao.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>GridTraducao.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\lock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Flag_of_Brazil.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\globo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\unlocked.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\revisao.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\FundoLoading.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\logo_inovação_p.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\building.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\blockdevice.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\currency-dollar-cashier-money-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="apps tagua.ico" />
+    <Content Include="currency-dollar-cashier-money-icon.png" />
+    <Content Include="handshake.ico" />
+    <Resource Include="Resources\fabrica.png" />
+    <Resource Include="Resources\SSS_medio.png" />
+    <Resource Include="Resources\administrador.png" />
+    <Resource Include="Resources\fatura.png" />
+    <Resource Include="Resources\cash.png" />
+    <Resource Include="Resources\arrow-right.png" />
+    <Resource Include="Resources\arrow-left-double.png" />
+    <Resource Include="Resources\arrow-left.png" />
+    <Resource Include="Resources\arrow-down-double.png" />
+    <Resource Include="Resources\arrow-down.png" />
+    <Resource Include="Resources\draw-arrow-up.png" />
+    <Resource Include="Resources\draw-arrow-forward.png" />
+    <Resource Include="Resources\draw-arrow-down.png" />
+    <Resource Include="Resources\draw-arrow-back.png" />
+    <Resource Include="Resources\arrow-up-double.png" />
+    <Resource Include="Resources\arrow-up.png" />
+    <Resource Include="Resources\arrow-right-double.png" />
+    <Resource Include="Resources\vcs-update-required.png" />
+    <Resource Include="Resources\pasta_baixo.png" />
+    <Resource Include="Resources\go-home.png" />
+    <Resource Include="Resources\user-home.png" />
+    <Resource Include="Resources\view-process-system.png" />
+    <Resource Include="Resources\peso_kg_32x32.png" />
+    <Resource Include="Resources\truck-icon.png" />
+    <Resource Include="Resources\go-parent-folder.png" />
+    <Resource Include="Resources\object-ungroup.png" />
+    <Resource Include="Resources\list-add1.png" />
+    <Resource Include="Resources\localizacao.png" />
+    <Resource Include="Resources\document-edit3.png" />
+    <Resource Include="Resources\view-history.png" />
+    <SplashScreen Include="Resources\Novo_Logo_2018.orc.png" />
+    <Resource Include="Resources\document-revert.png" />
+    <Resource Include="Resources\document-export-table.png" />
+    <Resource Include="Resources\view-time-schedule-edit.png" />
+    <Resource Include="Resources\list-add.png" />
+    <Resource Include="Resources\dialog-warning.png" />
+    <Resource Include="Resources\dialog-ok-apply.png" />
+    <Resource Include="Resources\dialog-information.png" />
+    <Resource Include="Resources\dialog-error.png" />
+    <Resource Include="Resources\SAP-Logo.png" />
+    <Resource Include="Resources\help-about.png" />
+    <Resource Include="Resources\document-save1.png" />
+    <Resource Include="Resources\pintura_32x32.png" />
+    <Resource Include="Resources\document-save.png" />
+    <Resource Include="Resources\circulo_16x16.png" />
+    <Resource Include="Resources\circulo_amarelo_16x16.png" />
+    <Resource Include="Resources\circulo_verde_16x16.png" />
+    <Resource Include="Resources\circulo_vermelho_16x16.png" />
+    <Resource Include="Resources\get-hot-new-stuff.png" />
+    <Resource Include="Resources\view-refresh.png" />
+    <Resource Include="Resources\positivo.png" />
+    <Resource Include="Resources\negativo.png" />
+    <Resource Include="Resources\Full-Basket-512.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Conexoes\Conexoes.csproj">
+      <Project>{def82547-9fab-457e-89bf-c10ed1dd9162}</Project>
+      <Name>Conexoes</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

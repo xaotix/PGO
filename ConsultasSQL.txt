@@ -1,0 +1,7 @@
+SELECT id_peca,cod, SUM(qtd) as qtd, comprimento, comprimento_db, if(comprimento_db>0,peso_metro,round(peso_metro * comprimento / 1000,4)) AS peso_unitario ,descricao,mes, ano 
+FROM (
+      SELECT id_peca,cod, qtd,comprimento,comprimento_db,peso_metro,descricao,mes, ano FROM medajoist._consumo_rme
+      UNION ALL 
+      SELECT id_peca,cod, qtd,comprimento,comprimento_db,peso_metro,descricao,mes, ano FROM medajoist._consumo_rme_medajoist
+     ) res 
+GROUP BY id_peca,cod, comprimento,mes, ano;

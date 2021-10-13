@@ -1,0 +1,351 @@
+﻿<mui:ModernWindow x:Class="Orc_Gambi.AtualizarDados"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                  xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+                  mc:Ignorable="d"
+                  Title="Atualizar Dados"
+                 Style="{StaticResource BlankWindow}" WindowStartupLocation="CenterScreen" WindowState="Maximized" Height="330" Width="594">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Image Source="Resources/logo_inovação_p.png" HorizontalAlignment="Left" Grid.Row="0"></Image>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30"></ColumnDefinition>
+                        <ColumnDefinition Width="100"></ColumnDefinition>
+                        <ColumnDefinition Width="5"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"></RowDefinition>
+                        <RowDefinition Height="20"></RowDefinition>
+                        <RowDefinition Height="20"></RowDefinition>
+                        <RowDefinition Height="20"></RowDefinition>
+                        <RowDefinition Height="20"></RowDefinition>
+                        <RowDefinition Height="20"></RowDefinition>
+                        <RowDefinition Height="20"></RowDefinition>
+
+                    </Grid.RowDefinitions>
+                    <Image Grid.Row="0" Grid.Column="0"  VerticalAlignment="Center" HorizontalAlignment="Center" Source="{Binding Obra.Diferenca.Img_Custo_Transformacao}"/>
+                    <TextBlock Grid.Row="0"  Grid.Column="1"  Text="{Binding Path=Obra.Diferenca.Custo_Transformacao,StringFormat={}{0:C}}" HorizontalAlignment="Right"/>
+                    <Label Grid.Row="0"  Grid.Column="3"  Content="Custo de Transformação" HorizontalAlignment="Right"/>
+
+                    <Image Grid.Row="1" Grid.Column="0"  VerticalAlignment="Center" HorizontalAlignment="Center" Source="{Binding Obra.Diferenca.Img_Custo_Frete}"/>
+                    <TextBlock Grid.Row="1"  Grid.Column="1"  Text="{Binding Path=Obra.Diferenca.Custo_Frete,StringFormat={}{0:C}}" HorizontalAlignment="Right"/>
+                    <Label Grid.Row="1"  Grid.Column="3"  Content="Frete" HorizontalAlignment="Right"/>
+
+                    <Image Grid.Row="2" Grid.Column="0"  VerticalAlignment="Center" HorizontalAlignment="Center" Source="{Binding Obra.Diferenca.Img_Custo_Materia_Prima}"/>
+                    <TextBlock Grid.Row="2"  Grid.Column="1"  Text="{Binding Path=Obra.Diferenca.Custo_Materia_Prima,StringFormat={}{0:C}}" HorizontalAlignment="Right"/>
+                    <Label Grid.Row="2"  Grid.Column="3"  Content="Matéria Prima" HorizontalAlignment="Right"/>
+
+                    <Image Grid.Row="3" Grid.Column="0"  VerticalAlignment="Center" HorizontalAlignment="Center" Source="{Binding Obra.Diferenca.Img_Custo_Operacional_Pintura}"/>
+                    <TextBlock Grid.Row="3"  Grid.Column="1"  Text="{Binding Path=Obra.Diferenca.Custo_Operacional_Pintura,StringFormat={}{0:C}}" HorizontalAlignment="Right"/>
+                    <Label Grid.Row="3"  Grid.Column="3"  Content="Operacional Pintura" HorizontalAlignment="Right"/>
+
+                    <Image Grid.Row="4" Grid.Column="0"  VerticalAlignment="Center" HorizontalAlignment="Center" Source="{Binding Obra.Diferenca.Img_Custo_Transformacao}"/>
+                    <TextBlock Grid.Row="4"  Grid.Column="1"  Text="{Binding Path=Obra.Diferenca.Custo_Transformacao,StringFormat={}{0:C}}" HorizontalAlignment="Right"/>
+                    <Label Grid.Row="4"  Grid.Column="3"  Content="Operacional Pintura" HorizontalAlignment="Right"/>
+
+                    <Image Grid.Row="5" Grid.Column="0"  VerticalAlignment="Center" HorizontalAlignment="Center" Source="{Binding Obra.Diferenca.Img_Over_Head}"/>
+                    <TextBlock Grid.Row="5"  Grid.Column="1"  Text="{Binding Path=Obra.Diferenca.Over_Head,StringFormat={}{0:C}}" HorizontalAlignment="Right"/>
+                    <Label Grid.Row="5"  Grid.Column="3"  Content="Over Head" HorizontalAlignment="Right"/>
+
+                    <Image Grid.Row="6" Grid.Column="0"  VerticalAlignment="Center" HorizontalAlignment="Center" Source="{Binding Obra.Diferenca.Img_Valor_Total}"/>
+                    <TextBlock Grid.Row="6"  Grid.Column="1"  Text="{Binding Path=Obra.Diferenca.Valor_Total,StringFormat={}{0:C}}" HorizontalAlignment="Right"/>
+                    <Label Grid.Row="6"  Grid.Column="3"  Content="Valor Total" HorizontalAlignment="Right"/>
+                </Grid>
+            <Button Content="Atualizar!" Grid.Column="1" FontWeight="Bold" FontSize="15" Width="150" Click="Button_Click" Margin="10,115,10,5"/>
+            <ListView Name="listaErros" Grid.Column="1" Height="100" Margin="10,10,10,10" VerticalAlignment="Top" FontWeight="Bold" Grid.Row="0" BorderBrush="Black" BorderThickness="2">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            </Grid>
+            <Grid Grid.Row="1">
+                <DataGrid Name="Lista" AutoGenerateColumns="False" IsReadOnly="True">
+                    <DataGrid.Background>
+                        <ImageBrush ImageSource="Resources/logo.png" Opacity="0.3" Stretch="Uniform"/>
+                    </DataGrid.Background>
+                    <DataGrid.Columns>
+                        <!--<DataGridCheckBoxColumn Header="Reservado" Width="105" Binding="{Binding Path=Reservado, Mode=OneWay}"/>-->
+                        <DataGridTemplateColumn Header="" Width="30" IsReadOnly="True">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image Source="{Binding Imagem}" Width="24" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="Grupo de Mercadoria" Width="Auto" Binding="{Binding Grupo_de_Mercadoria}"/>
+                        <DataGridTextColumn Header="Mercadoria Externa" Width="Auto" Binding="{Binding Mercadoria_Externa}"/>
+                        <DataGridTemplateColumn Header="Qtd." Width="150" IsReadOnly="True">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="25"></ColumnDefinition>
+                                            <ColumnDefinition Width="75"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Image Grid.Column="0" Width="24" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center" Source="Resources/Full-Basket-512.png"/>
+                                        <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}{0} {1}">
+                                                    <Binding Path="Quantidade" />
+                                                    <Binding Path="Unidade" />
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                    </Grid>
+
+
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Header="Unitário" IsReadOnly="True">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="Black" BorderThickness="2">
+
+                                        <Grid Width="340">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="30"></ColumnDefinition>
+                                                <ColumnDefinition Width="100"></ColumnDefinition>
+                                                <ColumnDefinition Width="100"></ColumnDefinition>
+                                                <ColumnDefinition Width="100"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="20"></RowDefinition>
+                                                <RowDefinition Height="20"></RowDefinition>
+                                            </Grid.RowDefinitions>
+                                            <Image Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"  VerticalAlignment="Center" HorizontalAlignment="Center" Source="{Binding Diferenca.Img_Valor_Unitario}"/>
+                                            <TextBlock Grid.Row="1"  Grid.Column="1"   Text="{Binding Path=Atual.Valor_Unitario,StringFormat={}{0:C}}" HorizontalAlignment="Right"/>
+                                            <TextBlock Grid.Row="1"   Grid.Column="2"  Text="{Binding Path=Atualizado.Valor_Unitario,StringFormat={}{0:C}}" HorizontalAlignment="Right"/>
+                                            <TextBlock Grid.Row="1"  Grid.Column="3"  Text="{Binding Path=Diferenca.Valor_Unitario,StringFormat={}{0:C}}" HorizontalAlignment="Right"/>
+
+                                            <Label Grid.Row="0"  Grid.Column="1"   Content="Atual" HorizontalAlignment="Right"/>
+                                            <Label Grid.Row="0"   Grid.Column="2"  Content="Novo" HorizontalAlignment="Right"/>
+                                            <Label Grid.Row="0"  Grid.Column="3"  Content="Diferença" HorizontalAlignment="Right"/>
+                                        </Grid>
+                                    </Border>
+
+
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Header="Total" IsReadOnly="True">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="Black" BorderThickness="2">
+
+                                        <Grid Width="340">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="30"></ColumnDefinition>
+                                                <ColumnDefinition Width="100"></ColumnDefinition>
+                                                <ColumnDefinition Width="100"></ColumnDefinition>
+                                                <ColumnDefinition Width="100"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="20"></RowDefinition>
+                                                <RowDefinition Height="20"></RowDefinition>
+                                            </Grid.RowDefinitions>
+                                            <Image Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"  VerticalAlignment="Center" HorizontalAlignment="Center" Source="{Binding Diferenca.Img_Valor_Total}"/>
+                                            <TextBlock Grid.Row="1"  Grid.Column="1"   Text="{Binding Path=Atual.Valor_Total,StringFormat={}{0:C}}" HorizontalAlignment="Right"/>
+                                            <TextBlock Grid.Row="1"   Grid.Column="2"  Text="{Binding Path=Atualizado.Valor_Total,StringFormat={}{0:C}}" HorizontalAlignment="Right"/>
+                                            <TextBlock Grid.Row="1"  Grid.Column="3"  Text="{Binding Path=Diferenca.Valor_Total,StringFormat={}{0:C}}" HorizontalAlignment="Right"/>
+
+                                            <Label Grid.Row="0"  Grid.Column="1"   Content="Atual" HorizontalAlignment="Right"/>
+                                            <Label Grid.Row="0"   Grid.Column="2"  Content="Novo" HorizontalAlignment="Right"/>
+                                            <Label Grid.Row="0"  Grid.Column="3"  Content="Diferença" HorizontalAlignment="Right"/>
+                                        </Grid>
+                                    </Border>
+
+
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Header="Frete" IsReadOnly="True">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="Black" BorderThickness="2">
+
+                                        <Grid Width="340">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="30"></ColumnDefinition>
+                                                <ColumnDefinition Width="100"></ColumnDefinition>
+                                                <ColumnDefinition Width="100"></ColumnDefinition>
+                                                <ColumnDefinition Width="100"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="20"></RowDefinition>
+                                                <RowDefinition Height="20"></RowDefinition>
+                                            </Grid.RowDefinitions>
+                                            <Image Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"  VerticalAlignment="Center" HorizontalAlignment="Center" Source="{Binding Diferenca.Img_Custo_Frete}"/>
+                                            <TextBlock Grid.Row="1"  Grid.Column="1"   Text="{Binding Path=Atual.Custo_Frete,StringFormat={}{0:C}}" HorizontalAlignment="Right"/>
+                                            <TextBlock Grid.Row="1"   Grid.Column="2"  Text="{Binding Path=Atualizado.Custo_Frete,StringFormat={}{0:C}}" HorizontalAlignment="Right"/>
+                                            <TextBlock Grid.Row="1"  Grid.Column="3"  Text="{Binding Path=Diferenca.Custo_Frete,StringFormat={}{0:C}}" HorizontalAlignment="Right"/>
+
+                                            <Label Grid.Row="0"  Grid.Column="1"   Content="Atual" HorizontalAlignment="Right"/>
+                                            <Label Grid.Row="0"   Grid.Column="2"  Content="Novo" HorizontalAlignment="Right"/>
+                                            <Label Grid.Row="0"  Grid.Column="3"  Content="Diferença" HorizontalAlignment="Right"/>
+                                        </Grid>
+                                    </Border>
+
+
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Header="Operacional Pintura" IsReadOnly="True">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="Black" BorderThickness="2">
+
+                                        <Grid Width="340">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="30"></ColumnDefinition>
+                                                <ColumnDefinition Width="100"></ColumnDefinition>
+                                                <ColumnDefinition Width="100"></ColumnDefinition>
+                                                <ColumnDefinition Width="100"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="20"></RowDefinition>
+                                                <RowDefinition Height="20"></RowDefinition>
+                                            </Grid.RowDefinitions>
+                                            <Image Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"  VerticalAlignment="Center" HorizontalAlignment="Center" Source="{Binding Diferenca.Img_Custo_Operacional_Pintura}"/>
+                                            <TextBlock Grid.Row="1"  Grid.Column="1"   Text="{Binding Path=Atual.Custo_Operacional_Pintura,StringFormat={}{0:C}}" HorizontalAlignment="Right"/>
+                                            <TextBlock Grid.Row="1"   Grid.Column="2"  Text="{Binding Path=Atualizado.Custo_Operacional_Pintura,StringFormat={}{0:C}}" HorizontalAlignment="Right"/>
+                                            <TextBlock Grid.Row="1"  Grid.Column="3"  Text="{Binding Path=Diferenca.Custo_Operacional_Pintura,StringFormat={}{0:C}}" HorizontalAlignment="Right"/>
+
+                                            <Label Grid.Row="0"  Grid.Column="1"   Content="Atual" HorizontalAlignment="Right"/>
+                                            <Label Grid.Row="0"   Grid.Column="2"  Content="Novo" HorizontalAlignment="Right"/>
+                                            <Label Grid.Row="0"  Grid.Column="3"  Content="Diferença" HorizontalAlignment="Right"/>
+                                        </Grid>
+                                    </Border>
+
+
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Header="Matéria Prima" IsReadOnly="True">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="Black" BorderThickness="2">
+
+                                        <Grid Width="340">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="30"></ColumnDefinition>
+                                                <ColumnDefinition Width="100"></ColumnDefinition>
+                                                <ColumnDefinition Width="100"></ColumnDefinition>
+                                                <ColumnDefinition Width="100"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="20"></RowDefinition>
+                                                <RowDefinition Height="20"></RowDefinition>
+                                            </Grid.RowDefinitions>
+                                            <Image Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"  VerticalAlignment="Center" HorizontalAlignment="Center" Source="{Binding Diferenca.Img_Custo_Materia_Prima}"/>
+                                            <TextBlock Grid.Row="1"  Grid.Column="1"   Text="{Binding Path=Atual.Custo_Materia_Prima,StringFormat={}{0:C}}" HorizontalAlignment="Right"/>
+                                            <TextBlock Grid.Row="1"   Grid.Column="2"  Text="{Binding Path=Atualizado.Custo_Materia_Prima,StringFormat={}{0:C}}" HorizontalAlignment="Right"/>
+                                            <TextBlock Grid.Row="1"  Grid.Column="3"  Text="{Binding Path=Diferenca.Custo_Materia_Prima,StringFormat={}{0:C}}" HorizontalAlignment="Right"/>
+
+                                            <Label Grid.Row="0"  Grid.Column="1"   Content="Atual" HorizontalAlignment="Right"/>
+                                            <Label Grid.Row="0"   Grid.Column="2"  Content="Novo" HorizontalAlignment="Right"/>
+                                            <Label Grid.Row="0"  Grid.Column="3"  Content="Diferença" HorizontalAlignment="Right"/>
+                                        </Grid>
+                                    </Border>
+
+
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Header="Over Head" IsReadOnly="True">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="Black" BorderThickness="2">
+
+                                        <Grid Width="340">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="30"></ColumnDefinition>
+                                                <ColumnDefinition Width="100"></ColumnDefinition>
+                                                <ColumnDefinition Width="100"></ColumnDefinition>
+                                                <ColumnDefinition Width="100"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="20"></RowDefinition>
+                                                <RowDefinition Height="20"></RowDefinition>
+                                            </Grid.RowDefinitions>
+                                            <Image Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"  VerticalAlignment="Center" HorizontalAlignment="Center" Source="{Binding Diferenca.Img_Over_Head}"/>
+                                            <TextBlock Grid.Row="1"  Grid.Column="1"   Text="{Binding Path=Atual.Over_Head,StringFormat={}{0:C}}" HorizontalAlignment="Right"/>
+                                            <TextBlock Grid.Row="1"   Grid.Column="2"  Text="{Binding Path=Atualizado.Over_Head,StringFormat={}{0:C}}" HorizontalAlignment="Right"/>
+                                            <TextBlock Grid.Row="1"  Grid.Column="3"  Text="{Binding Path=Diferenca.Over_Head,StringFormat={}{0:C}}" HorizontalAlignment="Right"/>
+
+                                            <Label Grid.Row="0"  Grid.Column="1"   Content="Atual" HorizontalAlignment="Right"/>
+                                            <Label Grid.Row="0"   Grid.Column="2"  Content="Novo" HorizontalAlignment="Right"/>
+                                            <Label Grid.Row="0"  Grid.Column="3"  Content="Diferença" HorizontalAlignment="Right"/>
+                                        </Grid>
+                                    </Border>
+
+
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Header="Transformação" IsReadOnly="True">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="Black" BorderThickness="2">
+
+                                        <Grid Width="340">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="30"></ColumnDefinition>
+                                                <ColumnDefinition Width="100"></ColumnDefinition>
+                                                <ColumnDefinition Width="100"></ColumnDefinition>
+                                                <ColumnDefinition Width="100"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="20"></RowDefinition>
+                                                <RowDefinition Height="20"></RowDefinition>
+                                            </Grid.RowDefinitions>
+                                            <Image Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"  VerticalAlignment="Center" HorizontalAlignment="Center" Source="{Binding Diferenca.Img_Custo_Transformacao}"/>
+                                            <TextBlock Grid.Row="1"  Grid.Column="1"   Text="{Binding Path=Atual.Custo_Transformacao,StringFormat={}{0:C}}" HorizontalAlignment="Right"/>
+                                            <TextBlock Grid.Row="1"   Grid.Column="2"  Text="{Binding Path=Atualizado.Custo_Transformacao,StringFormat={}{0:C}}" HorizontalAlignment="Right"/>
+                                            <TextBlock Grid.Row="1"  Grid.Column="3"  Text="{Binding Path=Diferenca.Custo_Transformacao,StringFormat={}{0:C}}" HorizontalAlignment="Right"/>
+
+                                            <Label Grid.Row="0"  Grid.Column="1"   Content="Atual" HorizontalAlignment="Right"/>
+                                            <Label Grid.Row="0"   Grid.Column="2"  Content="Novo" HorizontalAlignment="Right"/>
+                                            <Label Grid.Row="0"  Grid.Column="3"  Content="Diferença" HorizontalAlignment="Right"/>
+                                        </Grid>
+                                    </Border>
+
+
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Grid>
+    </Grid>
+</mui:ModernWindow>

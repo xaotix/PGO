@@ -1,0 +1,87 @@
+﻿<mui:ModernWindow x:Class="PGO.Listas_Tecnicas_Cronograma"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                  xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+                  xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+                  mc:Ignorable="d"
+                  Title="LTS - Editar Cronograma e FERT"
+                  Style="{StaticResource BlankWindow}" WindowState="Maximized" FontSize="11">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+      
+        <telerik:RadGridView BorderThickness="0" Grid.Row="2" Margin="5,5,5,5" x:Name="Lista_Ranges" ShowColumnFooters="False" AutoGenerateColumns="False" IsReadOnly="False" IsSearchingDeferred="True" ShowSearchPanel="True" ShowGroupPanel="True" SelectionMode="Extended">
+            <telerik:RadGridView.Columns>
+                <telerik:GridViewDataColumn  Header="PEP" DataMemberBinding="{Binding De_Para.PEP,Mode=OneWay}" Width="auto"  IsReadOnly="True"/>
+                <telerik:GridViewDataColumn  Header="FERT" DataMemberBinding="{Binding De_Para.FERT,Mode=OneWay}" Width="auto"  IsReadOnly="True"/>
+                <telerik:GridViewDataColumn  Header="FAB" DataMemberBinding="{Binding De_Para.FAB,Mode=OneWay}" Width="auto"  IsReadOnly="True"/>
+                <telerik:GridViewDataColumn  Header="MT" DataMemberBinding="{Binding De_Para.MT,Mode=OneWay}" Width="auto"  IsReadOnly="True"/>
+                <telerik:GridViewDataColumn  Header="WERKS" DataMemberBinding="{Binding De_Para.WERKS,Mode=OneWay}" Width="auto"  IsReadOnly="True"/>
+                <telerik:GridViewDataColumn  Header="Grupo de Mercadoria" DataMemberBinding="{Binding Grupo_De_Mercadoria.descricao,Mode=OneWay}" Width="auto"  IsReadOnly="True"/>
+                <telerik:GridViewDataColumn  Header="Range" DataMemberBinding="{Binding produtos,Mode=OneWay}" Width="auto"  IsReadOnly="True"/>
+                <telerik:GridViewDataColumn  Header="E Dias 1" DataMemberBinding="{Binding DIAS_ENGENHARIA_1}" Width="auto"/>
+                <telerik:GridViewDataColumn  Header="E Dias" DataMemberBinding="{Binding DIAS_ENGENHARIA}" Width="auto" />
+                <telerik:GridViewDataColumn  Header="F Dias" DataMemberBinding="{Binding DIAS_FABRICACAO}" Width="auto"/>
+                <telerik:GridViewDataColumn  Header="L Dias" DataMemberBinding="{Binding DIAS_LOGISTICA}" Width="auto"/>
+                <telerik:GridViewDataColumn  Header="M Dias" DataMemberBinding="{Binding DIAS_MONTAGEM}" Width="auto"/>
+                <telerik:GridViewDataColumn  Header="" Width="auto" IsReadOnly="True">
+                    <telerik:GridViewDataColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Button  Grid.Column="0" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="salvar_alteracoes" VerticalAlignment="Center" ToolTip="Salvar">
+                                    <WrapPanel VerticalAlignment="Center">
+                                        <Image Source="Resources/document-save.png" Width="16" Height="16" Margin="0,0,0,0" />
+                                    </WrapPanel>
+                                </Button>
+                            </Grid>
+                        </DataTemplate>
+                    </telerik:GridViewDataColumn.CellTemplate>
+                </telerik:GridViewDataColumn>
+            </telerik:RadGridView.Columns>
+            <telerik:RadGridView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem   Header="Datas de Cronograma" ToolTip="Propriedades">
+                        <MenuItem.Icon>
+                            <Image Source="Resources/document-edit3.png" Width="16" Height="16"/>
+                        </MenuItem.Icon>
+                        <MenuItem   Header="E Dias 1" ToolTip="Propriedades" Click="editar_e_dias_1">
+                            <MenuItem.Icon>
+                                <Image Source="Resources/document-edit3.png" Width="16" Height="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem   Header="E Dias" ToolTip="Propriedades" Click="editar_e_dias">
+                            <MenuItem.Icon>
+                                <Image Source="Resources/document-edit3.png" Width="16" Height="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem   Header="F Dias" ToolTip="Propriedades" Click="editar_f_dias">
+                            <MenuItem.Icon>
+                                <Image Source="Resources/document-edit3.png" Width="16" Height="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem   Header="L Dias" ToolTip="Propriedades" Click="editar_l_dias">
+                            <MenuItem.Icon>
+                                <Image Source="Resources/document-edit3.png" Width="16" Height="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem   Header="M Dias" ToolTip="Propriedades" Click="editar_m_dias">
+                            <MenuItem.Icon>
+                                <Image Source="Resources/document-edit3.png" Width="16" Height="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </MenuItem>
+                    <MenuItem Header="Atribuir Fert" Click="atribuir_ferts">
+                        <MenuItem.Icon>
+                            <Image Source="Resources/document-edit3.png" Width="16" Height="16"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </ContextMenu>
+            </telerik:RadGridView.ContextMenu>
+        </telerik:RadGridView>
+
+    </Grid>
+</mui:ModernWindow>

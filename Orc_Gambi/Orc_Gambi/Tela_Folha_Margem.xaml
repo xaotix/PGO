@@ -1,0 +1,79 @@
+﻿<mui:ModernWindow x:Class="PGO.Tela_Folha_Margem"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                  xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+                  mc:Ignorable="d"
+                  Title="Folha Margem"
+                  Style="{StaticResource BlankWindow}" WindowState="Maximized" Height="403.333" Width="466.667">
+    <!--<Window.Resources>
+        <Style x:Key="borda1" TargetType="Border">
+            <Setter Property="BorderBrush">
+                <Setter.Value>
+                    <SolidColorBrush Color="#000000" Opacity="0.5"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="BorderThickness" Value="2"></Setter>
+            <Setter Property="CornerRadius" Value="5"></Setter>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0" Opacity=".95">
+                        <GradientStop Color="#FFA5DAFF" Offset="0"/>
+                        <GradientStop Color="White" Offset="0.523"/>
+                        <GradientStop Color="#FFA5DAFF" Offset="0.986"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="borda2" TargetType="Border" BasedOn="{StaticResource borda1}">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0" Opacity=".95">
+                        <GradientStop Color="LightGray" Offset="0"/>
+                        <GradientStop Color="White" Offset="0.523"/>
+                        <GradientStop Color="LightGray" Offset="0.986"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>-->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition Height="100"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Menu VerticalAlignment="Center" Background="Transparent">
+            <MenuItem Header="Arquivo" Background="Transparent">
+                <MenuItem.Icon>
+                    <Image Source="Resources/list-add.png" Width="16" Height="16"/>
+                </MenuItem.Icon>
+                <MenuItem Header="Exportar em Excel" Click="gerar_proposta">
+                    <MenuItem.Icon>
+                        <Image Source="Resources/circulo_16x16.png" Width="16" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Recalcular" Click="recalcular">
+                    <MenuItem.Icon>
+                        <Image Source="Resources/circulo_16x16.png" Width="16" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Visualizar Propriedades" Click="ver_propriedades">
+                    <MenuItem.Icon>
+                        <Image Source="Resources/circulo_16x16.png" Width="16" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+        <WrapPanel Grid.Row="1">
+            <Image Grid.Row="1" Source="Resources/Novo_Logo_2018.orc.png" HorizontalAlignment="Left"></Image>
+            <Image Grid.Row="1" Source="Resources/fatura.png" HorizontalAlignment="Right" Margin="30,0,0,0"></Image>
+            
+        </WrapPanel>
+                   
+        <ScrollViewer Grid.Row="3" Margin="10,10,10,10">
+            <WebBrowser Name="navegador"></WebBrowser>
+        </ScrollViewer>
+    </Grid>
+</mui:ModernWindow>
