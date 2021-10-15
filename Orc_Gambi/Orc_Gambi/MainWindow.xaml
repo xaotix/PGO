@@ -116,7 +116,6 @@
                             <telerik:GridViewDataColumn  Header="Orçamentista"         DataMemberBinding="{Binding Orcamentista}" Width="auto" MaxWidth="150"></telerik:GridViewDataColumn>
                             <telerik:GridViewDataColumn  Header="Comercial"          DataMemberBinding="{Binding Comercial}" Width="auto"></telerik:GridViewDataColumn>
                             <telerik:GridViewDataColumn  Header="Pedido"          DataMemberBinding="{Binding PedidoSAP}" Width="auto"></telerik:GridViewDataColumn>
-                            <telerik:GridViewDataColumn  Header="Ranges"          DataMemberBinding="{Binding LinhasRanges}"  Width="auto"></telerik:GridViewDataColumn>
                             <telerik:GridViewDataColumn  Header="País"          DataMemberBinding="{Binding Rotas.Pais}" Width="auto"></telerik:GridViewDataColumn>
                             <telerik:GridViewDataColumn  Header="UF"          DataMemberBinding="{Binding Rotas.Estado}" Width="auto"></telerik:GridViewDataColumn>
                             <telerik:GridViewDataColumn  Header="Cidade"          DataMemberBinding="{Binding Rotas.Cidade}" Width="150"></telerik:GridViewDataColumn>
@@ -163,14 +162,9 @@
                                                 </telerik:GridViewDataColumn.CellTemplate>
                                             </telerik:GridViewDataColumn>
 
-                                            <!--<telerik:GridViewDataColumn  Header="REV."          DataMemberBinding="{Binding Revisao}" Width="65"></telerik:GridViewDataColumn>-->
-                                            <!--<telerik:GridViewDataColumn  Header="Peso Total"          DataMemberBinding="{Binding PesoTotal}" Width="150"></telerik:GridViewDataColumn>-->
-                                            <!--<telerik:GridViewDataColumn  Header="Atualização"          DataMemberBinding="{Binding Ultima_Atualizacao}" Width="100"></telerik:GridViewDataColumn>-->
-                                            <!--<telerik:GridViewDataColumn  Header="Versão - Responsável"          DataMemberBinding="{Binding User}" Width="175"></telerik:GridViewDataColumn>-->
 
 
                                             <telerik:GridViewDataColumn  Header="" Width="auto">
-
                                                 <telerik:GridViewDataColumn.CellTemplate>
                                                     <DataTemplate>
                                                         <WrapPanel>
@@ -184,7 +178,6 @@
                                                                     <Image  Source="Resources/document-edit3.png" Width="16" Height="16">
                                                                         <Image.ToolTip>
                                                                             <xctk:RichTextBox Height="350" Grid.Row="2" Width="350" IsReadOnly="True" Text="{Binding observacoes}"  VerticalScrollBarVisibility="Visible" AcceptsReturn="True" Name="Input"  BorderThickness="0" Margin="5,5,5,5"></xctk:RichTextBox>
-
                                                                         </Image.ToolTip>
                                                                     </Image>
                                                                 </WrapPanel>
@@ -246,8 +239,6 @@
                                                     </DataTemplate>
                                                 </telerik:GridViewDataColumn.CellTemplate>
                                             </telerik:GridViewDataColumn>
-                                            <telerik:GridViewDataColumn  Header="Ranges"          DataMemberBinding="{Binding LinhasRanges}"  Width="auto"></telerik:GridViewDataColumn>
-                                            <telerik:GridViewDataColumn  Header="Peso"          DataMemberBinding="{Binding PesoTotalSomado, StringFormat='0,0.00'}"  Width="auto"></telerik:GridViewDataColumn>
 
                                             <telerik:GridViewDataColumn  Header="Edição"          DataMemberBinding="{Binding ultima_edicao}" DataFormatString="{} {0:dd/MM/yyyy}"  Width="auto"></telerik:GridViewDataColumn>
                                             <telerik:GridViewDataColumn  Header="Criado"          DataMemberBinding="{Binding Criado}" DataFormatString="{} {0:dd/MM/yyyy}"  Width="auto"></telerik:GridViewDataColumn>

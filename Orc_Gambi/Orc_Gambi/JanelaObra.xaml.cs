@@ -29,14 +29,9 @@ namespace Orc_Gambi
 
             if (!DBases.GetUserAtual().orcamento_ver_obras)
             {
-                campo_valor.IsVisible = false;
-
                 Menus_Orcamento = Visibility.Collapsed;
             }
-            //if (Obra.Tipo == Tipo_Orcamento.SEC)
-            //{
-            //    AppearanceManager.Current.AccentColor = Colors.DarkBlue;
-            //}
+
 
             Conexoes.Utilz.SetIcones(this.menu_principal);
             Conexoes.Utilz.SetIcones(this.menu_ranges);
@@ -212,11 +207,7 @@ namespace Orc_Gambi
  
         }
 
-        private void teste_selecao(object sender, Telerik.Windows.Controls.GridViewCellEditEndedEventArgs e)
-        {
-
-
-        }
+  
 
         private void seleciona_tudo(object sender, RoutedEventArgs e)
         {
@@ -393,7 +384,7 @@ namespace Orc_Gambi
                 tvi.IsSelected = true;
             }
 
-            Utilz.LerVars(visualizar, Vars.ArqASetupUser, "Orcamento.JanelaObra");
+            //Utilz.LerVars(visualizar, Vars.ArqASetupUser, "Orcamento.JanelaObra");
         }
 
 
@@ -783,9 +774,7 @@ namespace Orc_Gambi
         private void Atualizar_Lista()
         {
             Lista_Ranges_Padrao.ItemsSource = null;
-            chk_Grupo.IsChecked = false;
-            chk_Local.IsChecked = false;
-            chk_Predio.IsChecked = false;
+
             Grupo_Add_Barra.Visibility = Visibility.Collapsed;
             Predio_Editar.Visibility = Visibility.Collapsed;
             Predio_Exlcuir.Visibility = Visibility.Collapsed;
@@ -802,9 +791,7 @@ namespace Orc_Gambi
                 Lista_ranges.ItemsSource = ob.GetRanges();
                 Imagem_Sel.Source = ob.Imagem;
                 Label_Sel.Content = ob.Contrato;
-                chk_Grupo.IsChecked = true;
-                chk_Local.IsChecked = true;
-                chk_Predio.IsChecked = true;
+
 
             }
             else if (t is Predio)
@@ -817,8 +804,7 @@ namespace Orc_Gambi
                 Predio_Duplicar.Visibility = Visibility.Visible;
                 Imagem_Sel.Source = ob.Imagem;
                 Label_Sel.Content = ob.ToString();
-                chk_Grupo.IsChecked = true;
-                chk_Local.IsChecked = true;
+
 
 
             }
@@ -829,7 +815,7 @@ namespace Orc_Gambi
                 Lista_ranges.ItemsSource = ob.Ranges;
                 Imagem_Sel.Source = ob.Imagem;
                 Label_Sel.Content = ob.Predio.Obra.Contrato + "/" + ob.Predio.ToString() + "/" + ob.ToString();
-                chk_Grupo.IsChecked = true;
+
 
             }
             else if (t is Grupo)
@@ -1307,7 +1293,7 @@ namespace Orc_Gambi
 
         private void ModernWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            Utilz.GravaVars(visualizar, Vars.ArqASetupUser, "Orcamento.JanelaObra");
+            //Utilz.GravaVars(visualizar, Vars.ArqASetupUser, "Orcamento.JanelaObra");
         }
 
         private void ver_etapas(object sender, RoutedEventArgs e)

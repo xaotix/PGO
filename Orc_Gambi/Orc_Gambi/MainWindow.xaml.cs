@@ -35,10 +35,11 @@ namespace Orc_Gambi
             }
             this.DataContext = this;
             this.chkdbase.IsChecked = PGOVars.Config.Acessar_Arquivo;
-            GetObrasAsync();
-            //Conexoes.DBases.GetBancoRM().SetCriterio(DBases.GetUserAtual().criterio, false);
-
             Conexoes.Utilz.SetIcones(this.menu_principal);
+
+            GetObrasAsync();
+
+
 
         }
 
@@ -74,7 +75,7 @@ namespace Orc_Gambi
         {
             PGOVars.Config.Acessar_Arquivo = (bool)chkdbase.IsChecked;
             PGOVars.ResetDbOrc();
-            this.Obras = await PGOVars.DbOrc.GetObrasAsync();
+           this.Obras = await PGOVars.DbOrc.GetObrasAsync();
             Funcoes_Mapa.Localizacoes = new Localizacoes(System.Windows.Forms.Application.StartupPath + @"\Locais.setup");
 
 
@@ -84,10 +85,12 @@ namespace Orc_Gambi
             this.lista.ItemsSource = null;
             this.lista.ItemsSource = this.Obras.FindAll(x => x.Nome != "PADRÃO EXPORTAÇÃO" && x.Nome != "PADRÃO NACIONAL");
             this.Servidor.Content = "[" + this.Obras.Count + " Obras /" + this.Obras.Sum(x => x.Revisoes.Count) + " Revisões] - ";
-            this.Title = $"[{Vars.UsuarioAtual}" +
+            this.Title = $"PGO - [{Vars.UsuarioAtual}] - " +
                 $"[{System.Windows.Forms.Application.ProductName} - " +
                 $"v {System.Windows.Forms.Application.ProductVersion}" +
-                $" - [{Conexoes.Cfg.Init.MySQL_Servidor_Orcamento}]{(PGOVars.Config.Acessar_Arquivo ? " - ARQUIVO" : "")}";
+                $" - Obras.: [{Conexoes.Cfg.Init.MySQL_Servidor_Orcamento}] - " +
+                $"Padr.: [{Conexoes.Cfg.Init.MySQL_Servidor}]" +
+                $"{(PGOVars.Config.Acessar_Arquivo ? " - ARQUIVO" : "")}";
             if (PGOVars.Config.Acessar_Arquivo)
             {
                 this.lista.Background = Brushes.LightGray;
@@ -502,23 +505,7 @@ namespace Orc_Gambi
                             }
                         }
                     }
-                    w.SetProgresso(1, Obs.Count);
-                    foreach (var ob in Obs)
-                    {
-                        if(ob.id_rota<=0)
-                        {
-                            Rotas tn = new Rotas(ob);
-                            await tn.Pesquisar();
-                            await tn.GetRotas();
-                            tn.Salvar();
-                        }
-                        foreach (var t in ob.Revisoes)
-                        {
-                            t.SetSalvaRota(ob.GetRotas());
-                        }
-                        w.somaProgresso();
-                    }
-                    w.Close();
+
                 }
             }
         }
@@ -530,12 +517,12 @@ namespace Orc_Gambi
             List<OrcamentoObra> Obs = lista.SelectedItems.Cast<OrcamentoObra>().ToList();
             if (Obs.Count > 0)
             {
-                if (Utilz.Pergunta("Tem certeza que deseja atualizar as " + Obs.Count + " obras selecionadas?"))
+                if (Utilz.Pergunta("Atualizar o frete das " + Obs.Count + " obras selecionadas?"))
                 {
                     ControleWait w = Conexoes.Utilz.Wait(Obras.Count, "Atualizando...");
                     foreach (var ob in Obs)
                     {
-                        if (ob.id_rota > 0)
+                        if (ob.GetRotas().id > 0)
                         {
                             ob.GetRotas().RecalcularFrete();
                             ob.GetRotas().Salvar();

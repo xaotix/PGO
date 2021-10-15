@@ -27,14 +27,280 @@
 
 
 
+            <SolidColorBrush x:Key="Contorno" Color="Black"/>
+            <SolidColorBrush x:Key="Contorno2" Color="LightGray"/>
+            <SolidColorBrush x:Key="BackSelecionado" Color="Cyan" Opacity="0.5"/>
+            <SolidColorBrush x:Key="BackSob" Color="Cyan" Opacity="0.3"/>
+            <SolidColorBrush x:Key="Back" Color="Transparent"/>
+            <SolidColorBrush x:Key="BackTXT" Color="White"/>
+            <SolidColorBrush x:Key="BackTxtSel" Color="Yellow" Opacity="0.3"/>
+            <SolidColorBrush x:Key="ContornoSelecionado" Color="LightSkyBlue"/>
 
-            <Style TargetType="{x:Type TreeViewItem}">
+            <Style TargetType="TabItem" BasedOn="{StaticResource {x:Type TabItem}}">
+                <Setter Property="Background" Value="{StaticResource Back}"></Setter>
+
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="TabItem">
+                            <Border Name="Border" BorderThickness="1,1,1,0" BorderBrush="Gainsboro" CornerRadius="4,4,0,0" Margin="2,0">
+
+                                <WrapPanel Margin="3">
+                                    <Image Name="img" Width="16" Height="16" Source="Resources/circulo_16x16.png" />
+                                    <ContentPresenter x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        ContentSource="Header"
+                                        Margin="10,2" />
+                                </WrapPanel>
+
+                            </Border>
+
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter TargetName="Border" Property="Background" Value="{StaticResource ContornoSelecionado}" />
+                                    <Setter Property="Source" TargetName="img" Value="Resources/circulo_verde_16x16.png" />
+
+                                </Trigger>
+                                <Trigger Property="IsSelected" Value="False">
+                                    <Setter TargetName="Border" Property="Background" Value="GhostWhite" />
+                                    <Setter Property="Source" TargetName="img" Value="Resources/circulo_16x16.png" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style TargetType="TabControl">
+                <Setter Property="Background" Value="{StaticResource Back}"/>
+            </Style>
+
+            <Style TargetType="Button">
+                <Setter Property="Background" Value="{StaticResource Back}"/>
                 <Style.Triggers>
-                    <Trigger Property="IsSelected" Value="True">
-                        <Setter Property="Foreground" Value="Transparent"/>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="{StaticResource BackSob}"/>
                     </Trigger>
                 </Style.Triggers>
             </Style>
+            <Style TargetType="ComboBox">
+                <Setter Property="Background" Value="{StaticResource Back}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource Contorno2}"></Setter>
+                <Setter Property="BorderThickness" Value="1"></Setter>
+                <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+
+                <Setter Property="Margin" Value="1"></Setter>
+                <Setter Property="VerticalAlignment" Value="Stretch"></Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsFocused" Value="True">
+                        <Setter Property="Background" Value="{StaticResource BackSelecionado}" />
+                    </Trigger>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="{StaticResource BackSob}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style TargetType="GroupBox">
+                <Setter Property="Background" Value="{StaticResource Back}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource Contorno2}"></Setter>
+                <Setter Property="Margin" Value="3"></Setter>
+                <Setter Property="Padding" Value="5"></Setter>
+            </Style>
+            <Style TargetType="TextBox">
+                <Setter Property="Background" Value="{StaticResource Back}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource Contorno2}"></Setter>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Margin" Value="1"/>
+                <Setter Property="VerticalAlignment" Value="Stretch"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="Padding" Value="0"/>
+                <EventSetter Event="GotFocus" Handler="seleciona_tudo"/>
+                <Setter Property="CharacterCasing" Value="Upper"/>
+
+                <Style.Triggers>
+                    <Trigger Property="IsFocused" Value="True">
+                        <Setter Property="Background" Value="{StaticResource BackTxtSel}"/>
+                    </Trigger>
+                    <Trigger Property="IsReadOnly" Value="False">
+                        <Setter Property="Background" Value="{StaticResource BackTXT}"/>
+                    </Trigger>
+                    <Trigger Property="IsReadOnly" Value="True">
+                        <Setter Property="Background" >
+                            <Setter.Value>
+                                <SolidColorBrush Color="LightGray" Opacity="0.5"></SolidColorBrush>
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+
+            <Style TargetType="Menu">
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Background" Value="{StaticResource Back}"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="{StaticResource BackSob}"/>
+                    </Trigger>
+
+                </Style.Triggers>
+            </Style>
+            <Style TargetType="MenuItem">
+                <Setter Property="Foreground" Value="Black"></Setter>
+                <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="{StaticResource BackSelecionado}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+
+            <Style TargetType="DataGridRowHeader">
+                <Setter Property="MinWidth" Value="35"></Setter>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="DataGridRowHeader">
+                            <Border Margin="0" BorderThickness="1,0,1,1">
+                                <Image Margin="2" Width="20" Height="20" Source="{Binding Imagem}" ToolTip="{Binding}"></Image>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+
+                </Setter>
+
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="BorderBrush" Value="{StaticResource Contorno2}"/>
+                <Style.Triggers>
+                    <Trigger Property="IsRowSelected" Value="True">
+                        <Setter Property="Background" Value="{StaticResource BackSelecionado}"/>
+                    </Trigger>
+                    <Trigger Property="IsRowSelected" Value="False">
+                        <Setter Property="Background" Value="{StaticResource Back}"/>
+                    </Trigger>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="{StaticResource BackSob}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style TargetType="DataGrid">
+                <Setter Property="AutoGenerateColumns" Value="False"></Setter>
+                <Setter Property="HeadersVisibility" Value="All"></Setter>
+                <Setter Property="IsReadOnly" Value="True"></Setter>
+                <Setter Property="Background" Value="{StaticResource Back}"></Setter>
+                <Setter Property="AlternatingRowBackground" >
+                    <Setter.Value>
+                        <SolidColorBrush Color="LightBlue" Opacity="0.2"></SolidColorBrush>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Background" Value="{StaticResource Back}"/>
+                <Setter Property="VerticalGridLinesBrush" Value="LightGray"></Setter>
+                <Setter Property="HorizontalGridLinesBrush" Value="LightGray"></Setter>
+            </Style>
+            <Style TargetType="{x:Type Button}" x:Key="{ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle, TypeInTargetAssembly={x:Type DataGrid}}">
+                <Setter Property="Background" Value="{StaticResource Back}"></Setter>
+                <Setter Property="BorderBrush" Value="{StaticResource Contorno2}"></Setter>
+                <Setter Property="BorderThickness" Value="1"></Setter>
+            </Style>
+            <Style TargetType="DataGridColumnHeader">
+                <Setter Property="Background" Value="{StaticResource Back}"></Setter>
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                <Setter Property="VerticalAlignment" Value="Stretch" />
+                <Setter Property="BorderBrush" Value="{StaticResource Contorno2}"></Setter>
+                <Setter Property="BorderThickness" Value="1"></Setter>
+            </Style>
+            <Style TargetType="DataGridCell">
+                <Style.Triggers>
+                    <Trigger Property="IsSelected" Value="True">
+                        <Setter Property="Foreground" Value="Black"></Setter>
+                        <Setter Property="Background" Value="{StaticResource BackSelecionado}"/>
+                    </Trigger>
+                </Style.Triggers>
+                <Setter Property="Background" Value="{StaticResource Back}"/>
+                <Setter Property="BorderBrush" Value="Transparent"></Setter>
+                <Setter Property="VerticalAlignment" Value="Stretch"></Setter>
+                <Setter Property="BorderThickness" Value="0"></Setter>
+                <Setter Property="Foreground" Value="Black"></Setter>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type DataGridCell}">
+                            <Grid Background="{TemplateBinding Background}">
+                                <ContentPresenter Margin="2" VerticalAlignment="Center" />
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style TargetType="DataGridRow">
+                <Style.Triggers>
+                    <Trigger Property="IsSelected" Value="True">
+                        <Setter Property="Background" Value="{StaticResource BackSelecionado}"/>
+                        <Setter Property="Foreground" Value="Black"></Setter>
+                    </Trigger>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="{StaticResource BackSob}"/>
+                    </Trigger>
+                </Style.Triggers>
+                <Setter Property="Margin" Value="0"></Setter>
+                <Setter Property="BorderBrush" Value="{StaticResource Contorno2}"></Setter>
+                <Setter Property="BorderThickness" Value="0"></Setter>
+                <Setter Property="Padding" Value="1"></Setter>
+            </Style>
+
+            <Style TargetType="TreeViewItem">
+                <Setter Property="Background" Value="{StaticResource Back}"/>
+                <Setter Property="Margin" Value="2"/>
+                <Style.Triggers>
+                    <Trigger Property="IsSelected" Value="True">
+                        <Setter Property="Background" Value="{StaticResource BackSelecionado}"/>
+                    </Trigger>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="{StaticResource BackSelecionado}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <Style TargetType="{x:Type ProgressBar}" x:Key="ComPorcentagem">
+                <Setter Property="Template">
+                    <Setter.Value>
+
+                        <ControlTemplate TargetType="{x:Type ProgressBar}">
+
+                            <Grid Margin="1,1,1,1" >
+                                <Border Name="PART_Track" Opacity="0.2" Background="{TemplateBinding Background}" CornerRadius="3" BorderBrush="{StaticResource Contorno}" BorderThickness="1"/>
+                                <Border Name="PART_Indicator" Opacity=".5" Background="{TemplateBinding Foreground}" CornerRadius="3" BorderBrush="{StaticResource Contorno}"  BorderThickness="1" HorizontalAlignment="Left" Margin="0,0,0,0"/>
+                                <TextBlock Margin="1,1,1,1" Grid.Column="1" Foreground="Black" Text="{Binding Path=Value, RelativeSource={RelativeSource TemplatedParent},  StringFormat=\{0:N\}%}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Grid>
+
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -51,8 +317,6 @@
             <Style  TargetType="{x:Type telerik:GridViewDataControl}">
                 <Setter Property="Background" Value="Transparent"/>
             </Style>
-
-
             <Style TargetType="{x:Type telerik:GridViewHeaderIndentCell}">
                 <Setter Property="Foreground" Value="White" />
 
@@ -67,9 +331,6 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-
-
-
             <Style TargetType="{x:Type telerik:CommonColumnHeader}">
                 <Setter Property="Foreground" Value="White" />
 
@@ -98,8 +359,6 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-
-
             <Style TargetType="{x:Type telerik:GridViewHeaderRow}">
                 <Setter Property="Foreground" Value="White" />
 
@@ -128,38 +387,6 @@
                 </Setter>
             </Style>
 
-            <Style TargetType="{x:Type TabItem}" BasedOn="{StaticResource {x:Type TabItem}}">
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type TabItem}">
-                            <Border x:Name="Border" BorderThickness="1,1,1,0" BorderBrush="{x:Null}" CornerRadius="4,4,0,0" Margin="2,0">
-                                <WrapPanel>
-                                    <Image x:Name="img" Width="16" Height="16"  />
-                                    <ContentPresenter x:Name="ContentSite"
-                                        VerticalAlignment="Center"
-                                        HorizontalAlignment="Center"
-                                        ContentSource="Header"
-                                          
-                                        Margin="10,2"/>
-                                </WrapPanel>
-
-
-                            </Border>
-
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="IsSelected" Value="True">
-                                    <Setter TargetName="Border" Property="Background" Value="LightSkyBlue" />
-                                    <Setter Property="Source" TargetName="img" Value="/ExplorerPLM;component/Resources/circulo_verde_16x16.png" />
-                                </Trigger>
-                                <Trigger Property="IsSelected" Value="False">
-                                    <Setter TargetName="Border" Property="Background" Value="GhostWhite" />
-                                    <Setter Property="Source" TargetName="img" Value="/ExplorerPLM;component/Resources/circulo_16x16.png" />
-                                </Trigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
             <ControlTemplate x:Key="TemplateEstilos" TargetType="{x:Type telerik:RadGridView}">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -1581,151 +1808,11 @@
                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                 <Setter Property="SnapsToDevicePixels" Value="True"/>
             </Style>
-            <Style TargetType="{x:Type xctk:PropertyGrid}">
-                <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="BorderBrush" Value="Transparent"/>
-                <Setter Property="BorderThickness" Value="0"/>
-            </Style>
 
 
 
-            <Style TargetType="TabControl">
-                <Setter Property="Background" Value="Transparent"></Setter>
-            </Style>
-            <Style TargetType="ComboBox">
-                <Setter Property="BorderBrush" Value="LightGray"></Setter>
-                <Setter Property="BorderThickness" Value="1"></Setter>
-                <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
 
-                <Setter Property="Margin" Value="1"></Setter>
-                <Setter Property="VerticalAlignment" Value="Stretch"></Setter>
-                <Style.Triggers>
-                    <Trigger Property="IsFocused" Value="True">
-                        <Setter Property="Background" Value="LightYellow" />
-                    </Trigger>
-                </Style.Triggers>
-            </Style>
-            <Style TargetType="GroupBox">
-                <Setter Property="BorderBrush" Value="LightGray"></Setter>
-                <Setter Property="Margin" Value="3"></Setter>
-                <Setter Property="Padding" Value="5"></Setter>
-            </Style>
-            <Style TargetType="TextBox">
-                <!--<Setter Property="Background" Value="Transparent"></Setter>-->
-                <Setter Property="BorderBrush" Value="LightGray"></Setter>
-                <Setter Property="BorderThickness" Value="1"></Setter>
-                <Setter Property="Margin" Value="1"></Setter>
-                <Setter Property="VerticalAlignment" Value="Stretch"></Setter>
-                <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
-                <Setter Property="Padding" Value="0"></Setter>
-                <EventSetter Event="GotFocus" Handler="seleciona_tudo"></EventSetter>
-                <Setter Property="CharacterCasing" Value="Upper"></Setter>
-
-                <Style.Triggers>
-                    <Trigger Property="IsFocused" Value="True">
-                        <Setter Property="Background" Value="LightYellow" />
-                    </Trigger>
-                </Style.Triggers>
-            </Style>
-
-
-
-            <Style TargetType="Menu">
-                <Setter Property="VerticalAlignment" Value="Center"></Setter>
-                <Setter Property="Background" Value="Transparent"></Setter>
-                <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
-            </Style>
-
-
-
-            <Style TargetType="MenuItem">
-                <Setter Property="Foreground" Value="Black"></Setter>
-                <Setter Property="VerticalAlignment" Value="Center"></Setter>
-                <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
-                <Setter Property="Icon">
-                    <Setter.Value>
-                        <Image Source="/ExplorerPLM;component/Resources/circulo_16x16.png" VerticalAlignment="Center" Width="16" Height="16"></Image>
-                    </Setter.Value>
-                </Setter>
-
-            </Style>
-
-
-
-            <Style TargetType="DataGridRowHeader">
-                <Setter Property="MinWidth" Value="35"></Setter>
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="DataGridRowHeader">
-                            <Border Margin="0" BorderThickness="1,0,1,1">
-                                <Image Margin="2" Width="20" Height="20" Source="{Binding Imagem}" ToolTip="{Binding}"></Image>
-                            </Border>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-
-                <Setter Property="BorderThickness" Value="1"/>
-                <Setter Property="BorderBrush" Value="LightGray"></Setter>
-            </Style>
-            <Style TargetType="DataGrid">
-                <Setter Property="Background" Value="Transparent"></Setter>
-                <Setter Property="AlternatingRowBackground" >
-                    <Setter.Value>
-                        <SolidColorBrush Color="LightBlue" Opacity="0.2"></SolidColorBrush>
-                    </Setter.Value>
-                </Setter>
-                <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="VerticalGridLinesBrush" Value="LightGray"></Setter>
-                <Setter Property="HorizontalGridLinesBrush" Value="LightGray"></Setter>
-            </Style>
-            <Style TargetType="{x:Type Button}" x:Key="{ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle, TypeInTargetAssembly={x:Type DataGrid}}">
-                <Setter Property="Background" Value="Transparent"></Setter>
-                <Setter Property="BorderBrush" Value="LightGray"></Setter>
-                <Setter Property="BorderThickness" Value="1"></Setter>
-            </Style>
-            <Style TargetType="DataGridColumnHeader">
-                <Setter Property="Background" Value="Transparent"></Setter>
-                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                <Setter Property="BorderBrush" Value="LightGray"></Setter>
-                <Setter Property="BorderThickness" Value="1"></Setter>
-            </Style>
-            <Style TargetType="DataGridCell">
-                <Style.Triggers>
-                    <Trigger Property="IsSelected" Value="True">
-                        <Setter Property="Foreground" Value="White"></Setter>
-                        <Setter Property="Background">
-                            <Setter.Value>
-                                <SolidColorBrush Color="Black" Opacity="0.5"></SolidColorBrush>
-                            </Setter.Value>
-                        </Setter>
-                    </Trigger>
-                </Style.Triggers>
-                <Setter Property="BorderBrush" Value="Transparent"></Setter>
-                <Setter Property="VerticalAlignment" Value="Stretch"></Setter>
-                <Setter Property="BorderThickness" Value="0"></Setter>
-                <Setter Property="Foreground" Value="Black"></Setter>
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type DataGridCell}">
-                            <Grid Background="{TemplateBinding Background}">
-                                <ContentPresenter Margin="2" VerticalAlignment="Center" />
-                            </Grid>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-            <Style TargetType="DataGridRow">
-                <Style.Triggers>
-                    <Trigger Property="IsSelected" Value="True">
-                        <Setter Property="Background" Value="Transparent" />
-                        <Setter Property="Foreground" Value="Black"></Setter>
-                    </Trigger>
-                </Style.Triggers>
-                <Setter Property="Margin" Value="0"></Setter>
-                <Setter Property="BorderBrush" Value="LightGray"></Setter>
-                <Setter Property="BorderThickness" Value="0"></Setter>
-                <Setter Property="Padding" Value="1"></Setter>
-            </Style>
+           
 
         </ResourceDictionary>
 

@@ -64,7 +64,7 @@ namespace PGO
         }
         public List<Conexoes.Orcamento.OrcamentoObra> Obras()
         {
-            return this.obras.FindAll(x=>x.LinhasRanges>0)./*FindAll(x => selecao.Find(y => y.Contrato == x.Contrato) == null).FindAll(x => pacotes.Find(y => y.id_obra == x.id) == null).*/ToList();
+            return this.obras;
         }
         private void adicionar_obras(object sender, RoutedEventArgs e)
         {
