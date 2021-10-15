@@ -27,7 +27,7 @@ namespace Orc_Gambi
             this.Obra = Ob;
             InitializeComponent();
             this.DataContext = this;
-            this.Lista.ItemsSource = this.Obra.Ranges;
+            this.Lista.ItemsSource = this.Obra.GetRanges();
             this.listaErros.ItemsSource = this.Obra.ErrosRange;
         }
 

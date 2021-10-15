@@ -77,7 +77,7 @@ namespace Orc_Gambi
             var raiz = Conexoes.UtilzForms.AddTreeview(this.Obra.Contrato, this.Obra);
             raiz.SetBinding(TreeViewItem.ToolTipProperty, Utilz.GetBinding("ToolTip", raiz.Tag));
 
-            foreach (var p1 in this.Obra.Predios)
+            foreach (var p1 in this.Obra.GetPredios(true))
             {
 
 
@@ -420,7 +420,7 @@ namespace Orc_Gambi
             }
 
 
-            JanelaSelecionarRanges mm = new JanelaSelecionarRanges(this.Obra.Predios.ToList(), true);
+            JanelaSelecionarRanges mm = new JanelaSelecionarRanges(this.Obra.GetPredios().ToList(), true);
             mm.ShowDialog();
             if (!(bool)mm.DialogResult)
             {
@@ -428,12 +428,12 @@ namespace Orc_Gambi
             }
 
 
-            var t = this.Obra.Ranges.ToList().FindAll(x => x.Selecionado).FindAll(x => x.Material_User > 0);
+            var t = this.Obra.GetRanges().ToList().FindAll(x => x.Selecionado).FindAll(x => x.Material_User > 0);
 
-            var t2 = this.Obra.Ranges.ToList().FindAll(x => x.Verba).FindAll(x => x.Material_User <= 0);
+            var t2 = this.Obra.GetRanges().ToList().FindAll(x => x.Verba).FindAll(x => x.Material_User <= 0);
 
-            var t3 = this.Obra.Ranges.ToList().FindAll(x => x.Verba).FindAll(x => x.De_Para.FERT == "00");
-            var t4 = this.Obra.Ranges.ToList().FindAll(x => x.Verba).FindAll(x => x.PesoTotal <= 0);
+            var t3 = this.Obra.GetRanges().ToList().FindAll(x => x.Verba).FindAll(x => x.De_Para.FERT == "00");
+            var t4 = this.Obra.GetRanges().ToList().FindAll(x => x.Verba).FindAll(x => x.PesoTotal <= 0);
             Reports_pre.AddRange(t.FindAll(x => x.Material_User_Qtd <= 0).Select(y => new Report(y.ToString(), "Setado material, porém quantidade está zerada.", TipoReport.Crítico)));
             Reports_pre.AddRange(t.FindAll(x => x.GetMaterialUser() == null).Select(y => new Report(y.ToString(), "Material setado não encontrado.", TipoReport.Crítico)));
             Reports_pre.AddRange(t2.Select(y => new Report(y.ToString(), "Range sem material, necessita definição de verba.", TipoReport.Crítico)));
@@ -581,7 +581,7 @@ namespace Orc_Gambi
 
             Predio s = new Predio(p);
             s.id_obra = p.id_obra;
-            s.numero = (this.Obra.Predios.Count + 1).ToString().PadLeft(3, '0');
+            s.numero = (this.Obra.GetPredios().Count + 1).ToString().PadLeft(3, '0');
 
             if (!novopredio(s))
             {
@@ -616,8 +616,13 @@ namespace Orc_Gambi
         {
 
         retentar:
-            Conexoes.Utilz.Propriedades(s, true);
-            if (this.Obra.Predios.ToList().Find(x => x.nome == s.nome) != null)
+            bool status = false;
+            Conexoes.Utilz.Propriedades(s, out status);
+            if(!status)
+            {
+                return false;
+            }
+            if (this.Obra.GetPredios().ToList().Find(x => x.nome == s.nome) != null)
             {
                 if (Conexoes.Utilz.Pergunta(("Já existe um prédio com esse nome. Tentar novamente?")))
                 {
@@ -661,7 +666,7 @@ namespace Orc_Gambi
                     return false;
                 }
             }
-            if (this.Obra.Predios.ToList().Find(x => x.numero == s.numero) != null)
+            if (this.Obra.GetPredios().ToList().Find(x => x.numero == s.numero) != null)
             {
                 if (Conexoes.Utilz.Pergunta(("Já existe um prédio com esse número. Tentar novamente?")))
                 {
@@ -696,15 +701,15 @@ namespace Orc_Gambi
                 return;
             }
             Predio p = new Predio(this.Obra, "", "");
-            p.numero = (this.Obra.Predios.Count + 1).ToString().PadLeft(3, '0');
-            p.nome = this.Obra.Predios.Count == 0 ? "PRINCIPAL" : ("ANEXO " + this.Obra.Predios.Count.ToString().PadLeft(2, '0'));
+            p.numero = (this.Obra.GetPredios().Count + 1).ToString().PadLeft(3, '0');
+            p.nome = this.Obra.GetPredios().Count == 0 ? "PRINCIPAL" : ("ANEXO " + this.Obra.GetPredios().Count.ToString().PadLeft(2, '0'));
             if (novopredio(p))
             {
-                if (this.Obra.Predios.ToList().FindAll(X => X.id != p.id).Count > 0)
+                if (this.Obra.GetPredios().ToList().FindAll(X => X.id != p.id).Count > 0)
                 {
                     if (Utilz.Pergunta("Deseja copiar os Locais de outro prédio?"))
                     {
-                        var sel = Conexoes.Utilz.SelecionarObjeto(this.Obra.Predios.ToList(), null) as Predio;
+                        var sel = Conexoes.Utilz.SelecionarObjeto(this.Obra.GetPredios().ToList(), null) as Predio;
                         if (sel != null)
                         {
                             PGOVars.DbOrc.CopiarRanges(sel, p);
@@ -794,7 +799,7 @@ namespace Orc_Gambi
             {
                 var ob = t as OrcamentoObra;
                 Lista_ranges.ItemsSource = null;
-                Lista_ranges.ItemsSource = ob.Ranges;
+                Lista_ranges.ItemsSource = ob.GetRanges();
                 Imagem_Sel.Source = ob.Imagem;
                 Label_Sel.Content = ob.Contrato;
                 chk_Grupo.IsChecked = true;
@@ -887,7 +892,6 @@ namespace Orc_Gambi
 
             if (Utilz.Pergunta("Você tem certeza que deseja apagar o prédio " + p))
             {
-                this.Obra.Predios.Remove(p);
                 PGOVars.DbOrc.Apagar(p);
                 GetArvore();
             }

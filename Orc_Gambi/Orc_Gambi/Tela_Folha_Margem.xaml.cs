@@ -206,7 +206,7 @@ namespace PGO
 
         private void recalcular(object sender, RoutedEventArgs e)
         {
-            if (this.Obra.Ranges.Count == 0)
+            if (this.Obra.GetRanges().Count == 0)
             {
                 Conexoes.Utilz.Alerta("Não há nenhum range adicionado nessa obra.", "Não é possível gerar proposta.", MessageBoxImage.Error);
                 return;

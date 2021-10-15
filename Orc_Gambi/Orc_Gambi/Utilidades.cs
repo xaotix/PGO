@@ -144,12 +144,6 @@ namespace Orc_Gambi
                 pedido.Limpar(tudo);
                 pedido.Gravar();
                 w.somaProgresso();
-
-                //foreach (var sub in pedido.pecas)
-                //{
-                //    sub.Gravar();
-                //    w.somaProgresso();
-                //}
             }
             w.Close();
         }
@@ -165,7 +159,6 @@ namespace Orc_Gambi
         }
         public static void VerMateriais(Conexoes.Orcamento.OrcamentoObra Obra, List<Conexoes.Orcamento.Orcamento_Peca> pecas)
         {
-            var w = Conexoes.Utilz.Wait();
             if (pecas.Count == 0)
             {
                 Conexoes.Utilz.Alerta("Nenhuma Peça");
@@ -176,11 +169,9 @@ namespace Orc_Gambi
                 );
             menu.Title = Obra.ToString() + " - Etapas - Orçamento";
             menu.Show();
-            w.Close();
         }
         public static void VerMateriais(Conexoes.Orcamento.OrcamentoObra Obra, List<object> pecas)
         {
-            var w = Conexoes.Utilz.Wait();
             if (pecas.Count == 0)
             {
                 Conexoes.Utilz.Alerta("Nenhuma Peça");
@@ -191,11 +182,10 @@ namespace Orc_Gambi
                 );
             menu.Title = Obra.ToString() + " - Etapas - Orçamento";
             menu.Show();
-            w.Close();
         }
         public static void VerMateriais(List<Conexoes.Orcamento.Orcamento_Peca> pecas)
         {
-            var w = Conexoes.Utilz.Wait();
+
             if (pecas.Count == 0)
             {
                 Conexoes.Utilz.Alerta("Nenhuma Peça");
@@ -204,7 +194,6 @@ namespace Orc_Gambi
             ExplorerPLM.Menus.Lista_Pecas_ORC menu = new ExplorerPLM.Menus.Lista_Pecas_ORC(pecas);
             menu.Title = "Etapas - Orçamento";
             menu.Show();
-            w.Close();
         }
         public static void setdados_Folha(OrcamentoObra Obra)
         {

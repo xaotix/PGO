@@ -160,7 +160,7 @@ namespace Orc_Gambi
                 return;
             }
 
-            if (ob.GetRotas().Lista.Count == 0 && ob.GetRotas().Calcular_Rotas)
+            if (ob.GetRotas().Lista.Count == 0 && ob.Calcular_Rotas)
             {
 
                 if (!ob.Nacional && ob.GetRotas().Enderecostr != "")
@@ -168,8 +168,8 @@ namespace Orc_Gambi
                     if (Utilz.Pergunta("A obra selecionada está sem a rota logística calculada. \n" +
                         "É uma obra exportação. \n\nDeseja desabilitar o cálculo de frete?"))
                     {
-                        ob.GetRotas().Calcular_Rotas = false;
-                        ob.GetRotas().Salvar();
+                        ob.Calcular_Rotas = false;
+                        ob.Salvar("calcular_rotas","False");
                         goto Abrir;
                     }
                 }
@@ -476,10 +476,7 @@ namespace Orc_Gambi
                     foreach (var rot in rotas.OrderBy(x => x.Lista.Count))
                     {
                         w.somaProgresso("Consultando..." + rot.ToString());
-                        if (!rot.Calcular_Rotas)
-                        {
-                            continue;
-                        }
+
                         if (rot.Lista.Count == 0 | forcar_atualizacao)
                         {
                             await rot.Pesquisar();
@@ -508,34 +505,16 @@ namespace Orc_Gambi
                     w.SetProgresso(1, Obs.Count);
                     foreach (var ob in Obs)
                     {
-                        if (ob.id_rota > 0)
+                        if(ob.id_rota<=0)
                         {
-                            foreach (var t in ob.Revisoes)
-                            {
-                                if (t.id_rota > 0)
-                                {
-                                    t.GetRotas().Clonar(ob.GetRotas());
-                                    t.GetRotas().Salvar();
-                                }
-                                else
-                                {
-                                    Rotas tn = new Rotas(ob.GetRotas());
-                                    tn.id_obra = t.id;
-                                    tn.Salvar();
-                                    t.SetRota(tn);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            Rotas tn = new Rotas();
-                            tn.Estado = ob.Estado;
-                            tn.Cidade = ob.Cidade;
-                            tn.id_obra = ob.id;
+                            Rotas tn = new Rotas(ob);
                             await tn.Pesquisar();
                             await tn.GetRotas();
                             tn.Salvar();
-                            ob.SetRota(tn);
+                        }
+                        foreach (var t in ob.Revisoes)
+                        {
+                            t.SetSalvaRota(ob.GetRotas());
                         }
                         w.somaProgresso();
                     }
@@ -562,30 +541,18 @@ namespace Orc_Gambi
                             ob.GetRotas().Salvar();
                             foreach (var t in ob.Revisoes)
                             {
-                                if (t.id_rota > 0)
-                                {
-                                    t.GetRotas().Clonar(ob.GetRotas());
-                                    t.GetRotas().Salvar();
-                                }
-                                else
-                                {
-                                    Rotas tn = new Rotas(ob.GetRotas());
-                                    tn.id_obra = t.id;
-                                    tn.Salvar();
-                                    t.SetRota(tn);
-                                }
+                                t.SetSalvaRota(ob.GetRotas());
                             }
                         }
                         else
                         {
-                            Rotas tn = new Rotas();
-                            tn.Estado = ob.Estado;
-                            tn.Cidade = ob.Cidade;
-                            tn.id_obra = ob.id;
+                            Rotas tn = new Rotas(ob);
+   
+
                             await tn.Pesquisar();
                             await tn.GetRotas();
                             tn.Salvar();
-                            ob.SetRota(tn);
+                            ob.SetSalvaRota(tn);
                         }
                         w.somaProgresso();
                     }

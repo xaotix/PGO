@@ -104,7 +104,7 @@ namespace Orc_Gambi
             {
                 if (this.Obra.Segmento.id != t.id)
                 {
-                    if (this.Obra.Ranges.Count > 0)
+                    if (this.Obra.GetRanges().Count > 0)
                     {
                         if (Utilz.Pergunta("Já existem itens inseridos na obra. " +
                             "Ao alterar o setor de atividade, é necessário atualizar os custos." +
@@ -133,7 +133,7 @@ namespace Orc_Gambi
 
         private void rotas_fechou(object sender, EventArgs e)
         {
-            this.Obra.SetRotas(menu_Fretes.Rotas);
+            this.Obra.SetSalvaRota(menu_Fretes.Rotas);
 
         }
 

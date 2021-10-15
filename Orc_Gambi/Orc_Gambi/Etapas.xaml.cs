@@ -29,7 +29,7 @@ namespace PGO
             this.Title = "Etapas [" + Obra.ToString() + "]";
             var Produtos = Conexoes.Orcamento.PGOVars.DbOrc.Produtos;
             var Pecas = Conexoes.Orcamento.PGOVars.DbOrc.Produtos.SelectMany(x => x.PecasDB).ToList();
-            Conexoes.Utilz.GetPecas_Orcamento(this.Obra, true, this.Obra.Ranges.GroupBy(x => x.id).Select(x => x.First()).ToList(), true, true);
+            Conexoes.Utilz.GetPecas_Orcamento(this.Obra, true, this.Obra.GetRanges().GroupBy(x => x.id).Select(x => x.First()).ToList(), true, true);
 
             UpdateAll();
 
@@ -60,14 +60,14 @@ namespace PGO
                 this.lista_predios_peps.ItemsSource = null;
 
                 w.somaProgresso("Mapeando Ranges...");
-                this.Lista_ranges.ItemsSource = this.Obra.Ranges;
+                this.Lista_ranges.ItemsSource = this.Obra.GetRanges();
 
 
 
 
 
                 /*validando se tem etapa criada*/
-                if (this.Obra.Ranges.Count == 0)
+                if (this.Obra.GetRanges().Count == 0)
                 {
                     this.tab_principal_etapas.Visibility = Visibility.Collapsed;
                     Conexoes.Utilz.Alerta("Obra sem ranges cadastrados. Não é possível criar etapas.");
@@ -89,7 +89,7 @@ namespace PGO
 
 
                 w.somaProgresso("Mapeando Agrupadores...");
-                foreach (var pr in this.Obra.Predios) 
+                foreach (var pr in this.Obra.GetPredios()) 
                 {
                     pr.CarregarAgrupadores();
                 }
@@ -105,15 +105,15 @@ namespace PGO
                 this.lista_subetapas.ItemsSource = this.Obra.Getpep_agrupadores().FindAll(x => x.GetFerts().Count > 0);
 
                 w.somaProgresso("Mapeando Agrupadores de PEPs...4/4");
-                this.lista_predios_peps.ItemsSource = this.Obra.Predios.ToList().FindAll(x => x.GetAgrupadores().Count > 0);
+                this.lista_predios_peps.ItemsSource = this.Obra.GetPredios().ToList().FindAll(x => x.GetAgrupadores().Count > 0);
 
 
 
                 w.somaProgresso("Mapeando Peças...1/3");
-                this.lista_predios.ItemsSource = this.Obra.Predios;
+                this.lista_predios.ItemsSource = this.Obra.GetPredios();
 
                 w.somaProgresso("Mapeando Peças...2/3");
-                var predios_edicao = this.Obra.Predios.ToList().FindAll(x => x.GetPonderadores().Count > 0);
+                var predios_edicao = this.Obra.GetPredios().ToList().FindAll(x => x.GetPonderadores().Count > 0);
 
                 this.lista_predios_2.ItemsSource = predios_edicao;
                 w.somaProgresso("Mapeando Peças...3/3");
@@ -147,7 +147,7 @@ namespace PGO
                 {
                     this.tab_principal_etapas.Visibility = Visibility.Visible;
                 }
-                var sem_fert = this.Obra.Ranges.ToList().FindAll(x => x.De_Para.FERT == "00");
+                var sem_fert = this.Obra.GetRanges().ToList().FindAll(x => x.De_Para.FERT == "00");
                 if (sem_fert.Count > 0)
                 {
                     this.tab_principal_etapas.Visibility = Visibility.Collapsed;
@@ -183,8 +183,8 @@ namespace PGO
             //mm.Close();
 
 
-            var peso_total = Math.Round(this.Obra.Ranges.Sum(x => x.PesoTotal),2);
-            var peso_pecas = Math.Round(this.Obra.Ranges.Sum(x => x.PesoPecas),2);
+            var peso_total = Math.Round(this.Obra.GetRanges().Sum(x => x.PesoTotal),2);
+            var peso_pecas = Math.Round(this.Obra.GetRanges().Sum(x => x.PesoPecas),2);
 
             if(peso_total==0)
             {
