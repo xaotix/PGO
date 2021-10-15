@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
 
@@ -222,7 +223,7 @@ namespace Orc_Gambi
 
         private void ver_props(object sender, RoutedEventArgs e)
         {
-            List<Range> Ranges = Lista_ranges.SelectedItems.Cast<Range>().ToList();
+            List<Range> Ranges = lista.SelectedItems.Cast<Range>().ToList();
             if (Ranges.Count > 0)
             {
                 foreach (var range in Ranges)
@@ -236,7 +237,7 @@ namespace Orc_Gambi
 
         private void MenuItem_Click_3(object sender, RoutedEventArgs e)
         {
-            List<Range> Ranges = Lista_ranges.SelectedItems.Cast<Range>().ToList();
+            List<Range> Ranges = lista.SelectedItems.Cast<Range>().ToList();
             if (Ranges.Count > 0)
             {
                 SetFert(Ranges);
@@ -262,7 +263,7 @@ namespace Orc_Gambi
 
         private void retorna_fert(object sender, RoutedEventArgs e)
         {
-            RetornaFert(Lista_ranges.SelectedItems.Cast<Range>().ToList());
+            RetornaFert(lista.SelectedItems.Cast<Range>().ToList());
         }
 
         private static void RetornaFert(List<Range> Ranges)
@@ -289,7 +290,7 @@ namespace Orc_Gambi
                 Conexoes.Utilz.Alerta("Obra está bloqueada para edições", "Obra Bloqueada", MessageBoxImage.Error);
                 return;
             }
-            var ranges = Lista_ranges.SelectedItems.Cast<Range>().ToList().FindAll(x => x.Verba);
+            var ranges = lista.SelectedItems.Cast<Range>().ToList().FindAll(x => x.Verba);
 
             if (ranges.Count > 0)
             {
@@ -320,7 +321,7 @@ namespace Orc_Gambi
 
         private void exportar_excel(object sender, RoutedEventArgs e)
         {
-            ExplorerPLM.Utilidades.Exportar(Lista_ranges);
+            ExplorerPLM.Utilidades.Exportar(lista);
 
         }
 
@@ -460,7 +461,7 @@ namespace Orc_Gambi
 
         private void get_material_range(object sender, RoutedEventArgs e)
         {
-            var ranges = Lista_ranges.SelectedItems.Cast<Range>().ToList().FindAll(x => x.Verba);
+            var ranges = lista.SelectedItems.Cast<Range>().ToList().FindAll(x => x.Verba);
             if (ranges.Count > 0)
             {
                 foreach (var range in ranges)
@@ -497,7 +498,7 @@ namespace Orc_Gambi
 
         private void atribuir_quantidade_mp(object sender, RoutedEventArgs e)
         {
-            var ranges = Lista_ranges.SelectedItems.Cast<Range>().ToList().FindAll(x => x.Verba);
+            var ranges = lista.SelectedItems.Cast<Range>().ToList().FindAll(x => x.Verba);
 
             if (ranges.Count > 0)
             {
@@ -511,7 +512,7 @@ namespace Orc_Gambi
 
         private void remover_mp(object sender, RoutedEventArgs e)
         {
-            var ranges = Lista_ranges.SelectedItems.Cast<Range>().ToList().FindAll(x => x.Verba);
+            var ranges = lista.SelectedItems.Cast<Range>().ToList().FindAll(x => x.Verba);
 
             if (ranges.Count > 0)
             {
@@ -740,31 +741,6 @@ namespace Orc_Gambi
             mm.Show();
         }
 
-        private void seleciona_ranges(object sender, Telerik.Windows.Controls.SelectionChangeEventArgs e)
-        {
-            //var p = ((FrameworkElement)sender).DataContext as object;
-            //if(p is Conexoes.Orcamento.Predio)
-            //    {
-            //    this.Lista_ranges.ItemsSource = null;
-            //    this.RangesSelecionados = (p as Predio).Ranges.ToList();
-            //    this.Lista_ranges.ItemsSource = this.RangesSelecionados;
-            //}
-            //else if (p is Conexoes.Orcamento.Local)
-            //{
-            //    this.Lista_ranges.ItemsSource = null;
-            //    this.RangesSelecionados = (p as Local).Ranges.ToList();
-            //    this.Lista_ranges.ItemsSource = this.RangesSelecionados;
-            //}
-            //else if (p is Conexoes.Orcamento.Grupo)
-            //{
-            //    this.Lista_ranges.ItemsSource = null;
-            //    this.RangesSelecionados = (p as Grupo).Ranges.ToList();
-            //    this.Lista_ranges.ItemsSource = this.RangesSelecionados;
-
-
-            //}
-            //this.Total.Content = "" + Math.Round(RangesSelecionados.Sum(x => x.PesoTotal), 2) + " Kg - R$" + RangesSelecionados.Sum(x => x.Atual.Valor_Total);
-        }
 
         private void arvore_selecao(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
@@ -787,8 +763,8 @@ namespace Orc_Gambi
             if (t is OrcamentoObra)
             {
                 var ob = t as OrcamentoObra;
-                Lista_ranges.ItemsSource = null;
-                Lista_ranges.ItemsSource = ob.GetRanges();
+                lista.ItemsSource = null;
+                lista.ItemsSource = ob.GetRanges();
                 Imagem_Sel.Source = ob.Imagem;
                 Label_Sel.Content = ob.Contrato;
 
@@ -797,8 +773,8 @@ namespace Orc_Gambi
             else if (t is Predio)
             {
                 var ob = t as Predio;
-                Lista_ranges.ItemsSource = null;
-                Lista_ranges.ItemsSource = ob.Ranges;
+                lista.ItemsSource = null;
+                lista.ItemsSource = ob.Ranges;
                 Predio_Editar.Visibility = Visibility.Visible;
                 Predio_Exlcuir.Visibility = Visibility.Visible;
                 Predio_Duplicar.Visibility = Visibility.Visible;
@@ -811,8 +787,8 @@ namespace Orc_Gambi
             else if (t is Local)
             {
                 var ob = t as Local;
-                Lista_ranges.ItemsSource = null;
-                Lista_ranges.ItemsSource = ob.Ranges;
+                lista.ItemsSource = null;
+                lista.ItemsSource = ob.Ranges;
                 Imagem_Sel.Source = ob.Imagem;
                 Label_Sel.Content = ob.Predio.Obra.Contrato + "/" + ob.Predio.ToString() + "/" + ob.ToString();
 
@@ -821,8 +797,8 @@ namespace Orc_Gambi
             else if (t is Grupo)
             {
                 var ob = t as Grupo;
-                Lista_ranges.ItemsSource = null;
-                Lista_ranges.ItemsSource = ob.Ranges;
+                lista.ItemsSource = null;
+                lista.ItemsSource = ob.Ranges;
                 Imagem_Sel.Source = ob.Imagem;
                 Label_Sel.Content = ob.Local.Predio.Obra.Contrato + "/" + ob.Local.Predio.ToString() + "/" + ob.Local.ToString() + "/" + ob.ToString();
                 Grupo_AdicionarRange.Visibility = Visibility.Visible;
@@ -830,8 +806,18 @@ namespace Orc_Gambi
                 Lista_Ranges_Padrao.ItemsSource = ob.Itens;
 
             }
+            this.total.Content = $"{lista.Items.Cast<Range>().Sum(x=>x.Atual.Valor_Total).ToString("C")}";
+            CollectionViewSource.GetDefaultView(lista.ItemsSource).Filter = FiltroFuncao;
         }
+        private bool FiltroFuncao(object item)
+        {
+            if (Filtrar.Text == "Pesquisar...") { return true; }
+            if (String.IsNullOrEmpty(Filtrar.Text))
+                return true;
 
+            return Conexoes.Utilz.Contem(item, Filtrar.Text);
+
+        }
         private void botao_direito(object sender, MouseButtonEventArgs e)
         {
             Predio_Editar.Visibility = Visibility.Collapsed;
@@ -890,7 +876,7 @@ namespace Orc_Gambi
 
         private void Excluir()
         {
-            List<Range> Ranges = Lista_ranges.SelectedItems.Cast<Range>().ToList();
+            List<Range> Ranges = lista.SelectedItems.Cast<Range>().ToList();
 
             if (Ranges.Count > 0)
             {
@@ -915,7 +901,7 @@ namespace Orc_Gambi
 
         private void set_esquema(object sender, RoutedEventArgs e)
         {
-            List<Range> Ranges = Lista_ranges.SelectedItems.Cast<Range>().ToList().FindAll(x => x.Produto.pintura > 0);
+            List<Range> Ranges = lista.SelectedItems.Cast<Range>().ToList().FindAll(x => x.Produto.pintura > 0);
             if (Ranges.Count == 0) { return; }
             var esquema = this.Obra.Tratamento;
             if (!Utilz.Pergunta("Atribuir o esquema padrão da obra? [" + esquema.ToString() + "]"))
@@ -1030,7 +1016,7 @@ namespace Orc_Gambi
                 Conexoes.Utilz.Alerta("Obra está bloqueada para edições", "Obra Bloqueada", MessageBoxImage.Error);
                 return;
             }
-            List<Range> Ranges = Lista_ranges.SelectedItems.Cast<Range>().ToList();
+            List<Range> Ranges = lista.SelectedItems.Cast<Range>().ToList();
 
             if (Ranges.Count > 0)
             {
@@ -1074,7 +1060,7 @@ namespace Orc_Gambi
 
         private void editar_carreta_multiplo(object sender, RoutedEventArgs e)
         {
-            List<Range> Ranges = Lista_ranges.SelectedItems.Cast<Range>().ToList();
+            List<Range> Ranges = lista.SelectedItems.Cast<Range>().ToList();
 
             if (Ranges.Count > 0)
             {
@@ -1251,7 +1237,7 @@ namespace Orc_Gambi
 
         private void atualizar_custos(object sender, RoutedEventArgs e)
         {
-            var t = Lista_ranges.SelectedItems.Cast<Range>();
+            var t = lista.SelectedItems.Cast<Range>();
             if (t.Count() > 0)
             {
                 if (Utilz.Pergunta("Tem certeza que deseja atualizar o custo dos " + t.Count() + " itens selecionados?"))
@@ -1270,7 +1256,7 @@ namespace Orc_Gambi
 
         private void Editar_Mercadoria_Externa(object sender, RoutedEventArgs e)
         {
-            var rs = Lista_ranges.SelectedItems.Cast<Range>().ToList();
+            var rs = lista.SelectedItems.Cast<Range>().ToList();
             Editar_Produtos(rs);
         }
 
@@ -1323,7 +1309,7 @@ namespace Orc_Gambi
 
         private void ver_pecas_varios(object sender, RoutedEventArgs e)
         {
-            List<Range> Ranges = Lista_ranges.SelectedItems.Cast<Range>().ToList();
+            List<Range> Ranges = lista.SelectedItems.Cast<Range>().ToList();
             if (Ranges.Count > 0)
             {
                 Funcoes.VerMateriais(this.Obra, Conexoes.Utilz.GetPecas_Orcamento(this.Obra, true, Ranges));
@@ -1333,7 +1319,7 @@ namespace Orc_Gambi
 
         private void editar_peso_verba(object sender, RoutedEventArgs e)
         {
-            var ranges = Lista_ranges.SelectedItems.Cast<Range>().ToList().FindAll(x => x.Verba);
+            var ranges = lista.SelectedItems.Cast<Range>().ToList().FindAll(x => x.Verba);
 
             if (ranges.Count > 0)
             {
@@ -1447,7 +1433,7 @@ namespace Orc_Gambi
 
         private void editar_peso_verba_zerar(object sender, RoutedEventArgs e)
         {
-            var ranges = Lista_ranges.SelectedItems.Cast<Range>().ToList().FindAll(x => x.Verba);
+            var ranges = lista.SelectedItems.Cast<Range>().ToList().FindAll(x => x.Verba);
 
             if (ranges.Count > 0)
             {
@@ -1461,7 +1447,7 @@ namespace Orc_Gambi
 
         private void set_material_range(object sender, RoutedEventArgs e)
         {
-            var ranges = Lista_ranges.SelectedItems.Cast<Range>().ToList().FindAll(x => x.Verba);
+            var ranges = lista.SelectedItems.Cast<Range>().ToList().FindAll(x => x.Verba);
             if (ranges.Count > 0)
             {
                 foreach (var range in ranges)
@@ -1477,6 +1463,14 @@ namespace Orc_Gambi
                         range.SetPesoVerba(range.Material_User_Qtd * t.PesoUnit);
                     }
                 }
+            }
+        }
+
+        private void Filtrar_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (Filtrar.Text != "Pesquisar...")
+            {
+                CollectionViewSource.GetDefaultView(lista.ItemsSource).Refresh();
             }
         }
     }

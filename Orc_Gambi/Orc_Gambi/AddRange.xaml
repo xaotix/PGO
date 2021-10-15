@@ -17,40 +17,11 @@
 
 
 
-        <DrawingBrush x:Key="blackBackground" Opacity="1">
-            <DrawingBrush.Drawing>
-                <DrawingGroup>
-                    <GeometryDrawing>
-                        <GeometryDrawing.Brush>
-                            <RadialGradientBrush Center="0.54326,0.45465" RadiusX="0.602049" RadiusY="1.02049" GradientOrigin="0.4326,0.45465">
-                                <GradientStop Color="#FF5F7AF5" Offset="0"/>
-                                <GradientStop Color="#FFACCDFD" Offset="0.718518495559692"/>
-                                <GradientStop Color="#FFC2E0FD" Offset="1"/>
-                            </RadialGradientBrush>
-                        </GeometryDrawing.Brush>
-                        <GeometryDrawing.Geometry>
-                            <RectangleGeometry Rect="0,0 1,1" />
-                        </GeometryDrawing.Geometry>
-                    </GeometryDrawing>
-                    <GeometryDrawing>
-                        <GeometryDrawing.Brush>
-                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" SpreadMethod="Pad">
-                                <GradientStop Color="#FFFFFFFF" Offset="0"/>
-                                <GradientStop Color="#22FFFFFF" Offset="1"/>
-                            </LinearGradientBrush>
-                        </GeometryDrawing.Brush>
-                        <GeometryDrawing.Geometry>
-                            <RectangleGeometry Rect="0,0 1,0.48" />
-                        </GeometryDrawing.Geometry>
-                    </GeometryDrawing>
-                </DrawingGroup>
-            </DrawingBrush.Drawing>
-        </DrawingBrush>
     </Window.Resources>
 
 
 
-    <Border Background="{StaticResource blackBackground}"  BorderThickness="3" CornerRadius="10" Width="auto" Height="auto" Margin="0,0,10,10"  >
+    <Border  Background="White"  BorderThickness="3" CornerRadius="10" Width="auto" Height="auto" Margin="0,0,10,10"  >
 
         <Border.Effect>
             <DropShadowEffect ShadowDepth="10" Opacity=".3"/>

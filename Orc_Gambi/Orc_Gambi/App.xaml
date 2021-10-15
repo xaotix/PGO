@@ -33,7 +33,7 @@
             <SolidColorBrush x:Key="BackSob" Color="Cyan" Opacity="0.3"/>
             <SolidColorBrush x:Key="Back" Color="Transparent"/>
             <SolidColorBrush x:Key="BackTXT" Color="White"/>
-            <SolidColorBrush x:Key="BackTxtSel" Color="Yellow" Opacity="0.3"/>
+            <SolidColorBrush x:Key="BackTxtSel" Color="Yellow" Opacity="0.5"/>
             <SolidColorBrush x:Key="ContornoSelecionado" Color="LightSkyBlue"/>
 
             <Style TargetType="TabItem" BasedOn="{StaticResource {x:Type TabItem}}">

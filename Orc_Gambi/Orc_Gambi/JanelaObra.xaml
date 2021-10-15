@@ -8,7 +8,7 @@
                   xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
                   xmlns:local="clr-namespace:Orc_Gambi" x:Class="Orc_Gambi.JanelaObra"
     xmlns:controles="clr-namespace:Orc_Gambi.Controles"
- 
+ xmlns:dgx="clr-namespace:DataGridExtensions;assembly=DataGridExtensions"
                   mc:Ignorable="d" 
                   Title="Janela Obra"
                   Style="{StaticResource BlankWindow}"
@@ -274,44 +274,41 @@
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="auto"></RowDefinition>
             </Grid.RowDefinitions>
-            <Border BorderBrush="Black" BorderThickness="1" CornerRadius="10" Grid.Row="0" Margin="5,5,5,5">
-                <TreeView Name="Arvore" SelectedItemChanged="arvore_selecao" Grid.Row="0" Margin="5,19,5,5">
+            <TreeView Name="Arvore" SelectedItemChanged="arvore_selecao" Grid.Row="0" Margin="5,19,5,5">
+                <TreeView.ContextMenu>
+                    <ContextMenu Visibility="{Binding Menus_Editar}">
+                        <StaticResource ResourceKey="menu8"/>
 
-
-                    <TreeView.ContextMenu>
-                        <ContextMenu Visibility="{Binding Menus_Editar}">
-                            <StaticResource ResourceKey="menu8"/>
-
-                            <MenuItem Header="Novo Predio" Click="novo_predio" Name="Obra_Novo_Predio" Visibility="Visible">
-                                <MenuItem.Icon>
-                                    <Image  Source="Resources/get-hot-new-stuff.png"  Width="16" Height="16"/>
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <Separator></Separator>
-                            <MenuItem Header="Editar" Click="editar_dados" Name="Predio_Editar" Visibility="Collapsed">
-                                <MenuItem.Icon>
-                                    <Image  Source="Resources/document-edit3.png"  Width="16" Height="16"/>
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="Excluir" Click="excluir_predio" Visibility="Collapsed" Name="Predio_Exlcuir">
-                                <MenuItem.Icon>
-                                    <Image  Source="Resources/dialog-error.png"  Width="16" Height="16"/>
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="Duplicar" Click="criar_revisao" Visibility="Collapsed" Name="Predio_Duplicar">
-                                <MenuItem.Icon>
-                                    <Image  Source="Resources/object-ungroup.png"  Width="16" Height="16"/>
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="Adicionar Range" Click="adicionar_range" Visibility="Collapsed" Name="Grupo_AdicionarRange">
-                                <MenuItem.Icon>
-                                    <Image  Source="Resources/list-add.png"  Width="16" Height="16"/>
-                                </MenuItem.Icon>
-                            </MenuItem>
-                        </ContextMenu>
-                    </TreeView.ContextMenu>
-                </TreeView>
-            </Border>
+                        <MenuItem Header="Novo Predio" Click="novo_predio" Name="Obra_Novo_Predio" Visibility="Visible">
+                            <MenuItem.Icon>
+                                <Image  Source="Resources/get-hot-new-stuff.png"  Width="16" Height="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <Separator></Separator>
+                        <MenuItem Header="Editar" Click="editar_dados" Name="Predio_Editar" Visibility="Collapsed">
+                            <MenuItem.Icon>
+                                <Image  Source="Resources/document-edit3.png"  Width="16" Height="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Excluir" Click="excluir_predio" Visibility="Collapsed" Name="Predio_Exlcuir">
+                            <MenuItem.Icon>
+                                <Image  Source="Resources/dialog-error.png"  Width="16" Height="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Duplicar" Click="criar_revisao" Visibility="Collapsed" Name="Predio_Duplicar">
+                            <MenuItem.Icon>
+                                <Image  Source="Resources/object-ungroup.png"  Width="16" Height="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Adicionar Range" Click="adicionar_range" Visibility="Collapsed" Name="Grupo_AdicionarRange">
+                            <MenuItem.Icon>
+                                <Image  Source="Resources/list-add.png"  Width="16" Height="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </ContextMenu>
+                </TreeView.ContextMenu>
+            </TreeView>
+     
             <Border BorderBrush="Black" BorderThickness="1" CornerRadius="10" Grid.Row="10" Margin="5,5,5,5" Visibility="Collapsed">
                 <Grid>
                     <Expander  Grid.Row="10" IsExpanded="False" Name="tab_observacoes">
@@ -320,7 +317,6 @@
                                 <WrapPanel VerticalAlignment="Center">
                                     <Label Content="Observações" Grid.Column="2" VerticalAlignment="Center" Margin="5,0,5,0"></Label>
                                     <Image  Source="Resources/document-edit3.png" Width="16" Height="16"  ToolTip="Editar"/>
-
                                 </WrapPanel>
                             </Button>
                         </Expander.Header>
@@ -328,9 +324,7 @@
                 </Grid>
             </Border>
         </Grid>
-        <!--<GridSplitter Grid.Column="1" Grid.Row="1" Grid.RowSpan="10" Margin="0,15,0,15"></GridSplitter>-->
-                <Border Grid.Column="2" Grid.RowSpan="3" BorderBrush="Black" BorderThickness="1" CornerRadius="10" Grid.Row="1" Margin="5,5,5,5">
-            <TabControl Margin="5,5,5,5">
+            <TabControl Margin="5"  Grid.Column="2" Grid.RowSpan="3">
                 <TabItem Header="Ranges">
                     <Grid Grid.Column="2" Grid.RowSpan="3" Grid.Row="1">
                         <Grid.Background>
@@ -351,7 +345,9 @@
                         <Grid Grid.Row="2">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="25"></RowDefinition>
                                 <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="25"></RowDefinition>
                             </Grid.RowDefinitions>
                             <Menu Background="Transparent" VerticalAlignment="Center" Name="menu_ranges" Margin="5,0,5,0">
                                 <StaticResource ResourceKey="menu1"/>
@@ -363,9 +359,24 @@
                                 <StaticResource ResourceKey="menu7"/>
                                 <StaticResource ResourceKey="menu8"/>
                             </Menu>
-                            <DataGrid  Background="Transparent" FontSize="11" BorderThickness="0" Grid.Row="2" Margin="5,5,5,5" ItemsSource="{Binding Ranges}" x:Name="Lista_ranges" KeyDown="monitora_key" AutoGenerateColumns="False" CanUserAddRows="False">
+                            <TextBox Name="Filtrar" TextChanged="Filtrar_TextChanged" Grid.Row="1"/>
+                            <DataGrid  
+                                x:Name="lista" 
+                                Background="Transparent" 
+                                FontSize="11" 
+                                BorderThickness="0" 
+                                Grid.Row="2" 
+                                Margin="5,5,5,5" 
+                                ItemsSource="{Binding Ranges}"
+                                KeyDown="monitora_key" 
+                                AutoGenerateColumns="False" 
+                                CanUserAddRows="False"
+                                dgx:DataGridFilter.IsAutoFilterEnabled="True"
+                               
+                                
+                                >
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn   IsReadOnly="True" Width="auto" Header="PEP" Binding="{Binding Grupo_de_Mercadoria}"/>
+                                    <DataGridTextColumn   IsReadOnly="True" Width="auto" Header="Mercadoria" Binding="{Binding Grupo_de_Mercadoria}"/>
 
                                     <DataGridTemplateColumn IsReadOnly="True" Header="Mercadoria Externa" MinWidth="330"  Width="*">
                                         <DataGridTemplateColumn.CellTemplate>
@@ -482,7 +493,8 @@
                                 </DataGrid.ContextMenu>
 
                             </DataGrid>
-                        </Grid>
+                        <Label Name="total" Grid.Row="10" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5" FontWeight="Bold" FontSize="14"/>
+                    </Grid>
                         <Expander  Grid.Row="10" IsExpanded="False" Margin="5,5,5,5" Name="Grupo_Add_Barra" IsEnabled="{Binding Menus_Editar_Bool}">
                             <Expander.Header>
                                 <WrapPanel VerticalAlignment="Center" Grid.Row="2">
@@ -515,7 +527,7 @@
                                     </Grid.RowDefinitions>
                                     <DataGrid BorderThickness="0" Height="200" Name="Lista_Ranges_Padrao" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" Background="Transparent" MaxHeight="200">
                                         <DataGrid.Columns>
-                                            <DataGridTextColumn   IsReadOnly="True" Width="auto" Header="Mercadoria" Binding="{Binding Grupo_de_Mercadoria}"/>
+                                        <DataGridTextColumn   IsReadOnly="True" Width="auto" Header="Mercadoria" Binding="{Binding Grupo_De_Mercadoria.descricao}"/>
 
                                             <DataGridTemplateColumn IsReadOnly="True" Header="Mercadoria Externa"  Width="*">
                                                 <DataGridTemplateColumn.CellTemplate>
@@ -562,7 +574,6 @@
                     </Grid>
                 </TabItem>
             </TabControl>
-                </Border>
     </Grid>
 
 </mui:ModernWindow>

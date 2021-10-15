@@ -7,7 +7,7 @@
                   Title="ORC" 
                    xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"   
                   xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
-                  
+                  xmlns:dgx="clr-namespace:DataGridExtensions;assembly=DataGridExtensions"
                   Style="{StaticResource BlankWindow}" Loaded="ModernWindow_Loaded" Closed="ModernWindow_Closed" WindowStartupLocation="CenterScreen" WindowState="Maximized" Height="809.5" Width="1503" FontSize="11">
 
     <Grid>
@@ -87,182 +87,159 @@
                         </RadialGradientBrush>
                     </m:Map.OpacityMask>
                 </m:Map>
-                <Image Grid.Row="1" Source="Resources/logo.png" Height="250" HorizontalAlignment="Center" VerticalAlignment="Top" Opacity="1"/>
+                <Image Grid.Row="1" Source="Resources/Novo_Logo_2018.orc.png" Height="250" HorizontalAlignment="Center" VerticalAlignment="Top" Opacity="1" Margin="10"/>
             </Grid>
 
             <Grid Grid.Column="0" >
-                <Grid.Background>
-                    <ImageBrush ImageSource="Resources/Novo_Logo_2018.orc.png" Stretch="Uniform" Opacity="0.1"/>
-                </Grid.Background>
-                <Border BorderBrush="Black" BorderThickness="1"  Grid.Row="10" Margin="5,5,5,5" CornerRadius="10">
-                    <telerik:RadGridView FontSize="11" FrozenColumnCount="5" Margin="5,5,5,5" SelectionMode="Extended"  ShowGroupPanel="True"  Name="lista" Grid.Row="0" ItemsSource="{Binding Obras, UpdateSourceTrigger=PropertyChanged}" ShowSearchPanel="True" AutoGenerateColumns="False" ShowColumnHeaders="True"  IsReadOnly="True" CanUserSortGroups="False" MouseDoubleClick="lista_MouseDoubleClick_2" SelectionChanged="lista_SelectionChanged" Template="{DynamicResource TemplateEstilos}">
-                        <telerik:RadGridView.Columns>
-                            <telerik:GridViewDataColumn Header="">
-                                <telerik:GridViewDataColumn.CellTemplate>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBox Name="Filtrar" TextChanged="Filtrar_TextChanged"/>
+                <DataGrid 
+                    Grid.Row="10" 
+                    HeadersVisibility="Column" 
+                    FontSize="11" 
+                    FrozenColumnCount="5"
+                    Margin="5" SelectionMode="Extended"  
+                    Name="lista" 
+                    AutoGenerateColumns="False" 
+                    IsReadOnly="True"  
+                    SelectionChanged="lista_SelectionChanged"
+                    dgx:DataGridFilter.IsAutoFilterEnabled="True"
+                    >
+                    <DataGrid.Background>
+                        <ImageBrush ImageSource="Resources/logo.png" Stretch="Uniform" Opacity="0.1"/>
+                    </DataGrid.Background>
+                    <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="" MinWidth="32">
+                                <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <WrapPanel>
-                                            <!--<Image Source="{Binding ImagemNacional}" Width="16" Height="16" Margin="0,0,10,0" />-->
-                                            <Button HorizontalAlignment="Left" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="editar_endereco" VerticalAlignment="Center"  ToolTip="{Binding Rotas}">
-                                                <WrapPanel VerticalAlignment="Center">
-                                                    <Image  Source="{Binding Imagem}" Width="16" Height="16" />
-                                                </WrapPanel>
-                                            </Button>
-                                        </WrapPanel>
+                                        <Button HorizontalAlignment="Left" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="editar_endereco" VerticalAlignment="Center"  ToolTip="{Binding Rotas}">
+                                            <Image  Source="{Binding Imagem}" Width="16" Height="16" />
+                                        </Button>
                                     </DataTemplate>
-                                </telerik:GridViewDataColumn.CellTemplate>
-                            </telerik:GridViewDataColumn>
-                            <telerik:GridViewDataColumn  Header="Contr."          DataMemberBinding="{Binding Contrato}" Width="auto"></telerik:GridViewDataColumn>
-                            <telerik:GridViewDataColumn  Header="Nome"     MinWidth="150"     DataMemberBinding="{Binding Nome}" Width="*"></telerik:GridViewDataColumn>
-                            <telerik:GridViewDataColumn  Header="Orçamentista"         DataMemberBinding="{Binding Orcamentista}" Width="auto" MaxWidth="150"></telerik:GridViewDataColumn>
-                            <telerik:GridViewDataColumn  Header="Comercial"          DataMemberBinding="{Binding Comercial}" Width="auto"></telerik:GridViewDataColumn>
-                            <telerik:GridViewDataColumn  Header="Pedido"          DataMemberBinding="{Binding PedidoSAP}" Width="auto"></telerik:GridViewDataColumn>
-                            <telerik:GridViewDataColumn  Header="País"          DataMemberBinding="{Binding Rotas.Pais}" Width="auto"></telerik:GridViewDataColumn>
-                            <telerik:GridViewDataColumn  Header="UF"          DataMemberBinding="{Binding Rotas.Estado}" Width="auto"></telerik:GridViewDataColumn>
-                            <telerik:GridViewDataColumn  Header="Cidade"          DataMemberBinding="{Binding Rotas.Cidade}" Width="150"></telerik:GridViewDataColumn>
-                            <telerik:GridViewDataColumn  Header="Criado"          DataMemberBinding="{Binding Criado}" DataFormatString="{} {0:dd/MM/yyyy}"  Width="auto"></telerik:GridViewDataColumn>
-                            <telerik:GridViewDataColumn  Header="Ult. Ed."          DataMemberBinding="{Binding ultima_edicao}" DataFormatString="{} {0:dd/MM/yyyy}"  Width="auto"></telerik:GridViewDataColumn>
-                            <telerik:GridViewDataColumn  Header="Tipo"         DataMemberBinding="{Binding Tipo}" Width="auto" MaxWidth="150"></telerik:GridViewDataColumn>
-                            <telerik:GridViewDataColumn  Header="Segmento"          DataMemberBinding="{Binding Segmento.DESCRICAO}" Width="auto"></telerik:GridViewDataColumn>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn  Header="Contr."          Binding="{Binding Contrato}" MinWidth="100"/>
+                            <DataGridTextColumn  Header="Rev."         Binding="{Binding Revisoes.Count}" MinWidth="25" MaxWidth="25"/>
+                            <DataGridTextColumn  Header="Nome"     Binding="{Binding Nome}" Width="*" MinWidth="250"/>
+                            <DataGridTextColumn  Header="Orçamentista"         Binding="{Binding Orcamentista}" MinWidth="150" MaxWidth="150"/>
+                            <DataGridTextColumn  Header="Comercial"          Binding="{Binding Comercial}" MinWidth="150"/>
+                            <DataGridTextColumn  Header="País"          Binding="{Binding Rotas.Pais}" MinWidth="100"/>
+                            <DataGridTextColumn  Header="UF"          Binding="{Binding Rotas.Estado}" MinWidth="50"/>
+                            <DataGridTextColumn  Header="Cidade"          Binding="{Binding Rotas.Cidade}" MinWidth="150"/>
+                            <DataGridTextColumn  Header="Segmento"          Binding="{Binding Segmento.DESCRICAO}" MinWidth="100"/>
 
-                        </telerik:RadGridView.Columns>
-                        <telerik:RadGridView.RowStyle>
-                            <Style TargetType="{x:Type telerik:GridViewRow}">
+                        </DataGrid.Columns>
+                        <DataGrid.RowStyle>
+                            <Style TargetType="{x:Type DataGridRow}">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Tipo}" Value="Orçamento">
                                         <Setter Property="Background" Value="Transparent"></Setter>
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding Tipo}" Value="SEC">
-                                        <Setter Property="Background" Value="Cyan"></Setter>
+                                        <Setter Property="Background">
+                                        <Setter.Value>
+                                            <SolidColorBrush Color="#FFB900FF" Opacity=".3"></SolidColorBrush>
+                                        </Setter.Value>
+                                        </Setter>
                                     </DataTrigger>
-
                                 </Style.Triggers>
                             </Style>
-                        </telerik:RadGridView.RowStyle>
+                        </DataGrid.RowStyle>
+                        <DataGrid.RowDetailsTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="Black" BorderThickness="1" Margin="50,0,0,10" CornerRadius="3" Width="740" HorizontalAlignment="Left">
+                                <DataGrid ItemsSource="{Binding Path=Revisoes}" AutoGenerateColumns="false" CanUserAddRows="False" MouseDoubleClick="listafilhos_MouseDoubleClick"  IsReadOnly="True" BorderThickness="0">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn  Header="Rev."         Binding="{Binding Revisao}" MinWidth="45" MaxWidth="45"/>
+                                        <DataGridTextColumn  Header="Pedido"          Binding="{Binding PedidoSAP}" MinWidth="90"/>
 
-
-
-
-
-                        <telerik:RadGridView.ChildTableDefinitions>
-                            <telerik:GridViewTableDefinition />
-                        </telerik:RadGridView.ChildTableDefinitions>
-                        <telerik:RadGridView.HierarchyChildTemplate>
-                            <DataTemplate>
-                                <Border HorizontalAlignment="Left" BorderBrush="Black" BorderThickness="1" CornerRadius="10" Width="800" Margin="50,0,0,0" MaxHeight="400" Background="Transparent">
-                                    <telerik:RadGridView Background="Transparent" Margin="5,5,5,5" BorderThickness="0" Name="lista_filho" SelectedItem="{Binding CurrentItem}" SelectionChanged="RadGridView_SelectionChanged" SelectionMode="Single" MouseDoubleClick="listafilhos_MouseDoubleClick" ItemsSource="{Binding Revisoes}" AutoGenerateColumns="False" ShowColumnFooters="False" ShowColumnSortIndexes="False" ShowGroupPanel="False" ShowSearchPanel="False" ShowToolTipOnTrimmedText="False">
-                                        <telerik:RadGridView.Columns>
-                                            <telerik:GridViewDataColumn  Header="REV." Width="auto">
-                                                <telerik:GridViewDataColumn.CellTemplate>
-                                                    <DataTemplate>
-                                                        <WrapPanel >
-                                                            <Image Source="{Binding Imagem}" Width="16" Height="16" Margin="0,0,10,0" />
-                                                            <Label Content="{Binding Revisao}" Margin="0,0,5,0"></Label>
-                                                        </WrapPanel>
-                                                    </DataTemplate>
-                                                </telerik:GridViewDataColumn.CellTemplate>
-                                            </telerik:GridViewDataColumn>
-
-
-
-                                            <telerik:GridViewDataColumn  Header="" Width="auto">
-                                                <telerik:GridViewDataColumn.CellTemplate>
-                                                    <DataTemplate>
-                                                        <WrapPanel>
-                                                            <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="editar_informacoes" VerticalAlignment="Center">
-                                                                <WrapPanel VerticalAlignment="Center">
-                                                                    <Image  Source="Resources/help-about.png" Width="16" Height="16" ToolTip="Editar dados da Obra"/>
-                                                                </WrapPanel>
-                                                            </Button>
-                                                            <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="editar_observacoes" VerticalAlignment="Center">
-                                                                <WrapPanel VerticalAlignment="Center">
-                                                                    <Image  Source="Resources/document-edit3.png" Width="16" Height="16">
-                                                                        <Image.ToolTip>
-                                                                            <xctk:RichTextBox Height="350" Grid.Row="2" Width="350" IsReadOnly="True" Text="{Binding observacoes}"  VerticalScrollBarVisibility="Visible" AcceptsReturn="True" Name="Input"  BorderThickness="0" Margin="5,5,5,5"></xctk:RichTextBox>
-                                                                        </Image.ToolTip>
-                                                                    </Image>
-                                                                </WrapPanel>
-                                                            </Button>
-                                                            <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="abre_etapas" VerticalAlignment="Center" ToolTip="Editar Etapas">
-                                                                <WrapPanel VerticalAlignment="Center">
-                                                                    <Image Source="Resources/blockdevice.png" Width="16" Height="16" Margin="0,0,0,0" />
-                                                                </WrapPanel>
-                                                            </Button>
-                                                            <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="abre_etapas_lista_de_peças" VerticalAlignment="Center" ToolTip="Ver Peças - Etapa">
-                                                                <WrapPanel VerticalAlignment="Center">
-                                                                    <Image Source="Resources/fabrica.png" Width="16" Height="16" Margin="0,0,0,0" />
-                                                                </WrapPanel>
-                                                            </Button>
-                                                           
-                                                            <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="ver_folha_margem" VerticalAlignment="Center" ToolTip="Folha Margem">
-                                                                <WrapPanel VerticalAlignment="Center">
-                                                                    <Image  Source="Resources/cash.png" Width="16" Height="16"/>
-                                                                </WrapPanel>
-                                                            </Button>
-                                                            <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=Desbloqueia}" VerticalAlignment="Center" ToolTip="{Binding BloqueadoString}">
-                                                        <WrapPanel VerticalAlignment="Center">
-                                                            <Image Source="{Binding ImagemStatus}" Width="16" Height="16" Margin="0,0,0,0" />
-                                                        </WrapPanel>
-                                                    </Button>
-                                                            <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="criar_revisao" VerticalAlignment="Center" ToolTip="Criar Revisão">
-                                                                <WrapPanel VerticalAlignment="Center">
-                                                                    <Image Source="Resources/view-refresh.png" Width="16" Height="16" Margin="0,0,0,0" />
-                                                                </WrapPanel>
-                                                            </Button>
-                                                            <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="arquivar_obra" VerticalAlignment="Center">
-                                                                <WrapPanel VerticalAlignment="Center">
-                                                                    <Image  Source="Resources/pasta_baixo.png" Width="16" Height="16" ToolTip="Arquivar Obra"/>
-                                                                </WrapPanel>
-                                                            </Button>
-                                                            <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="apaga_revisao" VerticalAlignment="Center" ToolTip="Apagar Revisão">
-                                                                <WrapPanel VerticalAlignment="Center">
-                                                                    <Image Source="Resources/dialog-error.png" Width="16" Height="16" Margin="0,0,0,0" />
-                                                                </WrapPanel>
-                                                            </Button>
-                                                        </WrapPanel>
-                                                    </DataTemplate>
-                                                </telerik:GridViewDataColumn.CellTemplate>
-                                            </telerik:GridViewDataColumn>
-                                            <telerik:GridViewDataColumn  Header="Custos" Width="*">
-                                                <telerik:GridViewDataColumn.CellTemplate>
-                                                    <DataTemplate>
-                                                        <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=Executa}" VerticalAlignment="Center" HorizontalAlignment="Left" ToolTip="Atualizar Custos">
-                                                            <WrapPanel >
-                                                                <Image Source="Resources/document-revert.png" Width="16" Height="16" Margin="0,0,10,0" />
-                                                                <!--<Label Content="Atualizar"></Label>-->
-                                                                <Label Content=" ["></Label>
-                                                                <Label Content="{Binding Ultima_Atualizacao}"></Label>
-                                                                <Label Content=" - "></Label>
-                                                                <Label Content="{Binding User}"></Label>
-                                                                <Label Content="]"></Label>
+                                        <DataGridTemplateColumn  Header="Ações" MinWidth="200">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <WrapPanel>
+                                                        <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="editar_informacoes" VerticalAlignment="Center">
+                                                            <Image  Source="Resources/help-about.png" Width="16" Height="16" ToolTip="Editar dados da Obra"/>
+                                                        </Button>
+                                                        <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="editar_observacoes" VerticalAlignment="Center">
+                                                            <WrapPanel VerticalAlignment="Center">
+                                                                <Image  Source="Resources/document-edit3.png" Width="16" Height="16">
+                                                                    <Image.ToolTip>
+                                                                        <xctk:RichTextBox Height="350" Grid.Row="2" Width="350" IsReadOnly="True" Text="{Binding observacoes}"  VerticalScrollBarVisibility="Visible" AcceptsReturn="True" Name="Input"  BorderThickness="0" Margin="5,5,5,5"></xctk:RichTextBox>
+                                                                    </Image.ToolTip>
+                                                                </Image>
                                                             </WrapPanel>
                                                         </Button>
-                                                    </DataTemplate>
-                                                </telerik:GridViewDataColumn.CellTemplate>
-                                            </telerik:GridViewDataColumn>
+                                                        <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="abre_etapas" VerticalAlignment="Center" ToolTip="Editar Etapas">
+                                                            <Image Source="Resources/blockdevice.png" Width="16" Height="16" Margin="0,0,0,0" />
+                                                        </Button>
+                                                        <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="abre_etapas_lista_de_peças" VerticalAlignment="Center" ToolTip="Ver Peças - Etapa">
+                                                            <Image Source="Resources/fabrica.png" Width="16" Height="16" Margin="0,0,0,0" />
+                                                        </Button>
 
-                                            <telerik:GridViewDataColumn  Header="Edição"          DataMemberBinding="{Binding ultima_edicao}" DataFormatString="{} {0:dd/MM/yyyy}"  Width="auto"></telerik:GridViewDataColumn>
-                                            <telerik:GridViewDataColumn  Header="Criado"          DataMemberBinding="{Binding Criado}" DataFormatString="{} {0:dd/MM/yyyy}"  Width="auto"></telerik:GridViewDataColumn>
-                                        </telerik:RadGridView.Columns>
-                                        <telerik:RadGridView.RowStyle>
-                                            <Style TargetType="{x:Type telerik:GridViewRow}">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Consolidacao}" Value="True">
-                                                        <Setter Property="Background" Value="LightSeaGreen"></Setter>
-                                                    </DataTrigger>
-                                                    <DataTrigger Binding="{Binding Consolidacao}" Value="False">
-                                                        <Setter Property="Background" Value="Transparent"></Setter>
-                                                    </DataTrigger>
+                                                        <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="ver_folha_margem" VerticalAlignment="Center" ToolTip="Folha Margem">
+                                                            <Image  Source="Resources/cash.png" Width="16" Height="16"/>
 
-                                                </Style.Triggers>
-                                            </Style>
-                                        </telerik:RadGridView.RowStyle>
-                                    </telerik:RadGridView>
-                                </Border>
-                            </DataTemplate>
-                        </telerik:RadGridView.HierarchyChildTemplate>
-     
-                    </telerik:RadGridView>
-                </Border>
+                                                        </Button>
+                                                        <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=Desbloqueia}" VerticalAlignment="Center" ToolTip="{Binding BloqueadoString}">
+                                                            <Image Source="{Binding ImagemStatus}" Width="16" Height="16" Margin="0,0,0,0" />
+
+                                                        </Button>
+                                                        <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="criar_revisao" VerticalAlignment="Center" ToolTip="Criar Revisão">
+                                                            <Image Source="Resources/view-refresh.png" Width="16" Height="16" Margin="0,0,0,0" />
+
+                                                        </Button>
+                                                        <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="arquivar_obra" VerticalAlignment="Center">
+                                                            <Image  Source="Resources/pasta_baixo.png" Width="16" Height="16" ToolTip="Arquivar Obra"/>
+
+                                                        </Button>
+                                                        <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="apaga_revisao" VerticalAlignment="Center" ToolTip="Apagar Revisão">
+                                                            <Image Source="Resources/dialog-error.png" Width="16" Height="16" Margin="0,0,0,0" />
+                                                        </Button>
+                                                    </WrapPanel>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn  Header="Custos" MinWidth="125" Width="*">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=Executa}" VerticalAlignment="Center" HorizontalAlignment="Left" ToolTip="Atualizar Custos">
+                                                        <WrapPanel >
+                                                            <Image Source="Resources/document-revert.png" Width="16" Height="16" Margin="0,0,10,0" />
+                                                            <Label Content=" ["></Label>
+                                                            <Label Content="{Binding Ultima_Atualizacao}"></Label>
+                                                            <Label Content="]"></Label>
+                                                        </WrapPanel>
+                                                    </Button>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTextColumn  Header="Criado"          Binding="{Binding Criado}"  MinWidth="80"/>
+                                        <DataGridTextColumn  Header="Ult. Ed."          Binding="{Binding ultima_edicao}"   MinWidth="80"/>
+                                    </DataGrid.Columns>
+                                    <DataGrid.RowStyle>
+                                        <Style TargetType="{x:Type DataGridRow}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Consolidacao}" Value="False">
+                                                    <Setter Property="Background" Value="Transparent"></Setter>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Consolidacao}" Value="True">
+                                                    <Setter Property="Background">
+                                                        <Setter.Value>
+                                                            <SolidColorBrush Color="#FF86DC7D" Opacity=".5"></SolidColorBrush>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </DataGrid.RowStyle>
+                                </DataGrid>
+                            </Border>
+                        </DataTemplate>
+                    </DataGrid.RowDetailsTemplate>
+                </DataGrid>
 
             </Grid>
         </Grid>

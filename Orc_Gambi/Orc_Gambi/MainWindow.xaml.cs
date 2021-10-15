@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using Telerik.Windows.Controls;
@@ -83,7 +84,14 @@ namespace Orc_Gambi
             this.Enderecos = Funcoes_Mapa.AgruparEmRotas(Obras, myMap);
             myMap.ZoomLevel = 2;
             this.lista.ItemsSource = null;
+
+
+
+
             this.lista.ItemsSource = this.Obras.FindAll(x => x.Nome != "PADRÃO EXPORTAÇÃO" && x.Nome != "PADRÃO NACIONAL");
+
+            CollectionViewSource.GetDefaultView(lista.ItemsSource).Filter = FiltroFuncao;
+
             this.Servidor.Content = "[" + this.Obras.Count + " Obras /" + this.Obras.Sum(x => x.Revisoes.Count) + " Revisões] - ";
             this.Title = $"PGO - [{Vars.UsuarioAtual}] - " +
                 $"[{System.Windows.Forms.Application.ProductName} - " +
@@ -143,9 +151,9 @@ namespace Orc_Gambi
         }
         private void listafilhos_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if ((sender as RadGridView).SelectedItem is OrcamentoObra)
+            if ((sender as DataGrid).SelectedItem is OrcamentoObra)
             {
-                OrcamentoObra ob = (sender as RadGridView).SelectedItem as OrcamentoObra;
+                OrcamentoObra ob = (sender as DataGrid).SelectedItem as OrcamentoObra;
                 AbrirAsync(ob);
                 //this.Hide();
             }
@@ -218,9 +226,9 @@ namespace Orc_Gambi
 
         private void lista_MouseDoubleClick_2(object sender, MouseButtonEventArgs e)
         {
-            lista.CollapseAllHierarchyItems();
+            //lista.CollapseAllHierarchyItems();
 
-            lista.ExpandHierarchyItem(lista.SelectedItem);
+            //lista.ExpandHierarchyItem(lista.SelectedItem);
         }
         private List<OrcamentoObra> Abertas { get; set; } = new List<OrcamentoObra>();
         private void lista_SelectionChanged(object sender, SelectionChangeEventArgs e)
@@ -932,6 +940,34 @@ namespace Orc_Gambi
                 return;
             }
             DBases.GetBancoRM().SetMP_Custom(true, true);
+        }
+
+        private void lista_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //lista.CollapseAllHierarchyItems();
+            if (lista.SelectedItem != null)
+            {
+                //lista.ExpandHierarchyItem(lista.SelectedItem);
+                OrcamentoObra ob = lista.SelectedItem as OrcamentoObra;
+                ZoomNaObra(ob);
+            }
+        }
+
+        private void Filtrar_TextChanged(object sender, TextChangedEventArgs e)
+        {
+           if (Filtrar.Text != "Pesquisar...")
+            {
+                CollectionViewSource.GetDefaultView(lista.ItemsSource).Refresh();
+            }
+        }
+        private bool FiltroFuncao(object item)
+        {
+            if (Filtrar.Text == "Pesquisar...") { return true; }
+            if (String.IsNullOrEmpty(Filtrar.Text))
+                return true;
+
+            return Conexoes.Utilz.Contem(item, Filtrar.Text);
+
         }
     }
 }
