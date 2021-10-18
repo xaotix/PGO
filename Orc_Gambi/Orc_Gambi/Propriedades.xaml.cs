@@ -62,7 +62,7 @@ namespace Orc_Gambi
             else if (Tipo == Tipologia.Segmento)
             {
 
-                this.Lista.ItemsSource = PGOVars.DbOrc.GetSegmentos();
+                this.Lista.ItemsSource = Conexoes.DBases.GetSegmentos();
                 this.Propriedadesm.ShowAdvancedOptions = false;
                 this.Propriedadesm.ShowSearchBox = false;
                 this.Propriedadesm.ShowTitle = true;

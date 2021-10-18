@@ -33,7 +33,7 @@ namespace Orc_Gambi
 
 
             this.DataContext = this;
-            var segmentos = Conexoes.Orcamento.PGOVars.DbOrc.GetSegmentos();
+            var segmentos = Conexoes.DBases.GetSegmentos();
             if(segmentos.Count>0)
             {
                 this.Obra.Segmento = segmentos.FindAll(x => x.ATIVO)[0];
@@ -53,31 +53,7 @@ namespace Orc_Gambi
 
             }
         }
-        public NovaObra(Tipo_Orcamento tipo, string contraton)
-        {
-            InitializeComponent();
-            this.Language = XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag);
-            if (!DBases.GetUserAtual().orcamento_ver_obras)
-            {
-                Menus_Orcamento = Visibility.Collapsed;
-                Menus_Orcamento_Bool = false;
-            }
 
-            this.DataContext = this;
-
-
-
-
-            if (this.Obra.Tipo == Tipo_Orcamento.SEC)
-            {
-                contrato.MaxLength = 12;
-            }
-            else
-            {
-                contrato.MaxLength = 6;
-
-            }
-        }
         public NovaObra(Conexoes.Orcamento.OrcamentoObra Obra)
         {
             this.Obra = Obra;
@@ -98,7 +74,7 @@ namespace Orc_Gambi
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var t = Conexoes.Utilz.SelecionarObjeto(Conexoes.Orcamento.PGOVars.DbOrc.GetSegmentos().FindAll(x => x.ATIVO), null);
+            var t = Conexoes.Utilz.SelecionarObjeto(Conexoes.DBases.GetSegmentos().FindAll(x => x.ATIVO), null);
 
             if (t != null)
             {
@@ -123,19 +99,7 @@ namespace Orc_Gambi
 
             }
         }
-        private ExplorerPLM.Menus.Fretes menu_Fretes;
-        private void editar_rota(object sender, RoutedEventArgs e)
-        {
-            menu_Fretes = new ExplorerPLM.Menus.Fretes(this.Obra.GetRotas());
-            menu_Fretes.Show();
-            menu_Fretes.Closed += rotas_fechou;
-        }
 
-        private void rotas_fechou(object sender, EventArgs e)
-        {
-            this.Obra.SetSalvaRota(menu_Fretes.Rotas);
-
-        }
 
         private void MenuItem_Click_1(object sender, RoutedEventArgs e)
         {
@@ -209,9 +173,6 @@ namespace Orc_Gambi
                     this.Obra.AtualizarDadosDeCustos(false);
                 }
             }
-            //await this.Obra.Rotas.GetRotas();
-            // this.Obra.Rotas.Salvar();
-            // this.Obra.SetRota(this.Obra.Rotas);
             this.Editado = true;
             this.Close();
 
@@ -241,13 +202,8 @@ namespace Orc_Gambi
             }
             if (this.Obra.id > 0)
             {
-                //contrato.IsEnabled = false;
-                //revisao.IsEnabled = false;
-                //nome.IsEnabled = false;
-                //Templates.IsEnabled = false;
                 Templates.IsEnabled = false;
                 check_nacional.IsEnabled = false;
-                //revisao.IsEnabled = false;
             }
 
             this.tipo_de_calculo.ItemsSource = Enum.GetValues(typeof(Conexoes.Orcamento.Tipo_Margem)).Cast<Conexoes.Orcamento.Tipo_Margem>();
@@ -276,9 +232,6 @@ namespace Orc_Gambi
             mudou_cotacao = true;
         }
 
-        private void editar_observacoes(object sender, RoutedEventArgs e)
-        {
-            this.Obra.EditarObservacoes();
-        }
+
     }
 }

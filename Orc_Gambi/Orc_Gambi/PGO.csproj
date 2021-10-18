@@ -52,10 +52,6 @@
     <Reference Include="DLMCam">
       <HintPath>..\..\..\DLLS\DLMCam.dll</HintPath>
     </Reference>
-    <Reference Include="ExplorerPLM, Version=1.6.5.10, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\DLLS\ExplorerPLM.exe</HintPath>
-    </Reference>
     <Reference Include="FirstFloor.ModernUI, Version=1.0.9.0, Culture=neutral, PublicKeyToken=bc9b0c37bf06c6a9, processorArchitecture=MSIL">
       <HintPath>..\packages\ModernUI.WPF.1.0.9\lib\net45\FirstFloor.ModernUI.dll</HintPath>
     </Reference>
@@ -460,6 +456,10 @@
     <ProjectReference Include="..\..\..\Conexoes\Conexoes.csproj">
       <Project>{def82547-9fab-457e-89bf-c10ed1dd9162}</Project>
       <Name>Conexoes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\ExplorerMedabil\ModernUIApp1\Explorer.csproj">
+      <Project>{a255d36a-5f9c-4189-9d9d-6a40955f847a}</Project>
+      <Name>Explorer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

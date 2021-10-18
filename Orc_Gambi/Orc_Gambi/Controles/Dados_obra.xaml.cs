@@ -49,7 +49,9 @@ namespace Orc_Gambi.Controles
                 int c = 1;
                 foreach (var s in sel)
                 {
-                    Utilz.Propriedades(s, true, true);
+                    bool confirmado = false;
+                    Utilz.Propriedades(s,out confirmado);
+                    if (!confirmado) { return; }
                     if (s.Codigo != "" && s.Tipo.descricao != "")
                     {
 

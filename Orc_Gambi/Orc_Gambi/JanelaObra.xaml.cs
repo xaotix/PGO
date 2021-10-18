@@ -530,7 +530,7 @@ namespace Orc_Gambi
                 Conexoes.Utilz.Alerta("Obra está bloqueada para edições", "Obra Bloqueada", MessageBoxImage.Error);
                 return;
             }
-            ExplorerPLM.Menus.Fretes mm = new ExplorerPLM.Menus.Fretes(this.Obra, false);
+            ExplorerPLM.Menus.Fretes mm = new ExplorerPLM.Menus.Fretes(this.Obra);
             mm.Show();
         }
 

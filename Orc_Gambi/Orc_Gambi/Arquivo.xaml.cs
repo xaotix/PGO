@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Data;
 
 namespace Orc_Gambi
 {
@@ -20,7 +21,6 @@ namespace Orc_Gambi
             Update();
 
         }
-
         private void Update()
         {
             this.Lista_Arquivo.ItemsSource = null;
@@ -29,8 +29,9 @@ namespace Orc_Gambi
             var t2 = PGOVars.DbOrc.GetObras_Atuais();
             this.Lista_Arquivo.ItemsSource = t1;
             this.Lista.ItemsSource = t2;
+            CollectionViewSource.GetDefaultView(Lista.ItemsSource).Filter = Filtro_Sistema_Funcao;
+            CollectionViewSource.GetDefaultView(Lista_Arquivo.ItemsSource).Filter = Filtro_Arquivo_Funcao;
         }
-
         private void desarquivar_obras(object sender, RoutedEventArgs e)
         {
             List<OrcamentoObra> sel = Lista_Arquivo.SelectedItems.Cast<OrcamentoObra>().ToList();
@@ -49,11 +50,9 @@ namespace Orc_Gambi
                     }
                     w.Close();
                     Update();
-                    //this.Close();
                 }
             }
         }
-
         private void arquivar_obras(object sender, RoutedEventArgs e)
         {
             List<OrcamentoObra> sel = Lista.SelectedItems.Cast<OrcamentoObra>().ToList();
@@ -72,77 +71,40 @@ namespace Orc_Gambi
                     }
                     w.Close();
                     Update();
-                    //this.Close();
-
                 }
             }
         }
 
-        private void backup_arquivo(object sender, RoutedEventArgs e)
+        private void Filtro_Sistema_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-            string destino = Conexoes.Utilz.SelecionarPasta("Selecione o Destino");
-            if (Directory.Exists(destino))
+            if (Filtro_Sistema.Text != "Pesquisar...")
             {
-                ControleWait w = Conexoes.Utilz.Wait(10, "Carregando...");
-                w.somaProgresso();
-                Conexoes.DBases.GetDB().Backup(destino + @"\backup_principal." + DateTime.Now.ToShortDateString().Replace("/", ".") + ".sql", PGOVars.Config.Dbase_Arquivo, new List<string> { PGOVars.Config.tabela_id_obra, PGOVars.Config.tabela_id_predio });
-                w.Close();
-                Conexoes.Utilz.Alerta("Backup realizado!");
-            }
-            else if (destino != "")
-            {
-                Conexoes.Utilz.Alerta("Destino inválido ou inexistente");
+                CollectionViewSource.GetDefaultView(Lista.ItemsSource).Refresh();
             }
         }
-
-        private void backup_principal(object sender, RoutedEventArgs e)
+        private bool Filtro_Sistema_Funcao(object item)
         {
-            string destino = Conexoes.Utilz.SelecionarPasta("Selecione o Destino");
-            if (Directory.Exists(destino))
-            {
-                ControleWait w = Conexoes.Utilz.Wait(10, "Carregando...");
-                w.somaProgresso();
-                Conexoes.DBases.GetDB_Orcamento().Backup(destino + @"\backup_principal." + DateTime.Now.ToShortDateString().Replace("/", ".") + ".sql", Cfg.Init.db_orcamento, new List<string> { PGOVars.Config.tabela_id_obra, PGOVars.Config.tabela_id_predio });
-                w.Close();
-                Conexoes.Utilz.Alerta("Backup realizado!");
-            }
-            else if (destino != "")
-            {
-                Conexoes.Utilz.Alerta("Destino inválido ou inexistente");
-            }
+            if (Filtro_Sistema.Text == "Pesquisar...") { return true; }
+            if (String.IsNullOrEmpty(Filtro_Sistema.Text))
+                return true;
+
+            return Conexoes.Utilz.Contem(item, Filtro_Sistema.Text);
+
         }
-
-        private void restaurar_principal(object sender, RoutedEventArgs e)
+        private bool Filtro_Arquivo_Funcao(object item)
         {
-            string destino = Conexoes.Utilz.Abrir_String("sql", "Selecione", "");
-            if (File.Exists(destino))
-            {
-                ControleWait w = Conexoes.Utilz.Wait(10, "Carregando...");
-                w.somaProgresso();
-                Conexoes.DBases.GetDB_Orcamento().Importar(destino, Cfg.Init.db_orcamento);
-                w.Close();
-                Conexoes.Utilz.Alerta("Backup realizado!");
-            }
-            else if (destino != "")
-            {
-                Conexoes.Utilz.Alerta("Arquivo Inexistente");
-            }
+            if (Filtro_Arquivo.Text == "Pesquisar...") { return true; }
+            if (String.IsNullOrEmpty(Filtro_Arquivo.Text))
+                return true;
+
+            return Conexoes.Utilz.Contem(item, Filtro_Arquivo.Text);
+
         }
-
-        private void restaurar_arquivo(object sender, RoutedEventArgs e)
+        private void Filtro_Arquivo_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-            string destino = Conexoes.Utilz.Abrir_String("sql", "Selecione", "");
-            if (File.Exists(destino))
+            if (Filtro_Arquivo.Text != "Pesquisar...")
             {
-                ControleWait w = Conexoes.Utilz.Wait(10, "Carregando...");
-                w.somaProgresso();
-                Conexoes.DBases.GetDB().Importar(destino, PGOVars.Config.Dbase_Arquivo);
-                w.Close();
-                Conexoes.Utilz.Alerta("Backup realizado!");
-            }
-            else if (destino != "")
-            {
-                Conexoes.Utilz.Alerta("Arquivo Inexistente");
+                CollectionViewSource.GetDefaultView(Lista_Arquivo.ItemsSource).Refresh();
             }
         }
     }

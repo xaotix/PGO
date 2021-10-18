@@ -248,20 +248,7 @@
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
-            <!--<MenuItem Header="Visualizar" Background="Transparent" Name="visualizar">
-                <MenuItem.Icon>
-                    <Image Source="Resources/view-process-system.png" Width="16" Height="16"/>
-                </MenuItem.Icon>
-                <CheckBox Margin="5,0,0,0" Content="Obra" Name="chk_Obra"></CheckBox>
-                <CheckBox Margin="5,0,0,0" Content="Prédio" Name="chk_Predio"></CheckBox>
-                <CheckBox Margin="5,0,0,0" Content="Local" Name="chk_Local"></CheckBox>
-                <CheckBox Margin="5,0,0,0" Content="Grupo" Name="chk_Grupo"></CheckBox>
-                <CheckBox Margin="5,0,0,0" Content="Mercadoria" Name="chk_Mercadoria" IsChecked="True"></CheckBox>
-                <CheckBox Margin="5,0,0,0" Content="Mercadoria Externa" Name="chk_Mercadoria_Externa" IsChecked="True"></CheckBox>
-                <CheckBox Margin="5,0,0,0" Content="FERT" Name="chk_FERT" IsChecked="False"></CheckBox>
-                <CheckBox Margin="5,0,0,0" Content="Esquema de Pintura" Name="chk_Esquema" IsChecked="True"></CheckBox>
-                <CheckBox Margin="5,0,0,0" Content="Tipo de Carreta" Name="chk_Carreta" IsChecked="True"></CheckBox>
-            </MenuItem>-->
+
 
         </Menu>
         <Image Grid.Row="1" Source="Resources/Novo_Logo_2018.orc.png" HorizontalAlignment="Left">

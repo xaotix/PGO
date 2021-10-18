@@ -35,13 +35,10 @@ namespace Orc_Gambi
                 AppearanceManager.Current.AccentColor = Colors.LightSlateGray;
             }
             this.DataContext = this;
-            this.chkdbase.IsChecked = PGOVars.Config.Acessar_Arquivo;
+
             Conexoes.Utilz.SetIcones(this.menu_principal);
-
+            Conexoes.DBases.GetSegmentos();
             GetObrasAsync();
-
-
-
         }
 
         private void ModernWindow_Closed(object sender, EventArgs e)
@@ -49,7 +46,6 @@ namespace Orc_Gambi
             PGOVars.Config.Gravar();
             DBases.GetUserAtual().Salva_Status(false);
             Environment.Exit(0);
-
         }
 
 
@@ -59,34 +55,24 @@ namespace Orc_Gambi
             this.Show();
         }
 
-
-
         public List<OrcamentoObra> Obras { get; set; } = new List<OrcamentoObra>();
         public List<Rotas> Enderecos { get; set; } = new List<Rotas>();
         private void ModernWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            //Conexoes.Utilz.ShowArquivos("2");
             DBases.GetUserAtual().Salva_Status(true);
-
             Task.Factory.StartNew(() => Funcoes.VerificarVersao());
-
         }
 
         private async Task GetObrasAsync()
         {
-            PGOVars.Config.Acessar_Arquivo = (bool)chkdbase.IsChecked;
+            PGOVars.Config.Acessar_Arquivo = false;
             PGOVars.ResetDbOrc();
-           this.Obras = await PGOVars.DbOrc.GetObrasAsync();
+            this.Obras = await PGOVars.DbOrc.GetObrasAsync();
             Funcoes_Mapa.Localizacoes = new Localizacoes(System.Windows.Forms.Application.StartupPath + @"\Locais.setup");
 
-
-
             this.Enderecos = Funcoes_Mapa.AgruparEmRotas(Obras, myMap);
-            myMap.ZoomLevel = 2;
+            myMap.ZoomLevel = 3;
             this.lista.ItemsSource = null;
-
-
-
 
             this.lista.ItemsSource = this.Obras.FindAll(x => x.Nome != "PADRÃO EXPORTAÇÃO" && x.Nome != "PADRÃO NACIONAL");
 
@@ -188,7 +174,7 @@ namespace Orc_Gambi
                 {
                     if (Utilz.Pergunta("Falta calcular a rota logística. Para isso é necessário definir o endereço de destino. Deseja fazer isso agora?"))
                     {
-                        ExplorerPLM.Menus.Fretes mmc = new ExplorerPLM.Menus.Fretes(ob, true);
+                        ExplorerPLM.Menus.Fretes mmc = new ExplorerPLM.Menus.Fretes(ob);
                         this.ObraSelecionada = ob;
                         mmc.Closed += recarregar;
                         mmc.Show();
@@ -448,7 +434,7 @@ namespace Orc_Gambi
 
         private void mostra_menu_endereco(object sender, RoutedEventArgs e)
         {
-            ExplorerPLM.Menus.Fretes mm = new ExplorerPLM.Menus.Fretes();
+            ExplorerPLM.Menus.Fretes mm = new ExplorerPLM.Menus.Fretes(new Rotas());
             mm.Show();
         }
 
@@ -467,7 +453,7 @@ namespace Orc_Gambi
             Conexoes.Orcamento.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.OrcamentoObra;
             if (sel != null)
             {
-                ExplorerPLM.Menus.Fretes mm = new ExplorerPLM.Menus.Fretes(sel, true);
+                ExplorerPLM.Menus.Fretes mm = new ExplorerPLM.Menus.Fretes(sel);
                 mm.Show();
             }
         }
@@ -475,47 +461,58 @@ namespace Orc_Gambi
         private async void calcula_rotas(object sender, RoutedEventArgs e)
         {
             List<OrcamentoObra> Obs = lista.SelectedItems.Cast<OrcamentoObra>().ToList();
-            if (Obs.Count > 0)
+           
+            var rotas = Conexoes.DBases.GetRotas("", "", "");
+            ControleWait w = Conexoes.Utilz.Wait(rotas.Count, "Consultando Endereços...");
+            foreach (var rot in rotas)
             {
-                if (Utilz.Pergunta("Tem certeza que deseja atualizar as " + Obs.Count + " obras selecionadas?"))
-                {
-                    var forcar_atualizacao = Utilz.Pergunta("Atualizar mesmo que o endereço esteja OK?");
-                    var rotas = Obs.SelectMany(x => x.Revisoes).Select(x => x.GetRotas()).ToList().GroupBy(x => x.ToString().ToUpper().Replace(" ", "")).Select(x => x.First()).ToList();
-
-                    ControleWait w = Conexoes.Utilz.Wait(rotas.Count, "Consultando Endereços...");
-                    /*isso reduziu absurdamente o tempo de processamento*/
-                    foreach (var rot in rotas.OrderBy(x => x.Lista.Count))
-                    {
-                        w.somaProgresso("Consultando..." + rot.ToString());
-
-                        if (rot.Lista.Count == 0 | forcar_atualizacao)
-                        {
-                            await rot.Pesquisar();
-                            await rot.GetRotas();
-                            rot.Salvar();
-
-                        }
-                        if (rot.Lista.Count == 0)
-                        {
-                            continue;
-                        }
-                        var enderecos_iguais = Obs.SelectMany(x => x.Revisoes).Select(x => x.GetRotas()).ToList().FindAll(x => x.ToString().ToUpper().Replace(" ","") == rot.ToString().ToUpper().Replace(" ", "") && x != rot);
-                        foreach (var s in enderecos_iguais)
-                        {
-                            try
-                            {
-                                s.Lista = new List<Rota>();
-                                s.Lista.AddRange(rot.Lista);
-                                s.Salvar();
-                            }
-                            catch (Exception)
-                            {
-                            }
-                        }
-                    }
-
-                }
+                await rot.Pesquisar();
+                await rot.GetRotas();
+                rot.Salvar();
             }
+            w.Close();
+
+            //if (Obs.Count > 0)
+            //{
+            //    if (Utilz.Pergunta("Tem certeza que deseja atualizar as " + Obs.Count + " obras selecionadas?"))
+            //    {
+            //        var forcar_atualizacao = Utilz.Pergunta("Atualizar mesmo que o endereço esteja OK?");
+            //        var rotas = Obs.SelectMany(x => x.Revisoes).Select(x => x.GetRotas()).ToList().GroupBy(x => x.ToString().ToUpper().Replace(" ", "")).Select(x => x.First()).ToList();
+
+            //        ControleWait w = Conexoes.Utilz.Wait(rotas.Count, "Consultando Endereços...");
+            //        /*isso reduziu absurdamente o tempo de processamento*/
+            //        foreach (var rot in rotas.OrderBy(x => x.Lista.Count))
+            //        {
+            //            w.somaProgresso("Consultando..." + rot.ToString());
+
+            //            if (rot.Lista.Count == 0 | forcar_atualizacao)
+            //            {
+            //                await rot.Pesquisar();
+            //                await rot.GetRotas();
+            //                rot.Salvar();
+
+            //            }
+            //            if (rot.Lista.Count == 0)
+            //            {
+            //                continue;
+            //            }
+            //            var enderecos_iguais = Obs.SelectMany(x => x.Revisoes).Select(x => x.GetRotas()).ToList().FindAll(x => x.ToString().ToUpper().Replace(" ","") == rot.ToString().ToUpper().Replace(" ", "") && x != rot);
+            //            foreach (var s in enderecos_iguais)
+            //            {
+            //                try
+            //                {
+            //                    s.Lista = new List<Rota>();
+            //                    s.Lista.AddRange(rot.Lista);
+            //                    s.Salvar();
+            //                }
+            //                catch (Exception)
+            //                {
+            //                }
+            //            }
+            //        }
+
+            //    }
+            //}
         }
 
 
@@ -564,8 +561,11 @@ namespace Orc_Gambi
             if (mm.Editado)
             {
                 SetTemplate(mm.Obra);
+                 
 
                 await GetObrasAsync();
+
+                this.Filtrar.Text = mm.Obra.Contrato;
             }
 
 
@@ -694,11 +694,6 @@ namespace Orc_Gambi
 
         private void arquivar_obra(object sender, RoutedEventArgs e)
         {
-            if ((bool)chkdbase.IsChecked)
-            {
-                Conexoes.Utilz.Alerta("Você está navegando pelas obras arquivadas.", "Não é possível executar isso.", MessageBoxImage.Error);
-                return;
-            }
             if (!Utilz.Acesso(DBases.GetUserAtual().orcamento_arquivar))
             {
                 return;
@@ -903,6 +898,7 @@ namespace Orc_Gambi
                 SetTemplate(mm.Obra);
                 mm = null;
                 await GetObrasAsync();
+                this.Filtrar.Text = mm.Obra.Contrato;
             }
 
         }

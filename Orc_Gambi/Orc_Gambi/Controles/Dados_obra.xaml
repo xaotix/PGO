@@ -40,20 +40,14 @@
 
 
 
-        <telerik:RadGridView Grid.ColumnSpan="3" BorderThickness="0" Grid.Row="3" Margin="5,5,5,5" ItemsSource="{Binding Obra.Tratamentos}" x:Name="Esquemas_de_Pintura" ShowColumnFooters="False" AutoGenerateColumns="False" IsReadOnly="True" IsSearchingDeferred="True" ShowSearchPanel="False" ShowGroupPanel="False" SelectionMode="Single">
-            <telerik:RadGridView.AlternateRowBackground>
-                <ImageBrush ImageSource="/PGO;component/Resources/logo.png">
-                </ImageBrush>
-            </telerik:RadGridView.AlternateRowBackground>
-            <telerik:RadGridView.Background>
-                <ImageBrush/>
-            </telerik:RadGridView.Background>
+        <DataGrid Grid.ColumnSpan="3" BorderThickness="0" Grid.Row="3" Margin="5,5,5,5" ItemsSource="{Binding Obra.Tratamentos}" x:Name="Esquemas_de_Pintura" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
 
-            <telerik:RadGridView.Columns>
-                <telerik:GridViewDataColumn  Header="Descrição" DataMemberBinding="{Binding Descricao,Mode=OneWay}"  Width="auto" />
 
-                <telerik:GridViewDataColumn Header="Código"   IsVisible="{Binding IsChecked,ElementName=chk_Esquema}"  IsReadOnly="True" Width="*" DataMemberBinding="{Binding Tratamento.Descricao}"  IsFilterable="True" IsGroupable="True" IsReorderable="True" IsSortable="True" ShowFilterButton="True" ShowToolTipOnTrimmedText="True" ShowDistinctFilters="True" AllowDrop="False">
-                    <telerik:GridViewDataColumn.CellTemplate>
+            <DataGrid.Columns>
+                <DataGridTextColumn  Header="Descrição" Binding="{Binding Descricao,Mode=OneWay}"  Width="auto" />
+
+                <DataGridTemplateColumn Header="Código"   IsReadOnly="True" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <WrapPanel>
 
@@ -65,19 +59,18 @@
                                 <Label Content="{Binding Codigo, Mode=OneWay}"/>
                             </WrapPanel>
                         </DataTemplate>
-                    </telerik:GridViewDataColumn.CellTemplate>
-                </telerik:GridViewDataColumn>
-          
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
 
-            </telerik:RadGridView.Columns>
-            <telerik:RadGridView.ContextMenu>
+
+            <DataGrid.ContextMenu>
                 <ContextMenu Name="menu_propriedades">
-                    <MenuItem Header="Editar" Click="atribuir_codigo_esquema_pintura"
-></MenuItem>
+                    <MenuItem Header="Editar" Click="atribuir_codigo_esquema_pintura"/>
                 </ContextMenu>
-            </telerik:RadGridView.ContextMenu>
+            </DataGrid.ContextMenu>
 
-        </telerik:RadGridView>
+        </DataGrid>
 
 
         <StackPanel HorizontalAlignment="Right" Grid.Row="10" Grid.Column="3" VerticalAlignment="Center">
