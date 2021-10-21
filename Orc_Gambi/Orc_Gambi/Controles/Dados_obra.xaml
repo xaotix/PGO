@@ -40,7 +40,7 @@
 
 
 
-        <DataGrid Grid.ColumnSpan="3" BorderThickness="0" Grid.Row="3" Margin="5,5,5,5" ItemsSource="{Binding Obra.Tratamentos}" x:Name="Esquemas_de_Pintura" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+        <DataGrid Grid.ColumnSpan="3" BorderThickness="0" Grid.Row="3" Margin="5,5,5,5" x:Name="Esquemas_de_Pintura" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
 
 
             <DataGrid.Columns>

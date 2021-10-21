@@ -13,7 +13,7 @@ namespace PGO
         {
 
             InitializeComponent();
-            this.Lista_Ranges.ItemsSource = Conexoes.Orcamento.PGOVars.DbOrc.Produtos_Clean;
+            this.Lista_Ranges.ItemsSource = Conexoes.Orcamento.PGOVars.GetDbOrc().GetProdutos_Clean();
         }
 
         private void salvar_alteracoes(object sender, RoutedEventArgs e)
@@ -119,7 +119,7 @@ namespace PGO
             var sel = Lista_Ranges.SelectedItems.Cast<Conexoes.Orcamento.Produto>().ToList();
             if (sel.Count > 0)
             {
-                var fert = Conexoes.Utilz.SelecionarObjeto(Conexoes.Orcamento.PGOVars.DbOrc.De_Para, null, "Selecione");
+                var fert = Conexoes.Utilz.SelecionarObjeto(Conexoes.Orcamento.PGOVars.GetDbOrc().GetDe_Para(), null, "Selecione");
                 if (fert != null)
                 {
                     Conexoes.ControleWait w = Conexoes.Utilz.Wait(sel.Count);

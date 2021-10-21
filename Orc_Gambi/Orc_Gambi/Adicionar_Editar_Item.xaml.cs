@@ -27,7 +27,7 @@ namespace Orc_Gambi
             if (t is Grupo_De_Mercadoria)
             {
                 this.Produto_Padrao.ItemsSource = null;
-                this.Produto_Padrao.ItemsSource = PGOVars.DbOrc.GetProdutos(t as Grupo_De_Mercadoria);
+                this.Produto_Padrao.ItemsSource = PGOVars.GetDbOrc().GetProdutos(t as Grupo_De_Mercadoria);
                 if (this.Produto_Padrao.Items.Count > 0)
                 {
                     this.Produto_Padrao.SelectedItem = this.Produto_Padrao.Items.Cast<Produto>().ToList().Find(x => x.id == novo.Produto_Padrao.id); ;
@@ -41,9 +41,9 @@ namespace Orc_Gambi
         }
         private void UpdateAll()
         {
-            this.Grupos.ItemsSource = PGOVars.DbOrc.GetGrupos();
-            this.Locais.ItemsSource = PGOVars.DbOrc.GetLocais();
-            this.Grupos_De_Mercadoria.ItemsSource = PGOVars.DbOrc.GetGrupos_De_Mercadoria().FindAll(x => x.descricao != "VERBA");
+            this.Grupos.ItemsSource = PGOVars.GetDbOrc().GetGrupos();
+            this.Locais.ItemsSource = PGOVars.GetDbOrc().GetLocais();
+            this.Grupos_De_Mercadoria.ItemsSource = PGOVars.GetDbOrc().GetGrupos_De_Mercadoria().FindAll(x => x.descricao != "VERBA");
             this.Grupos.SelectedValue = this.Grupos.Items.Cast<Grupo>().ToList().Find(x => x.id == novo.Grupo.id);
             this.Locais.SelectedItem = this.Locais.Items.Cast<Local>().ToList().Find(x => x.id == novo.Local.id);
             this.Grupos_De_Mercadoria.SelectedItem = novo.Grupo_De_Mercadoria;

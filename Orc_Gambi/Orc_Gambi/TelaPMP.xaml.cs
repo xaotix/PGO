@@ -32,8 +32,8 @@ namespace PGO
         public TelaPMP(List<Conexoes.Orcamento.OrcamentoObra> obras, List<Conexoes.Pedido_PMP> pedidos_buffer)
         {
             this.obras = obras;
-            this.pacotes = PGOVars.DbOrc.GetPacotes();
-            this.pacotes_consolidados = PGOVars.DbOrc.GetPacotes_Consolidadas();
+            this.pacotes = PGOVars.GetDbOrc().GetPacotes();
+            this.pacotes_consolidados = PGOVars.GetDbOrc().GetPacotes_Consolidadas();
             this.pedidos_importar = pedidos_buffer;
 
             InitializeComponent();
@@ -254,8 +254,8 @@ namespace PGO
         public List<Conexoes.Pedido_PMP> pedidos_importar { get; set; } = new List<Conexoes.Pedido_PMP>();
         private void UpdatePacotes()
         {
-            this.pacotes = PGOVars.DbOrc.GetPacotes(true);
-            this.pacotes_consolidados = PGOVars.DbOrc.GetPacotes_Consolidadas(true);
+            this.pacotes = PGOVars.GetDbOrc().GetPacotes(true);
+            this.pacotes_consolidados = PGOVars.GetDbOrc().GetPacotes_Consolidadas(true);
 
             this.Lista_Criados.ItemsSource = null;
             this.Lista_Consolidadas.ItemsSource = null;
@@ -389,7 +389,7 @@ namespace PGO
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
 
-            List<Conexoes.Arquivo> excels = ExplorerPLM.Utilidades.ExplorerArquivos(new Conexoes.Pasta(Conexoes.Orcamento.PGOVars.Config.pasta_consolidadas), "XLSX");
+            List<Conexoes.Arquivo> excels = ExplorerPLM.Utilidades.ExplorerArquivos(new Conexoes.Pasta(Conexoes.Orcamento.PGOVars.GetConfig().pasta_consolidadas), "XLSX");
             if (excels.Count > 0)
             {
 
@@ -480,19 +480,19 @@ namespace PGO
 
         private void cadastro_frentes(object sender, RoutedEventArgs e)
         {
-            Orc_Gambi.Propriedades mm = new Orc_Gambi.Propriedades(Orc_Gambi.Propriedades.Tipologia.Frente);
+            Orc_Gambi.EditarObjetoOrcamento mm = new Orc_Gambi.EditarObjetoOrcamento(Orc_Gambi.EditarObjetoOrcamento.Tipologia.Frente);
             mm.Show();
         }
 
         private void Cadastro_Tipos_Pintura(object sender, RoutedEventArgs e)
         {
-            Orc_Gambi.Propriedades mm = new Orc_Gambi.Propriedades(Orc_Gambi.Propriedades.Tipologia.Tipo_Pintura);
+            Orc_Gambi.EditarObjetoOrcamento mm = new Orc_Gambi.EditarObjetoOrcamento(Orc_Gambi.EditarObjetoOrcamento.Tipologia.Tipo_Pintura);
             mm.Show();
         }
 
         private void Cadastro_FERTS(object sender, RoutedEventArgs e)
         {
-            Orc_Gambi.Propriedades mm = new Orc_Gambi.Propriedades(Orc_Gambi.Propriedades.Tipologia.FERT);
+            Orc_Gambi.EditarObjetoOrcamento mm = new Orc_Gambi.EditarObjetoOrcamento(Orc_Gambi.EditarObjetoOrcamento.Tipologia.FERT);
             mm.Show();
         }
 

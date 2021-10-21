@@ -25,8 +25,8 @@ namespace Orc_Gambi
         {
             this.Lista_Arquivo.ItemsSource = null;
             this.Lista.ItemsSource = null;
-            var t1 = PGOVars.DbOrc.GetObras_Arquivadas();
-            var t2 = PGOVars.DbOrc.GetObras_Atuais();
+            var t1 = PGOVars.GetDbOrc().GetObras_Arquivadas();
+            var t2 = PGOVars.GetDbOrc().GetObras_Atuais();
             this.Lista_Arquivo.ItemsSource = t1;
             this.Lista.ItemsSource = t2;
             CollectionViewSource.GetDefaultView(Lista.ItemsSource).Filter = Filtro_Sistema_Funcao;
@@ -44,7 +44,7 @@ namespace Orc_Gambi
                     {
                         foreach (var ss in t.Revisoes)
                         {
-                            PGOVars.DbOrc.Desarquivar(ss);
+                            PGOVars.GetDbOrc().Desarquivar(ss);
                             w.somaProgresso();
                         }
                     }
@@ -65,7 +65,7 @@ namespace Orc_Gambi
                     {
                         foreach (var ss in t.Revisoes)
                         {
-                            PGOVars.DbOrc.Arquivar(ss);
+                            PGOVars.GetDbOrc().Arquivar(ss);
                             w.somaProgresso();
                         }
                     }

@@ -16,7 +16,7 @@ namespace Orc_Gambi
         public Gestao_Arvore()
         {
             InitializeComponent();
-            Templates = PGOVars.DbOrc.GetTemplates();
+            Templates = PGOVars.GetDbOrc().GetTemplates(true);
             if (Templates.Count > 0)
             {
                 this.Templates_Selecao.ItemsSource = Templates;
@@ -54,18 +54,8 @@ namespace Orc_Gambi
 
         }
 
-        private void adicionar_item_arvore(object sender, RoutedEventArgs e)
-        {
 
 
-
-        }
-
-
-        private void getproduto()
-        {
-
-        }
 
         private void adicionar_grupo(object sender, RoutedEventArgs e)
         {
@@ -116,7 +106,7 @@ namespace Orc_Gambi
             {
                 if (Utilz.Pergunta("Tem certeza que deseja remover o item " + sel + " ?"))
                 {
-                    PGOVars.DbOrc.Apagar(sel);
+                    PGOVars.GetDbOrc().Apagar(sel);
                     UpdateAll();
                 }
             }
@@ -184,7 +174,7 @@ namespace Orc_Gambi
                 {
                     foreach (var t in sel.Itens)
                     {
-                        PGOVars.DbOrc.Apagar(t);
+                        PGOVars.GetDbOrc().Apagar(t);
                     }
                     UpdateAll();
                 }
@@ -201,7 +191,7 @@ namespace Orc_Gambi
                 {
                     foreach (var t in sel.Grupos.SelectMany(x => x.Itens))
                     {
-                        PGOVars.DbOrc.Apagar(t);
+                        PGOVars.GetDbOrc().Apagar(t);
                     }
                     UpdateAll();
                 }
@@ -210,7 +200,7 @@ namespace Orc_Gambi
 
         private void adicionar_local(object sender, RoutedEventArgs e)
         {
-            var ls = PGOVars.DbOrc.Locais.FindAll(x => Locais.Find(y => y.id == x.id) == null);
+            var ls = PGOVars.GetDbOrc().GetLocais().FindAll(x => Locais.Find(y => y.id == x.id) == null);
             if (ls.Count == 0) { Conexoes.Utilz.Alerta("Já foram adicionados todos os locais cadastrados."); return; }
             var sel = Conexoes.Utilz.SelecionarObjeto(ls, null) as Local;
             if (sel != null)
@@ -283,7 +273,7 @@ namespace Orc_Gambi
             if (sel != null)
             {
 
-                var grp = Conexoes.Utilz.SelecionarObjeto(PGOVars.DbOrc.Grupos_De_Mercadoria.FindAll(x => x.id != sel.Grupo_De_Mercadoria.id), null) as Grupo_De_Mercadoria;
+                var grp = Conexoes.Utilz.SelecionarObjeto(PGOVars.GetDbOrc().GetGrupos_De_Mercadoria().FindAll(x => x.id != sel.Grupo_De_Mercadoria.id), null) as Grupo_De_Mercadoria;
                 if (grp != null)
                 {
                     var prod_padrao = Conexoes.Utilz.SelecionarObjeto(grp.Produtos.FindAll(x => x.ativo), null) as Produto;
@@ -333,7 +323,7 @@ namespace Orc_Gambi
             {
                 if (Utilz.Pergunta("Quer copiar os itens de outro template para ele?"))
                 {
-                    var sel = Conexoes.Utilz.SelecionarObjeto(PGOVars.DbOrc.Templates, null) as Template;
+                    var sel = Conexoes.Utilz.SelecionarObjeto(PGOVars.GetDbOrc().GetTemplates(), null) as Template;
                     if (sel != null)
                     {
                         pp.Clonar(sel);
@@ -348,9 +338,8 @@ namespace Orc_Gambi
 
         private void UpdateArvore()
         {
-            PGOVars.DbOrc.GetTemplates();
             this.Templates_Selecao.ItemsSource = null;
-            this.Templates_Selecao.ItemsSource = PGOVars.DbOrc.Templates;
+            this.Templates_Selecao.ItemsSource = PGOVars.GetDbOrc().GetTemplates(true);
             if (this.Templates_Selecao.Items.Count > 0)
             {
                 this.Templates_Selecao.SelectedIndex = this.Templates_Selecao.Items.Count - 1;

@@ -27,8 +27,8 @@ namespace PGO
             InitializeComponent();
             this.DataContext = this;
             this.Title = "Etapas [" + Obra.ToString() + "]";
-            var Produtos = Conexoes.Orcamento.PGOVars.DbOrc.Produtos;
-            var Pecas = Conexoes.Orcamento.PGOVars.DbOrc.Produtos.SelectMany(x => x.PecasDB).ToList();
+            var Produtos = Conexoes.Orcamento.PGOVars.GetDbOrc().GetProdutos();
+            var Pecas = Conexoes.Orcamento.PGOVars.GetDbOrc().GetProdutos().SelectMany(x => x.PecasDB).ToList();
             Conexoes.Utilz.GetPecas_Orcamento(this.Obra, true, this.Obra.GetRanges().GroupBy(x => x.id).Select(x => x.First()).ToList(), true, true);
 
             UpdateAll();
@@ -236,7 +236,7 @@ namespace PGO
         {
             var mts = Ranges.Select(x => x.WERK).Distinct().ToList();
             var ferts = this.Obra.GetFerts_Etapas();
-            var sel = Conexoes.Utilz.SelecionarObjeto(Conexoes.Orcamento.PGOVars.DbOrc.De_Para
+            var sel = Conexoes.Utilz.SelecionarObjeto(Conexoes.Orcamento.PGOVars.GetDbOrc().GetDe_Para()
                 , null, "Selecione");
             if (sel != null)
             {
@@ -250,7 +250,7 @@ namespace PGO
                 UpdateAll();
             }
         }
-        public void AddEtapa(Conexoes.Orcamento.Predio predio)
+        public void AddEtapa(Conexoes.Orcamento.OrcamentoPredio predio)
         {
             this.etapas = Conexoes.Utilz.Int(Conexoes.Utilz.Prompt("Digite o número de etapas que deseja criar", predio.ToString() + "[" + Math.Round(predio.PesoTotal, 2) + "Ton]", Utilz.Int(predio.peso_disponivel / 75).ToString()));
 
@@ -348,7 +348,7 @@ namespace PGO
         {
             if (peps_selecionados.Count > 0)
             {
-                var de_para_novo = Conexoes.Orcamento.PGOVars.DbOrc.De_Para.FindAll(x => peps_selecionados.Find(y => y.PEP == x.PEP && y.fabrica == x.FAB) == null && this.Obra.GetFerts_Etapas().Find(y => y.PEP == x.PEP && y.FAB == x.FAB) == null);
+                var de_para_novo = Conexoes.Orcamento.PGOVars.GetDbOrc().GetDe_Para().FindAll(x => peps_selecionados.Find(y => y.PEP == x.PEP && y.fabrica == x.FAB) == null && this.Obra.GetFerts_Etapas().Find(y => y.PEP == x.PEP && y.FAB == x.FAB) == null);
 
                 Conexoes.Orcamento.De_Para NDE_PARA = new Conexoes.Orcamento.De_Para();
                 NDE_PARA.DESC = "Criar novo";
@@ -375,7 +375,7 @@ namespace PGO
                             }
                             var ndesc = Conexoes.Utilz.Prompt("Digite a descrição", "", "", true, "pep_pgo_desc", false, 20);
                             var fabs = peps_selecionados.Select(x => x.fabrica).Distinct().ToList();
-                            string mt = Conexoes.Utilz.SelecionarObjeto(Conexoes.Orcamento.PGOVars.DbOrc.MTs, null);
+                            string mt = Conexoes.Utilz.SelecionarObjeto(Conexoes.Orcamento.PGOVars.GetDbOrc().GetMTs(), null);
                             if (mt == null)
                             {
                                 goto saifora;
@@ -388,7 +388,7 @@ namespace PGO
                             novo.DESC = ndesc;
                             //novo.FAB = fab;
                             novo.MT = mt;
-                            if (Conexoes.Orcamento.PGOVars.DbOrc.De_Para.Find(x => x.PEP == npep && x.FAB == fab) != null | peps_selecionados.SelectMany(x => x.Getpep_agrupadores_fora()).ToList().Find(x => x.PEP == npep && x.fabrica == fab) != null)
+                            if (Conexoes.Orcamento.PGOVars.GetDbOrc().GetDe_Para().Find(x => x.PEP == npep && x.FAB == fab) != null | peps_selecionados.SelectMany(x => x.Getpep_agrupadores_fora()).ToList().Find(x => x.PEP == npep && x.fabrica == fab) != null)
                             {
                                 if (Conexoes.Utilz.Pergunta("Já existe um PEP com este nome. Tentar novamente?"))
                                 {
@@ -552,9 +552,9 @@ namespace PGO
         private void criar_novo_pep(object sender, RoutedEventArgs e)
         {
             var sels = ((FrameworkElement)sender).DataContext;
-            if (sels is Conexoes.Orcamento.Predio)
+            if (sels is Conexoes.Orcamento.OrcamentoPredio)
             {
-                var ss = sels as Conexoes.Orcamento.Predio;
+                var ss = sels as Conexoes.Orcamento.OrcamentoPredio;
                 var peps = Conexoes.Utilz.SelecionarObjetos(ss.GetAgrupadores(),true,"Selecione os PEPs que contenham os FERTs que deseja mover");
                 if (peps.Count > 0)
                 {
@@ -701,9 +701,9 @@ namespace PGO
         private void resetar_peps(object sender, RoutedEventArgs e)
         {
             var sels = ((FrameworkElement)sender).DataContext;
-            if (sels is Conexoes.Orcamento.Predio)
+            if (sels is Conexoes.Orcamento.OrcamentoPredio)
             {
-                var predio = sels as Conexoes.Orcamento.Predio;
+                var predio = sels as Conexoes.Orcamento.OrcamentoPredio;
                 predio.ApagarSubponderadores();
             }
             UpdateAll();
@@ -749,8 +749,8 @@ namespace PGO
         }
         private void reset_peps_sel(object sender, RoutedEventArgs e)
         {
-            var predios = lista_predios_peps.SelectedItems.Cast<Conexoes.Orcamento.Predio>().ToList();
-            foreach (Conexoes.Orcamento.Predio predio in predios)
+            var predios = lista_predios_peps.SelectedItems.Cast<Conexoes.Orcamento.OrcamentoPredio>().ToList();
+            foreach (Conexoes.Orcamento.OrcamentoPredio predio in predios)
             {
                 predio.ApagarSubponderadores();
             }
@@ -759,13 +759,13 @@ namespace PGO
         }
         private void monta_lista(object sender, Telerik.Windows.Controls.SelectionChangeEventArgs e)
         {
-            var sel = lista_predios_2.SelectedItems.Cast<Conexoes.Orcamento.Predio>().ToList();
+            var sel = lista_predios_2.SelectedItems.Cast<Conexoes.Orcamento.OrcamentoPredio>().ToList();
             this.sub_etapas_selecao.ItemsSource = null;
             this.sub_etapas_selecao.ItemsSource = sel.SelectMany(x => x.GetSubEtapaAgrupadores());
         }
         private void monta_lista2(object sender, Telerik.Windows.Controls.SelectionChangeEventArgs e)
         {
-            var sel = lista_predios_3.SelectedItems.Cast<Conexoes.Orcamento.Predio>().ToList();
+            var sel = lista_predios_3.SelectedItems.Cast<Conexoes.Orcamento.OrcamentoPredio>().ToList();
             this.sub_etapas_selecao2.ItemsSource = null;
             this.sub_etapas_selecao2.ItemsSource = sel.SelectMany(x => x.GetSubEtapaAgrupadoresBase()).OrderBy(x => x.chave);
         }
@@ -1096,7 +1096,7 @@ namespace PGO
         }
         private void add_etapa_sel(object sender, RoutedEventArgs e)
         {
-            Conexoes.Orcamento.Predio sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.Predio;
+            Conexoes.Orcamento.OrcamentoPredio sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.OrcamentoPredio;
             if (sel == null) { return; }
             if (sel.Saldo_Etapa <= 0)
             {
@@ -1371,7 +1371,7 @@ namespace PGO
 
             if (sel.Count == 0) { return; }
 
-            var frente = Conexoes.Utilz.SelecionarObjeto(Conexoes.Orcamento.PGOVars.DbOrc.Frentes, null, "Selecione");
+            var frente = Conexoes.Utilz.SelecionarObjeto(Conexoes.Orcamento.PGOVars.GetDbOrc().GetFrentes(), null, "Selecione");
             if (frente != null)
             {
                 foreach (var s in sel)
@@ -1411,7 +1411,7 @@ namespace PGO
         }
         private void add_etapa(object sender, RoutedEventArgs e)
         {
-            var prediossel = this.lista_predios.SelectedItems.Cast<Conexoes.Orcamento.Predio>().ToList();
+            var prediossel = this.lista_predios.SelectedItems.Cast<Conexoes.Orcamento.OrcamentoPredio>().ToList();
             prediossel = prediossel.FindAll(x => x.Saldo_Etapa > 0).ToList();
             if (prediossel.Count == 1)
             {

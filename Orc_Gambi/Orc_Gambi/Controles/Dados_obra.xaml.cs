@@ -20,7 +20,8 @@ namespace Orc_Gambi.Controles
             InitializeComponent();
             this.DataContext = this;
             this.Language = XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag);
-
+            this.Esquemas_de_Pintura.ItemsSource = null;
+            this.Esquemas_de_Pintura.ItemsSource = Obra.GetTratamentos();
         }
 
         private void salvar_propriedades_pacote(object sender, RoutedEventArgs e)

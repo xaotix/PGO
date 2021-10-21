@@ -128,9 +128,9 @@ namespace Orc_Gambi
 
             this.Obra.GetRanges();
             //this.Predios.ItemsSource = Obra.Predios;
-            this.Tratamentos = this.Obra.Tratamentos;
+            this.Tratamentos = this.Obra.GetTratamentos();
             GetArvore();
-
+            Atualizar_Lista();
         }
         private void Selecionar(bool bb)
         {
@@ -248,7 +248,7 @@ namespace Orc_Gambi
         {
             var mts = Ranges.Select(x => x.WERK).Distinct().ToList();
 
-            var sel = Conexoes.Utilz.SelecionarObjeto(PGOVars.DbOrc.getFerts(this.Obra.Segmento.COD, null), null, "Selecione");
+            var sel = Conexoes.Utilz.SelecionarObjeto(PGOVars.GetDbOrc().getFerts(this.Obra.Segmento.COD, null), null, "Selecione");
             if (sel != null)
             {
                 Conexoes.ControleWait w = Conexoes.Utilz.Wait(Ranges.Count, "Atualizando...");
@@ -478,15 +478,14 @@ namespace Orc_Gambi
         private void propriedades_obra(object sender, RoutedEventArgs e)
         {
             //Utilz.Propriedades(this.Obra);
-            NovaObra mm = new NovaObra(this.Obra);
-            mm.Closed += Mm_Closed;
-            mm.Show();
+            NovaObra MenuNovaObra = new NovaObra(this.Obra);
+            MenuNovaObra.Closed += Mm_Closed;
+            MenuNovaObra.Show();
         }
 
         private void Mm_Closed(object sender, EventArgs e)
         {
             Update();
-            Atualizar_Lista();
         }
 
 
@@ -523,29 +522,42 @@ namespace Orc_Gambi
             }
         }
 
-        private void editar_endereço(object sender, RoutedEventArgs e)
+        private void EditarRota(object sender, RoutedEventArgs e)
+        {
+            EditarRota();
+        }
+
+        private void EditarRota()
         {
             if (Obra.Bloqueado)
             {
                 Conexoes.Utilz.Alerta("Obra está bloqueada para edições", "Obra Bloqueada", MessageBoxImage.Error);
                 return;
             }
+            this.Visibility = Visibility.Collapsed;
             ExplorerPLM.Menus.Fretes mm = new ExplorerPLM.Menus.Fretes(this.Obra);
             mm.Show();
+
+            mm.Closed += Mm_Closed1;
         }
 
-        private async void calculo_frete(object sender, RoutedEventArgs e)
+        private void Mm_Closed1(object sender, EventArgs e)
         {
+            this.Visibility = Visibility.Visible;
+            this.Update();
+        }
 
-            if (Obra.GetRotas().Lista.Count == 0)
+        private void calculo_frete(object sender, RoutedEventArgs e)
+        {
+            if(!Obra.Calcular_Rotas)
             {
-                await Obra.GetRotas().GetRotas();
-                Obra.GetRotas().Salvar();
+                Conexoes.Utilz.Alerta("Obra está com o cálculo de rotas desabilitado. Habilite-o nos dados da Obra e edite o endereço.");
+                return;
             }
-
-            if (Obra.GetRotas().Lista.Count == 0)
+            if (Obra.GetRotas().GetLista(Obra.Calcular_Rotas).Count == 0  && Obra.Calcular_Rotas)
             {
                 Conexoes.Utilz.Alerta("Não foi possível encontrar rotas para o endereço da obra. Abra a tela de definição de endereço e ajuste", "Obra sem rotas", MessageBoxImage.Error);
+                EditarRota();
                 return;
             }
             ExplorerPLM.Menus.Custo_Frete mm = new ExplorerPLM.Menus.Custo_Frete(this.Obra);
@@ -554,7 +566,7 @@ namespace Orc_Gambi
 
         private void editar_informacoes(object sender, RoutedEventArgs e)
         {
-            var p = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.Predio;
+            var p = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.OrcamentoPredio;
             Utilz.Propriedades(p, true);
             p.Salvar();
         }
@@ -566,12 +578,12 @@ namespace Orc_Gambi
                 Conexoes.Utilz.Alerta("Obra está bloqueada para edições", "Obra Bloqueada", MessageBoxImage.Error);
                 return;
             }
-            if (ObjetoArvore is Predio == false) { return; }
-            var p = ObjetoArvore as Predio;
+            if (ObjetoArvore is OrcamentoPredio == false) { return; }
+            var p = ObjetoArvore as OrcamentoPredio;
 
 
 
-            Predio s = new Predio(p);
+            OrcamentoPredio s = new OrcamentoPredio(p);
             s.id_obra = p.id_obra;
             s.numero = (this.Obra.GetPredios().Count + 1).ToString().PadLeft(3, '0');
 
@@ -583,7 +595,7 @@ namespace Orc_Gambi
 
             if (s.id > 0)
             {
-                PGOVars.DbOrc.CopiarRanges(p, s);
+                PGOVars.GetDbOrc().CopiarRanges(p, s);
                 s.GetLocais(new List<Range>());
                 this.Obra.GetRanges();
                 GetArvore();
@@ -597,14 +609,14 @@ namespace Orc_Gambi
 
         private void apaga_revisao(object sender, RoutedEventArgs e)
         {
-            var p = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.Predio;
+            var p = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.OrcamentoPredio;
             if (Utilz.Pergunta("Você tem certeza que deseja apagar o prédio " + p))
             {
-                PGOVars.DbOrc.Apagar(p);
+                PGOVars.GetDbOrc().Apagar(p);
                 Update();
             }
         }
-        public bool novopredio(Predio s)
+        public bool novopredio(OrcamentoPredio s)
         {
 
         retentar:
@@ -692,7 +704,7 @@ namespace Orc_Gambi
                 Conexoes.Utilz.Alerta("Obra está bloqueada para edições", "Obra Bloqueada", MessageBoxImage.Error);
                 return;
             }
-            Predio p = new Predio(this.Obra, "", "");
+            OrcamentoPredio p = new OrcamentoPredio(this.Obra, "", "");
             p.numero = (this.Obra.GetPredios().Count + 1).ToString().PadLeft(3, '0');
             p.nome = this.Obra.GetPredios().Count == 0 ? "PRINCIPAL" : ("ANEXO " + this.Obra.GetPredios().Count.ToString().PadLeft(2, '0'));
             if (novopredio(p))
@@ -701,10 +713,10 @@ namespace Orc_Gambi
                 {
                     if (Utilz.Pergunta("Deseja copiar os Locais de outro prédio?"))
                     {
-                        var sel = Conexoes.Utilz.SelecionarObjeto(this.Obra.GetPredios().ToList(), null) as Predio;
+                        var sel = Conexoes.Utilz.SelecionarObjeto(this.Obra.GetPredios().ToList(), null) as OrcamentoPredio;
                         if (sel != null)
                         {
-                            PGOVars.DbOrc.CopiarRanges(sel, p);
+                            PGOVars.GetDbOrc().CopiarRanges(sel, p);
                             this.Obra.GetRanges();
                             GetArvore();
                             return;
@@ -770,9 +782,9 @@ namespace Orc_Gambi
 
 
             }
-            else if (t is Predio)
+            else if (t is OrcamentoPredio)
             {
-                var ob = t as Predio;
+                var ob = t as OrcamentoPredio;
                 lista.ItemsSource = null;
                 lista.ItemsSource = ob.Ranges;
                 Predio_Editar.Visibility = Visibility.Visible;
@@ -806,9 +818,16 @@ namespace Orc_Gambi
                 Lista_Ranges_Padrao.ItemsSource = ob.Itens;
 
             }
-            this.total.Content = $"{lista.Items.Cast<Range>().Sum(x=>x.Atual.Valor_Total).ToString("C")}";
+            UpdateLabels();
             CollectionViewSource.GetDefaultView(lista.ItemsSource).Filter = FiltroFuncao;
         }
+
+        private void UpdateLabels()
+        {
+            this.total_valor.Content = $"{lista.Items.Cast<Range>().Sum(x => x.Atual.Valor_Total).ToString("C")}";
+            this.total_peso.Content = $"{lista.Items.Cast<Range>().Sum(x => x.PesoTotal).ToString("N2")} Kg";
+        }
+
         private bool FiltroFuncao(object item)
         {
             if (Filtrar.Text == "Pesquisar...") { return true; }
@@ -827,7 +846,7 @@ namespace Orc_Gambi
             {
                 var s = sender as TreeView;
                 var ob = s.Tag;
-                if (ob is Predio)
+                if (ob is OrcamentoPredio)
                 {
                     Predio_Editar.Visibility = Visibility.Visible;
                     Predio_Exlcuir.Visibility = Visibility.Visible;
@@ -848,9 +867,9 @@ namespace Orc_Gambi
         public object ObjetoArvore { get; set; } = null;
         private void editar_dados(object sender, RoutedEventArgs e)
         {
-            if (ObjetoArvore is Predio)
+            if (ObjetoArvore is OrcamentoPredio)
             {
-                var pr = ObjetoArvore as Predio;
+                var pr = ObjetoArvore as OrcamentoPredio;
                 Utilz.Propriedades(ObjetoArvore, true);
                 pr.Salvar();
                 GetArvore();
@@ -859,12 +878,12 @@ namespace Orc_Gambi
 
         private void excluir_predio(object sender, RoutedEventArgs e)
         {
-            if (ObjetoArvore is Predio == false) { return; }
-            var p = ObjetoArvore as Predio;
+            if (ObjetoArvore is OrcamentoPredio == false) { return; }
+            var p = ObjetoArvore as OrcamentoPredio;
 
             if (Utilz.Pergunta("Você tem certeza que deseja apagar o prédio " + p))
             {
-                PGOVars.DbOrc.Apagar(p);
+                PGOVars.GetDbOrc().Apagar(p);
                 GetArvore();
             }
         }
@@ -903,10 +922,10 @@ namespace Orc_Gambi
         {
             List<Range> Ranges = lista.SelectedItems.Cast<Range>().ToList().FindAll(x => x.Produto.pintura > 0);
             if (Ranges.Count == 0) { return; }
-            var esquema = this.Obra.Tratamento;
+            var esquema = this.Obra.GetTratamento();
             if (!Utilz.Pergunta("Atribuir o esquema padrão da obra? [" + esquema.ToString() + "]"))
             {
-                esquema = Conexoes.Utilz.SelecionarObjeto(PGOVars.DbOrc.Tratamentos, null) as Tratamento;
+                esquema = Conexoes.Utilz.SelecionarObjeto(PGOVars.GetDbOrc().GetTratamentos(), null) as Tratamento;
             }
             if (esquema != null)
             {
@@ -1051,7 +1070,7 @@ namespace Orc_Gambi
             }
             Conexoes.Orcamento.Range sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.Range;
             if (sel == null) { return; }
-            var Carreta = Conexoes.Utilz.SelecionarObjeto(PGOVars.DbOrc.Tipo_Carreta, sel.Tipo_De_Carreta) as Tipo_Carreta;
+            var Carreta = Conexoes.Utilz.SelecionarObjeto(PGOVars.GetDbOrc().GetTipo_Carreta(), sel.Tipo_De_Carreta) as Tipo_Carreta;
             if (Carreta == null) { return; }
 
             sel.setCarreta_User(Carreta);
@@ -1064,7 +1083,7 @@ namespace Orc_Gambi
 
             if (Ranges.Count > 0)
             {
-                var Carreta = Conexoes.Utilz.SelecionarObjeto(PGOVars.DbOrc.Tipo_Carreta, null) as Tipo_Carreta;
+                var Carreta = Conexoes.Utilz.SelecionarObjeto(PGOVars.GetDbOrc().GetTipo_Carreta(), null) as Tipo_Carreta;
                 if (Carreta == null) { return; }
 
                 foreach (var r in Ranges)
@@ -1084,10 +1103,10 @@ namespace Orc_Gambi
             }
             Conexoes.Orcamento.Range sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.Range;
             if (sel == null) { return; }
-            var esquema = this.Obra.Tratamento;
+            var esquema = this.Obra.GetTratamento();
             if (!Utilz.Pergunta("Atribuir o esquema padrão da obra? [" + esquema.ToString() + "]"))
             {
-                esquema = Conexoes.Utilz.SelecionarObjeto(PGOVars.DbOrc.Tratamentos, null) as Tratamento;
+                esquema = Conexoes.Utilz.SelecionarObjeto(PGOVars.GetDbOrc().GetTratamentos(), null) as Tratamento;
             }
             if (esquema != null)
             {

@@ -41,7 +41,7 @@ namespace Orc_Gambi
 
             this.Obra.Orcamentista = Vars.UsuarioAtual;
             this.Obra.Revisao = "R00";
-            this.Obra.getDados(PGOVars.DbOrc.Padrao_Nacional);
+            this.Obra.getDados(PGOVars.GetDbOrc().GetPadrao_Nacional());
 
             if (this.Obra.Tipo == Tipo_Orcamento.SEC)
             {
@@ -141,7 +141,7 @@ namespace Orc_Gambi
                     Conexoes.Utilz.Alerta("Contrato Inválido", "Faltam dados", MessageBoxImage.Asterisk);
                     return;
                 }
-                if (Conexoes.Orcamento.PGOVars.DbOrc.Obras.Find(x => x.Contrato == this.Obra.Contrato && x.Revisao == this.Obra.Revisao) != null)
+                if (Conexoes.Orcamento.PGOVars.GetDbOrc().Obras_Orcamento.Find(x => x.Contrato == this.Obra.Contrato && x.Revisao == this.Obra.Revisao) != null)
                 {
                     Conexoes.Utilz.Alerta("Já existe uma revisão com este nome neste contrato", "", MessageBoxImage.Asterisk);
                     return;
@@ -165,6 +165,7 @@ namespace Orc_Gambi
             }
 
             this.Obra.Custos.Tipo_Margem = (Conexoes.Orcamento.Tipo_Margem)tipo_de_calculo.SelectedItem;
+
             this.Obra.SalvarTudo();
             if (this.Obra.id > 0)
             {
@@ -187,10 +188,10 @@ namespace Orc_Gambi
 
         private void define_tratamento(object sender, RoutedEventArgs e)
         {
-            var sel = Conexoes.Utilz.SelecionarObjeto(Conexoes.Orcamento.PGOVars.DbOrc.Tratamentos, null) as Conexoes.Orcamento.Tratamento;
+            var sel = Conexoes.Utilz.SelecionarObjeto(Conexoes.Orcamento.PGOVars.GetDbOrc().GetTratamentos(), null) as Conexoes.Orcamento.Tratamento;
             if (sel != null)
             {
-                this.Obra.Tratamento = sel;
+                this.Obra.SetTratamento(sel);
             }
         }
 
@@ -213,7 +214,7 @@ namespace Orc_Gambi
 
         private void define_template(object sender, RoutedEventArgs e)
         {
-            var sel = Conexoes.Utilz.SelecionarObjeto(Conexoes.Orcamento.PGOVars.DbOrc.Templates, null, "Selecione um Template");
+            var sel = Conexoes.Utilz.SelecionarObjeto(Conexoes.Orcamento.PGOVars.GetDbOrc().GetTemplates(), null, "Selecione um Template");
             if (sel != null)
             {
                 this.Obra.SetTemplate(sel as Template);
@@ -223,7 +224,7 @@ namespace Orc_Gambi
         private void set_dados(object sender, RoutedEventArgs e)
         {
             if (this.Obra.id > 0) { return; }
-            this.Obra.getDados(this.Obra.Nacional ? PGOVars.DbOrc.Padrao_Nacional : PGOVars.DbOrc.Padrao_Exportacao);
+            this.Obra.getDados(this.Obra.Nacional ? PGOVars.GetDbOrc().GetPadrao_Nacional() : PGOVars.GetDbOrc().GetPadrao_Exportacao());
             txt_cotacao.IsEnabled = (bool)check_nacional.IsChecked != true;
         }
 

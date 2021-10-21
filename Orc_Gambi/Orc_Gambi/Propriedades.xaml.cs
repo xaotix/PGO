@@ -10,7 +10,7 @@ namespace Orc_Gambi
     /// <summary>
     /// Interaction logic for Propriedades.xaml
     /// </summary>
-    public partial class Propriedades : ModernWindow
+    public partial class EditarObjetoOrcamento : ModernWindow
     {
         public enum Tipologia
         {
@@ -26,7 +26,7 @@ namespace Orc_Gambi
             Produto,
             _,
         }
-        public Propriedades()
+        public EditarObjetoOrcamento()
         {
             InitializeComponent();
         }
@@ -34,7 +34,7 @@ namespace Orc_Gambi
         private Tipologia Tipo = Tipologia._;
 
 
-        public Propriedades(Tipologia Tipo)
+        public EditarObjetoOrcamento(Tipologia Tipo)
         {
             InitializeComponent();
             this.Tipo = Tipo;
@@ -49,7 +49,8 @@ namespace Orc_Gambi
 
             if (Tipo == Tipologia.Tratamento)
             {
-                this.Lista.ItemsSource = PGOVars.DbOrc.GetTratamentos();
+               
+                this.Lista.ItemsSource = PGOVars.GetDbOrc().GetTratamentos(true);
 
                 this.Propriedadesm.ShowAdvancedOptions = false;
                 this.Propriedadesm.ShowSearchBox = false;
@@ -62,7 +63,7 @@ namespace Orc_Gambi
             else if (Tipo == Tipologia.Segmento)
             {
 
-                this.Lista.ItemsSource = Conexoes.DBases.GetSegmentos();
+                this.Lista.ItemsSource = Conexoes.DBases.GetSegmentos(true);
                 this.Propriedadesm.ShowAdvancedOptions = false;
                 this.Propriedadesm.ShowSearchBox = false;
                 this.Propriedadesm.ShowTitle = true;
@@ -73,7 +74,7 @@ namespace Orc_Gambi
             else if (Tipo == Tipologia.Grupo_De_Mercadoria)
             {
 
-                this.Lista.ItemsSource = PGOVars.DbOrc.GetGrupos_De_Mercadoria();
+                this.Lista.ItemsSource = PGOVars.GetDbOrc().GetGrupos_De_Mercadoria(true);
                 this.Propriedadesm.ShowAdvancedOptions = false;
                 this.Propriedadesm.ShowSearchBox = false;
                 this.Propriedadesm.ShowTitle = true;
@@ -85,7 +86,7 @@ namespace Orc_Gambi
             else if (Tipo == Tipologia.Grupo)
             {
 
-                this.Lista.ItemsSource = PGOVars.DbOrc.GetGrupos();
+                this.Lista.ItemsSource = PGOVars.GetDbOrc().GetGrupos(true);
                 this.Propriedadesm.ShowAdvancedOptions = false;
                 this.Propriedadesm.ShowSearchBox = false;
                 this.Propriedadesm.ShowTitle = true;
@@ -97,7 +98,7 @@ namespace Orc_Gambi
             else if (Tipo == Tipologia.Local)
             {
 
-                this.Lista.ItemsSource = PGOVars.DbOrc.GetLocais();
+                this.Lista.ItemsSource = PGOVars.GetDbOrc().GetLocais(true);
                 this.Propriedadesm.ShowAdvancedOptions = false;
                 this.Propriedadesm.ShowSearchBox = false;
                 this.Propriedadesm.ShowTitle = true;
@@ -109,7 +110,7 @@ namespace Orc_Gambi
             else if (Tipo == Tipologia.Tipo_Pintura)
             {
 
-                this.Lista.ItemsSource = PGOVars.DbOrc.GetTipo_Pinturas();
+                this.Lista.ItemsSource = PGOVars.GetDbOrc().GetTipo_Pinturas(true);
                 this.Propriedadesm.ShowAdvancedOptions = false;
                 this.Propriedadesm.ShowSearchBox = false;
                 this.Propriedadesm.ShowTitle = true;
@@ -121,7 +122,7 @@ namespace Orc_Gambi
             else if (Tipo == Tipologia.FERT)
             {
 
-                this.Lista.ItemsSource = PGOVars.DbOrc.De_Para;
+                this.Lista.ItemsSource = PGOVars.GetDbOrc().GetDe_Para(true);
                 this.Propriedadesm.ShowAdvancedOptions = false;
                 this.Propriedadesm.ShowSearchBox = false;
                 this.Propriedadesm.ShowTitle = true;
@@ -133,7 +134,7 @@ namespace Orc_Gambi
             else if (Tipo == Tipologia.Frente)
             {
 
-                this.Lista.ItemsSource = PGOVars.DbOrc.GetFrentes();
+                this.Lista.ItemsSource = PGOVars.GetDbOrc().GetFrentes(true);
                 this.Propriedadesm.ShowAdvancedOptions = false;
                 this.Propriedadesm.ShowSearchBox = false;
                 this.Propriedadesm.ShowTitle = true;
@@ -145,7 +146,7 @@ namespace Orc_Gambi
             else if (Tipo == Tipologia.Produto)
             {
 
-                this.Lista.ItemsSource = PGOVars.DbOrc.Produtos_Clean;
+                this.Lista.ItemsSource = PGOVars.GetDbOrc().GetProdutos_Clean();
                 this.Propriedadesm.ShowAdvancedOptions = false;
                 this.Propriedadesm.ShowSearchBox = false;
                 this.Propriedadesm.ShowTitle = true;
@@ -157,21 +158,7 @@ namespace Orc_Gambi
             }
         }
 
-        //private List<Tratamento> Tratamentos { get; set; } = new List<Tratamento>();
-        //private List<Tratamento> GetTratamentos()
-        //{
-        //    var t = Conexoes.DBases.DB.Consulta(new DB.Celula("cod", ""), false, Variaveis.Config.Dbase, Variaveis.Config.tabela_id_tratamento);
-        //    Tratamentos = new List<Tratamento>();
-        //    foreach (var s in t.Linhas)
-        //    {
-        //        Tratamentos.Add(new Tratamento(s));
-        //    }
-        //    Tratamentos = Tratamentos.OrderBy(X => X.Descricao).ToList();
-        //    this.Lista.ItemsSource = null;
-        //    this.Lista.ItemsSource = Tratamentos;
-        //    CollectionViewSource.GetDefaultView(Lista.ItemsSource).Filter = UserFilter;
-        //    return Tratamentos;
-        //}
+
 
         private void Selecionar(object sender, SelectionChangedEventArgs e)
         {
@@ -200,7 +187,7 @@ namespace Orc_Gambi
             if (Selecao is Tratamento)
             {
                 var t = Selecao as Tratamento;
-                if (t.id <= 0 && PGOVars.DbOrc.Tratamentos.Find(x => x.Descricao == t.Descricao) != null)
+                if (t.id <= 0 && PGOVars.GetDbOrc().GetTratamentos().Find(x => x.Descricao == t.Descricao) != null)
                 {
                     Conexoes.Utilz.Alerta("Já existe um tratamento com esta descrição");
                     return;
@@ -216,7 +203,7 @@ namespace Orc_Gambi
             else if (Selecao is Segmento)
             {
                 var t = Selecao as Segmento;
-                PGOVars.DbOrc.CadastrarAtualizar(t);
+                PGOVars.GetDbOrc().CadastrarAtualizar(t);
             }
             else if (Selecao is Grupo_De_Mercadoria)
             {
@@ -324,8 +311,9 @@ namespace Orc_Gambi
                 return;
             }
 
-            Conexoes.Utilz.Propriedades(tt, true, true);
-            if (Conexoes.Utilz.Pergunta("Salvar Alterações?"))
+            bool confirmado = false;
+            Conexoes.Utilz.Propriedades(tt, out confirmado);
+            if (confirmado)
             {
                 Salvar(tt);
                 Update();
@@ -340,12 +328,12 @@ namespace Orc_Gambi
                 if (Propriedadesm.SelectedObject is Segmento)
                 {
                     var ss = Propriedadesm.SelectedObject as Segmento;
-                    PGOVars.DbOrc.Apagar(ss);
+                    PGOVars.GetDbOrc().Apagar(ss);
                 }
                 else if (Propriedadesm.SelectedObject is Tratamento)
                 {
                     var ss = Propriedadesm.SelectedObject as Tratamento;
-                    PGOVars.DbOrc.Apagar(ss);
+                    PGOVars.GetDbOrc().Apagar(ss);
                 }
             }
         }

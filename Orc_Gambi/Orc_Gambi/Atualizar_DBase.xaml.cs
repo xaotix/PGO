@@ -34,7 +34,7 @@ namespace Orc_Gambi
                         try
                         {
 
-                            Produtos.Add(PGOVars.DbOrc.GetProduto(l));
+                            Produtos.Add(PGOVars.GetDbOrc().GetProduto(l));
                             w.somaProgresso();
                         }
                         catch (Exception ex)
@@ -58,7 +58,7 @@ namespace Orc_Gambi
             string destino = Conexoes.Utilz.SalvarArquivo("sql");
             if (destino != "")
             {
-                Conexoes.DBases.GetDB_Orcamento().Backup(destino, Conexoes.Cfg.Init.db_orcamento, new List<string> { PGOVars.Config.tabela_id_produtos });
+                Conexoes.DBases.GetDB_Orcamento().Backup(destino, Conexoes.Cfg.Init.db_orcamento, new List<string> { PGOVars.GetConfig().tabela_id_produtos });
                 Conexoes.Utilz.Alerta("Backup realizado!");
             }
         }
@@ -78,7 +78,7 @@ namespace Orc_Gambi
                 w.Close();
                 Conexoes.Utilz.Alerta("Dados atualizados!");
                 Lista_Ranges.ItemsSource = null;
-                PGOVars.DbOrc.GetProdutos(false);
+                PGOVars.GetDbOrc().ConsultarProdutos(false);
             }
         }
     }

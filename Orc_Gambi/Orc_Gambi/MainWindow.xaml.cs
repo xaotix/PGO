@@ -21,62 +21,20 @@ namespace Orc_Gambi
     /// </summary>
     public partial class MainWindow : ModernWindow
     {
+        private NovaObra MenuNovaObra { get; set; }
+        private OrcamentoObra ObraSelecionada { get; set; }
         public Visibility Menus_Orcamento { get; set; } = Visibility.Visible;
         public MainWindow()
         {
+            InitializeComponent();
+            this.DataContext = this;
             if (!DBases.GetUserAtual().orcamento_ver_obras)
             {
                 Menus_Orcamento = Visibility.Collapsed;
                 this.Title = this.Title + " (Somente SEC)";
             }
-            InitializeComponent();
-            if (!DBases.GetUserAtual().orcamento_ver_obras)
-            {
-                AppearanceManager.Current.AccentColor = Colors.LightSlateGray;
-            }
-            this.DataContext = this;
 
             Conexoes.Utilz.SetIcones(this.menu_principal);
-            Conexoes.DBases.GetSegmentos();
-            GetObrasAsync();
-        }
-
-        private void ModernWindow_Closed(object sender, EventArgs e)
-        {
-            PGOVars.Config.Gravar();
-            DBases.GetUserAtual().Salva_Status(false);
-            Environment.Exit(0);
-        }
-
-
-
-        private void Fecha(object sender, EventArgs e)
-        {
-            this.Show();
-        }
-
-        public List<OrcamentoObra> Obras { get; set; } = new List<OrcamentoObra>();
-        public List<Rotas> Enderecos { get; set; } = new List<Rotas>();
-        private void ModernWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            DBases.GetUserAtual().Salva_Status(true);
-            Task.Factory.StartNew(() => Funcoes.VerificarVersao());
-        }
-
-        private async Task GetObrasAsync()
-        {
-            PGOVars.Config.Acessar_Arquivo = false;
-            PGOVars.ResetDbOrc();
-            this.Obras = await PGOVars.DbOrc.GetObrasAsync();
-            Funcoes_Mapa.Localizacoes = new Localizacoes(System.Windows.Forms.Application.StartupPath + @"\Locais.setup");
-
-            this.Enderecos = Funcoes_Mapa.AgruparEmRotas(Obras, myMap);
-            myMap.ZoomLevel = 3;
-            this.lista.ItemsSource = null;
-
-            this.lista.ItemsSource = this.Obras.FindAll(x => x.Nome != "PADRÃO EXPORTAÇÃO" && x.Nome != "PADRÃO NACIONAL");
-
-            CollectionViewSource.GetDefaultView(lista.ItemsSource).Filter = FiltroFuncao;
 
             this.Servidor.Content = "[" + this.Obras.Count + " Obras /" + this.Obras.Sum(x => x.Revisoes.Count) + " Revisões] - ";
             this.Title = $"PGO - [{Vars.UsuarioAtual}] - " +
@@ -84,43 +42,59 @@ namespace Orc_Gambi
                 $"v {System.Windows.Forms.Application.ProductVersion}" +
                 $" - Obras.: [{Conexoes.Cfg.Init.MySQL_Servidor_Orcamento}] - " +
                 $"Padr.: [{Conexoes.Cfg.Init.MySQL_Servidor}]" +
-                $"{(PGOVars.Config.Acessar_Arquivo ? " - ARQUIVO" : "")}";
-            if (PGOVars.Config.Acessar_Arquivo)
-            {
-                this.lista.Background = Brushes.LightGray;
-            }
-            else
-            {
-                this.lista.Background = Brushes.Transparent;
-
-            }
-            this.DataContext = this;
+                $"{(PGOVars.GetConfig().Acessar_Arquivo ? " - ARQUIVO" : "")}";
+            Update();
         }
 
+        private void ModernWindow_Closed(object sender, EventArgs e)
+        {
+            PGOVars.GetConfig().Gravar();
+            DBases.GetUserAtual().Salva_Status(false);
+            Environment.Exit(0);
+        }
+        private void Fecha(object sender, EventArgs e)
+        {
+            
+            this.Show();
+        }
+        public List<OrcamentoObra> Obras { get; set; } = new List<OrcamentoObra>();
+        public List<Rotas> Enderecos { get; set; } = new List<Rotas>();
+        private void ModernWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            DBases.GetUserAtual().Salva_Status(true);
+            Task.Factory.StartNew(() => Funcoes.VerificarVersao());
+        }
+        private void Update()
+        {
+            this.Obras = PGOVars.GetDbOrc().GetObrasOrcamento(true);
+            this.lista.ItemsSource = null;
+            this.lista.ItemsSource = this.Obras.FindAll(x => x.Nome != "PADRÃO EXPORTAÇÃO" && x.Nome != "PADRÃO NACIONAL");
+            CollectionViewSource.GetDefaultView(lista.ItemsSource).Filter = FiltroFuncao;
 
+            Funcoes_Mapa.Localizacoes = new Localizacoes(System.Windows.Forms.Application.StartupPath + @"\Locais.setup");
 
-
-
-        private void Mm_Closed(object sender, EventArgs e)
+            this.Enderecos = Funcoes_Mapa.AgruparEmRotas(Obras, myMap);
+            myMap.ZoomLevel = 3;
+        }
+        private void FecharObra(object sender, EventArgs e)
         {
             this.WindowState = WindowState.Maximized;
-            //this.Show();
+            this.Visibility = Visibility.Visible;
             JanelaObra mm = (JanelaObra)sender;
             this.Abertas.Remove(mm.Obra);
         }
-
-        public bool SetTemplate(OrcamentoObra ob)
+        public bool VerificarTemplate(OrcamentoObra ob)
         {
-            if (PGOVars.DbOrc.Templates.Find(x => x.id == ob.id_template) == null)
+            if (PGOVars.GetDbOrc().GetTemplates().Find(x => x.id == ob.id_template) == null)
             {
-                if (PGOVars.DbOrc.Templates.FindAll(x => x.ativo).Count == 1)
+                if (PGOVars.GetDbOrc().GetTemplates().FindAll(x => x.ativo).Count == 1)
                 {
-                    ob.SetTemplate(PGOVars.DbOrc.Templates.FindAll(x => x.ativo)[0]);
+                    ob.SetTemplate(PGOVars.GetDbOrc().GetTemplates().FindAll(x => x.ativo)[0]);
 
                 }
                 else
                 {
-                    var sel = Conexoes.Utilz.SelecionarObjeto(PGOVars.DbOrc.Templates.FindAll(x => x.ativo), null);
+                    var sel = Conexoes.Utilz.SelecionarObjeto(PGOVars.GetDbOrc().GetTemplates().FindAll(x => x.ativo), null);
                     if (sel != null)
                     {
                         ob.SetTemplate(sel);
@@ -140,94 +114,69 @@ namespace Orc_Gambi
             if ((sender as DataGrid).SelectedItem is OrcamentoObra)
             {
                 OrcamentoObra ob = (sender as DataGrid).SelectedItem as OrcamentoObra;
-                AbrirAsync(ob);
-                //this.Hide();
+                AbrirObra(ob);
             }
         }
-        public async Task AbrirAsync(OrcamentoObra ob)
+        public void AbrirObra(OrcamentoObra ob)
         {
-            if (Abertas.Find(x => x.ToString() == ob.ToString()) != null)
+            if (Abertas.Find(x => x.ContratoRevisao == ob.ContratoRevisao) != null)
             {
                 Conexoes.Utilz.Alerta("Obra já está aberta em outra janela.", "Obra já aberta", MessageBoxImage.Asterisk);
                 return;
             }
 
-            if (!SetTemplate(ob))
+            if (!VerificarTemplate(ob))
             {
                 return;
             }
 
-            if (ob.GetRotas().Lista.Count == 0 && ob.Calcular_Rotas)
+            if(ob.Calcular_Rotas)
             {
-
-                if (!ob.Nacional && ob.GetRotas().Enderecostr != "")
+                if (ob.GetRotas().GetLista(ob.Calcular_Rotas).Count == 0 | ob.Cidade == "" | ob.Pais == "")
                 {
-                    if (Utilz.Pergunta("A obra selecionada está sem a rota logística calculada. \n" +
-                        "É uma obra exportação. \n\nDeseja desabilitar o cálculo de frete?"))
+                    if (!ob.Nacional && ob.GetRotas().Enderecostr != "")
                     {
-                        ob.Calcular_Rotas = false;
-                        ob.Salvar("calcular_rotas","False");
-                        goto Abrir;
+                        if (Utilz.Pergunta("A obra selecionada está sem a rota logística calculada. \n" +
+                            "É uma obra exportação. \n\nDeseja desabilitar o cálculo da rota logística?"))
+                        {
+                            ob.Calcular_Rotas = false;
+                            ob.Salvar("calcular_rotas", "False");
+                            goto Abrir;
+                        }
+                    }
+                    else if (ob.GetRotas().Enderecostr == "")
+                    {
+                        if (Utilz.Pergunta("Falta calcular a rota logística. Para isso é necessário definir o endereço de destino. Deseja fazer isso agora?"))
+                        {
+                            EditarRota(ob);
+                            return;
+                        }
                     }
                 }
-                else if (ob.GetRotas().Enderecostr == "")
-                {
-                    if (Utilz.Pergunta("Falta calcular a rota logística. Para isso é necessário definir o endereço de destino. Deseja fazer isso agora?"))
-                    {
-                        ExplorerPLM.Menus.Fretes mmc = new ExplorerPLM.Menus.Fretes(ob);
-                        this.ObraSelecionada = ob;
-                        mmc.Closed += recarregar;
-                        mmc.Show();
-                        return;
-
-                    }
-                }
-                else
-                {
-                    await ob.GetRotas().GetRotas();
-                }
-
-
-                //else
-                //{
-                //    return;
-                //}
             }
+            
         Abrir:
 
             JanelaObra mm = new JanelaObra(ob);
             mm.Title = (ob.Bloqueado ? "[BLOQUEADA!]" : "") + (ob.Tipo == Tipo_Orcamento.SEC ? " [SEC] " : "") + ob.ToString();
             Abertas.Add(ob);
-            mm.Closed += Mm_Closed;
-
+            mm.Closed += FecharObra;
             mm.Show();
-            mm.Focus();
-            mm.Topmost = true;
-            mm.Topmost = false;
+        }
+        private void EditarRota(OrcamentoObra ob)
+        {
+            ExplorerPLM.Menus.Fretes mmc = new ExplorerPLM.Menus.Fretes(ob);
+            this.ObraSelecionada = ob;
+            mmc.Closed += recarregar;
+            this.Visibility = Visibility.Collapsed;
+            mmc.Show();
         }
         private void recarregar(object sender, EventArgs e)
         {
-            AbrirAsync(ObraSelecionada);
-        }
-
-        private void lista_MouseDoubleClick_2(object sender, MouseButtonEventArgs e)
-        {
-            //lista.CollapseAllHierarchyItems();
-
-            //lista.ExpandHierarchyItem(lista.SelectedItem);
+            this.Visibility = Visibility.Visible;
+            AbrirObra(ObraSelecionada);
         }
         private List<OrcamentoObra> Abertas { get; set; } = new List<OrcamentoObra>();
-        private void lista_SelectionChanged(object sender, SelectionChangeEventArgs e)
-        {
-            //lista.CollapseAllHierarchyItems();
-            if (lista.SelectedItem != null)
-            {
-                //lista.ExpandHierarchyItem(lista.SelectedItem);
-                OrcamentoObra ob = lista.SelectedItem as OrcamentoObra;
-                ZoomNaObra(ob);
-            }
-        }
-
         private void ZoomNaObra(OrcamentoObra ob)
         {
             if (ob.GetRotas() != null)
@@ -240,19 +189,9 @@ namespace Orc_Gambi
                 myMap.ZoomLevel = 2;
             }
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            Conexoes.Utilz.Alerta(sender.ToString());
-        }
-
         private void atualizar_dbase(object sender, RoutedEventArgs e)
         {
-            //if (Conexoes.Utilz.Prompt("Digite a senha", "", "", true, "senha_cadastro").ToUpper() != "MEDA65")
-            //{
-            //    Conexoes.Utilz.Alerta("Senha incorreta", "Acesso negado", MessageBoxImage.Error);
-            //    return;
-            //}
+
             if (!Utilz.Acesso(DBases.GetUserAtual().orcamento_atualizar_db))
             {
                 return;
@@ -262,34 +201,17 @@ namespace Orc_Gambi
             mm.Show();
             this.Hide();
         }
-
         private void Cadastro_Tratamentos(object sender, RoutedEventArgs e)
         {
-            //if (Conexoes.Utilz.Prompt("Digite a senha", "", "", true, "senha_cadastro").ToUpper() != "MEDA65")
-            //{
-            //    Conexoes.Utilz.Alerta("Senha incorreta", "Acesso negado", MessageBoxImage.Error);
-            //    return;
-            //}
             if (!Utilz.Acesso(DBases.GetUserAtual().orcamento_cadastro_lista_tecnica))
             {
                 return;
             }
-            Propriedades mm = new Propriedades(Propriedades.Tipologia.Tratamento);
+            EditarObjetoOrcamento mm = new EditarObjetoOrcamento(EditarObjetoOrcamento.Tipologia.Tratamento);
             mm.Show();
         }
-
-        private void Cadastro_Ranges(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void Cadastro_listas_tecnicas(object sender, RoutedEventArgs e)
         {
-            //if (Conexoes.Utilz.Prompt("Digite a senha", "", "", true, "senha_cadastro").ToUpper() != "MEDA65")
-            //{
-            //    Conexoes.Utilz.Alerta("Senha incorreta", "Acesso negado", MessageBoxImage.Error);
-            //    return;
-            //}
 
             if (!Utilz.Acesso(DBases.GetUserAtual().orcamento_cadastro_lista_tecnica))
             {
@@ -300,97 +222,47 @@ namespace Orc_Gambi
             mm.Show();
 
         }
-
         private void consulta_cadastos(object sender, RoutedEventArgs e)
         {
             ExplorerPLM.Menus.ItensPadrao mm = new ExplorerPLM.Menus.ItensPadrao();
             mm.Show();
         }
-
         private void MenuItem_Click_2(object sender, RoutedEventArgs e)
         {
-            //if (Conexoes.Utilz.Prompt("Digite a senha", "", "", true, "senha_cadastro").ToUpper() != "MEDA65")
-            //{
-            //    Conexoes.Utilz.Alerta("Senha incorreta", "Acesso negado", MessageBoxImage.Error);
-            //    return;
-            //}
             if (!Utilz.Acesso(DBases.GetUserAtual().tela_cadastro))
             {
                 return;
             }
             ExplorerPLM.RM2._Principal mm = new ExplorerPLM.RM2._Principal();
-            //mm.Closed += Mm_Closed;
-            //this.Visibility = Visibility.Hidden;
             mm.Show();
         }
-
-        private void CheckBox_Checked(object sender, RoutedEventArgs e)
-        {
-
-            GetObrasAsync();
-        }
-
         private void consulta_estoque(object sender, RoutedEventArgs e)
         {
             ExplorerPLM.Utilidades.getEstoque();
         }
-
         private void Arquivo_Obras(object sender, RoutedEventArgs e)
         {
-            //if (Conexoes.Utilz.Prompt("Digite a senha", "", "", true, "senha_cadastro").ToUpper() != "MEDA65")
-            //{
-            //    Conexoes.Utilz.Alerta("Senha incorreta", "Acesso negado", MessageBoxImage.Error);
-            //    return;
-            //}
             if (!Utilz.Acesso(DBases.GetUserAtual().orcamento_arquivar))
             {
                 return;
             }
-            //this.Visibility = Visibility.Hidden;
             Arquivo mm = new Arquivo();
             mm.Closed += Mm_Closed1;
             mm.ShowDialog();
-            //this.Visibility = Visibility.Visible;
         }
-
-        private async void Mm_Closed1(object sender, EventArgs e)
+        private void Mm_Closed1(object sender, EventArgs e)
         {
-            await GetObrasAsync();
+            Update();
         }
-        private OrcamentoObra ObraSelecionada { get; set; }
-        private void RadGridView_SelectionChanged(object sender, SelectionChangeEventArgs e)
-        {
-            if ((sender as RadGridView).SelectedItem is OrcamentoObra)
-            {
-                ObraSelecionada = (sender as RadGridView).SelectedItem as OrcamentoObra;
-                ZoomNaObra(ObraSelecionada);
-
-                //this.Hide();
-            }
-        }
-
-        private void consulta_esquemas(object sender, RoutedEventArgs e)
-        {
-            Conexoes.RfcsSAP.GetEsquemas();
-        }
-
         private void Cadastro_Segmentos(object sender, RoutedEventArgs e)
         {
-            //if (Conexoes.Utilz.Prompt("Digite a senha", "", "", true, "senha_cadastro").ToUpper() != "MEDA65")
-            //{
-            //    Conexoes.Utilz.Alerta("Senha incorreta", "Acesso negado", MessageBoxImage.Error);
-            //    return;
-            //}
             if (!Utilz.Acesso(DBases.GetUserAtual().orcamento_cadastro_lista_tecnica))
             {
                 return;
             }
-            Propriedades mm = new Propriedades(Propriedades.Tipologia.Segmento);
+            EditarObjetoOrcamento mm = new EditarObjetoOrcamento(EditarObjetoOrcamento.Tipologia.Segmento);
             mm.Show();
         }
-
-
-
         private void criar_revisao(object sender, RoutedEventArgs e)
         {
             if (!Utilz.Acesso(DBases.GetUserAtual().orcamento_revisar_obra))
@@ -416,28 +288,23 @@ namespace Orc_Gambi
                     Conexoes.Utilz.Alerta("Já existe uma revisão com esse nome", "", MessageBoxImage.Asterisk);
                     return;
                 }
-                var t = PGOVars.DbOrc.CriarRevisao(this.ObraSelecionada, revisao);
+                var t = PGOVars.GetDbOrc().CriarRevisao(this.ObraSelecionada, revisao);
                 if (t != null)
                 {
                     this.ObraSelecionada.Pai.Revisoes.Add(t);
                 }
-                this.GetObrasAsync();
-
-                //this.Hide();
+                this.Update();
             }
         }
-
         private void meus_acessos(object sender, RoutedEventArgs e)
         {
             Utilz.VerAcessos(DBases.GetUserAtual());
         }
-
         private void mostra_menu_endereco(object sender, RoutedEventArgs e)
         {
             ExplorerPLM.Menus.Fretes mm = new ExplorerPLM.Menus.Fretes(new Rotas());
             mm.Show();
         }
-
         private void gestao_fretes(object sender, RoutedEventArgs e)
         {
             if (!Utilz.Acesso(DBases.GetUserAtual().gestao_fretes))
@@ -447,14 +314,12 @@ namespace Orc_Gambi
             ExplorerPLM.Menus.Gestao_Fretes mm = new ExplorerPLM.Menus.Gestao_Fretes();
             mm.Show();
         }
-
-        private void editar_endereco(object sender, RoutedEventArgs e)
+        private void EditarRota(object sender, RoutedEventArgs e)
         {
             Conexoes.Orcamento.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.OrcamentoObra;
             if (sel != null)
             {
-                ExplorerPLM.Menus.Fretes mm = new ExplorerPLM.Menus.Fretes(sel);
-                mm.Show();
+                EditarRota(sel);
             }
         }
 
@@ -467,56 +332,12 @@ namespace Orc_Gambi
             foreach (var rot in rotas)
             {
                 await rot.Pesquisar();
-                await rot.GetRotas();
+                await rot.GetRotas(true);
                 rot.Salvar();
             }
             w.Close();
 
-            //if (Obs.Count > 0)
-            //{
-            //    if (Utilz.Pergunta("Tem certeza que deseja atualizar as " + Obs.Count + " obras selecionadas?"))
-            //    {
-            //        var forcar_atualizacao = Utilz.Pergunta("Atualizar mesmo que o endereço esteja OK?");
-            //        var rotas = Obs.SelectMany(x => x.Revisoes).Select(x => x.GetRotas()).ToList().GroupBy(x => x.ToString().ToUpper().Replace(" ", "")).Select(x => x.First()).ToList();
-
-            //        ControleWait w = Conexoes.Utilz.Wait(rotas.Count, "Consultando Endereços...");
-            //        /*isso reduziu absurdamente o tempo de processamento*/
-            //        foreach (var rot in rotas.OrderBy(x => x.Lista.Count))
-            //        {
-            //            w.somaProgresso("Consultando..." + rot.ToString());
-
-            //            if (rot.Lista.Count == 0 | forcar_atualizacao)
-            //            {
-            //                await rot.Pesquisar();
-            //                await rot.GetRotas();
-            //                rot.Salvar();
-
-            //            }
-            //            if (rot.Lista.Count == 0)
-            //            {
-            //                continue;
-            //            }
-            //            var enderecos_iguais = Obs.SelectMany(x => x.Revisoes).Select(x => x.GetRotas()).ToList().FindAll(x => x.ToString().ToUpper().Replace(" ","") == rot.ToString().ToUpper().Replace(" ", "") && x != rot);
-            //            foreach (var s in enderecos_iguais)
-            //            {
-            //                try
-            //                {
-            //                    s.Lista = new List<Rota>();
-            //                    s.Lista.AddRange(rot.Lista);
-            //                    s.Salvar();
-            //                }
-            //                catch (Exception)
-            //                {
-            //                }
-            //            }
-            //        }
-
-            //    }
-            //}
         }
-
-
-
         private async void calcular_fretes(object sender, RoutedEventArgs e)
         {
             List<OrcamentoObra> Obs = lista.SelectedItems.Cast<OrcamentoObra>().ToList();
@@ -542,7 +363,7 @@ namespace Orc_Gambi
    
 
                             await tn.Pesquisar();
-                            await tn.GetRotas();
+                            await tn.GetRotas(true);
                             tn.Salvar();
                             ob.SetSalvaRota(tn);
                         }
@@ -553,62 +374,58 @@ namespace Orc_Gambi
             }
         }
 
-        private async void add_obra(object sender, RoutedEventArgs e)
+        private void add_obra(object sender, RoutedEventArgs e)
         {
-            NovaObra mm = new NovaObra();
-            mm.Obra.Tipo = Tipo_Orcamento.Orçamento;
-            mm.ShowDialog();
-            if (mm.Editado)
-            {
-                SetTemplate(mm.Obra);
-                 
-
-                await GetObrasAsync();
-
-                this.Filtrar.Text = mm.Obra.Contrato;
-            }
-
-
+            MenuNovaObra = new NovaObra();
+            MenuNovaObra.Obra.Tipo = Tipo_Orcamento.Orçamento;
+            NovaObra();
         }
 
+        private void NovaObra()
+        {
+            MenuNovaObra.ShowDialog();
+            if (MenuNovaObra.Editado)
+            {
+                VerificarTemplate(MenuNovaObra.Obra);
+                EditarRota(MenuNovaObra.Obra);
+                Update();
+                this.Filtrar.Text = MenuNovaObra.Obra.Contrato;
+            }
+        }
         private void editar_informacoes(object sender, RoutedEventArgs e)
         {
             Conexoes.Orcamento.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.OrcamentoObra;
             if (sel == null) { return; }
-            NovaObra mm = new NovaObra(sel);
-            mm.ShowDialog();
+            MenuNovaObra = new NovaObra(sel);
+            MenuNovaObra.ShowDialog();
         }
-
         private void Cadastro_Grupo_de_Mercadorias(object sender, RoutedEventArgs e)
         {
             if (!Utilz.Acesso(DBases.GetUserAtual().orcamento_cadastro_lista_tecnica))
             {
                 return;
             }
-            Propriedades mm = new Propriedades(Propriedades.Tipologia.Grupo_De_Mercadoria);
+            EditarObjetoOrcamento mm = new EditarObjetoOrcamento(EditarObjetoOrcamento.Tipologia.Grupo_De_Mercadoria);
             mm.Show();
         }
-
         private void Cadastro_Grupos(object sender, RoutedEventArgs e)
         {
             if (!Utilz.Acesso(DBases.GetUserAtual().orcamento_cadastro_lista_tecnica))
             {
                 return;
             }
-            Propriedades mm = new Propriedades(Propriedades.Tipologia.Grupo);
+            EditarObjetoOrcamento mm = new EditarObjetoOrcamento(EditarObjetoOrcamento.Tipologia.Grupo);
             mm.Show();
         }
-
         private void Cadastro_Locais(object sender, RoutedEventArgs e)
         {
             if (!Utilz.Acesso(DBases.GetUserAtual().orcamento_cadastro_lista_tecnica))
             {
                 return;
             }
-            Propriedades mm = new Propriedades(Propriedades.Tipologia.Local);
+            EditarObjetoOrcamento mm = new EditarObjetoOrcamento(EditarObjetoOrcamento.Tipologia.Local);
             mm.Show();
         }
-
         private void gestao_arvore(object sender, RoutedEventArgs e)
         {
             if (!Utilz.Acesso(DBases.GetUserAtual().orcamento_cadastro_lista_tecnica))
@@ -618,7 +435,6 @@ namespace Orc_Gambi
             Gestao_Arvore mm = new Gestao_Arvore();
             mm.Show();
         }
-
         private void ajustar_ranges(object sender, RoutedEventArgs e)
         {
             List<OrcamentoObra> Obs = lista.SelectedItems.Cast<OrcamentoObra>().ToList().SelectMany(x => x.Revisoes).ToList();
@@ -643,27 +459,24 @@ namespace Orc_Gambi
                 }
             }
         }
-
         private static void Apagar(bool apaga_zeradas, OrcamentoObra ob)
         {
             if (apaga_zeradas)
             {
-                Conexoes.DBases.GetDB().ExecutarComando($"delete from {PGOVars.Config.Database}.{PGOVars.Config.tabela_id_predio} where cod_obra={ob.id} and quantidade is null");
+                Conexoes.DBases.GetDB_Orcamento().ExecutarComando($"delete from {PGOVars.GetConfig().Database}.{PGOVars.GetConfig().tabela_id_predio} where cod_obra={ob.id} and quantidade is null");
                 ob.SetValor("nova", true.ToString());
                 ob.nova = true;
             }
         }
-
         private void Cadastro_Tipos_Pintura(object sender, RoutedEventArgs e)
         {
             if (!Utilz.Acesso(DBases.GetUserAtual().orcamento_cadastro_lista_tecnica))
             {
                 return;
             }
-            Propriedades mm = new Propriedades(Propriedades.Tipologia.Tipo_Pintura);
+            EditarObjetoOrcamento mm = new EditarObjetoOrcamento(EditarObjetoOrcamento.Tipologia.Tipo_Pintura);
             mm.Show();
         }
-
         private void apaga_revisao(object sender, RoutedEventArgs e)
         {
             if (!Utilz.Acesso(DBases.GetUserAtual().orcamento_apagar_obra))
@@ -676,7 +489,6 @@ namespace Orc_Gambi
                 return;
             }
 
-            //this.ObraSelecionada = ((sender as System.Windows.Controls.Button).Parent as Telerik.Windows.Controls.GridView.GridViewCell).DataContext as Conexoes.Orcamento.Obra;
             this.ObraSelecionada = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.OrcamentoObra;
             if (this.ObraSelecionada != null)
             {
@@ -685,20 +497,17 @@ namespace Orc_Gambi
                 {
                     return;
                 }
-                PGOVars.DbOrc.Apagar(this.ObraSelecionada);
-                this.GetObrasAsync();
+                PGOVars.GetDbOrc().Apagar(this.ObraSelecionada);
+                this.Update();
 
-                //this.Hide();
             }
         }
-
         private void arquivar_obra(object sender, RoutedEventArgs e)
         {
             if (!Utilz.Acesso(DBases.GetUserAtual().orcamento_arquivar))
             {
                 return;
             }
-            //this.ObraSelecionada = ((sender as System.Windows.Controls.Button).Parent as Telerik.Windows.Controls.GridView.GridViewCell).DataContext as Conexoes.Orcamento.Obra;
             this.ObraSelecionada = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.OrcamentoObra;
             if (this.ObraSelecionada != null)
             {
@@ -707,52 +516,45 @@ namespace Orc_Gambi
                 {
                     return;
                 }
-                PGOVars.DbOrc.Arquivar(this.ObraSelecionada);
-                this.GetObrasAsync();
-
-                //this.Hide();
+                PGOVars.GetDbOrc().Arquivar(this.ObraSelecionada);
+                this.Update();
             }
         }
-
         private void editar_padroes_nacional(object sender, RoutedEventArgs e)
         {
             if (!Utilz.Acesso(DBases.GetUserAtual().orcamento_cadastro_lista_tecnica))
             {
                 return;
             }
-            NovaObra mm = new NovaObra(PGOVars.DbOrc.Padrao_Nacional);
-            mm.nome.IsEnabled = false;
-            mm.check_nacional.IsEnabled = false;
-            mm.contrato.IsEnabled = false;
-            mm.Show();
+            MenuNovaObra = new NovaObra(PGOVars.GetDbOrc().GetPadrao_Nacional());
+            MenuNovaObra.nome.IsEnabled = false;
+            MenuNovaObra.check_nacional.IsEnabled = false;
+            MenuNovaObra.contrato.IsEnabled = false;
+            MenuNovaObra.Show();
         }
-
         private void editar_padroes_exportacao(object sender, RoutedEventArgs e)
         {
             if (!Utilz.Acesso(DBases.GetUserAtual().orcamento_cadastro_lista_tecnica))
             {
                 return;
             }
-            NovaObra mm = new NovaObra(PGOVars.DbOrc.Padrao_Exportacao);
-            mm.nome.IsEnabled = false;
-            mm.check_nacional.IsEnabled = false;
-            mm.contrato.IsEnabled = false;
-            mm.Show();
+            MenuNovaObra = new NovaObra(PGOVars.GetDbOrc().GetPadrao_Exportacao());
+            MenuNovaObra.nome.IsEnabled = false;
+            MenuNovaObra.check_nacional.IsEnabled = false;
+            MenuNovaObra.contrato.IsEnabled = false;
+            MenuNovaObra.Show();
         }
-
         private void ver_folha_margem(object sender, RoutedEventArgs e)
         {
             Conexoes.Orcamento.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.OrcamentoObra;
             PGO.Tela_Folha_Margem mm = new PGO.Tela_Folha_Margem(sel);
             mm.Show();
         }
-
-        private async void Atualizar_estrutura(object sender, RoutedEventArgs e)
+        private void Atualizar_estrutura(object sender, RoutedEventArgs e)
         {
-            await GetObrasAsync();
+            Update();
 
         }
-
         private void consulta_estimativo(object sender, RoutedEventArgs e)
         {
             try
@@ -767,29 +569,6 @@ namespace Orc_Gambi
             }
 
         }
-
-        private void desloquear_obras(object sender, RoutedEventArgs e)
-        {
-            List<OrcamentoObra> Obs = lista.SelectedItems.Cast<OrcamentoObra>().ToList().SelectMany(x => x.Revisoes).ToList();
-            //Obs.AddRange(lista.SelectedItems.Cast<Obra>().ToList());
-
-            //Obs.AddRange(lista.SelectedItems.Cast<Obra>().ToList());
-            if (Obs.Count > 0)
-            {
-                if (Utilz.Pergunta("Tem certeza que deseja desbloquear as " + Obs.Count + " obras selecionadas?"))
-                {
-                    ControleWait w = Conexoes.Utilz.Wait(Obs.Count, "Atualizando...");
-                    foreach (var ob in Obs)
-                    {
-                        w.somaProgresso(ob.ToString());
-                        ob.Bloqueia(false);
-
-                    }
-                    w.Close();
-                }
-            }
-        }
-
         private void abre_team_viewer(object sender, RoutedEventArgs e)
         {
             var s = $@"{Cfg.Init.RaizBinarios}Lisps\TeamViewer\Updater.exe";
@@ -803,7 +582,6 @@ namespace Orc_Gambi
             }
 
         }
-
         private void abre_etapas(object sender, RoutedEventArgs e)
         {
             Conexoes.Orcamento.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.OrcamentoObra;
@@ -814,13 +592,11 @@ namespace Orc_Gambi
             this.Visibility = Visibility.Collapsed;
             mm.Show();
         }
-
         private void Mm_Closed2(object sender, EventArgs e)
         {
             this.Visibility = Visibility.Visible;
         }
-
-        private async void gerar_etapas(object sender, RoutedEventArgs e)
+        private void gerar_etapas(object sender, RoutedEventArgs e)
         {
             var sel = Conexoes.Utilz.SelecionarObjetos(this.Obras.SelectMany(x => x.Revisoes).ToList(), true);
             if (sel.Count > 0)
@@ -836,38 +612,33 @@ namespace Orc_Gambi
                     w.somaProgresso();
                 }
                 w.Close();
-                GetObrasAsync();
+                Update();
             }
         }
-
         private void pmp_orcamento(object sender, RoutedEventArgs e)
         {
             PGO.TelaPMP mm = new PGO.TelaPMP(this.Obras);
             mm.Show();
         }
-
         private void Cadastro_FERTS(object sender, RoutedEventArgs e)
         {
             if (!Utilz.Acesso(DBases.GetUserAtual().orcamento_cadastro_lista_tecnica))
             {
                 return;
             }
-            Propriedades mm = new Propriedades(Propriedades.Tipologia.FERT);
+            EditarObjetoOrcamento mm = new EditarObjetoOrcamento(EditarObjetoOrcamento.Tipologia.FERT);
             mm.Show();
         }
-
         private void cadastro_frentes(object sender, RoutedEventArgs e)
         {
-            Propriedades mm = new Propriedades(Propriedades.Tipologia.Frente);
+            EditarObjetoOrcamento mm = new EditarObjetoOrcamento(EditarObjetoOrcamento.Tipologia.Frente);
             mm.Show();
         }
-
         private void cadastro_ferts_e_cronograma(object sender, RoutedEventArgs e)
         {
             PGO.Listas_Tecnicas_Cronograma mm = new PGO.Listas_Tecnicas_Cronograma();
             mm.Show();
         }
-
         private void abrir_excel_xml(object sender, RoutedEventArgs e)
         {
             var arquivo = Conexoes.Utilz.Abrir_String("xml", "Selecione", "Selecione");
@@ -880,40 +651,14 @@ namespace Orc_Gambi
                 var plan = Conexoes.Funcoes.GetLista(t);
             }
         }
-        NovaObra mm { get; set; } = new NovaObra();
-
-        private async void add_sec(object sender, RoutedEventArgs e)
+        private void add_sec(object sender, RoutedEventArgs e)
         {
-            mm = new NovaObra();
-            mm.Obra.Tipo = Tipo_Orcamento.SEC;
-            mm.Show();
-            mm.Close();
-            mm = new NovaObra();
-            mm.Obra.Revisao = "R00";
-            mm.Obra.Contrato = "SEC" + (this.Obras.FindAll(x => x.Tipo == Tipo_Orcamento.SEC).Max(x=> Conexoes.Utilz.Int(x.Contrato.Replace("SEC","")) + 1).ToString().PadLeft(9, '0'));
-            mm.Obra.Tipo = Tipo_Orcamento.SEC;
-            mm.ShowDialog();
-            if (mm.Editado)
-            {
-                SetTemplate(mm.Obra);
-                mm = null;
-                await GetObrasAsync();
-                this.Filtrar.Text = mm.Obra.Contrato;
-            }
-
+            MenuNovaObra = new NovaObra();
+            MenuNovaObra.Obra.Revisao = "R00";
+            MenuNovaObra.Obra.Contrato = "SEC" + (this.Obras.FindAll(x => x.Tipo == Tipo_Orcamento.SEC).Max(x=> Conexoes.Utilz.Int(x.Contrato.Replace("SEC","")) + 1).ToString().PadLeft(9, '0'));
+            MenuNovaObra.Obra.Tipo = Tipo_Orcamento.SEC;
+            NovaObra();
         }
-
-        private async void recarrega(object sender, EventArgs e)
-        {
-            if (mm == null) { return; }
-            if (mm.Editado)
-            {
-                SetTemplate(mm.Obra);
-                mm = null;
-                await GetObrasAsync();
-            }
-        }
-
         private void abre_etapas_lista_de_peças(object sender, RoutedEventArgs e)
         {
             Conexoes.Orcamento.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.OrcamentoObra;
@@ -921,14 +666,12 @@ namespace Orc_Gambi
 
             ExplorerPLM.Utilidades.VerMateriais(sel);
         }
-
         private void editar_observacoes(object sender, RoutedEventArgs e)
         {
             Conexoes.Orcamento.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.OrcamentoObra;
             if (sel == null) { return; }
             sel.EditarObservacoes();
         }
-
         private void testar_mps(object sender, RoutedEventArgs e)
         {
             if (!Utilz.Acesso(DBases.GetUserAtual().orcamento_atualizar_db))
@@ -937,18 +680,14 @@ namespace Orc_Gambi
             }
             DBases.GetBancoRM().SetMP_Custom(true, true);
         }
-
         private void lista_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //lista.CollapseAllHierarchyItems();
             if (lista.SelectedItem != null)
             {
-                //lista.ExpandHierarchyItem(lista.SelectedItem);
                 OrcamentoObra ob = lista.SelectedItem as OrcamentoObra;
                 ZoomNaObra(ob);
             }
         }
-
         private void Filtrar_TextChanged(object sender, TextChangedEventArgs e)
         {
            if (Filtrar.Text != "Pesquisar...")

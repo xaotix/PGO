@@ -17,10 +17,10 @@ namespace Orc_Gambi
             this.DataContext = this;
             this.chkraiz.IsVisible = check_visivel;
         }
-        public List<Predio> Predios { get; set; } = new List<Predio>();
+        public List<OrcamentoPredio> Predios { get; set; } = new List<OrcamentoPredio>();
 
         public OrcamentoObra Obra { get; set; } = new OrcamentoObra();
-        public Container_Obra(List<Predio> lista, bool check_visivel)
+        public Container_Obra(List<OrcamentoPredio> lista, bool check_visivel)
         {
             InitializeComponent();
             this.Predios = lista;

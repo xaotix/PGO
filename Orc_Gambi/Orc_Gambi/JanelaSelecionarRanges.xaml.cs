@@ -11,8 +11,8 @@ namespace Orc_Gambi
     /// </summary>
     public partial class JanelaSelecionarRanges : ModernWindow
     {
-        public List<Predio> Predios { get; set; } = new List<Predio>();
-        public JanelaSelecionarRanges(List<Predio> lista, bool check_visivel)
+        public List<OrcamentoPredio> Predios { get; set; } = new List<OrcamentoPredio>();
+        public JanelaSelecionarRanges(List<OrcamentoPredio> lista, bool check_visivel)
         {
             InitializeComponent();
             Container_Obra mm = new Container_Obra(lista.OrderBy(x => x.numero).ToList(), check_visivel);

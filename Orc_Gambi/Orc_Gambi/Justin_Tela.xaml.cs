@@ -18,7 +18,7 @@ namespace PGO
         {
             InitializeComponent();
             navegador.Navigate("about:blank");
-            Dados = new Conexoes.Orcamento.Consulta_Justin(Conexoes.Orcamento.PGOVars.DbOrc.Justin);
+            Dados = new Conexoes.Orcamento.Consulta_Justin(Conexoes.Orcamento.PGOVars.GetDbOrc().GetJustin());
             this.DataContext = this;
 
             //this.vao_principal.ItemsSource = Dados.Justin.vaos_principais;

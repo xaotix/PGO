@@ -69,8 +69,8 @@ namespace Orc_Gambi
                     if ((bool)Um_Item.IsChecked | (bool)ver_agrupado.IsChecked)
                     {
 
-                        Conexoes.Orcamento.PGOVars.DbOrc.Apagar(Lista_Pecas.SelectedItems.Cast<PecaDB>().ToList());
-                        Conexoes.Orcamento.PGOVars.DbOrc = null;
+                        Conexoes.Orcamento.PGOVars.GetDbOrc().Apagar(Lista_Pecas.SelectedItems.Cast<PecaDB>().ToList());
+                        Conexoes.Orcamento.PGOVars.SetDbOrc(null);
                         //setFiltro();
                         setFiltro();
 
@@ -185,7 +185,7 @@ namespace Orc_Gambi
                     List<Conexoes.Report> reports = new List<Conexoes.Report>();
                     foreach (var id in ids)
                     {
-                        Produto corr = Conexoes.Orcamento.PGOVars.DbOrc.Produtos.Find(x => x.id == Conexoes.Utilz.Int(id));
+                        Produto corr = Conexoes.Orcamento.PGOVars.GetDbOrc().GetProdutos().Find(x => x.id == Conexoes.Utilz.Int(id));
                         var lts = lista.FindAll(x => x[0] == id.ToString());
                         if (corr != null)
                         {
@@ -266,7 +266,7 @@ namespace Orc_Gambi
 
                     foreach (var id in ids)
                     {
-                        Produto corr = Conexoes.Orcamento.PGOVars.DbOrc.Produtos.Find(x => x.id == Conexoes.Utilz.Int(id));
+                        Produto corr = Conexoes.Orcamento.PGOVars.GetDbOrc().GetProdutos().Find(x => x.id == Conexoes.Utilz.Int(id));
                         var lts = lista.FindAll(x => x[0] == id.ToString());
                         if (corr != null)
                         {
@@ -608,7 +608,7 @@ namespace Orc_Gambi
         {
             Conexoes.ControleWait w = Conexoes.Utilz.Wait(10, "Aguarde...");
             w.somaProgresso();
-            var ss = Conexoes.Orcamento.PGOVars.DbOrc.Produtos.FindAll(x => x.PecasDB.Count == 0);
+            var ss = Conexoes.Orcamento.PGOVars.GetDbOrc().GetProdutos().FindAll(x => x.PecasDB.Count == 0);
             w.Close();
             Conexoes.Utilz.ShowReports(ss.Select(x => new Conexoes.Report(x.id.ToString(), x.Chave)).ToList());
         }
@@ -653,13 +653,13 @@ namespace Orc_Gambi
                 Produto_Selecionado = null;
                 Lista_Pecas.IsEnabled = false;
                 adicionar_item.Visibility = Visibility.Visible;
-                if (Conexoes.Orcamento.PGOVars.DbOrc == null)
+                if (Conexoes.Orcamento.PGOVars.GetDbOrc() == null)
                 {
-                    Conexoes.Orcamento.PGOVars.DbOrc = new Dados();
+                    Conexoes.Orcamento.PGOVars.SetDbOrc(new DadosOrcamento());
 
                 }
                 //Conexoes.Orcamento.Variaveis.DbOrc.GetProdutos(true);
-                var lista_n = Conexoes.Orcamento.PGOVars.DbOrc.GetGrupos_De_Mercadoria();
+                var lista_n = Conexoes.Orcamento.PGOVars.GetDbOrc().GetGrupos_De_Mercadoria();
 
                 //if ((bool)ver_arvore.IsChecked)
                 //{
@@ -675,8 +675,8 @@ namespace Orc_Gambi
 
                 if ((bool)Tudo.IsChecked)
                 {
-                    Produtos = Conexoes.Orcamento.PGOVars.DbOrc.Produtos;
-                    Pecas = Conexoes.Orcamento.PGOVars.DbOrc.Produtos.SelectMany(x => x.PecasDB).ToList();
+                    Produtos = Conexoes.Orcamento.PGOVars.GetDbOrc().GetProdutos();
+                    Pecas = Conexoes.Orcamento.PGOVars.GetDbOrc().GetProdutos().SelectMany(x => x.PecasDB).ToList();
                     //Grupos = new List<Grupo>();
                     Grupos_De_Mercadoria.AddRange(lista_n);
                     foreach (var t in Grupos_De_Mercadoria)
@@ -693,7 +693,7 @@ namespace Orc_Gambi
                 else if ((bool)Sem_Materiais.IsChecked)
                 {
                     List<string> itens = GetItensPeca();
-                    Produtos = Conexoes.Orcamento.PGOVars.DbOrc.Produtos.FindAll(x => x.PecasDB.Count == 0).ToList();
+                    Produtos = Conexoes.Orcamento.PGOVars.GetDbOrc().GetProdutos().FindAll(x => x.PecasDB.Count == 0).ToList();
                     Pecas = new List<PecaDB>();
                     Alimenta_Arvore(lista_n);
 
@@ -701,7 +701,7 @@ namespace Orc_Gambi
                 else if ((bool)Fert_em_branco.IsChecked)
                 {
                     List<string> itens = GetItensPeca();
-                    Produtos = Conexoes.Orcamento.PGOVars.DbOrc.Produtos.FindAll(x => x.FERT == "").ToList();
+                    Produtos = Conexoes.Orcamento.PGOVars.GetDbOrc().GetProdutos().FindAll(x => x.FERT == "").ToList();
                     Pecas = new List<PecaDB>();
                     Alimenta_Arvore(lista_n);
 
@@ -710,7 +710,7 @@ namespace Orc_Gambi
                 else if ((bool)Falta_Verificar.IsChecked)
                 {
                     List<string> itens = GetItensPeca();
-                    Produtos = Conexoes.Orcamento.PGOVars.DbOrc.Produtos.FindAll(x => !x.Verificado).ToList();
+                    Produtos = Conexoes.Orcamento.PGOVars.GetDbOrc().GetProdutos().FindAll(x => !x.Verificado).ToList();
                     Pecas = new List<PecaDB>();
                     Alimenta_Arvore(lista_n);
 
@@ -719,14 +719,14 @@ namespace Orc_Gambi
                 else if ((bool)Verificado.IsChecked)
                 {
                     List<string> itens = GetItensPeca();
-                    Produtos = Conexoes.Orcamento.PGOVars.DbOrc.Produtos.FindAll(x => x.Verificado).ToList();
+                    Produtos = Conexoes.Orcamento.PGOVars.GetDbOrc().GetProdutos().FindAll(x => x.Verificado).ToList();
                     Pecas = new List<PecaDB>();
                     Alimenta_Arvore(lista_n);
                 }
                 else if ((bool)Falta_Enviar_SAP.IsChecked)
                 {
                     List<string> itens = GetItensPeca();
-                    Produtos = Conexoes.Orcamento.PGOVars.DbOrc.Produtos.FindAll(x => !x.Enviado_SAP).ToList();
+                    Produtos = Conexoes.Orcamento.PGOVars.GetDbOrc().GetProdutos().FindAll(x => !x.Enviado_SAP).ToList();
                     Alimenta_Arvore(lista_n);
 
 
@@ -734,13 +734,13 @@ namespace Orc_Gambi
                 else if ((bool)Enviado_SAP.IsChecked)
                 {
                     List<string> itens = GetItensPeca();
-                    Produtos = Conexoes.Orcamento.PGOVars.DbOrc.Produtos.FindAll(x => x.Enviado_SAP).ToList();
+                    Produtos = Conexoes.Orcamento.PGOVars.GetDbOrc().GetProdutos().FindAll(x => x.Enviado_SAP).ToList();
                     Alimenta_Arvore(lista_n);
                 }
                 else if ((bool)Material_Invalido.IsChecked)
                 {
                     List<string> itens = GetItensPeca();
-                    Produtos = Conexoes.Orcamento.PGOVars.DbOrc.Produtos.FindAll(x => x.PecasDB.FindAll(y => y.id_peca <= 0).Count > 0).ToList();
+                    Produtos = Conexoes.Orcamento.PGOVars.GetDbOrc().GetProdutos().FindAll(x => x.PecasDB.FindAll(y => y.id_peca <= 0).Count > 0).ToList();
                     Alimenta_Arvore(lista_n);
                 }
              
@@ -754,7 +754,7 @@ namespace Orc_Gambi
                     if (sel != null)
                     {
                         var ch = sel.Split('@');
-                        Pecas = Conexoes.Orcamento.PGOVars.DbOrc.Produtos.SelectMany(x => x.PecasDB).ToList().FindAll(x => x.id_peca == Conexoes.Utilz.Int(ch[0]) && x.Tipo == ch[1].ToString());
+                        Pecas = Conexoes.Orcamento.PGOVars.GetDbOrc().GetProdutos().SelectMany(x => x.PecasDB).ToList().FindAll(x => x.id_peca == Conexoes.Utilz.Int(ch[0]) && x.Tipo == ch[1].ToString());
                         Lista_Pecas.ItemsSource = Pecas;
                         Lista_Pecas.IsEnabled = true;
                     }
@@ -839,8 +839,8 @@ namespace Orc_Gambi
         private static List<string> GetItensPeca()
         {
             List<string> itens = new List<string>();
-            Conexoes.ControleWait w = Conexoes.Utilz.Wait(Conexoes.Orcamento.PGOVars.DbOrc.Produtos.Count(), "Mapeando Peças...");
-            foreach (var p in Conexoes.Orcamento.PGOVars.DbOrc.Produtos)
+            Conexoes.ControleWait w = Conexoes.Utilz.Wait(Conexoes.Orcamento.PGOVars.GetDbOrc().GetProdutos().Count(), "Mapeando Peças...");
+            foreach (var p in Conexoes.Orcamento.PGOVars.GetDbOrc().GetProdutos())
             {
                 foreach (var x in p.PecasDB)
                 {
@@ -906,7 +906,7 @@ namespace Orc_Gambi
 
 
 
-            var p = Conexoes.Utilz.SelecionarObjeto(Conexoes.Orcamento.PGOVars.DbOrc.Produtos, null);
+            var p = Conexoes.Utilz.SelecionarObjeto(Conexoes.Orcamento.PGOVars.GetDbOrc().GetProdutos(), null);
             if (p != null)
             {
                 if (Conexoes.Utilz.Pergunta("Tem certeza que deseja importar os itens do range " + p.Chave + " para o range \n" + Produto_Selecionado.Chave))
@@ -963,9 +963,9 @@ namespace Orc_Gambi
 
         private void get_pecas_por_data(object sender, RoutedEventArgs e)
         {
-            ControleWait w = Conexoes.Utilz.Wait(Conexoes.Orcamento.PGOVars.DbOrc.Produtos.Count, "Consultando...");
+            ControleWait w = Conexoes.Utilz.Wait(Conexoes.Orcamento.PGOVars.GetDbOrc().GetProdutos().Count, "Consultando...");
             Produtos_Uso.Clear();
-            Produtos_Uso = Conexoes.Orcamento.PGOVars.DbOrc.GetUso((DateTime)DataDe.SelectedDate, (DateTime)DataAte.SelectedDate);
+            Produtos_Uso = Conexoes.Orcamento.PGOVars.GetDbOrc().GetUso((DateTime)DataDe.SelectedDate, (DateTime)DataAte.SelectedDate);
             this.Lista_Uso.ItemsSource = null;
             this.Lista_Uso.ItemsSource = Produtos_Uso;
             w.Close();
@@ -1155,7 +1155,7 @@ namespace Orc_Gambi
             if (Produto_Selecionado == null) { return; }
             else
             {
-                var t = Conexoes.Utilz.SelecionarObjeto(Conexoes.Orcamento.PGOVars.DbOrc.Grupos_De_Mercadoria, null);
+                var t = Conexoes.Utilz.SelecionarObjeto(Conexoes.Orcamento.PGOVars.GetDbOrc().GetGrupos_De_Mercadoria(), null);
                 if (t != null)
                 {
                     if (t.id != Produto_Selecionado.Grupo_De_Mercadoria.id)
@@ -1204,7 +1204,7 @@ namespace Orc_Gambi
 
         private static void setavivos(bool acao)
         {
-            var t = Conexoes.Utilz.SelecionarObjetos(Conexoes.Orcamento.PGOVars.DbOrc.Produtos.FindAll(x => x.ativo != acao).ToList());
+            var t = Conexoes.Utilz.SelecionarObjetos(Conexoes.Orcamento.PGOVars.GetDbOrc().GetProdutos().FindAll(x => x.ativo != acao).ToList());
             if (t.Count > 0)
             {
                 foreach (var s in t)
@@ -1225,7 +1225,7 @@ namespace Orc_Gambi
             if (Produto_Selecionado == null) { return; }
             else
             {
-                var fert = Conexoes.Utilz.SelecionarObjeto(Conexoes.Orcamento.PGOVars.DbOrc.De_Para, null, "Selecione");
+                var fert = Conexoes.Utilz.SelecionarObjeto(Conexoes.Orcamento.PGOVars.GetDbOrc().GetDe_Para(), null, "Selecione");
                 if (fert != null)
                 {
                     Produto_Selecionado.setFERT(fert.FERT, fert.WERKS_Int);

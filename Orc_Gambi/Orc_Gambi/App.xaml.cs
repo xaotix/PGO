@@ -26,6 +26,7 @@ namespace Orc_Gambi
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
+            Cfg.Init.JanelaWaitMultiThread = true;
             LocalizationManager.Manager = new LocalizationManager()
             {
                 ResourceManager = PGO.GridTraducao.ResourceManager
@@ -36,7 +37,8 @@ namespace Orc_Gambi
                 Conexoes.Utilz.Alerta("Sistema regional de casas decimais configurado incorretamente. Favor ajustar antes de utilizar a ferramenta.", "", MessageBoxImage.Error);
                 System.Windows.Application.Current.Shutdown();
             }
-          
+            Conexoes.Orcamento.PGOVars.GetDbOrc();
+            Conexoes.DBases.GetSegmentos();
             MainWindow mm = new MainWindow();
             mm.Show();
 

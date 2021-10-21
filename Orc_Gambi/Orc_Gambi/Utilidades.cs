@@ -85,7 +85,7 @@ namespace Orc_Gambi
     {
         public static void ExportarPlanilhaCJ20N()
         {
-            List<Conexoes.Arquivo> excels = ExplorerPLM.Utilidades.ExplorerArquivos(new Conexoes.Pasta(Conexoes.Orcamento.PGOVars.Config.pasta_consolidadas), "XLSX");
+            List<Conexoes.Arquivo> excels = ExplorerPLM.Utilidades.ExplorerArquivos(new Conexoes.Pasta(Conexoes.Orcamento.PGOVars.GetConfig().pasta_consolidadas), "XLSX");
             if (excels.Count > 0)
             {
 
@@ -259,9 +259,9 @@ namespace Orc_Gambi
             int tot = 5;
 
 
-            Conexoes.ControleWait w = Conexoes.Utilz.Wait(tot, "Pesquisando " + Conexoes.Orcamento.PGOVars.Config.pasta_consolidadas);
+            Conexoes.ControleWait w = Conexoes.Utilz.Wait(tot, "Pesquisando " + Conexoes.Orcamento.PGOVars.GetConfig().pasta_consolidadas);
             w.somaProgresso();
-            var pastas = Conexoes.Utilz.GetPastas(Conexoes.Orcamento.PGOVars.Config.pasta_consolidadas);
+            var pastas = Conexoes.Utilz.GetPastas(Conexoes.Orcamento.PGOVars.GetConfig().pasta_consolidadas);
             w.somaProgresso("Buscando pedidos...");
 
             foreach (var s in codigos_obras)
@@ -341,9 +341,9 @@ namespace Orc_Gambi
         {
             erros = new List<Conexoes.Report>();
             List<string> codigos_obras = codigos.Select(x => x.PedidoSAP).Distinct().ToList();
-            if (!Directory.Exists(PGOVars.Config.pasta_consolidadas))
+            if (!Directory.Exists(PGOVars.GetConfig().pasta_consolidadas))
             {
-                erros.Add(new Conexoes.Report("Pasta não existe", Conexoes.Orcamento.PGOVars.Config.pasta_consolidadas, Conexoes.TipoReport.Crítico));
+                erros.Add(new Conexoes.Report("Pasta não existe", Conexoes.Orcamento.PGOVars.GetConfig().pasta_consolidadas, Conexoes.TipoReport.Crítico));
 
                 return new List<Conexoes.Pedido_PMP>();
             }
@@ -475,7 +475,7 @@ namespace Orc_Gambi
                     var pcs = Orc_Gambi.Funcoes.getPecas(t, out erros_pcs).ToList().FindAll(x => x.pep.Length > 13 && x.pep.Contains(".P"));
                     pecas.AddRange(pcs);
                     peps.AddRange(pcs.Select(x => x.pep).Distinct().ToList());
-                    w.somaProgresso(t.Arquivo.ToUpper().Replace(Conexoes.Orcamento.PGOVars.Config.pasta_consolidadas.ToUpper(), ""));
+                    w.somaProgresso(t.Arquivo.ToUpper().Replace(Conexoes.Orcamento.PGOVars.GetConfig().pasta_consolidadas.ToUpper(), ""));
                     erros.AddRange(erros_pcs);
 
                     if (pcs.Count > 0)
@@ -592,7 +592,7 @@ namespace Orc_Gambi
             }
             return retorno;
         }
-        public static List<Range> SelecionarRanges(List<Predio> Selecao, bool editavel = true)
+        public static List<Range> SelecionarRanges(List<OrcamentoPredio> Selecao, bool editavel = true)
         {
             List<Range> retorno = new List<Range>();
 

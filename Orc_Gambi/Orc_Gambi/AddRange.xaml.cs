@@ -22,8 +22,8 @@ namespace Orc_Gambi
             this.Selecao = Selecao;
             this.Obra = Ob;
             InitializeComponent();
-            this.Tipo_Tratamento.ItemsSource = PGOVars.DbOrc.Tratamentos;
-            this.Tipo_Carreta.ItemsSource = PGOVars.DbOrc.Tipo_Carreta;
+            this.Tipo_Tratamento.ItemsSource = PGOVars.GetDbOrc().GetTratamentos();
+            this.Tipo_Carreta.ItemsSource = PGOVars.GetDbOrc().GetTipo_Carreta();
             Carregar_Dados();
         }
 
@@ -32,8 +32,8 @@ namespace Orc_Gambi
             this.Obra = Ob;
             this.Selecao = Selecao;
             InitializeComponent();
-            this.Tipo_Tratamento.ItemsSource = PGOVars.DbOrc.Tratamentos;
-            this.Tipo_Carreta.ItemsSource = PGOVars.DbOrc.Tipo_Carreta;
+            this.Tipo_Tratamento.ItemsSource = PGOVars.GetDbOrc().GetTratamentos();
+            this.Tipo_Carreta.ItemsSource = PGOVars.GetDbOrc().GetTipo_Carreta();
             Carregar_Dados();
             this.Grupos_De_Mercadoria.ItemsSource = Selecao.Itens;
             this.Grupos_De_Mercadoria.SelectedItem = Item;
@@ -48,10 +48,10 @@ namespace Orc_Gambi
             this.Obra = Ob;
             this.Selecao = Range.Grupo;
             InitializeComponent();
-            this.Tipo_Tratamento.ItemsSource = PGOVars.DbOrc.Tratamentos;
-            this.Tipo_Carreta.ItemsSource = PGOVars.DbOrc.Tipo_Carreta;
+            this.Tipo_Tratamento.ItemsSource = PGOVars.GetDbOrc().GetTratamentos();
+            this.Tipo_Carreta.ItemsSource = PGOVars.GetDbOrc().GetTipo_Carreta();
             Carregar_Dados();
-            this.Grupos_De_Mercadoria.ItemsSource = PGOVars.DbOrc.Grupos_De_Mercadoria;
+            this.Grupos_De_Mercadoria.ItemsSource = PGOVars.GetDbOrc().GetGrupos_De_Mercadoria();
             this.Grupos_De_Mercadoria.SelectedItem = Range.Produto.Grupo_De_Mercadoria;
 
 
@@ -91,7 +91,7 @@ namespace Orc_Gambi
             this.imglocal.Source = this.Selecao.Local.Imagem;
             this.lbl_predio.Content = this.Selecao.Local.Predio.nome;
             this.img_predio.Source = this.Selecao.Local.Predio.Imagem;
-            this.Grupos_De_Mercadoria.ItemsSource = PGOVars.DbOrc.Grupos_De_Mercadoria.FindAll(x => x.descricao != "VERBA");
+            this.Grupos_De_Mercadoria.ItemsSource = PGOVars.GetDbOrc().GetGrupos_De_Mercadoria().FindAll(x => x.descricao != "VERBA");
             if (this.Grupos_De_Mercadoria.Items.Count > 0)
             {
                 this.Grupos_De_Mercadoria.SelectedIndex = 0;
@@ -224,13 +224,13 @@ namespace Orc_Gambi
                     if (t.pintura > 0)
                     {
 
-                        this.Tipo_Tratamento.SelectedItem = this.Obra.Tratamento;
+                        this.Tipo_Tratamento.SelectedItem = this.Obra.GetTratamento();
                         this.Tipo_Tratamento.IsEnabled = true;
 
                     }
                     else
                     {
-                        this.Tipo_Tratamento.SelectedItem = PGOVars.DbOrc.Tratamentos.Find(x => x.Descricao == "0");
+                        this.Tipo_Tratamento.SelectedItem = PGOVars.GetDbOrc().GetTratamentos().Find(x => x.Descricao == "0");
                         this.Tipo_Tratamento.IsEnabled = false;
                     }
                 }

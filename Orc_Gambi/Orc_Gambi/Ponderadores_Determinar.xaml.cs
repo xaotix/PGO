@@ -11,8 +11,8 @@ namespace PGO
     public partial class Ponderadores_Determinar : Window
     {
         public List<Conexoes.Orcamento.Etapa_Ponderador> Ponderadores { get; set; } = new List<Conexoes.Orcamento.Etapa_Ponderador>();
-        public Conexoes.Orcamento.Predio Predio { get; set; } = new Conexoes.Orcamento.Predio();
-        public Ponderadores_Determinar(Conexoes.Orcamento.Predio Predio)
+        public Conexoes.Orcamento.OrcamentoPredio Predio { get; set; } = new Conexoes.Orcamento.OrcamentoPredio();
+        public Ponderadores_Determinar(Conexoes.Orcamento.OrcamentoPredio Predio)
         {
             this.Predio = Predio;
 
@@ -21,7 +21,7 @@ namespace PGO
             this.lista.ItemsSource = this.Predio.GetPonderadores();
             this.saldo.Content = "Disp. no prédio: " + this.Predio.Saldo_Etapa + "%";
         }
-        public Ponderadores_Determinar(List<Conexoes.Orcamento.Etapa_Ponderador> ponderadors, Conexoes.Orcamento.Predio Predio)
+        public Ponderadores_Determinar(List<Conexoes.Orcamento.Etapa_Ponderador> ponderadors, Conexoes.Orcamento.OrcamentoPredio Predio)
         {
             InitializeComponent();
             this.Predio = Predio;
