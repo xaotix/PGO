@@ -13,20 +13,17 @@ namespace Orc_Gambi
     {
         public App()
         {
-            //var s = Conexoes.Utilz.Agora;
-
         }
         protected override void OnStartup(StartupEventArgs e)
         {
-            //var s = Conexoes.Utilz.Agora;
-
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
             base.OnStartup(e);
         }
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            Cfg.Init.JanelaWaitMultiThread = true;
+            Cfg.Init.JanelaWaitMultiThread = false;
+            Conexoes.Utilz.Wait();
             LocalizationManager.Manager = new LocalizationManager()
             {
                 ResourceManager = PGO.GridTraducao.ResourceManager
@@ -38,7 +35,8 @@ namespace Orc_Gambi
                 System.Windows.Application.Current.Shutdown();
             }
             Conexoes.Orcamento.PGOVars.GetDbOrc();
-            Conexoes.DBases.GetSegmentos();
+            
+
             MainWindow mm = new MainWindow();
             mm.Show();
 
