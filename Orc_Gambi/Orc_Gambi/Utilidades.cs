@@ -29,7 +29,6 @@ namespace Orc_Gambi
 
             foreach (var t in rotas)
             {
-                t.Obras = Obras.FindAll(x => (x.GetRotas().Latitude + ";" + x.GetRotas().Longitude).ToString() == (t.Latitude + ";" + t.Longitude).ToString());
                 myMap.Children.Add(t.Pin);
             }
 

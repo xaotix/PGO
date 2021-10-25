@@ -90,7 +90,6 @@ namespace Orc_Gambi
                 if (PGOVars.GetDbOrc().GetTemplates().FindAll(x => x.ativo).Count == 1)
                 {
                     ob.SetTemplate(PGOVars.GetDbOrc().GetTemplates().FindAll(x => x.ativo)[0]);
-
                 }
                 else
                 {
@@ -109,7 +108,7 @@ namespace Orc_Gambi
             }
             return true;
         }
-        private void listafilhos_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void AbrirObra(object sender, MouseButtonEventArgs e)
         {
             if ((sender as DataGrid).SelectedItem is OrcamentoObra)
             {
@@ -132,9 +131,10 @@ namespace Orc_Gambi
 
             if(ob.Calcular_Rotas)
             {
-                if (ob.GetRotas().GetLista(ob.Calcular_Rotas).Count == 0 | ob.Cidade == "" | ob.Pais == "")
+                var rota = ob.GetRotas();
+                if (rota.GetLista(ob.Calcular_Rotas).Count == 0 | rota.Cidade == "" | rota.Pais == "" | rota.id<=0)
                 {
-                    if (!ob.Nacional && ob.GetRotas().Enderecostr != "")
+                    if (!ob.Nacional && rota.Enderecostr != "")
                     {
                         if (Utilz.Pergunta("A obra selecionada está sem a rota logística calculada. \n" +
                             "É uma obra exportação. \n\nDeseja desabilitar o cálculo da rota logística?"))
@@ -144,7 +144,7 @@ namespace Orc_Gambi
                             goto Abrir;
                         }
                     }
-                    else if (ob.GetRotas().Enderecostr == "")
+                    else if (rota.Cidade == "")
                     {
                         if (Utilz.Pergunta("Falta calcular a rota logística. Para isso é necessário definir o endereço de destino. Deseja fazer isso agora?"))
                         {
@@ -323,53 +323,54 @@ namespace Orc_Gambi
             }
         }
 
-        private async void calcula_rotas(object sender, RoutedEventArgs e)
-        {
-            List<OrcamentoObra> Obs = lista.SelectedItems.Cast<OrcamentoObra>().ToList();
-           
-            var rotas = Conexoes.DBases.GetRotas("", "", "");
-            ControleWait w = Conexoes.Utilz.Wait(rotas.Count, "Consultando Endereços...");
-            foreach (var rot in rotas)
-            {
-                await rot.Pesquisar();
-                await rot.GetRotas(true);
-                rot.Salvar();
-            }
-            w.Close();
 
-        }
         private async void calcular_fretes(object sender, RoutedEventArgs e)
         {
-            List<OrcamentoObra> Obs = lista.SelectedItems.Cast<OrcamentoObra>().ToList();
-            if (Obs.Count > 0)
+            List<OrcamentoObra> ObrasSel = new List<OrcamentoObra>();
+            if(Conexoes.Utilz.Pergunta("Calcular somente rotas que não foram calculadas?"))
             {
-                if (Utilz.Pergunta("Atualizar o frete das " + Obs.Count + " obras selecionadas?"))
+                ObrasSel = this.Obras.FindAll(x => x.GetRotas().id <= 0);
+            }
+            else
+            {
+                ObrasSel = Conexoes.Utilz.SelecionarObjetos(this.Obras, null);
+            }
+       
+
+
+            if (ObrasSel.Count > 0)
+            {
+                if (Utilz.Pergunta("Atualizar o frete das " + ObrasSel.Count + " obras selecionadas?"))
                 {
-                    ControleWait w = Conexoes.Utilz.Wait(Obras.Count, "Atualizando...");
-                    foreach (var ob in Obs)
+                    Conexoes.Utilz.Wait().Show();
+                    var obras_end = ObrasSel.GroupBy(x => x.Cidade + ";" + x.Estado + ";" + x.Pais).ToList();
+                    Conexoes.Utilz.Wait().SetProgresso(1, obras_end.Count, "Procurando rotas das obras...");
+
+                    foreach (var s in obras_end)
                     {
-                        if (ob.GetRotas().id > 0)
+                        var chave = s.Key.Split(';');
+
+                        var endereco = Conexoes.DBases.GetRota(chave[0], chave[1], chave[2]);
+                        if (endereco != null)
                         {
-                            ob.GetRotas().RecalcularFrete();
-                            ob.GetRotas().Salvar();
-                            foreach (var t in ob.Revisoes)
+                            if (endereco.id <= 0)
                             {
-                                t.SetSalvaRota(ob.GetRotas());
+                                await endereco.Pesquisar();
+                                await endereco.GetRotas(true);
+                            }
+                            endereco.RecalcularFrete();
+                            endereco.Salvar();
+                            var obras = s.ToList();
+                            foreach (var ob in obras)
+                            {
+                                ob.SetSalvaRota(endereco);
                             }
                         }
-                        else
-                        {
-                            Rotas tn = new Rotas(ob);
-   
 
-                            await tn.Pesquisar();
-                            await tn.GetRotas(true);
-                            tn.Salvar();
-                            ob.SetSalvaRota(tn);
-                        }
-                        w.somaProgresso();
+                        Conexoes.Utilz.Wait().somaProgresso();
                     }
-                    w.Close();
+
+                    Conexoes.Utilz.Wait().Close();
                 }
             }
         }

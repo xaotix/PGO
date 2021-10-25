@@ -34,7 +34,6 @@
             <MenuItem Header="Ferramentas" Background="Transparent" Name="ferramentas">
                 <MenuItem Header="PMP de Orçamento" Click="pmp_orcamento"/>
                 <Separator></Separator>
-                <MenuItem Header="Calcular Novamente as rotas" Click="calcula_rotas"/>
                 <MenuItem Header="Gerar Etapas Automaticamente" Click="gerar_etapas"/>
                 <MenuItem Header="Calcular Novamente os Fretes" Click="calcular_fretes"/>
                 <MenuItem Header="Converter Obras para novo Formato" Click="ajustar_ranges"/>
@@ -150,7 +149,7 @@
                         <DataGrid.RowDetailsTemplate>
                         <DataTemplate>
                             <Border BorderBrush="Black" BorderThickness="1" Margin="50,0,0,10" CornerRadius="3" Width="740" HorizontalAlignment="Left">
-                                <DataGrid ItemsSource="{Binding Path=Revisoes}" AutoGenerateColumns="false" CanUserAddRows="False" MouseDoubleClick="listafilhos_MouseDoubleClick"  IsReadOnly="True" BorderThickness="0">
+                                <DataGrid ItemsSource="{Binding Path=Revisoes}" AutoGenerateColumns="false" CanUserAddRows="False" MouseDoubleClick="AbrirObra"  IsReadOnly="True" BorderThickness="0">
                                     <DataGrid.Columns>
                                         <DataGridTextColumn  Header="Rev."         Binding="{Binding Revisao}" MinWidth="45" MaxWidth="45"/>
                                         <DataGridTextColumn  Header="Pedido"          Binding="{Binding PedidoSAP}" MinWidth="90"/>
