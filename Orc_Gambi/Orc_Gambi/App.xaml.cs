@@ -23,6 +23,7 @@ namespace Orc_Gambi
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             Cfg.Init.JanelaWaitMultiThread = false;
+            Cfg.Init.Nova_Folha_Margem = true;
             Conexoes.Utilz.Wait();
             LocalizationManager.Manager = new LocalizationManager()
             {

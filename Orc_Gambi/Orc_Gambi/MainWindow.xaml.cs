@@ -27,22 +27,17 @@ namespace Orc_Gambi
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = this;
+            this.Title = $"PGO Aguarde..."; 
+           this.DataContext = this;
             if (!DBases.GetUserAtual().orcamento_ver_obras)
             {
                 Menus_Orcamento = Visibility.Collapsed;
-                this.Title = this.Title + " (Somente SEC)";
+                //this.Title = this.Title + " (Somente SEC)";
             }
 
             Conexoes.Utilz.SetIcones(this.menu_principal);
 
-            this.Servidor.Content = "[" + this.Obras.Count + " Obras /" + this.Obras.Sum(x => x.Revisoes.Count) + " Revisões] - ";
-            this.Title = $"PGO - [{Vars.UsuarioAtual}] - " +
-                $"[{System.Windows.Forms.Application.ProductName} - " +
-                $"v {System.Windows.Forms.Application.ProductVersion}" +
-                $" - Obras.: [{Conexoes.Cfg.Init.MySQL_Servidor_Orcamento}] - " +
-                $"Padr.: [{Conexoes.Cfg.Init.MySQL_Servidor}]" +
-                $"{(PGOVars.GetConfig().Acessar_Arquivo ? " - ARQUIVO" : "")}";
+
             Update();
         }
 
@@ -70,6 +65,16 @@ namespace Orc_Gambi
             this.lista.ItemsSource = null;
             this.lista.ItemsSource = this.Obras.FindAll(x => x.Nome != "PADRÃO EXPORTAÇÃO" && x.Nome != "PADRÃO NACIONAL");
             CollectionViewSource.GetDefaultView(lista.ItemsSource).Filter = FiltroFuncao;
+
+            this.Servidor.Content = "[" + this.Obras.Count + " Obras /" + this.Obras.Sum(x => x.Revisoes.Count) + " Revisões] - ";
+            this.Title = $"PGO" +
+                $"{(Cfg.Init.Nova_Folha_Margem ? " [Novo Cálculo Folha Margem]" : "")}" +
+                $" - [{Vars.UsuarioAtual}] - " +
+                $"[{System.Windows.Forms.Application.ProductName} - " +
+                $"v {System.Windows.Forms.Application.ProductVersion}" +
+                $" - Obras.: [{Conexoes.Cfg.Init.MySQL_Servidor_Orcamento}] - " +
+                $"Padr.: [{Conexoes.Cfg.Init.MySQL_Servidor}]" +
+                $"{(PGOVars.GetConfig().Acessar_Arquivo ? " - ARQUIVO" : "")}";
 
             Funcoes_Mapa.Localizacoes = new Localizacoes(System.Windows.Forms.Application.StartupPath + @"\Locais.setup");
 
