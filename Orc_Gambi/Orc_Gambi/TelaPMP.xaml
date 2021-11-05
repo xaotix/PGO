@@ -407,11 +407,11 @@
                                         </telerik:GridViewDataColumn.CellTemplate>
                                     </telerik:GridViewDataColumn>
                                 </telerik:RadGridView.Columns>
-                                <!--<telerik:RadGridView.ContextMenu>
+                                <telerik:RadGridView.ContextMenu>
                                     <ContextMenu>
                                         <MenuItem Header="Excluir Pacotes" Click="excluir_pacotes_consolidadas"></MenuItem>
                                     </ContextMenu>
-                                </telerik:RadGridView.ContextMenu>-->
+                                </telerik:RadGridView.ContextMenu>
                             </telerik:RadGridView>
                         </TabItem>
                     </TabControl>

@@ -24,7 +24,7 @@ namespace Orc_Gambi
         {
             Cfg.Init.JanelaWaitMultiThread = false;
             Cfg.Init.Nova_Folha_Margem = true;
-            Conexoes.Utilz.Wait();
+       
             LocalizationManager.Manager = new LocalizationManager()
             {
                 ResourceManager = PGO.GridTraducao.ResourceManager
@@ -34,8 +34,9 @@ namespace Orc_Gambi
             {
                 Conexoes.Utilz.Alerta("Sistema regional de casas decimais configurado incorretamente. Favor ajustar antes de utilizar a ferramenta.", "", MessageBoxImage.Error);
                 System.Windows.Application.Current.Shutdown();
+                Environment.Exit(0);
             }
-            Conexoes.Orcamento.PGOVars.GetDbOrc();
+           
             
 
             MainWindow mm = new MainWindow();
@@ -44,7 +45,7 @@ namespace Orc_Gambi
         }
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            Conexoes.Utilz.Alerta(e.ExceptionObject.ToString());
+            MessageBox.Show(e.ExceptionObject.ToString());
             DBases.GetDB().Log(DateTime.Now.ToString() + "=========================>" + e.ExceptionObject.ToString(), Conexoes.Utilz.RaizAppData() + @"\SIE.log");
             return;
         }

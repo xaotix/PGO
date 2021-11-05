@@ -26,7 +26,7 @@ namespace Orc_Gambi
             this.Lista_Arquivo.ItemsSource = null;
             this.Lista.ItemsSource = null;
             var t1 = PGOVars.GetDbOrc().GetObras_Arquivadas();
-            var t2 = PGOVars.GetDbOrc().GetObras_Atuais();
+            var t2 = PGOVars.GetDbOrc().GetObrasOrcamento();
             this.Lista_Arquivo.ItemsSource = t1;
             this.Lista.ItemsSource = t2;
             CollectionViewSource.GetDefaultView(Lista.ItemsSource).Filter = Filtro_Sistema_Funcao;

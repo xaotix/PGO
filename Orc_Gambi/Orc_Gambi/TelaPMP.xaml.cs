@@ -103,9 +103,9 @@ namespace PGO
             var pedidos_com_pacote = selecao.FindAll(x => pacotes.Find(y => y.pedido == x.PedidoSAP) != null);
             var obras_duplicadas = selecao.FindAll(x => selecao.FindAll(y => y.PedidoSAP == x.PedidoSAP).Count > 1).FindAll(x => obras_sem_contrato_sap.Find(y => y == x) == null);
 
-            pre_testes.AddRange(obras_sem_contrato_sap.Select(x => x.Contrato + "." + x.Revisao + " - " + x.Nome).Distinct().ToList().Select(x => new Conexoes.Report(x, "Obra com contrato SAP em branco ou inválido", Conexoes.TipoReport.Erro)));
-            pre_testes.AddRange(obras_duplicadas.Select(x => x.Contrato + "." + x.Revisao + " - " + x.Nome + " Pedido: " + x.PedidoSAP).Distinct().ToList().Select(x => new Conexoes.Report(x, "Mais de Uma obra com o mesmo contrato SAP", Conexoes.TipoReport.Erro)));
-            pre_testes.AddRange(pedidos_com_pacote.Select(x => x.Contrato + "." + x.Revisao + " - " + x.Nome + " Pedido: " + x.PedidoSAP).Distinct().ToList().Select(x => new Conexoes.Report(x, "Já existe um pacote com este pedido.", Conexoes.TipoReport.Erro)));
+            pre_testes.AddRange(obras_sem_contrato_sap.Select(x => x.Contrato + "." + x.Revisao + " - " + x.Nome).Distinct().ToList().Select(x => new Conexoes.Report(x, "Obra com contrato SAP em branco ou inválido", Conexoes.TipoReport.Crítico)));
+            pre_testes.AddRange(obras_duplicadas.Select(x => x.Contrato + "." + x.Revisao + " - " + x.Nome + " Pedido: " + x.PedidoSAP).Distinct().ToList().Select(x => new Conexoes.Report(x, "Mais de Uma obra com o mesmo contrato SAP", Conexoes.TipoReport.Crítico)));
+            pre_testes.AddRange(pedidos_com_pacote.Select(x => x.Contrato + "." + x.Revisao + " - " + x.Nome + " Pedido: " + x.PedidoSAP).Distinct().ToList().Select(x => new Conexoes.Report(x, "Já existe um pacote com este pedido.", Conexoes.TipoReport.Crítico)));
 
             return pre_testes;
 
@@ -147,7 +147,7 @@ namespace PGO
                 }
                 catch (Exception ex)
                 {
-                    erros.Add(new Conexoes.Report(ob.ToString(), ex.ToString(), Conexoes.TipoReport.Erro));
+                    erros.Add(new Conexoes.Report(ob.ToString(), ex.ToString(), Conexoes.TipoReport.Crítico));
 
                 }
 
@@ -529,8 +529,6 @@ namespace PGO
                     }
                     UpdatePacotes();
                     Conexoes.Utilz.Alerta("Pacotes removidos");
-
-
                 }
             }
         }

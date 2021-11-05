@@ -248,7 +248,7 @@ namespace Orc_Gambi
         {
             var mts = Ranges.Select(x => x.WERK).Distinct().ToList();
 
-            var sel = Conexoes.Utilz.SelecionarObjeto(PGOVars.GetDbOrc().getFerts(this.Obra.Segmento.COD, null), null, "Selecione");
+            var sel = Conexoes.Utilz.SelecionarObjeto(PGOVars.GetDbOrc().GetFerts(this.Obra.GetSegmento().COD, null), null, "Selecione");
             if (sel != null)
             {
                 Conexoes.ControleWait w = Conexoes.Utilz.Wait(Ranges.Count, "Atualizando...");

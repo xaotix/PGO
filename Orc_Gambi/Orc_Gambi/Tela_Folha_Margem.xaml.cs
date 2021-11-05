@@ -93,7 +93,7 @@ namespace PGO
                 t[i] = t[i].Replace("$PAIS$", Obra.GetRotas().Pais.ToString());
                 t[i] = t[i].Replace("$CIDADE_ESTADO$", Obra.GetRotas().Cidade + " - " + Obra.GetRotas().Estado);
                 t[i] = t[i].Replace("$VENDEDOR$", Obra.Comercial.ToString());
-                t[i] = t[i].Replace("$SEGMENTO$", Obra.Segmento.ToString());
+                t[i] = t[i].Replace("$SEGMENTO$", Obra.GetSegmento().ToString());
                 t[i] = t[i].Replace("$CONTRATO$", Obra.Contrato.ToString());
                 t[i] = t[i].Replace("$REVISAO$", Obra.Revisao.ToString());
                 t[i] = t[i].Replace("$NOME_DA_OBRA$", Obra.Nome.ToString());

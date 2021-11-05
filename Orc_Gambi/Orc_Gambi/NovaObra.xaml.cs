@@ -141,7 +141,7 @@ namespace Orc_Gambi
                     Conexoes.Utilz.Alerta("Contrato Inválido", "Faltam dados", MessageBoxImage.Asterisk);
                     return;
                 }
-                if (Conexoes.Orcamento.PGOVars.GetDbOrc().Obras_Orcamento.Find(x => x.Contrato == this.Obra.Contrato && x.Revisao == this.Obra.Revisao) != null)
+                if (Conexoes.Orcamento.PGOVars.GetDbOrc().GetObrasOrcamento().Find(x => x.Contrato == this.Obra.Contrato && x.Revisao == this.Obra.Revisao) != null)
                 {
                     Conexoes.Utilz.Alerta("Já existe uma revisão com este nome neste contrato", "", MessageBoxImage.Asterisk);
                     return;

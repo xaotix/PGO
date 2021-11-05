@@ -48,9 +48,16 @@
 
             </WrapPanel>
             <TabControl Grid.Row="1" Grid.ColumnSpan="2" SelectionChanged="TabControl_SelectionChanged" Name="tabela">
-                <TabItem Header="Ranges">
+                <TabItem>
+                    <TabItem.Header>
+                        <WrapPanel>
+                            <Label Content="Ranges ["></Label>
+                            <Label Content="{Binding ElementName=lista_ranges, Path=Items.Count}"></Label>
+                            <Label Content="x]"></Label>
+                        </WrapPanel>
+                    </TabItem.Header>
                     <Grid>
-                        <telerik:RadGridView  FontSize="11" BorderThickness="0" Grid.Row="2" Margin="5,5,5,5" x:Name="Lista_ranges" ShowColumnFooters="True" AutoGenerateColumns="False" IsReadOnly="True" IsSearchingDeferred="True" ShowSearchPanel="True" ShowGroupPanel="True" SelectionMode="Extended">
+                        <telerik:RadGridView  FontSize="11" BorderThickness="0" Grid.Row="2" Margin="5,5,5,5" x:Name="lista_ranges" ShowColumnFooters="True" AutoGenerateColumns="False" IsReadOnly="True" IsSearchingDeferred="True" ShowSearchPanel="True" ShowGroupPanel="True" SelectionMode="Extended">
                             <telerik:RadGridView.RowStyle>
                                 <Style TargetType="{x:Type telerik:GridViewRow}">
                                     <Style.Triggers>
@@ -155,7 +162,14 @@
 
                     </Grid>
                 </TabItem>
-                <TabItem Header="Etapas" Name="tab_principal_etapas"  Background="Transparent">
+                <TabItem Name="tab_principal_etapas"  Background="Transparent">
+                    <TabItem.Header>
+                        <WrapPanel>
+                            <Label Content="Etapas ["></Label>
+                            <Label Content="{Binding ElementName=lista_etapas, Path=Items.Count}"></Label>
+                            <Label Content="x]"></Label>
+                        </WrapPanel>
+                    </TabItem.Header>
                     <TabControl Background="Transparent">
 
                         <TabItem Header="Etapas"  Background="Transparent"  Name="tab_etapas">
@@ -215,10 +229,10 @@
                                                 </WrapPanel>
                                             </Button>
                                         </Menu>
-                                        <telerik:RadGridView FontSize="11" BorderThickness="0" Grid.Row="2" Margin="5,5,5,5" x:Name="Lista_Etapas" ShowColumnFooters="True" AutoGenerateColumns="False" IsReadOnly="False" IsSearchingDeferred="True" ShowSearchPanel="True" ShowGroupPanel="True" SelectionMode="Extended">
-                                            <telerik:RadGridView.Columns>
-                                                <telerik:GridViewDataColumn  Header="" Width="auto" IsReadOnly="True">
-                                                    <telerik:GridViewDataColumn.CellTemplate>
+                                        <DataGrid FontSize="11" BorderThickness="0" Grid.Row="2" Margin="5,5,5,5" x:Name="lista_etapas"  AutoGenerateColumns="False" IsReadOnly="False"  SelectionMode="Extended" HeadersVisibility="Column">
+                                            <DataGrid.Columns>
+                                                <DataGridTemplateColumn  Header="" Width="auto" IsReadOnly="True">
+                                                    <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
                                                             <Grid>
                                                                 <Grid.ColumnDefinitions>
@@ -238,16 +252,11 @@
                                                                 </Button>
                                                             </Grid>
                                                         </DataTemplate>
-                                                    </telerik:GridViewDataColumn.CellTemplate>
-                                                </telerik:GridViewDataColumn>
-
-                                                <telerik:GridViewDataColumn  Header="Et." DataMemberBinding="{Binding nome, StringFormat='000',Mode=OneWay}" Width="auto"  IsReadOnly="True">
-                                                    <telerik:GridViewDataColumn.AggregateFunctions>
-                                                        <telerik:CountFunction Caption="" />
-                                                    </telerik:GridViewDataColumn.AggregateFunctions>
-                                                </telerik:GridViewDataColumn>
-                                                <telerik:GridViewDataColumn  Header="Descrição" Width="*"  DataMemberBinding="{Binding descricao,Mode=OneWay}">
-                                                    <telerik:GridViewDataColumn.CellTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+                                                <DataGridTextColumn  Header="Et." Binding="{Binding nome, StringFormat='000',Mode=OneWay}" Width="auto"  IsReadOnly="True"/>
+                                                <DataGridTemplateColumn  Header="Descrição" Width="*">
+                                                    <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
                                                             <TextBox Text="{Binding descricao,Mode=TwoWay}">
                                                                 <TextBox.Template>
@@ -268,17 +277,15 @@
 
 
                                                         </DataTemplate>
-                                                    </telerik:GridViewDataColumn.CellTemplate>
-                                                </telerik:GridViewDataColumn>
-
-
-                                            </telerik:RadGridView.Columns>
-                                            <telerik:RadGridView.ContextMenu>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+                                            </DataGrid.Columns>
+                                            <DataGrid.ContextMenu>
                                                 <ContextMenu>
                                                     <MenuItem Header="Definir Sequencial..." Click="set_sequencial"></MenuItem>
                                                 </ContextMenu>
-                                            </telerik:RadGridView.ContextMenu>
-                                        </telerik:RadGridView>
+                                            </DataGrid.ContextMenu>
+                                        </DataGrid>
 
                                     </Grid>
                                     <GridSplitter Grid.Column="1"></GridSplitter>
@@ -317,9 +324,9 @@
                                                 </WrapPanel>
                                             </Button>
                                         </WrapPanel>
-                                        <telerik:RadGridView FontSize="11" ShowColumnHeaders="True" Name="lista_predios" ShowSearchPanel="True" ShowColumnFooters="True" ShowGroupPanel="True"  Grid.Row="3" Grid.Column="2" IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Extended">
-                                            <telerik:RadGridView.RowStyle>
-                                                <Style TargetType="{x:Type telerik:GridViewRow}">
+                                        <DataGrid FontSize="11" Name="lista_predios" Grid.Row="3" Grid.Column="2" IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Extended" HeadersVisibility="Column">
+                                            <DataGrid.RowStyle>
+                                                <Style TargetType="{x:Type DataGridRow}">
                                                     <Style.Triggers>
                                                         <DataTrigger Binding="{Binding TemSaldo}" Value="True">
                                                             <Setter Property="Background" Value="LightYellow"></Setter>
@@ -330,10 +337,10 @@
 
                                                     </Style.Triggers>
                                                 </Style>
-                                            </telerik:RadGridView.RowStyle>
-                                            <telerik:RadGridView.Columns>
-                                                <telerik:GridViewDataColumn  Header="" Width="auto">
-                                                    <telerik:GridViewDataColumn.CellTemplate>
+                                            </DataGrid.RowStyle>
+                                            <DataGrid.Columns>
+                                                <DataGridTemplateColumn  Header="" Width="auto">
+                                                    <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
                                                             <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="add_etapa_sel" VerticalAlignment="Center" ToolTip="Criar Etapa(s)">
                                                                 <WrapPanel VerticalAlignment="Center">
@@ -341,22 +348,16 @@
                                                                 </WrapPanel>
                                                             </Button>
                                                         </DataTemplate>
-                                                    </telerik:GridViewDataColumn.CellTemplate>
-                                                </telerik:GridViewDataColumn>
-                                                <telerik:GridViewDataColumn  Header="Prédio" DataMemberBinding="{Binding nome}" Width="*" MinWidth="100"/>
-                                                <telerik:GridViewDataColumn  Header="Pond." DataMemberBinding="{Binding ponderadores.Count}" Width="auto"/>
-                                                <telerik:GridViewDataColumn  Header="Área (m²)" DataMemberBinding="{Binding Area_Predio, StringFormat='0,0.00'}" Width="auto">
-                                                    <telerik:GridViewDataColumn.AggregateFunctions>
-                                                        <telerik:SumFunction Caption=""  ResultFormatString="{}{0:0,0.00}"/>
-                                                    </telerik:GridViewDataColumn.AggregateFunctions>
-                                                </telerik:GridViewDataColumn>
-                                                <telerik:GridViewDataColumn  Header="Peso (Ton)" DataMemberBinding="{Binding PesoTotal, StringFormat='0,0.00'}" Width="auto">
-                                                    <telerik:GridViewDataColumn.AggregateFunctions>
-                                                        <telerik:SumFunction Caption=""  ResultFormatString="{}{0:0,0.00}"/>
-                                                    </telerik:GridViewDataColumn.AggregateFunctions>
-                                                </telerik:GridViewDataColumn>
-                                                <telerik:GridViewDataColumn  Header="Saldo Disp." Width="auto"  DataMemberBinding="{Binding peso_disponivel, StringFormat='0,0.00'}" IsReadOnly="True">
-                                                    <telerik:GridViewDataColumn.CellTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+                                                <DataGridTextColumn  Header="Prédio" Binding="{Binding nome}" Width="*" MinWidth="100"/>
+                                                <DataGridTextColumn  Header="Pond." Binding="{Binding ponderadores.Count}" Width="50"/>
+                                                <DataGridTextColumn  Header="Área (m²)" Binding="{Binding Area_Predio, StringFormat='0,0.00'}" Width="50"/>
+                                                <DataGridTextColumn  Header="Peso (Ton)" Binding="{Binding PesoTotal, StringFormat='0,0.00'}" Width="50"/>
+
+
+                                                <DataGridTemplateColumn  Header="Saldo Disp." Width="100" MinWidth="100"  IsReadOnly="True">
+                                                    <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
                                                             <WrapPanel>
                                                                 <Label Content="{Binding Saldo_Etapa}"></Label>
@@ -367,16 +368,14 @@
                                                                 <Label Content=" m²"></Label>
                                                             </WrapPanel>
                                                         </DataTemplate>
-                                                    </telerik:GridViewDataColumn.CellTemplate>
-                                                    <telerik:GridViewDataColumn.AggregateFunctions>
-                                                        <telerik:SumFunction Caption=""  ResultFormatString="{}{0:0,0.00}"/>
-                                                    </telerik:GridViewDataColumn.AggregateFunctions>
-                                                </telerik:GridViewDataColumn>
+                                                    </DataGridTemplateColumn.CellTemplate>
+        
+                                                </DataGridTemplateColumn>
 
 
-                                            </telerik:RadGridView.Columns>
+                                            </DataGrid.Columns>
                                             
-                                        </telerik:RadGridView>
+                                        </DataGrid>
 
                                     </Grid>
                                 </Grid>
@@ -386,26 +385,29 @@
                             <Grid>
                                 <TabControl SelectionChanged="TabControl_SelectionChanged_1"  Background="Transparent">
                                   
-                                    <TabItem Header="Global">
-                                        <telerik:RadGridView FontSize="11"  ShowColumnHeaders="True" Name="lista_peps" ShowSearchPanel="False" ShowColumnFooters="False" ShowGroupPanel="False"  Grid.Row="3" Grid.Column="2" IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Extended">
-                                            <telerik:RadGridView.RowStyle>
-                                                <Style TargetType="telerik:GridViewRow">
+                                    <TabItem >
+                                        <TabItem.Header>
+                                            <WrapPanel>
+                                                <Label Content="Global ["></Label>
+                                                <Label Content="{Binding ElementName=lista_peps, Path=Items.Count}"></Label>
+                                                <Label Content="x]"></Label>
+                                            </WrapPanel>
+                                        </TabItem.Header>
+                                        <DataGrid FontSize="11" Name="lista_peps"  Grid.Row="3" Grid.Column="2" IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Extended" HeadersVisibility="Column">
+                                            <DataGrid.RowStyle>
+                                                <Style TargetType="DataGridRow">
                                                     <Setter Property="Background" Value="{Binding cor}"></Setter>
                                                 </Style>
-                                            </telerik:RadGridView.RowStyle>
-                                            <telerik:RadGridView.Columns>
-                                                <telerik:GridViewDataColumn  Header="PEP" DataMemberBinding="{Binding PEP}" Width="auto"/>
-                                                <telerik:GridViewDataColumn  Header="FAB" DataMemberBinding="{Binding fabrica}" Width="auto"/>
-                                                <telerik:GridViewDataColumn  Header="Prédios" DataMemberBinding="{Binding predios.Count,Mode=OneWay}" Width="auto" IsReadOnly="True"/>
-                                                <telerik:GridViewDataColumn  Header="Ferts" DataMemberBinding="{Binding ferts.Count,Mode=OneWay}" Width="auto" IsReadOnly="True"/>
+                                            </DataGrid.RowStyle>
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn  Header="PEP" Binding="{Binding PEP}" Width="100"/>
+                                                <DataGridTextColumn  Header="FAB" Binding="{Binding fabrica}" Width="50"/>
+                                                <DataGridTextColumn  Header="Prédios" Binding="{Binding predios.Count,Mode=OneWay}" Width="50" IsReadOnly="True"/>
+                                                <DataGridTextColumn  Header="Ferts"  Binding="{Binding ferts.Count,Mode=OneWay}" Width="50" IsReadOnly="True"/>
+                                                <DataGridTextColumn  Header="Etapas"  Binding="{Binding etapas.Count,Mode=OneWay}" Width="50" IsReadOnly="True"/>
 
-                                                <telerik:GridViewDataColumn  Header="Etapas" DataMemberBinding="{Binding etapas.Count,Mode=OneWay}" Width="auto" IsReadOnly="True">
-                                                    <telerik:GridViewDataColumn.AggregateFunctions>
-                                                        <telerik:SumFunction Caption=""/>
-                                                    </telerik:GridViewDataColumn.AggregateFunctions>
-                                                </telerik:GridViewDataColumn>
-                                                <telerik:GridViewDataColumn  Header="Ações" Width="auto">
-                                                    <telerik:GridViewDataColumn.CellTemplate>
+                                                <DataGridTemplateColumn  Header="Ações" Width="150">
+                                                    <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
                                                             <WrapPanel>
                                                                 <Button Grid.Column="1" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="edit_nome_pep" VerticalAlignment="Center" ToolTip="Editar nome do PEP...">
@@ -419,10 +421,10 @@
                                                                 </Button>
                                                             </WrapPanel>
                                                         </DataTemplate>
-                                                    </telerik:GridViewDataColumn.CellTemplate>
-                                                </telerik:GridViewDataColumn>
-                                            </telerik:RadGridView.Columns>
-                                            <telerik:RadGridView.ContextMenu>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+                                            </DataGrid.Columns>
+                                            <DataGrid.ContextMenu>
                                                 <ContextMenu>
                                                     <MenuItem Header="Editar PEP" Click="editar_pep_varios"></MenuItem>
                                                     <MenuItem Header="Adicionar novo PEP e inserir seleção" Click="add_novo_pep"></MenuItem>
@@ -431,52 +433,51 @@
                                                         <MenuItem Header="Desativar" Click="desativar_faturamento"></MenuItem>
                                                     </MenuItem>
                                                 </ContextMenu>
-                                            </telerik:RadGridView.ContextMenu>
-                                            <telerik:RadGridView.ChildTableDefinitions>
-                                                <telerik:GridViewTableDefinition />
-                                            </telerik:RadGridView.ChildTableDefinitions>
-                                            <telerik:RadGridView.HierarchyChildTemplate>
+                                            </DataGrid.ContextMenu>
+
+                                            <DataGrid.RowDetailsTemplate>
                                                 <DataTemplate>
-                                                    <telerik:RadGridView Width="650" HorizontalAlignment="Left" ShowColumnHeaders="True" ItemsSource="{Binding ferts}" ShowSearchPanel="False" ShowColumnFooters="False" ShowGroupPanel="False"  Grid.Row="3" Grid.Column="2" IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Extended">
-                                                        <telerik:RadGridView.Columns>
-                                                            <telerik:GridViewDataColumn  Header="PEP" DataMemberBinding="{Binding PEP}" Width="auto"/>
-                                                            <telerik:GridViewDataColumn  Header="FAB" DataMemberBinding="{Binding FAB}" Width="auto"/>
-                                                            <telerik:GridViewDataColumn  Header="FERT" DataMemberBinding="{Binding FERT}" Width="auto"/>
-                                                            <telerik:GridViewDataColumn  Header="DESC" DataMemberBinding="{Binding DESC}" Width="auto"/>
-                                                        </telerik:RadGridView.Columns>
-                                                    </telerik:RadGridView>
+                                                    <DataGrid Background="{Binding cor}" Margin="10,0,0,0" HorizontalAlignment="Left" ItemsSource="{Binding ferts}"  Grid.Row="3" Grid.Column="2" IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Extended" HeadersVisibility="Column">
+                                                        <DataGrid.Columns>
+                                                            <DataGridTextColumn  Header="PEP" Binding="{Binding PEP}" Width="60"/>
+                                                            <DataGridTextColumn  Header="FAB" Binding="{Binding FAB}" Width="50"/>
+                                                            <DataGridTextColumn  Header="FERT" Binding="{Binding FERT}" Width="50"/>
+                                                            <DataGridTextColumn  Header="DESC" Binding="{Binding DESC}" Width="200"/>
+                                                        </DataGrid.Columns>
+                                                    </DataGrid>
                                                 </DataTemplate>
-                                            </telerik:RadGridView.HierarchyChildTemplate>
-                                        </telerik:RadGridView>
+                                            </DataGrid.RowDetailsTemplate>
+                                        </DataGrid>
 
                                     </TabItem>
-                                    <TabItem Header="Por Prédio">
-                                        <telerik:RadGridView FontSize="11"  ShowColumnHeaders="True" Name="lista_predios_peps" ShowSearchPanel="False" ShowColumnFooters="False" ShowGroupPanel="False"  Grid.Row="3" Grid.Column="2" IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Extended">
-                                            <telerik:RadGridView.RowStyle>
-                                                <Style TargetType="{x:Type telerik:GridViewRow}">
+                                    <TabItem>
+                                        <TabItem.Header>
+                                            <WrapPanel>
+                                                <Label Content="Por Prédio ["></Label>
+                                                <Label Content="{Binding ElementName=lista_predios_peps, Path=Items.Count}"></Label>
+                                                <Label Content="x]"></Label>
+                                            </WrapPanel>
+                                        </TabItem.Header>
+                                        <DataGrid FontSize="11"  Name="lista_predios_peps"  Grid.Row="3" Grid.Column="2" IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Extended">
+                                            <DataGrid.RowStyle>
+                                                <Style TargetType="DataGridRow">
                                                     <Style.Triggers>
                                                         <DataTrigger Binding="{Binding ponderadores.Count}" Value="0">
                                                             <Setter Property="Background" Value="LightSalmon"></Setter>
                                                         </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
-                                            </telerik:RadGridView.RowStyle>
-                                            <telerik:RadGridView.Columns>
+                                            </DataGrid.RowStyle>
+                                            <DataGrid.Columns>
 
-                                                <telerik:GridViewDataColumn  Header="Prédio" DataMemberBinding="{Binding nome}" Width="*" MinWidth="100"/>
-                                                <telerik:GridViewDataColumn  Header="Pond." DataMemberBinding="{Binding ponderadores.Count}" Width="auto"/>
-                                                <telerik:GridViewDataColumn  Header="Área (m²)" DataMemberBinding="{Binding Area_Predio, StringFormat='0,0.00'}" Width="auto">
-                                                    <telerik:GridViewDataColumn.AggregateFunctions>
-                                                        <telerik:SumFunction Caption=""  ResultFormatString="{}{0:0,0.00}"/>
-                                                    </telerik:GridViewDataColumn.AggregateFunctions>
-                                                </telerik:GridViewDataColumn>
-                                                <telerik:GridViewDataColumn  Header="Peso (Ton)" DataMemberBinding="{Binding PesoTotal, StringFormat='0,0.00'}" Width="auto">
-                                                    <telerik:GridViewDataColumn.AggregateFunctions>
-                                                        <telerik:SumFunction Caption=""  ResultFormatString="{}{0:0,0.00}"/>
-                                                    </telerik:GridViewDataColumn.AggregateFunctions>
-                                                </telerik:GridViewDataColumn>
-                                                <telerik:GridViewDataColumn  Header="Saldo Disp." Width="auto"  DataMemberBinding="{Binding peso_disponivel, StringFormat='0,0.00'}" IsReadOnly="True">
-                                                    <telerik:GridViewDataColumn.CellTemplate>
+                                                <DataGridTextColumn  Header="Prédio"  Binding="{Binding nome}" Width="*" MinWidth="100"/>
+                                                <DataGridTextColumn  Header="Pond."   Binding="{Binding ponderadores.Count}" Width="100"/>
+                                                <DataGridTextColumn  Header="Área (m²)" Binding="{Binding Area_Predio, StringFormat='0,0.00'}" Width="50"/>
+                                                <DataGridTextColumn  Header="Peso (Ton)" Binding="{Binding PesoTotal, StringFormat='0,0.00'}" Width="50"/>
+
+
+                                                <DataGridTemplateColumn  Header="Saldo Disp." Width="auto"  IsReadOnly="True">
+                                                    <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
                                                             <WrapPanel>
                                                                 <Label Content="{Binding Saldo_Etapa}"></Label>
@@ -487,13 +488,10 @@
                                                                 <Label Content=" m²"></Label>
                                                             </WrapPanel>
                                                         </DataTemplate>
-                                                    </telerik:GridViewDataColumn.CellTemplate>
-                                                    <telerik:GridViewDataColumn.AggregateFunctions>
-                                                        <telerik:SumFunction Caption=""  ResultFormatString="{}{0:0,0.00}"/>
-                                                    </telerik:GridViewDataColumn.AggregateFunctions>
-                                                </telerik:GridViewDataColumn>
-                                                <telerik:GridViewDataColumn  Header="Ações" Width="auto">
-                                                    <telerik:GridViewDataColumn.CellTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>          
+                                                </DataGridTemplateColumn>
+                                                <DataGridTemplateColumn  Header="Ações" Width="100">
+                                                    <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
                                                             <WrapPanel>
                                                                 <Button Grid.Column="1" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="criar_novo_pep" VerticalAlignment="Center" ToolTip="Criar PEP Custom">
@@ -506,75 +504,74 @@
                                                                 
                                                             </WrapPanel>
                                                         </DataTemplate>
-                                                    </telerik:GridViewDataColumn.CellTemplate>
-                                                </telerik:GridViewDataColumn>
-                                            </telerik:RadGridView.Columns>
-                                            <telerik:RadGridView.ContextMenu>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+                                            </DataGrid.Columns>
+                                            <DataGrid.ContextMenu>
                                                 <ContextMenu>
                                                     <MenuItem Header="Resetar PEPs" Click="reset_peps_sel"></MenuItem>
                                                     <MenuItem Header="Editar PEP" Click="editar_pep_varios"></MenuItem>
                                                 </ContextMenu>
-                                            </telerik:RadGridView.ContextMenu>
-                                            <telerik:RadGridView.ChildTableDefinitions>
-                                                <telerik:GridViewTableDefinition />
-                                            </telerik:RadGridView.ChildTableDefinitions>
-                                            <telerik:RadGridView.HierarchyChildTemplate>
+                                            </DataGrid.ContextMenu>
+                                          
+                                            <DataGrid.RowDetailsTemplate>
                                                 <DataTemplate>
-                                                    <telerik:RadGridView FontSize="11" ItemsSource="{Binding pep_agrupadores}"  ShowColumnHeaders="True" ShowSearchPanel="False" ShowColumnFooters="False" ShowGroupPanel="False"  Grid.Row="3" Grid.Column="2" IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Extended">
-                                                        <telerik:RadGridView.RowStyle>
-                                                            <Style TargetType="{x:Type telerik:GridViewRow}">
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding ferts.Count}" Value="0">
-                                                                        <Setter Property="Background" Value="LightSalmon"></Setter>
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </telerik:RadGridView.RowStyle>
-                                                        <telerik:RadGridView.Columns>
-                                                            <telerik:GridViewDataColumn  Header="PEP" DataMemberBinding="{Binding PEP}" Width="auto"/>
-                                                            <telerik:GridViewDataColumn  Header="FAB" DataMemberBinding="{Binding fabrica}" Width="auto"/>
-                                                            <telerik:GridViewDataColumn  Header="Prédios" DataMemberBinding="{Binding predios.Count,Mode=OneWay}" Width="auto" IsReadOnly="True"/>
-                                                            <telerik:GridViewDataColumn  Header="Etapas" DataMemberBinding="{Binding etapas.Count,Mode=OneWay}" Width="auto" IsReadOnly="True"/>
-                                                            <telerik:GridViewDataColumn  Header="Ferts" DataMemberBinding="{Binding ferts.Count,Mode=OneWay}" Width="auto" IsReadOnly="True"/>
-                                                            <telerik:GridViewDataColumn  Header="Ações" Width="auto">
-                                                                <telerik:GridViewDataColumn.CellTemplate>
-                                                                    <DataTemplate>
-                                                                        <WrapPanel>
-                                                                            <Button Grid.Column="1" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="edit_nome_pep" VerticalAlignment="Center" ToolTip="Editar nome do PEP...">
-                                                                                <Image Source="Resources/document-edit3.png" Width="16" Height="16" Margin="0,0,0,0" />
-                                                                            </Button>
-                                                                            <Button Grid.Column="1" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="edit_fab_pep" VerticalAlignment="Center" ToolTip="Alterar Unidade Fabril">
-                                                                                <Image Source="Resources/fabrica.png" Width="16" Height="16" Margin="0,0,0,0" />
-                                                                            </Button>
-                                                                            <Button Grid.Column="1" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="add_fert_peps_obra" VerticalAlignment="Center" ToolTip="Adicionar PEP...">
-                                                                                <Image Source="Resources/list-add.png" Width="16" Height="16" Margin="0,0,0,0" />
-                                                                            </Button>
-                                                                           
-                                                                        </WrapPanel>
-                                                                    </DataTemplate>
-                                                                </telerik:GridViewDataColumn.CellTemplate>
-                                                            </telerik:GridViewDataColumn>
-                                                        </telerik:RadGridView.Columns>
-                                                        <telerik:RadGridView.ChildTableDefinitions>
-                                                            <telerik:GridViewTableDefinition />
-                                                        </telerik:RadGridView.ChildTableDefinitions>
-                                                        <telerik:RadGridView.HierarchyChildTemplate>
-                                                            <DataTemplate>
-                                                                <telerik:RadGridView Width="650" HorizontalAlignment="Left" ShowColumnHeaders="True" ItemsSource="{Binding ferts}" ShowSearchPanel="False" ShowColumnFooters="False" ShowGroupPanel="False"  Grid.Row="3" Grid.Column="2" IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Extended">
-                                                                    <telerik:RadGridView.Columns>
-                                                                        <telerik:GridViewDataColumn  Header="PEP" DataMemberBinding="{Binding PEP}" Width="auto"/>
-                                                                        <telerik:GridViewDataColumn  Header="FAB" DataMemberBinding="{Binding FAB}" Width="auto"/>
-                                                                        <telerik:GridViewDataColumn  Header="FERT" DataMemberBinding="{Binding FERT}" Width="auto"/>
-                                                                        <telerik:GridViewDataColumn  Header="PEP F" DataMemberBinding="{Binding Faturamento}" Width="auto"/>
-                                                                        <telerik:GridViewDataColumn  Header="DESC" DataMemberBinding="{Binding DESC}" Width="auto"/>
-                                                                    </telerik:RadGridView.Columns>
-                                                                </telerik:RadGridView>
-                                                            </DataTemplate>
-                                                        </telerik:RadGridView.HierarchyChildTemplate>
-                                                    </telerik:RadGridView>
+                                                    <Border Margin="10,0,0,0" BorderBrush="Black" BorderThickness="1" Width="450">
+                                                        <DataGrid FontSize="11" ItemsSource="{Binding pep_agrupadores}"   Grid.Row="3" Grid.Column="2" IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Extended" HeadersVisibility="Column">
+                                                            <DataGrid.RowStyle>
+                                                                <Style TargetType="{x:Type DataGridRow}">
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding ferts.Count}" Value="0">
+                                                                            <Setter Property="Background" Value="LightSalmon"></Setter>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </DataGrid.RowStyle>
+                                                            <DataGrid.Columns>
+                                                                <DataGridTextColumn  Header="PEP" Binding="{Binding PEP}" Width="50"/>
+                                                                <DataGridTextColumn  Header="FAB" Binding="{Binding fabrica}" Width="50"/>
+                                                                <DataGridTextColumn  Header="Prédios" Binding="{Binding predios.Count,Mode=OneWay}" Width="50" IsReadOnly="True"/>
+                                                                <DataGridTextColumn  Header="Etapas" Binding="{Binding etapas.Count,Mode=OneWay}" Width="50" IsReadOnly="True"/>
+                                                                <DataGridTextColumn  Header="Ferts" Binding="{Binding ferts.Count,Mode=OneWay}" Width="50" IsReadOnly="True"/>
+                                                                <DataGridTemplateColumn  Header="Ações" Width="100">
+                                                                    <DataGridTemplateColumn.CellTemplate>
+                                                                        <DataTemplate>
+                                                                            <WrapPanel>
+                                                                                <Button Grid.Column="1" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="edit_nome_pep" VerticalAlignment="Center" ToolTip="Editar nome do PEP...">
+                                                                                    <Image Source="Resources/document-edit3.png" Width="16" Height="16" Margin="0,0,0,0" />
+                                                                                </Button>
+                                                                                <Button Grid.Column="1" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="edit_fab_pep" VerticalAlignment="Center" ToolTip="Alterar Unidade Fabril">
+                                                                                    <Image Source="Resources/fabrica.png" Width="16" Height="16" Margin="0,0,0,0" />
+                                                                                </Button>
+                                                                                <Button Grid.Column="1" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="add_fert_peps_obra" VerticalAlignment="Center" ToolTip="Adicionar PEP...">
+                                                                                    <Image Source="Resources/list-add.png" Width="16" Height="16" Margin="0,0,0,0" />
+                                                                                </Button>
+                                                                            </WrapPanel>
+                                                                        </DataTemplate>
+                                                                    </DataGridTemplateColumn.CellTemplate>
+                                                                </DataGridTemplateColumn>
+                                                            </DataGrid.Columns>
+
+                                                            <DataGrid.RowDetailsTemplate>
+                                                                <DataTemplate>
+                                                                    <Border Margin="10,0,0,0" BorderBrush="Black" BorderThickness="1" Width="350">
+                                                                        <DataGrid  HeadersVisibility="Column"  HorizontalAlignment="Left" ItemsSource="{Binding ferts}" Grid.Row="3" Grid.Column="2" IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Extended">
+                                                                            <DataGrid.Columns>
+                                                                                <DataGridTextColumn Header="PEP" Binding="{Binding PEP}" Width="50"/>
+                                                                                <DataGridTextColumn Header="FAB" Binding="{Binding FAB}" Width="50"/>
+                                                                                <DataGridTextColumn Header="FERT" Binding="{Binding FERT}" Width="50"/>
+                                                                                <DataGridTextColumn Header="PEP F" Binding="{Binding Faturamento}" Width="50"/>
+                                                                                <DataGridTextColumn Header="DESC" Binding="{Binding DESC}" Width="200"/>
+                                                                            </DataGrid.Columns>
+                                                                        </DataGrid>
+                                                                    </Border>
+                                                                </DataTemplate>
+                                                            </DataGrid.RowDetailsTemplate>
+                                                        </DataGrid>
+                                                    </Border>
                                                 </DataTemplate>
-                                            </telerik:RadGridView.HierarchyChildTemplate>
-                                        </telerik:RadGridView>
+                                            </DataGrid.RowDetailsTemplate>
+                                        </DataGrid>
 
                                     </TabItem>
                                 </TabControl>
@@ -678,7 +675,7 @@
                                                     </telerik:GridViewDataColumn>
                                                 </telerik:RadGridView.Columns>
                                             </telerik:RadGridView>
-                                            <telerik:RadGridView FontSize="11" Name="sub_etapas_selecao2" ShowColumnHeaders="True" ItemsSource="{Binding subetapa_agrupadores}" ShowSearchPanel="True" ShowColumnFooters="True" ShowGroupPanel="False"  Grid.Row="3" Grid.Column="20" IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Extended">
+                                            <telerik:RadGridView FontSize="11" Name="lista_sub_etapas_selecao2" ShowColumnHeaders="True" ItemsSource="{Binding subetapa_agrupadores}" ShowSearchPanel="True" ShowColumnFooters="True" ShowGroupPanel="False"  Grid.Row="3" Grid.Column="20" IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Extended">
                                                 <telerik:RadGridView.RowStyle>
                                                     <Style TargetType="telerik:GridViewRow">
                                                         <Setter Property="Background" Value="{Binding cor}"></Setter>
@@ -759,7 +756,7 @@
                                                 </telerik:GridViewDataColumn>
                                             </telerik:RadGridView.Columns>
                                         </telerik:RadGridView>
-                                            <telerik:RadGridView FontSize="11" Name="sub_etapas_selecao" ShowColumnHeaders="True" ItemsSource="{Binding subetapa_agrupadores}" ShowSearchPanel="True" ShowColumnFooters="True" ShowGroupPanel="False"  Grid.Row="3" Grid.Column="20" IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Extended">
+                                            <telerik:RadGridView FontSize="11" Name="lista_sub_etapas_selecao" ShowColumnHeaders="True" ItemsSource="{Binding subetapa_agrupadores}" ShowSearchPanel="True" ShowColumnFooters="True" ShowGroupPanel="False"  Grid.Row="3" Grid.Column="20" IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Extended">
                                                 <telerik:RadGridView.RowStyle>
                                                     <Style TargetType="telerik:GridViewRow">
                                                         <Setter Property="Background" Value="{Binding cor}"></Setter>

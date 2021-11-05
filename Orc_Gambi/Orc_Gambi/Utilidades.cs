@@ -393,7 +393,7 @@ namespace Orc_Gambi
 
             arqs = arqs.OrderByDescending(x => x.TamKB).ToList();
             var arquivos_fora = arquivos.FindAll(x => arqs.Find(y => y.Endereco == x.Endereco) == null);
-            erros.AddRange(arquivos_fora.Select(z => new Conexoes.Report(z.Endereco, "Arquivo inválido, não contém no nome SAP - RME ou é maior que o tamanho máximo (" + max_tamanho + ") " + "Tam. arq.:(" + z.Tamanho + ")", Conexoes.TipoReport.Erro)));
+            erros.AddRange(arquivos_fora.Select(z => new Conexoes.Report(z.Endereco, "Arquivo inválido, não contém no nome SAP - RME ou é maior que o tamanho máximo (" + max_tamanho + ") " + "Tam. arq.:(" + z.Tamanho + ")", Conexoes.TipoReport.Crítico)));
 
 
             var saps_rmes = arqs.Select(x => new PacoteSAP.SAPRME(x.Endereco, false)).ToList();
@@ -443,13 +443,13 @@ namespace Orc_Gambi
                         if (!t.Join(TimeSpan.FromSeconds(30)))
                         {
                             t.Abort();
-                            erros.Add(new Conexoes.Report("Abortado - Arquivo demorou demais.", s.Arquivo, Conexoes.TipoReport.Erro));
+                            erros.Add(new Conexoes.Report("Abortado - Arquivo demorou demais.", s.Arquivo, Conexoes.TipoReport.Crítico));
                         }
                     }
                     catch (Exception ex)
                     {
 
-                        erros.Add(new Conexoes.Report("Erro ao tentar ler o arquivo " + ex.Message, s.Arquivo, Conexoes.TipoReport.Erro));
+                        erros.Add(new Conexoes.Report("Erro ao tentar ler o arquivo " + ex.Message, s.Arquivo, Conexoes.TipoReport.Crítico));
                     }
 
                 }
@@ -489,7 +489,7 @@ namespace Orc_Gambi
                 }
                 catch (Exception ex)
                 {
-                    erros.Add(new Conexoes.Report("Erro", ex.Message, Conexoes.TipoReport.Erro));
+                    erros.Add(new Conexoes.Report(ex));
 
                 }
 
@@ -502,7 +502,7 @@ namespace Orc_Gambi
             erros = new List<Conexoes.Report>();
             if (!File.Exists(arquivo_excel))
             {
-                erros.Add(new Conexoes.Report(arquivo_excel, "Arquivo não existe", Conexoes.TipoReport.Erro));
+                erros.Add(new Conexoes.Report(arquivo_excel, "Arquivo não existe", Conexoes.TipoReport.Crítico));
                 return new List<Conexoes.Peca_PMP>();
             }
             PacoteSAP.SAPRME rme = new PacoteSAP.SAPRME(arquivo_excel);
@@ -571,7 +571,7 @@ namespace Orc_Gambi
                 }
                 catch (Exception ex)
                 {
-                    erros.Add(new Conexoes.Report(s.Nome, ex.Message, Conexoes.TipoReport.Erro));
+                    erros.Add(new Conexoes.Report(ex));
                 }
             }
 

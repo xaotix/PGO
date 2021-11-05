@@ -78,7 +78,7 @@ namespace Orc_Gambi
                 w.Close();
                 Conexoes.Utilz.Alerta("Dados atualizados!");
                 Lista_Ranges.ItemsSource = null;
-                PGOVars.GetDbOrc().ConsultarProdutos(false);
+                PGOVars.GetDbOrc().GetProdutos_Clean(true);
             }
         }
     }

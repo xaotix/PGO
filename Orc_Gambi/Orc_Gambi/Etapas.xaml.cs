@@ -29,28 +29,25 @@ namespace PGO
             this.Title = "Etapas [" + Obra.ToString() + "]";
             var Produtos = Conexoes.Orcamento.PGOVars.GetDbOrc().GetProdutos();
             var Pecas = Conexoes.Orcamento.PGOVars.GetDbOrc().GetProdutos().SelectMany(x => x.PecasDB).ToList();
-            Conexoes.Utilz.GetPecas_Orcamento(this.Obra, true, this.Obra.GetRanges().GroupBy(x => x.id).Select(x => x.First()).ToList(), true, true);
 
+            this.Obra.GetPredios(true);
+            Conexoes.Utilz.GetPecas_Orcamento(this.Obra, true, this.Obra.GetRanges().GroupBy(x => x.id).Select(x => x.First()).ToList(), true, true);
             UpdateAll();
 
         }
         private void UpdateAll()
         {
-            //Orc_Gambi.Loading mm = new Orc_Gambi.Loading(false);
-            //mm.Show();
-
-
 
             Conexoes.ControleWait w = Conexoes.Utilz.Wait(16, "Atualizando Listas...");
             w.somaProgresso();
             try
             {
 
-                this.Lista_Etapas.ItemsSource = null;
-                this.Lista_ranges.ItemsSource = null;
-                this.sub_etapas_selecao.ItemsSource = null;
+                this.lista_etapas.ItemsSource = null;
+                this.lista_ranges.ItemsSource = null;
+                this.lista_sub_etapas_selecao.ItemsSource = null;
                 this.lista_ponderadores.ItemsSource = null;
-                this.sub_etapas_selecao2.ItemsSource = null;
+                this.lista_sub_etapas_selecao2.ItemsSource = null;
                 this.lista_predios.ItemsSource = null;
                 this.Lista_Subetapas_Fim.ItemsSource = null;
                 this.lista_peps.ItemsSource = null;
@@ -60,11 +57,11 @@ namespace PGO
                 this.lista_predios_peps.ItemsSource = null;
 
                 w.somaProgresso("Mapeando Ranges...");
-                this.Lista_ranges.ItemsSource = this.Obra.GetRanges();
+                this.lista_ranges.ItemsSource = this.Obra.GetRanges();
 
-
-
-
+              
+                this.Obra.GetEtapas(true);
+             
 
                 /*validando se tem etapa criada*/
                 if (this.Obra.GetRanges().Count == 0)
@@ -72,7 +69,6 @@ namespace PGO
                     this.tab_principal_etapas.Visibility = Visibility.Collapsed;
                     Conexoes.Utilz.Alerta("Obra sem ranges cadastrados. Não é possível criar etapas.");
                     w.Close();
-                    //mm.Close();
                     return;
                 }
                 else
@@ -81,7 +77,7 @@ namespace PGO
                 }
 
                 w.somaProgresso("Mapeando Etapas...");
-                this.Lista_Etapas.ItemsSource = Obra.GetEtapas(true);
+                this.lista_etapas.ItemsSource = Obra.GetEtapas();
 
                 w.somaProgresso("Mapeando Sub-Ponderadores...");
                 this.lista_ponderadores.ItemsSource = this.Obra.Getsubponderadores().FindAll(x=>x.valor>0);
@@ -91,7 +87,7 @@ namespace PGO
                 w.somaProgresso("Mapeando Agrupadores...");
                 foreach (var pr in this.Obra.GetPredios()) 
                 {
-                    pr.CarregarAgrupadores();
+                    pr.CarregarAgrupadores(true);
                 }
 
 
@@ -159,17 +155,14 @@ namespace PGO
                 }
                 w.somaProgresso();
 
-                ExplorerPLM.Utilidades.LimparFiltros(Lista_Etapas);
-                ExplorerPLM.Utilidades.LimparFiltros(Lista_ranges);
-                ExplorerPLM.Utilidades.LimparFiltros(sub_etapas_selecao);
-                ExplorerPLM.Utilidades.LimparFiltros(sub_etapas_selecao2);
-                ExplorerPLM.Utilidades.LimparFiltros(lista_predios);
+                ExplorerPLM.Utilidades.LimparFiltros(lista_ranges);
+                ExplorerPLM.Utilidades.LimparFiltros(lista_sub_etapas_selecao);
+                ExplorerPLM.Utilidades.LimparFiltros(lista_sub_etapas_selecao2);
                 ExplorerPLM.Utilidades.LimparFiltros(Lista_Subetapas_Fim);
-                ExplorerPLM.Utilidades.LimparFiltros(lista_peps);
                 ExplorerPLM.Utilidades.LimparFiltros(lista_subetapas);
                 ExplorerPLM.Utilidades.LimparFiltros(lista_predios_2);
                 ExplorerPLM.Utilidades.LimparFiltros(lista_predios_3);
-                ExplorerPLM.Utilidades.LimparFiltros(lista_predios_peps);
+                //ExplorerPLM.Utilidades.LimparFiltros(lista_predios_peps);
 
                 w.somaProgresso();
 
@@ -179,9 +172,6 @@ namespace PGO
 
             }
             w.Close();
-
-            //mm.Close();
-
 
             var peso_total = Math.Round(this.Obra.GetRanges().Sum(x => x.PesoTotal),2);
             var peso_pecas = Math.Round(this.Obra.GetRanges().Sum(x => x.PesoPecas),2);
@@ -194,7 +184,7 @@ namespace PGO
             }
             if(peso_pecas==0)
             {
-                Conexoes.Utilz.Alerta("O peso todas das peças (listas técnicas) está zerado. Não é possível criar etapas.");
+                Conexoes.Utilz.Alerta("O peso total das peças (listas técnicas) está zerado. Não é possível criar etapas.");
                 this.tab_principal_etapas.Visibility = Visibility.Collapsed;
                 return;
             }
@@ -459,12 +449,12 @@ namespace PGO
         }
         private void altera_fert_varios(object sender, RoutedEventArgs e)
         {
-            SetFert(Lista_ranges.SelectedItems.Cast<Conexoes.Orcamento.Range>().ToList());
+            SetFert(lista_ranges.SelectedItems.Cast<Conexoes.Orcamento.Range>().ToList());
         }
         private void reset_fert_varios(object sender, RoutedEventArgs e)
         {
 
-            RetornaFert(Lista_ranges.SelectedItems.Cast<Conexoes.Orcamento.Range>().ToList());
+            RetornaFert(lista_ranges.SelectedItems.Cast<Conexoes.Orcamento.Range>().ToList());
         }
         private void add_novo_pep(object sender, RoutedEventArgs e)
         {
@@ -599,7 +589,7 @@ namespace PGO
         }
         private void ver_pecas_ranges(object sender, RoutedEventArgs e)
         {
-            var s = Lista_ranges.SelectedItems.Cast<Conexoes.Orcamento.Range>().ToList();
+            var s = lista_ranges.SelectedItems.Cast<Conexoes.Orcamento.Range>().ToList();
             Orc_Gambi.Funcoes.VerMateriais(this.Obra, s.SelectMany(x => x.GetPecas()).ToList());
 
         }
@@ -760,14 +750,14 @@ namespace PGO
         private void monta_lista(object sender, Telerik.Windows.Controls.SelectionChangeEventArgs e)
         {
             var sel = lista_predios_2.SelectedItems.Cast<Conexoes.Orcamento.OrcamentoPredio>().ToList();
-            this.sub_etapas_selecao.ItemsSource = null;
-            this.sub_etapas_selecao.ItemsSource = sel.SelectMany(x => x.GetSubEtapaAgrupadores());
+            this.lista_sub_etapas_selecao.ItemsSource = null;
+            this.lista_sub_etapas_selecao.ItemsSource = sel.SelectMany(x => x.GetSubEtapaAgrupadores());
         }
         private void monta_lista2(object sender, Telerik.Windows.Controls.SelectionChangeEventArgs e)
         {
             var sel = lista_predios_3.SelectedItems.Cast<Conexoes.Orcamento.OrcamentoPredio>().ToList();
-            this.sub_etapas_selecao2.ItemsSource = null;
-            this.sub_etapas_selecao2.ItemsSource = sel.SelectMany(x => x.GetSubEtapaAgrupadoresBase()).OrderBy(x => x.chave);
+            this.lista_sub_etapas_selecao2.ItemsSource = null;
+            this.lista_sub_etapas_selecao2.ItemsSource = sel.SelectMany(x => x.GetSubEtapaAgrupadoresBase()).OrderBy(x => x.chave);
         }
         private void juntar_subs_subetapa_agrupador(object sender, RoutedEventArgs e)
         {
@@ -951,7 +941,7 @@ namespace PGO
         }
         private void sobe_etapas(object sender, RoutedEventArgs e)
         {
-            List<Conexoes.Orcamento.Etapa> etapas = Lista_Etapas.SelectedItems.Cast<Conexoes.Orcamento.Etapa>().ToList();
+            List<Conexoes.Orcamento.Etapa> etapas = lista_etapas.SelectedItems.Cast<Conexoes.Orcamento.Etapa>().ToList();
             int etapa = Conexoes.Utilz.Int(Conexoes.Utilz.Prompt("Digite quanto você quer reduzir", "Editar Etapas", "1"));
             if (etapa == 0) { return; }
 
@@ -974,7 +964,7 @@ namespace PGO
         }
         private void desce_etapas(object sender, RoutedEventArgs e)
         {
-            List<Conexoes.Orcamento.Etapa> etapas = Lista_Etapas.SelectedItems.Cast<Conexoes.Orcamento.Etapa>().ToList();
+            List<Conexoes.Orcamento.Etapa> etapas = lista_etapas.SelectedItems.Cast<Conexoes.Orcamento.Etapa>().ToList();
             int etapa = Conexoes.Utilz.Int(Conexoes.Utilz.Prompt("Digite quanto você quer aumentar", "Editar Etapas", "1"));
             if (etapa == 0) { return; }
             if (etapas.Count > 0)
@@ -1013,7 +1003,7 @@ namespace PGO
         }
         private void edita_pep_subetapas(object sender, RoutedEventArgs e)
         {
-            var sel = sub_etapas_selecao.SelectedItems.Cast<Conexoes.Orcamento.SubEtapa_Agrupador>().ToList();
+            var sel = lista_sub_etapas_selecao.SelectedItems.Cast<Conexoes.Orcamento.SubEtapa_Agrupador>().ToList();
             if (sel.Count == 0) { return; }
 
             var novo = Conexoes.Utilz.Prompt("Digite o nome do PEP", "", sel[0].agrupador.PEP, false, "", false, 3).ToUpper();
@@ -1067,7 +1057,7 @@ namespace PGO
         }
         private void set_sequencial(object sender, RoutedEventArgs e)
         {
-            var sel = Lista_Etapas.SelectedItems.Cast<Conexoes.Orcamento.Etapa>().ToList();
+            var sel = lista_etapas.SelectedItems.Cast<Conexoes.Orcamento.Etapa>().ToList();
             if (sel.Count > 0)
             {
                 int inicio = Conexoes.Utilz.Int(Conexoes.Utilz.Prompt("Digite a etapa inicial", "", "1"));
@@ -1086,7 +1076,7 @@ namespace PGO
         }
         private void apagar_selecao(object sender, RoutedEventArgs e)
         {
-            var s = Lista_Etapas.SelectedItems.Cast<Conexoes.Orcamento.Etapa>().ToList();
+            var s = lista_etapas.SelectedItems.Cast<Conexoes.Orcamento.Etapa>().ToList();
 
             foreach (var st in s)
             {
@@ -1119,7 +1109,7 @@ namespace PGO
         }
         private void mover_etapa_varios(object sender, RoutedEventArgs e)
         {
-            List<Conexoes.Orcamento.Etapa> etapas = Lista_Etapas.SelectedItems.Cast<Conexoes.Orcamento.Etapa>().ToList();
+            List<Conexoes.Orcamento.Etapa> etapas = lista_etapas.SelectedItems.Cast<Conexoes.Orcamento.Etapa>().ToList();
             if (etapas.Count > 0)
             {
 
@@ -1367,7 +1357,7 @@ namespace PGO
         }
         private void editar_frentes(object sender, RoutedEventArgs e)
         {
-            var sel = Lista_Etapas.SelectedItems.Cast<Conexoes.Orcamento.Etapa>().ToList();
+            var sel = lista_etapas.SelectedItems.Cast<Conexoes.Orcamento.Etapa>().ToList();
 
             if (sel.Count == 0) { return; }
 
