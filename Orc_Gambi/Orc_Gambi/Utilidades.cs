@@ -110,7 +110,7 @@ namespace Orc_Gambi
 
                 if (pedidos.Count > 1)
                 {
-                    pedidos = new List<Conexoes.Pedido_PMP> { Conexoes.Utilz.SelecionarObjeto(pedidos, null, "Selecione o pedido") };
+                    pedidos = new List<Conexoes.Pedido_PMP> { Conexoes.Utilz.Selecao.SelecionarObjeto(pedidos, null, "Selecione o pedido") };
                     pedidos = pedidos.FindAll(x => x != null);
                 }
 
@@ -197,7 +197,7 @@ namespace Orc_Gambi
         public static void setdados_Folha(OrcamentoObra Obra)
         {
             var sel = Enum.GetNames(typeof(Tipo_Margem));
-            var sel_user = Conexoes.Utilz.SelecionarObjeto(sel.ToList(), null, "Selecione o tipo de cálculo");
+            var sel_user = Conexoes.Utilz.Selecao.SelecionarObjeto(sel.ToList(), null, "Selecione o tipo de cálculo");
             if (sel_user != null)
             {
                 Tipo_Margem tipo;

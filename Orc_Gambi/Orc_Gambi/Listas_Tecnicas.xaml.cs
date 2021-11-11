@@ -748,7 +748,7 @@ namespace Orc_Gambi
                 {
                     List<string> itens = GetItensPeca();
                     itens = itens.Distinct().ToList();
-                    string sel = Conexoes.Utilz.SelecionarObjeto(itens, null);
+                    string sel = Conexoes.Utilz.Selecao.SelecionarObjeto(itens, null);
 
 
                     if (sel != null)
@@ -906,7 +906,7 @@ namespace Orc_Gambi
 
 
 
-            var p = Conexoes.Utilz.SelecionarObjeto(Conexoes.Orcamento.PGOVars.GetDbOrc().GetProdutos(), null);
+            var p = Conexoes.Utilz.Selecao.SelecionarObjeto(Conexoes.Orcamento.PGOVars.GetDbOrc().GetProdutos(), null);
             if (p != null)
             {
                 if (Conexoes.Utilz.Pergunta("Tem certeza que deseja importar os itens do range " + p.Chave + " para o range \n" + Produto_Selecionado.Chave))
@@ -1085,7 +1085,7 @@ namespace Orc_Gambi
             var lits = Lista_Pecas.SelectedItems.Cast<PecaDB>().ToList();
             if (lits.Count > 0)
             {
-                string ficha = Conexoes.Utilz.SelecionarObjeto(new its.TipoPintura().GetValues().ToList().Select(x => x.Value.ToString()).ToList(), null);
+                string ficha = Conexoes.Utilz.Selecao.SelecionarObjeto(new its.TipoPintura().GetValues().ToList().Select(x => x.Value.ToString()).ToList(), null);
                 if (ficha == null) { return; }
                     foreach (var t in lits)
                     {
@@ -1155,7 +1155,7 @@ namespace Orc_Gambi
             if (Produto_Selecionado == null) { return; }
             else
             {
-                var t = Conexoes.Utilz.SelecionarObjeto(Conexoes.Orcamento.PGOVars.GetDbOrc().GetGrupos_De_Mercadoria(), null);
+                var t = Conexoes.Utilz.Selecao.SelecionarObjeto(Conexoes.Orcamento.PGOVars.GetDbOrc().GetGrupos_De_Mercadoria(), null);
                 if (t != null)
                 {
                     if (t.id != Produto_Selecionado.Grupo_De_Mercadoria.id)
@@ -1204,7 +1204,7 @@ namespace Orc_Gambi
 
         private static void setavivos(bool acao)
         {
-            var t = Conexoes.Utilz.SelecionarObjetos(Conexoes.Orcamento.PGOVars.GetDbOrc().GetProdutos().FindAll(x => x.ativo != acao).ToList());
+            var t = Conexoes.Utilz.Selecao.SelecionarObjetos(Conexoes.Orcamento.PGOVars.GetDbOrc().GetProdutos().FindAll(x => x.ativo != acao).ToList());
             if (t.Count > 0)
             {
                 foreach (var s in t)
@@ -1225,7 +1225,7 @@ namespace Orc_Gambi
             if (Produto_Selecionado == null) { return; }
             else
             {
-                var fert = Conexoes.Utilz.SelecionarObjeto(Conexoes.Orcamento.PGOVars.GetDbOrc().GetDe_Para(), null, "Selecione");
+                var fert = Conexoes.Utilz.Selecao.SelecionarObjeto(Conexoes.Orcamento.PGOVars.GetDbOrc().GetDe_Para(), null, "Selecione");
                 if (fert != null)
                 {
                     Produto_Selecionado.setFERT(fert.FERT, fert.WERKS_Int);

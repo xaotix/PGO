@@ -91,7 +91,7 @@ namespace Orc_Gambi
         private void editar_produto_padrao(object sender, RoutedEventArgs e)
         {
             Conexoes.Orcamento.Item_Arvore sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.Item_Arvore;
-            var prod = Conexoes.Utilz.SelecionarObjeto(sel.Grupo_De_Mercadoria.Produtos.FindAll(x => x.ativo), null) as Produto;
+            var prod = Conexoes.Utilz.Selecao.SelecionarObjeto(sel.Grupo_De_Mercadoria.Produtos.FindAll(x => x.ativo), null) as Produto;
             if (prod != null)
             {
                 sel.Produto_Padrao = prod;
@@ -117,10 +117,10 @@ namespace Orc_Gambi
             Conexoes.Orcamento.Grupo sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.Grupo;
             if (sel != null)
             {
-                var loc = Conexoes.Utilz.SelecionarObjeto(Locais, null) as Local;
+                var loc = Conexoes.Utilz.Selecao.SelecionarObjeto(Locais, null) as Local;
                 if (loc != null)
                 {
-                    var sels = Conexoes.Utilz.SelecionarObjeto(loc.Grupos, null) as Grupo;
+                    var sels = Conexoes.Utilz.Selecao.SelecionarObjeto(loc.Grupos, null) as Grupo;
 
                     if (sels != null)
                     {
@@ -147,7 +147,7 @@ namespace Orc_Gambi
             if (sel != null)
             {
 
-                var sels = Conexoes.Utilz.SelecionarObjeto(Locais, null) as Local;
+                var sels = Conexoes.Utilz.Selecao.SelecionarObjeto(Locais, null) as Local;
                 if (sels != null)
                 {
                     if (Utilz.Pergunta("Deseja copiar todos os grupos e grupos de mercadoria do local " + sel + " para o local " + sels + "?"))
@@ -202,7 +202,7 @@ namespace Orc_Gambi
         {
             var ls = PGOVars.GetDbOrc().GetLocais().FindAll(x => Locais.Find(y => y.id == x.id) == null);
             if (ls.Count == 0) { Conexoes.Utilz.Alerta("Já foram adicionados todos os locais cadastrados."); return; }
-            var sel = Conexoes.Utilz.SelecionarObjeto(ls, null) as Local;
+            var sel = Conexoes.Utilz.Selecao.SelecionarObjeto(ls, null) as Local;
             if (sel != null)
             {
                 Item_Arvore TT = new Item_Arvore( sel, Selecao.id);
@@ -221,7 +221,7 @@ namespace Orc_Gambi
             if (sel != null)
             {
 
-                var sels = Conexoes.Utilz.SelecionarObjeto(Locais.FindAll(x => x.id != sel.id), null) as Local;
+                var sels = Conexoes.Utilz.Selecao.SelecionarObjeto(Locais.FindAll(x => x.id != sel.id), null) as Local;
                 if (sels != null)
                 {
                     if (Utilz.Pergunta("Deseja mover os grupos do local " + sel + " para o local " + sels + "?"))
@@ -243,10 +243,10 @@ namespace Orc_Gambi
             Conexoes.Orcamento.Grupo sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.Grupo;
             if (sel != null)
             {
-                var loc = Conexoes.Utilz.SelecionarObjeto(Locais.FindAll(x => x.id != sel.Local.id), null) as Local;
+                var loc = Conexoes.Utilz.Selecao.SelecionarObjeto(Locais.FindAll(x => x.id != sel.Local.id), null) as Local;
                 if (loc != null)
                 {
-                    var sels = Conexoes.Utilz.SelecionarObjeto(loc.Grupos, null) as Grupo;
+                    var sels = Conexoes.Utilz.Selecao.SelecionarObjeto(loc.Grupos, null) as Grupo;
 
                     if (sels != null)
                     {
@@ -273,10 +273,10 @@ namespace Orc_Gambi
             if (sel != null)
             {
 
-                var grp = Conexoes.Utilz.SelecionarObjeto(PGOVars.GetDbOrc().GetGrupos_De_Mercadoria().FindAll(x => x.id != sel.Grupo_De_Mercadoria.id), null) as Grupo_De_Mercadoria;
+                var grp = Conexoes.Utilz.Selecao.SelecionarObjeto(PGOVars.GetDbOrc().GetGrupos_De_Mercadoria().FindAll(x => x.id != sel.Grupo_De_Mercadoria.id), null) as Grupo_De_Mercadoria;
                 if (grp != null)
                 {
-                    var prod_padrao = Conexoes.Utilz.SelecionarObjeto(grp.Produtos.FindAll(x => x.ativo), null) as Produto;
+                    var prod_padrao = Conexoes.Utilz.Selecao.SelecionarObjeto(grp.Produtos.FindAll(x => x.ativo), null) as Produto;
                     if (prod_padrao != null)
                     {
                         if (Utilz.Pergunta("Alterar o grupo " + sel + " para " + grp + "?"))
@@ -323,7 +323,7 @@ namespace Orc_Gambi
             {
                 if (Utilz.Pergunta("Quer copiar os itens de outro template para ele?"))
                 {
-                    var sel = Conexoes.Utilz.SelecionarObjeto(PGOVars.GetDbOrc().GetTemplates(), null) as Template;
+                    var sel = Conexoes.Utilz.Selecao.SelecionarObjeto(PGOVars.GetDbOrc().GetTemplates(), null) as Template;
                     if (sel != null)
                     {
                         pp.Clonar(sel);

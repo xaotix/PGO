@@ -248,7 +248,7 @@ namespace Orc_Gambi
         {
             var mts = Ranges.Select(x => x.WERK).Distinct().ToList();
 
-            var sel = Conexoes.Utilz.SelecionarObjeto(PGOVars.GetDbOrc().GetFerts(this.Obra.GetSegmento().COD, null), null, "Selecione");
+            var sel = Conexoes.Utilz.Selecao.SelecionarObjeto(PGOVars.GetDbOrc().GetFerts(this.Obra.GetSegmento().COD, null), null, "Selecione");
             if (sel != null)
             {
                 Conexoes.ControleWait w = Conexoes.Utilz.Wait(Ranges.Count, "Atualizando...");
@@ -713,7 +713,7 @@ namespace Orc_Gambi
                 {
                     if (Utilz.Pergunta("Deseja copiar os Locais de outro prédio?"))
                     {
-                        var sel = Conexoes.Utilz.SelecionarObjeto(this.Obra.GetPredios().ToList(), null) as OrcamentoPredio;
+                        var sel = Conexoes.Utilz.Selecao.SelecionarObjeto(this.Obra.GetPredios().ToList(), null) as OrcamentoPredio;
                         if (sel != null)
                         {
                             PGOVars.GetDbOrc().CopiarRanges(sel, p);
@@ -925,7 +925,7 @@ namespace Orc_Gambi
             var esquema = this.Obra.GetTratamento();
             if (!Utilz.Pergunta("Atribuir o esquema padrão da obra? [" + esquema.ToString() + "]"))
             {
-                esquema = Conexoes.Utilz.SelecionarObjeto(PGOVars.GetDbOrc().GetTratamentos(), null) as Tratamento;
+                esquema = Conexoes.Utilz.Selecao.SelecionarObjeto(PGOVars.GetDbOrc().GetTratamentos(), null) as Tratamento;
             }
             if (esquema != null)
             {
@@ -962,7 +962,7 @@ namespace Orc_Gambi
                 }
                 else
                 {
-                    var prod = Conexoes.Utilz.SelecionarObjeto(sel.Produto.Grupo_De_Mercadoria.Produtos.FindAll(x => x.ativo).OrderBy(X => X.id).ToList(), null) as Produto;
+                    var prod = Conexoes.Utilz.Selecao.SelecionarObjeto(sel.Produto.Grupo_De_Mercadoria.Produtos.FindAll(x => x.ativo).OrderBy(X => X.id).ToList(), null) as Produto;
                     if (prod != null)
                     {
                         sel.SetProduto(prod);
@@ -1005,7 +1005,7 @@ namespace Orc_Gambi
                         }
                         else
                         {
-                            var prod = Conexoes.Utilz.SelecionarObjeto(sel.Produto.Grupo_De_Mercadoria.Produtos.FindAll(x => x.ativo), null, "Selecione o substituto para " + sel.Produto.ToString()) as Produto;
+                            var prod = Conexoes.Utilz.Selecao.SelecionarObjeto(sel.Produto.Grupo_De_Mercadoria.Produtos.FindAll(x => x.ativo), null, "Selecione o substituto para " + sel.Produto.ToString()) as Produto;
 
                             if (prod != null)
                             {
@@ -1070,7 +1070,7 @@ namespace Orc_Gambi
             }
             Conexoes.Orcamento.Range sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.Range;
             if (sel == null) { return; }
-            var Carreta = Conexoes.Utilz.SelecionarObjeto(PGOVars.GetDbOrc().GetTipo_Carreta(), sel.Tipo_De_Carreta) as Tipo_Carreta;
+            var Carreta = Conexoes.Utilz.Selecao.SelecionarObjeto(PGOVars.GetDbOrc().GetTipo_Carreta(), sel.Tipo_De_Carreta) as Tipo_Carreta;
             if (Carreta == null) { return; }
 
             sel.setCarreta_User(Carreta);
@@ -1083,7 +1083,7 @@ namespace Orc_Gambi
 
             if (Ranges.Count > 0)
             {
-                var Carreta = Conexoes.Utilz.SelecionarObjeto(PGOVars.GetDbOrc().GetTipo_Carreta(), null) as Tipo_Carreta;
+                var Carreta = Conexoes.Utilz.Selecao.SelecionarObjeto(PGOVars.GetDbOrc().GetTipo_Carreta(), null) as Tipo_Carreta;
                 if (Carreta == null) { return; }
 
                 foreach (var r in Ranges)
@@ -1106,7 +1106,7 @@ namespace Orc_Gambi
             var esquema = this.Obra.GetTratamento();
             if (!Utilz.Pergunta("Atribuir o esquema padrão da obra? [" + esquema.ToString() + "]"))
             {
-                esquema = Conexoes.Utilz.SelecionarObjeto(PGOVars.GetDbOrc().GetTratamentos(), null) as Tratamento;
+                esquema = Conexoes.Utilz.Selecao.SelecionarObjeto(PGOVars.GetDbOrc().GetTratamentos(), null) as Tratamento;
             }
             if (esquema != null)
             {

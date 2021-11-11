@@ -85,7 +85,7 @@ namespace PGO
             {
                 lista = lista.FindAll(x => x.Consolidacao);
             }
-            var s = Conexoes.Utilz.SelecionarObjetos(lista,true);
+            var s = Conexoes.Utilz.Selecao.SelecionarObjetos(lista,true);
             var ss = s.Cast<Conexoes.Orcamento.OrcamentoObra>().ToList().FindAll(x => selecao.Find(y => y == x) == null);
             return ss;
         }
@@ -165,7 +165,7 @@ namespace PGO
             {
                 return;
             }
-            var nova = Conexoes.Utilz.SelecionarObjeto(sel.Revisoes.FindAll(x => x != sel), null);
+            var nova = Conexoes.Utilz.Selecao.SelecionarObjeto(sel.Revisoes.FindAll(x => x != sel), null);
             if (nova != null)
             {
                 selecao.Remove(sel);

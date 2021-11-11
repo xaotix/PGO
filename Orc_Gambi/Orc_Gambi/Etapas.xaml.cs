@@ -226,7 +226,7 @@ namespace PGO
         {
             var mts = Ranges.Select(x => x.WERK).Distinct().ToList();
             var ferts = this.Obra.GetFerts_Etapas();
-            var sel = Conexoes.Utilz.SelecionarObjeto(Conexoes.Orcamento.PGOVars.GetDbOrc().GetDe_Para()
+            var sel = Conexoes.Utilz.Selecao.SelecionarObjeto(Conexoes.Orcamento.PGOVars.GetDbOrc().GetDe_Para()
                 , null, "Selecione");
             if (sel != null)
             {
@@ -350,7 +350,7 @@ namespace PGO
                 bool faturamento = false;
                 if (de_para_novo.Count > 0)
                 {
-                    var novo = Conexoes.Utilz.SelecionarObjeto(de_para_novo, null, "Selecione");
+                    var novo = Conexoes.Utilz.Selecao.SelecionarObjeto(de_para_novo, null, "Selecione");
 
 
                     if (novo != null)
@@ -365,7 +365,7 @@ namespace PGO
                             }
                             var ndesc = Conexoes.Utilz.Prompt("Digite a descrição", "", "", true, "pep_pgo_desc", false, 20);
                             var fabs = peps_selecionados.Select(x => x.fabrica).Distinct().ToList();
-                            string mt = Conexoes.Utilz.SelecionarObjeto(Conexoes.Orcamento.PGOVars.GetDbOrc().GetMTs(), null);
+                            string mt = Conexoes.Utilz.Selecao.SelecionarObjeto(Conexoes.Orcamento.PGOVars.GetDbOrc().GetMTs(), null);
                             if (mt == null)
                             {
                                 goto saifora;
@@ -389,7 +389,7 @@ namespace PGO
 
                         }
                         var sss = peps_selecionados.SelectMany(x => x.GetFerts()).ToList().GroupBy(x => x.ToString()).Select(x => x.First()).ToList();
-                        var peps_mover = Conexoes.Utilz.SelecionarObjetos(sss, true,  novo.PEP + "." + novo.FAB + " => Seleciones os Ferts para mover");
+                        var peps_mover = Conexoes.Utilz.Selecao.SelecionarObjetos(sss, true,  novo.PEP + "." + novo.FAB + " => Seleciones os Ferts para mover");
                         if (peps_mover.Count == 0) { goto saifora; }
                         foreach (var s in peps_selecionados)
                         {
@@ -545,7 +545,7 @@ namespace PGO
             if (sels is Conexoes.Orcamento.OrcamentoPredio)
             {
                 var ss = sels as Conexoes.Orcamento.OrcamentoPredio;
-                var peps = Conexoes.Utilz.SelecionarObjetos(ss.GetAgrupadores(),true,"Selecione os PEPs que contenham os FERTs que deseja mover");
+                var peps = Conexoes.Utilz.Selecao.SelecionarObjetos(ss.GetAgrupadores(),true,"Selecione os PEPs que contenham os FERTs que deseja mover");
                 if (peps.Count > 0)
                 {
                     move_materiais(peps);
@@ -558,7 +558,7 @@ namespace PGO
             if (sels is Conexoes.Orcamento.PEP_Agrupador)
             {
                 var pp = sels as Conexoes.Orcamento.PEP_Agrupador;
-                var sel = Conexoes.Utilz.SelecionarObjeto(pp.GetSubEtapaAgrupadores(), null, "Selecione a Etapa");
+                var sel = Conexoes.Utilz.Selecao.SelecionarObjeto(pp.GetSubEtapaAgrupadores(), null, "Selecione a Etapa");
                 if (sel != null)
                 {
                     move_sub_etapas(sel, sel.Getagrupadores_externos());
@@ -854,7 +854,7 @@ namespace PGO
                 var subetapa = sels as Conexoes.Orcamento.SubEtapa_Agrupador;
                 var porcentagens = new Conexoes.Orcamento.Porcentagem_Grupo(subetapa.agrupador, true);
 
-                var selecao = Conexoes.Utilz.SelecionarObjetos(subetapa.Getagrupadores_externos(),true);
+                var selecao = Conexoes.Utilz.Selecao.SelecionarObjetos(subetapa.Getagrupadores_externos(),true);
                 if (selecao.Count == 0) { return; }
 
               
@@ -896,7 +896,7 @@ namespace PGO
                 var brothers = subetapa.Getbrothers();
 
                 var porcentagens = new Conexoes.Orcamento.Porcentagem_Grupo(subetapa.agrupador, brothers == null);
-                var selecao = Conexoes.Utilz.SelecionarObjetos(subetapa.Getagrupadores_externos(), true);
+                var selecao = Conexoes.Utilz.Selecao.SelecionarObjetos(subetapa.Getagrupadores_externos(), true);
                 if (selecao.Count == 0) { return; }
 
                 var por_sub = porcentagens.Lista.Find(x => x.Objeto == subetapa.subetapas[0]);
@@ -1334,7 +1334,7 @@ namespace PGO
             }
             if (opcoes.Count == 0) { return; }
 
-            var selecao = Conexoes.Utilz.SelecionarObjetos(opcoes);
+            var selecao = Conexoes.Utilz.Selecao.SelecionarObjetos(opcoes);
             if (selecao.Count > 0)
             {
 
@@ -1361,7 +1361,7 @@ namespace PGO
 
             if (sel.Count == 0) { return; }
 
-            var frente = Conexoes.Utilz.SelecionarObjeto(Conexoes.Orcamento.PGOVars.GetDbOrc().GetFrentes(), null, "Selecione");
+            var frente = Conexoes.Utilz.Selecao.SelecionarObjeto(Conexoes.Orcamento.PGOVars.GetDbOrc().GetFrentes(), null, "Selecione");
             if (frente != null)
             {
                 foreach (var s in sel)
@@ -1379,7 +1379,7 @@ namespace PGO
             {
                 var destino = sel as Conexoes.Orcamento.SubEtapa_Agrupador;
 
-                List<Conexoes.Orcamento.SubEtapa_Agrupador> selecao = Conexoes.Utilz.SelecionarObjetos(destino.Getagrupadores_externos());
+                List<Conexoes.Orcamento.SubEtapa_Agrupador> selecao = Conexoes.Utilz.Selecao.SelecionarObjetos(destino.Getagrupadores_externos());
                 move_sub_etapas(destino, selecao);
 
             }

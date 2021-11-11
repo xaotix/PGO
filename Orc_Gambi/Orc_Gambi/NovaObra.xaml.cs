@@ -74,7 +74,7 @@ namespace Orc_Gambi
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var t = Conexoes.Utilz.SelecionarObjeto(Conexoes.DBases.GetSegmentos().FindAll(x => x.ATIVO), null);
+            var t = Conexoes.Utilz.Selecao.SelecionarObjeto(Conexoes.DBases.GetSegmentos().FindAll(x => x.ATIVO), null);
 
             if (t != null)
             {
@@ -188,7 +188,7 @@ namespace Orc_Gambi
 
         private void define_tratamento(object sender, RoutedEventArgs e)
         {
-            var sel = Conexoes.Utilz.SelecionarObjeto(Conexoes.Orcamento.PGOVars.GetDbOrc().GetTratamentos(), null) as Conexoes.Orcamento.Tratamento;
+            var sel = Conexoes.Utilz.Selecao.SelecionarObjeto(Conexoes.Orcamento.PGOVars.GetDbOrc().GetTratamentos(), null) as Conexoes.Orcamento.Tratamento;
             if (sel != null)
             {
                 this.Obra.SetTratamento(sel);
@@ -214,7 +214,7 @@ namespace Orc_Gambi
 
         private void define_template(object sender, RoutedEventArgs e)
         {
-            var sel = Conexoes.Utilz.SelecionarObjeto(Conexoes.Orcamento.PGOVars.GetDbOrc().GetTemplates(), null, "Selecione um Template");
+            var sel = Conexoes.Utilz.Selecao.SelecionarObjeto(Conexoes.Orcamento.PGOVars.GetDbOrc().GetTemplates(), null, "Selecione um Template");
             if (sel != null)
             {
                 this.Obra.SetTemplate(sel as Template);

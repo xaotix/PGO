@@ -41,7 +41,7 @@ namespace Orc_Gambi
 
                 default: break;
                 case "RMA":
-                    RMA RMA = Conexoes.Utilz.SelecionarObjeto(DBases.GetBancoRM().GetRMAt(), null);
+                    RMA RMA = Conexoes.Utilz.Selecao.SelecionarObjeto(DBases.GetBancoRM().GetRMAt(), null);
                     if (RMA != null)
                     {
                         this.Selecao.Peca.id_peca = RMA.id_db;
@@ -50,7 +50,7 @@ namespace Orc_Gambi
                     }
                     break;
                 case "RME":
-                    RME RME = Conexoes.Utilz.SelecionarObjeto(DBases.GetBancoRM().GetRMEt().FindAll(x => x.DESTINO == "RME"), null);
+                    RME RME = Conexoes.Utilz.Selecao.SelecionarObjeto(DBases.GetBancoRM().GetRMEt().FindAll(x => x.DESTINO == "RME"), null);
                     if (RME != null)
                     {
                         this.Selecao.Peca.id_peca = RME.id_db;
@@ -61,7 +61,7 @@ namespace Orc_Gambi
                     }
                     break;
                 case "RMU":
-                    RMU RMU = Conexoes.Utilz.SelecionarObjeto(DBases.GetBancoRM().GetRMUt(), null);
+                    RMU RMU = Conexoes.Utilz.Selecao.SelecionarObjeto(DBases.GetBancoRM().GetRMUt(), null);
                     if (RMU != null)
                     {
                         this.Selecao.Peca.id_peca = RMU.id_db;
@@ -73,7 +73,7 @@ namespace Orc_Gambi
                     }
                     break;
                 case "RMT":
-                    RMT RMT = Conexoes.Utilz.SelecionarObjeto(DBases.GetBancoRM().GetRMTt(), null);
+                    RMT RMT = Conexoes.Utilz.Selecao.SelecionarObjeto(DBases.GetBancoRM().GetRMTt(), null);
                     if (RMT != null)
                     {
                         this.Selecao.Peca.id_peca = RMT.id_telha;
@@ -110,7 +110,7 @@ namespace Orc_Gambi
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Bobina sel = Conexoes.Utilz.SelecionarObjeto(DBases.GetBancoRM().GetBobinas());
+            Bobina sel = Conexoes.Utilz.Selecao.SelecionarObjeto(DBases.GetBancoRM().GetBobinas());
             if (sel != null)
             {
                 Selecao.Peca.Bobina = sel;

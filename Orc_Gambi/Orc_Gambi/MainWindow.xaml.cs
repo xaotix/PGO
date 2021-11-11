@@ -98,7 +98,7 @@ namespace Orc_Gambi
                 }
                 else
                 {
-                    var sel = Conexoes.Utilz.SelecionarObjeto(PGOVars.GetDbOrc().GetTemplates().FindAll(x => x.ativo), null);
+                    var sel = Conexoes.Utilz.Selecao.SelecionarObjeto(PGOVars.GetDbOrc().GetTemplates().FindAll(x => x.ativo), null);
                     if (sel != null)
                     {
                         ob.SetTemplate(sel);
@@ -338,7 +338,7 @@ namespace Orc_Gambi
             }
             else
             {
-                ObrasSel = Conexoes.Utilz.SelecionarObjetos(this.Obras, null);
+                ObrasSel = Conexoes.Utilz.Selecao.SelecionarObjetos(this.Obras, null);
             }
        
 
@@ -604,7 +604,7 @@ namespace Orc_Gambi
         }
         private void gerar_etapas(object sender, RoutedEventArgs e)
         {
-            var sel = Conexoes.Utilz.SelecionarObjetos(this.Obras.SelectMany(x => x.Revisoes).ToList(), true);
+            var sel = Conexoes.Utilz.Selecao.SelecionarObjetos(this.Obras.SelectMany(x => x.Revisoes).ToList(), true);
             if (sel.Count > 0)
             {
                 Conexoes.ControleWait w = Conexoes.Utilz.Wait(sel.Count, "Gerando...");

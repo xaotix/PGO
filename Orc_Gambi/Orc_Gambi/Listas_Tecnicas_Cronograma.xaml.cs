@@ -119,7 +119,7 @@ namespace PGO
             var sel = Lista_Ranges.SelectedItems.Cast<Conexoes.Orcamento.Produto>().ToList();
             if (sel.Count > 0)
             {
-                var fert = Conexoes.Utilz.SelecionarObjeto(Conexoes.Orcamento.PGOVars.GetDbOrc().GetDe_Para(), null, "Selecione");
+                var fert = Conexoes.Utilz.Selecao.SelecionarObjeto(Conexoes.Orcamento.PGOVars.GetDbOrc().GetDe_Para(), null, "Selecione");
                 if (fert != null)
                 {
                     Conexoes.ControleWait w = Conexoes.Utilz.Wait(sel.Count);
