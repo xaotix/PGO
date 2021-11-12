@@ -174,7 +174,7 @@ namespace Orc_Gambi
             if (File.Exists(ss))
             {
                 string planilha = "";
-                List<List<object>> Linhas = Conexoes.Funcoes.GetLista(Conexoes.Funcoes.LerExcel(ss, out planilha, false));
+                List<List<object>> Linhas = Conexoes.Utilz.Excel.GetLista(Conexoes.Utilz.Excel.GetDataTable(ss, out planilha, false));
                 if (Linhas.Count > 0)
                 {
                     Conexoes.ControleWait w = Conexoes.Utilz.Wait(Linhas.Count, "Lendo Excel...");
@@ -246,7 +246,7 @@ namespace Orc_Gambi
             if (File.Exists(ss))
             {
                 string planilha = "";
-                List<List<object>> Linhas = Conexoes.Funcoes.GetLista(Conexoes.Funcoes.LerExcel(ss, out planilha, false));
+                List<List<object>> Linhas = Conexoes.Utilz.Excel.GetLista(Conexoes.Utilz.Excel.GetDataTable(ss, out planilha, false));
                 if (Linhas.Count > 0)
                 {
                     Conexoes.ControleWait w = Conexoes.Utilz.Wait(Linhas.Count, "Lendo Excel...");

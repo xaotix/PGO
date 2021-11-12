@@ -650,11 +650,8 @@ namespace Orc_Gambi
             var arquivo = Conexoes.Utilz.Abrir_String("xml", "Selecione", "Selecione");
             if (File.Exists(arquivo))
             {
-                var t = Conexoes.Funcoes.LerExcel(arquivo, 1);
-
-
-
-                var plan = Conexoes.Funcoes.GetLista(t);
+                var t = Conexoes.Utilz.Excel.GetDataTable(arquivo, 1);
+                var plan = Conexoes.Utilz.Excel.GetLista(t);
             }
         }
         private void add_sec(object sender, RoutedEventArgs e)

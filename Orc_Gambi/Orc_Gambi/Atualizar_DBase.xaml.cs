@@ -24,7 +24,7 @@ namespace Orc_Gambi
             if (File.Exists(arquivo.Text))
             {
                 string planilha = "";
-                List<List<object>> Linhas = Conexoes.Funcoes.GetLista(Conexoes.Funcoes.LerExcel(arquivo.Text, out planilha, false));
+                List<List<object>> Linhas = Conexoes.Utilz.Excel.GetLista(Conexoes.Utilz.Excel.GetDataTable(arquivo.Text, out planilha, false));
                 Produtos = new List<Produto>();
                 if (Linhas.Count > 0)
                 {
