@@ -1,4 +1,5 @@
 ﻿using BingMapsRESTToolkit;
+using Conexoes;
 using Conexoes.Orcamento;
 using Microsoft.Maps.MapControl.WPF;
 using System;
@@ -397,7 +398,7 @@ namespace Orc_Gambi
 
 
             var saps_rmes = arqs.Select(x => new PacoteSAP.SAPRME(x.Endereco, false)).ToList();
-            var sub_lista = Conexoes.Utilz.quebrar_lista(saps_rmes, 5);
+            var sub_lista = saps_rmes.Quebrar(5);
             w.SetProgresso(1, saps_rmes.Count);
             var max = 20;
             int maximo = 15;
@@ -423,7 +424,7 @@ namespace Orc_Gambi
             }
             int atual = 0;
             int pack_ct = 0;
-            var list_pack = Conexoes.Utilz.quebrar_lista(saps_rmes, max);
+            var list_pack = saps_rmes.Quebrar(max);
             w.SetProgresso(1, saps_rmes.Count);
             foreach (var pack in list_pack)
             {
@@ -516,56 +517,56 @@ namespace Orc_Gambi
         {
             erros = new List<Conexoes.Report>();
             List<Conexoes.Peca_PMP> retorno = new List<Conexoes.Peca_PMP>();
-            foreach (var s in rme.Marcas)
+            foreach (var marca in rme.Marcas)
             {
                 try
                 {
                     Conexoes.Peca_PMP nova = new Conexoes.Peca_PMP();
                     nova.arquivo = rme.Arquivo.ToUpper();
-                    nova.comp = s.ZPP_COMPR;
-                    nova.corte = s.ZPP_CORTE;
-                    nova.descricao = s.MAKTX;
-                    var espess = s.Posicoes.Select(x => x.ZPP_ESPES).Distinct().ToList().FindAll(x => x > 0);
+                    nova.comp = marca.ZPP_COMPR;
+                    nova.corte = marca.ZPP_CORTE;
+                    nova.descricao = marca.MAKTX;
+                    var espess = marca.Posicoes.Select(x => x.ZPP_ESPES).Distinct().ToList().FindAll(x => x > 0);
                     if (espess.Count > 0)
                     {
                         nova.esp = espess[0];
 
                     }
-                    nova.esquema = s.ZPP_ESQPIN;
-                    nova.furos = s.Posicoes.Sum(x => x.ZPP_QUANT);
-                    nova.grupo_mercadoria = s.Grupo_De_Mercadoria.ToString().Replace("_", " ");
-                    nova.marca = s.ZPP_CODMAR;
-                    var matprimas = s.Posicoes.Select(x => x.ZPP_CODMATP).ToList().FindAll(x => x != "").Distinct().ToList();
+                    nova.esquema = marca.ZPP_ESQPIN;
+                    nova.furos = marca.Posicoes.Sum(x => x.ZPP_QUANT);
+                    nova.grupo_mercadoria = marca.MAKTX.ToString().Replace("_", " ");
+                    nova.marca = marca.ZPP_CODMAR;
+                    var matprimas = marca.Posicoes.Select(x => x.ZPP_CODMATP).ToList().FindAll(x => x != "").Distinct().ToList();
                     if (matprimas.Count > 0)
                     {
                         nova.materia_prima = matprimas[0];
                     }
-                    nova.pep = s.PS_POSID;
-                    nova.pep_inicial = s.PS_POSID;
-                    var TESTE = Conexoes.Utilz.PEP.SetContrato("123456", s.PS_POSID);
-                    if (s.TipoBase == Conexoes.TipoBase.Almox)
+                    nova.pep = marca.PS_POSID;
+                    nova.pep_inicial = marca.PS_POSID;
+                    var TESTE = Conexoes.Utilz.PEP.SetContrato("123456", marca.PS_POSID);
+                    if (Conexoes.Utilz.NORMT.GetTipoBase(marca.NORMT) == Conexoes.TipoBase.Almox)
                     {
-                        nova.peso = s.Posicoes.Sum(x => x.ZPP_PESOPOS);
-                        nova.quantidade = s.Posicoes.Sum(x => x.ZPP_QTDPOS);
+                        nova.peso = marca.Posicoes.Sum(x => x.ZPP_PESOPOS);
+                        nova.quantidade = marca.Posicoes.Sum(x => x.ZPP_QTDPOS);
                     }
                     else
                     {
-                        nova.peso = s.Posicoes.FindAll(x => x.NORMT != Conexoes.NORMT.PERFIL_I_SOLDADO).Sum(x => x.ZPP_PESOPOS * x.ZPP_QTDPOS * x.Qtd_Pai);
-                        nova.quantidade = s.ZPP_QTDMAR;
-                        nova.complexidade = s.Posicoes.Sum(x => x.ZPP_QTDPOS).ToString() + " Posicções";
+                        nova.peso = marca.Posicoes.FindAll(x => x.NORMT != Conexoes.NORMT.PERFIL_I_SOLDADO).Sum(x => x.ZPP_PESOPOS * x.ZPP_QTDPOS * x.Qtd_Pai);
+                        nova.quantidade = marca.ZPP_QTDMAR;
+                        nova.complexidade = marca.Posicoes.Sum(x => x.ZPP_QTDPOS).ToString() + " Posicções";
 
                     }
                     nova.range = "";
-                    nova.superficie = s.ZPP_SUPER;
+                    nova.superficie = marca.ZPP_SUPER;
                     nova.tipo = Conexoes.Tipo_PMP.C;
-                    var mats = s.Posicoes.Select(x => x.ZPP_TIPOACO).Distinct().ToList().FindAll(x => x != "").ToList();
+                    var mats = marca.Posicoes.Select(x => x.ZPP_TIPOACO).Distinct().ToList().FindAll(x => x != "").ToList();
                     if (mats.Count > 0)
                     {
                         nova.tipo_aco = mats[0];
 
                     }
-                    nova.tratamento = s.ZPP_TIPOPIN;
-                    nova.unidade_fabril = s.WERKS;
+                    nova.tratamento = marca.ZPP_TIPOPIN;
+                    nova.unidade_fabril = marca.WERKS;
                     //nova.dbase = Conexoes.DBases.GetDB();
                     retorno.Add(nova);
                 }

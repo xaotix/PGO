@@ -657,7 +657,7 @@ namespace PGO
                 l.Add(peso_etapas.ToString().Replace(".", ","));
                 linhas.Add(l);
             }
-            Conexoes.Utilz.SalvarLista(linhas);
+            Conexoes.Utilz.Arquivo.SalvarLista(linhas);
         }
         private void ver_pecas_selecao_peps(object sender, RoutedEventArgs e)
         {

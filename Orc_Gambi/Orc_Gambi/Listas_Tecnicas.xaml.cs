@@ -246,15 +246,18 @@ namespace Orc_Gambi
             if (File.Exists(ss))
             {
                 string planilha = "";
-                List<List<object>> Linhas = Conexoes.Utilz.Excel.GetLista(Conexoes.Utilz.Excel.GetDataTable(ss, out planilha, false));
-                if (Linhas.Count > 0)
+                var tbl = Conexoes.Utilz.Excel.GetLista(Conexoes.Utilz.Excel.GetDataTable(ss, out planilha, false));
+                //var tbl = Conexoes.Utilz.Excel.GetTabela(ss, false);
+
+
+                if (tbl.Count > 0)
                 {
-                    Conexoes.ControleWait w = Conexoes.Utilz.Wait(Linhas.Count, "Lendo Excel...");
+                    Conexoes.ControleWait w = Conexoes.Utilz.Wait(tbl.Count, "Lendo Excel...");
 
 
-                    var ids = Linhas.Select(x => x[0].ToString()).Distinct().ToList();
+                    var ids = tbl.Select(x => x[0].ToString()).Distinct().ToList();
                     int tt = 1;
-                    var lista = Linhas.Select(x => x.Select(y => y.ToString()).ToList()).ToList();
+                    var lista = tbl.Select(x => x.Select(y => y.ToString()).ToList()).ToList();
                     List<Conexoes.Report> reports = new List<Conexoes.Report>();
                     int id_codigo = 10;
                     int id_marca = 3;

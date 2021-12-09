@@ -645,15 +645,7 @@ namespace Orc_Gambi
             PGO.Listas_Tecnicas_Cronograma mm = new PGO.Listas_Tecnicas_Cronograma();
             mm.Show();
         }
-        private void abrir_excel_xml(object sender, RoutedEventArgs e)
-        {
-            var arquivo = Conexoes.Utilz.Abrir_String("xml", "Selecione", "Selecione");
-            if (File.Exists(arquivo))
-            {
-                var t = Conexoes.Utilz.Excel.GetDataTable(arquivo, 1);
-                var plan = Conexoes.Utilz.Excel.GetLista(t);
-            }
-        }
+
         private void add_sec(object sender, RoutedEventArgs e)
         {
             MenuNovaObra = new NovaObra();

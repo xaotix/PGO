@@ -23,18 +23,20 @@ namespace Orc_Gambi
             arquivo.Text = Conexoes.Utilz.Abrir_String("xlsx", "Selecione o arquivo", "Arquivo DBase");
             if (File.Exists(arquivo.Text))
             {
-                string planilha = "";
-                List<List<object>> Linhas = Conexoes.Utilz.Excel.GetLista(Conexoes.Utilz.Excel.GetDataTable(arquivo.Text, out planilha, false));
+                //string planilha = "";
+                //List<List<object>> Linhas = Conexoes.Utilz.Excel.GetLista(Conexoes.Utilz.Excel.GetDataTable(arquivo.Text, out planilha, false));
+                var tbl = Conexoes.Utilz.Excel.GetTabela(arquivo.Text, false);
+
                 Produtos = new List<Produto>();
-                if (Linhas.Count > 0)
+                if (tbl.Linhas.Count > 0)
                 {
-                    Conexoes.ControleWait w = Conexoes.Utilz.Wait(Linhas.Count, "Lendo Excel...");
-                    foreach (var l in Linhas)
+                    Conexoes.ControleWait w = Conexoes.Utilz.Wait(tbl.Count, "Lendo Excel...");
+                    foreach (var l in tbl.Linhas)
                     {
                         try
                         {
 
-                            Produtos.Add(PGOVars.GetDbOrc().GetProduto(l));
+                            Produtos.Add(PGOVars.GetDbOrc().GetProduto(l.GetValores()));
                             w.somaProgresso();
                         }
                         catch (Exception ex)

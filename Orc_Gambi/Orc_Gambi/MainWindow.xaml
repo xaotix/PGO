@@ -60,9 +60,7 @@
                 <MenuItem Header="Arquivar / Desarquivar Obras" Click="Arquivo_Obras"/>
                 <MenuItem Header="Teste MPs" Click="testar_mps"/>
                 <Separator></Separator>
-                <MenuItem Header="Testes" >
-                    <MenuItem Header="Abrir Excel XML" Click="abrir_excel_xml"/>
-                </MenuItem>
+
             </MenuItem>
             <MenuItem Header="Ajuda" Background="Transparent">
                 <MenuItem Header="Suporte Remoto" Background="Transparent" Click="abre_team_viewer"/>
