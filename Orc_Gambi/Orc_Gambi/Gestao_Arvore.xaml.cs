@@ -39,14 +39,14 @@ namespace Orc_Gambi
             else
             {
                 this.Lista.ItemsSource = null;
-                this.Locais = new List<Local>();
+                this.Locais = new List<OrcamentoLocal>();
             }
 
 
         }
 
 
-        public List<Local> Locais { get; set; } = new List<Local>();
+        public List<OrcamentoLocal> Locais { get; set; } = new List<OrcamentoLocal>();
         public List<Template> Templates { get; set; } = new List<Template>();
 
         private void editar_local(object sender, RoutedEventArgs e)
@@ -59,10 +59,10 @@ namespace Orc_Gambi
 
         private void adicionar_grupo(object sender, RoutedEventArgs e)
         {
-            Conexoes.Orcamento.Local sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.Local;
+            Conexoes.Orcamento.OrcamentoLocal sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.OrcamentoLocal;
             if (sel != null)
             {
-                Item_Arvore TT = new Item_Arvore( sel, Selecao.id);
+                OrcamentoItem_Arvore TT = new OrcamentoItem_Arvore( sel, Selecao.id);
                 Adicionar_Editar_Item mm = new Adicionar_Editar_Item(TT);
                 mm.ShowDialog();
                 if (mm.DialogResult == true)
@@ -75,10 +75,10 @@ namespace Orc_Gambi
 
         private void adicionar_grupo_mercadoria(object sender, RoutedEventArgs e)
         {
-            Conexoes.Orcamento.Grupo sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.Grupo;
+            Conexoes.Orcamento.OrcamentoGrupo sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.OrcamentoGrupo;
             if (sel != null)
             {
-                Item_Arvore TT = new Item_Arvore(sel.Local, sel, Selecao.id);
+                OrcamentoItem_Arvore TT = new OrcamentoItem_Arvore(sel.Local, sel, Selecao.id);
                 Adicionar_Editar_Item mm = new Adicionar_Editar_Item(TT);
                 mm.ShowDialog();
                 if (mm.DialogResult == true)
@@ -90,7 +90,7 @@ namespace Orc_Gambi
 
         private void editar_produto_padrao(object sender, RoutedEventArgs e)
         {
-            Conexoes.Orcamento.Item_Arvore sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.Item_Arvore;
+            Conexoes.Orcamento.OrcamentoItem_Arvore sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.OrcamentoItem_Arvore;
             var prod = Conexoes.Utilz.Selecao.SelecionarObjeto(sel.Grupo_De_Mercadoria.Produtos.FindAll(x => x.ativo), null) as Produto;
             if (prod != null)
             {
@@ -101,7 +101,7 @@ namespace Orc_Gambi
 
         private void remover_item_arvore(object sender, RoutedEventArgs e)
         {
-            Conexoes.Orcamento.Item_Arvore sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.Item_Arvore;
+            Conexoes.Orcamento.OrcamentoItem_Arvore sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.OrcamentoItem_Arvore;
             if (sel != null)
             {
                 if (Utilz.Pergunta("Tem certeza que deseja remover o item " + sel + " ?"))
@@ -114,13 +114,13 @@ namespace Orc_Gambi
 
         private void copiar_grupo_mercadoria(object sender, RoutedEventArgs e)
         {
-            Conexoes.Orcamento.Grupo sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.Grupo;
+            Conexoes.Orcamento.OrcamentoGrupo sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.OrcamentoGrupo;
             if (sel != null)
             {
-                var loc = Conexoes.Utilz.Selecao.SelecionarObjeto(Locais, null) as Local;
+                var loc = Conexoes.Utilz.Selecao.SelecionarObjeto(Locais, null) as OrcamentoLocal;
                 if (loc != null)
                 {
-                    var sels = Conexoes.Utilz.Selecao.SelecionarObjeto(loc.Grupos, null) as Grupo;
+                    var sels = Conexoes.Utilz.Selecao.SelecionarObjeto(loc.Grupos, null) as OrcamentoGrupo;
 
                     if (sels != null)
                     {
@@ -128,7 +128,7 @@ namespace Orc_Gambi
                         {
                             foreach (var t in sel.Grupos_De_Mercadoria.Select(x => x.Item_Arvore))
                             {
-                                Item_Arvore tnew = new Item_Arvore(t);
+                                OrcamentoItem_Arvore tnew = new OrcamentoItem_Arvore(t);
                                 tnew.Grupo = sels;
                                 tnew.Local = loc;
                                 tnew.Salvar();
@@ -143,18 +143,18 @@ namespace Orc_Gambi
 
         private void copiar_local(object sender, RoutedEventArgs e)
         {
-            Conexoes.Orcamento.Local sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.Local;
+            Conexoes.Orcamento.OrcamentoLocal sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.OrcamentoLocal;
             if (sel != null)
             {
 
-                var sels = Conexoes.Utilz.Selecao.SelecionarObjeto(Locais, null) as Local;
+                var sels = Conexoes.Utilz.Selecao.SelecionarObjeto(Locais, null) as OrcamentoLocal;
                 if (sels != null)
                 {
                     if (Utilz.Pergunta("Deseja copiar todos os grupos e grupos de mercadoria do local " + sel + " para o local " + sels + "?"))
                     {
                         foreach (var t in sel.Grupos.SelectMany(x => x.Itens))
                         {
-                            Item_Arvore item = new Item_Arvore(t);
+                            OrcamentoItem_Arvore item = new OrcamentoItem_Arvore(t);
                             item.Local = sels;
                             item.Salvar();
                         }
@@ -166,7 +166,7 @@ namespace Orc_Gambi
 
         private void apagar_grupo(object sender, RoutedEventArgs e)
         {
-            Conexoes.Orcamento.Grupo sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.Grupo;
+            Conexoes.Orcamento.OrcamentoGrupo sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.OrcamentoGrupo;
             if (sel != null)
             {
 
@@ -183,7 +183,7 @@ namespace Orc_Gambi
 
         private void apagar_local(object sender, RoutedEventArgs e)
         {
-            Conexoes.Orcamento.Local sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.Local;
+            Conexoes.Orcamento.OrcamentoLocal sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.OrcamentoLocal;
             if (sel != null)
             {
 
@@ -202,10 +202,10 @@ namespace Orc_Gambi
         {
             var ls = PGOVars.GetDbOrc().GetLocais().FindAll(x => Locais.Find(y => y.id == x.id) == null);
             if (ls.Count == 0) { Conexoes.Utilz.Alerta("Já foram adicionados todos os locais cadastrados."); return; }
-            var sel = Conexoes.Utilz.Selecao.SelecionarObjeto(ls, null) as Local;
+            var sel = Conexoes.Utilz.Selecao.SelecionarObjeto(ls, null) as OrcamentoLocal;
             if (sel != null)
             {
-                Item_Arvore TT = new Item_Arvore( sel, Selecao.id);
+                OrcamentoItem_Arvore TT = new OrcamentoItem_Arvore( sel, Selecao.id);
                 Adicionar_Editar_Item mm = new Adicionar_Editar_Item(TT);
                 mm.ShowDialog();
                 if (mm.DialogResult == true)
@@ -217,11 +217,11 @@ namespace Orc_Gambi
 
         private void move_local(object sender, RoutedEventArgs e)
         {
-            Conexoes.Orcamento.Local sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.Local;
+            Conexoes.Orcamento.OrcamentoLocal sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.OrcamentoLocal;
             if (sel != null)
             {
 
-                var sels = Conexoes.Utilz.Selecao.SelecionarObjeto(Locais.FindAll(x => x.id != sel.id), null) as Local;
+                var sels = Conexoes.Utilz.Selecao.SelecionarObjeto(Locais.FindAll(x => x.id != sel.id), null) as OrcamentoLocal;
                 if (sels != null)
                 {
                     if (Utilz.Pergunta("Deseja mover os grupos do local " + sel + " para o local " + sels + "?"))
@@ -240,13 +240,13 @@ namespace Orc_Gambi
 
         private void mover_grupo_de_mercadoria(object sender, RoutedEventArgs e)
         {
-            Conexoes.Orcamento.Grupo sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.Grupo;
+            Conexoes.Orcamento.OrcamentoGrupo sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.OrcamentoGrupo;
             if (sel != null)
             {
-                var loc = Conexoes.Utilz.Selecao.SelecionarObjeto(Locais.FindAll(x => x.id != sel.Local.id), null) as Local;
+                var loc = Conexoes.Utilz.Selecao.SelecionarObjeto(Locais.FindAll(x => x.id != sel.Local.id), null) as OrcamentoLocal;
                 if (loc != null)
                 {
-                    var sels = Conexoes.Utilz.Selecao.SelecionarObjeto(loc.Grupos, null) as Grupo;
+                    var sels = Conexoes.Utilz.Selecao.SelecionarObjeto(loc.Grupos, null) as OrcamentoGrupo;
 
                     if (sels != null)
                     {
@@ -269,7 +269,7 @@ namespace Orc_Gambi
 
         private void editar_grupo_de_mercadoria(object sender, RoutedEventArgs e)
         {
-            Conexoes.Orcamento.Item_Arvore sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.Item_Arvore;
+            Conexoes.Orcamento.OrcamentoItem_Arvore sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.OrcamentoItem_Arvore;
             if (sel != null)
             {
 
@@ -294,7 +294,7 @@ namespace Orc_Gambi
 
         private void editar_multiplicador(object sender, RoutedEventArgs e)
         {
-            Conexoes.Orcamento.Item_Arvore sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.Item_Arvore;
+            Conexoes.Orcamento.OrcamentoItem_Arvore sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.OrcamentoItem_Arvore;
 
             double valor = Utilz.Double(Utilz.Prompt("Digite", "", sel.multiplicador.ToString()));
             sel.setmultiplicador(valor);
@@ -303,7 +303,7 @@ namespace Orc_Gambi
 
         private void editar_observacoes(object sender, RoutedEventArgs e)
         {
-            Conexoes.Orcamento.Item_Arvore sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.Item_Arvore;
+            Conexoes.Orcamento.OrcamentoItem_Arvore sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.OrcamentoItem_Arvore;
 
             string valor = Utilz.Prompt("Digite", "", sel.observacoes.ToString());
             sel.setobservacoes(valor);
@@ -358,7 +358,7 @@ namespace Orc_Gambi
 
         private void subir_item_arvore(object sender, RoutedEventArgs e)
         {
-            Conexoes.Orcamento.Item_Arvore sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.Item_Arvore;
+            Conexoes.Orcamento.OrcamentoItem_Arvore sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.OrcamentoItem_Arvore;
             if (sel != null)
             {
                 sel.DiminuiOrdem();
@@ -367,7 +367,7 @@ namespace Orc_Gambi
 
         private void descer_item_arvore(object sender, RoutedEventArgs e)
         {
-            Conexoes.Orcamento.Item_Arvore sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.Item_Arvore;
+            Conexoes.Orcamento.OrcamentoItem_Arvore sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.OrcamentoItem_Arvore;
             if (sel != null)
             {
                 sel.SomaOrdem();

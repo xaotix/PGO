@@ -70,7 +70,7 @@ namespace Orc_Gambi
         private void GetArvore()
         {
             Arvore.Items.Clear();
-            var raiz = Conexoes.UtilzForms.AddTreeview(this.Obra.Contrato, this.Obra);
+            var raiz = Conexoes.Utilz.Forms.AddTreeview(this.Obra.Contrato, this.Obra);
             raiz.SetBinding(TreeViewItem.ToolTipProperty, Utilz.GetBinding("ToolTip", raiz.Tag));
 
             foreach (var p1 in this.Obra.GetPredios(true))
@@ -78,12 +78,12 @@ namespace Orc_Gambi
 
 
                 string nomepredio = p1.numero + " - " + p1.nome + " [" + p1.Area_Predio.ToString() + " m²]";
-                var t1 = Conexoes.UtilzForms.AddTreeview(nomepredio, nomepredio, p1.Imagem, p1, "");
+                var t1 = Conexoes.Utilz.Forms.AddTreeview(nomepredio, nomepredio, p1.Imagem, p1, "");
                 t1.ItemsSource = null;
                 t1.SetBinding(TreeViewItem.ToolTipProperty, Utilz.GetBinding("ToolTip", t1.Tag));
                 foreach (var p2 in p1.Locais)
                 {
-                    var t2 = Conexoes.UtilzForms.AddTreeview(p2.ToString(), p2.nome, p2.Imagem, p2, "");
+                    var t2 = Conexoes.Utilz.Forms.AddTreeview(p2.ToString(), p2.nome, p2.Imagem, p2, "");
                     t2.ItemsSource = null;
                     t2.SetBinding(TreeViewItem.ToolTipProperty, Utilz.GetBinding("ToolTip", t2.Tag));
 
@@ -92,7 +92,7 @@ namespace Orc_Gambi
                     foreach (var p3 in p2.Grupos)
                     {
 
-                        var t3 = Conexoes.UtilzForms.AddTreeview(p3.ToString(), p3.nome, p3.Imagem, p3, "");
+                        var t3 = Conexoes.Utilz.Forms.AddTreeview(p3.ToString(), p3.nome, p3.Imagem, p3, "");
                         t3.SetBinding(TreeViewItem.ToolTipProperty, Utilz.GetBinding("ToolTip", t3.Tag));
 
                         t2.Items.Add(t3);
@@ -731,13 +731,13 @@ namespace Orc_Gambi
         private void adicionar_range(object sender, RoutedEventArgs e)
         {
 
-            if (ObjetoArvore is Grupo == false) { return; }
+            if (ObjetoArvore is OrcamentoGrupo == false) { return; }
             AddProduto();
         }
 
         private void AddProduto()
         {
-            var p = ObjetoArvore as Grupo;
+            var p = ObjetoArvore as OrcamentoGrupo;
             AddRange pp = new AddRange(p, this.Obra);
             pp.ShowDialog();
             if ((bool)pp.DialogResult)
@@ -796,9 +796,9 @@ namespace Orc_Gambi
 
 
             }
-            else if (t is Local)
+            else if (t is OrcamentoLocal)
             {
-                var ob = t as Local;
+                var ob = t as OrcamentoLocal;
                 lista.ItemsSource = null;
                 lista.ItemsSource = ob.Ranges;
                 Imagem_Sel.Source = ob.Imagem;
@@ -806,9 +806,9 @@ namespace Orc_Gambi
 
 
             }
-            else if (t is Grupo)
+            else if (t is OrcamentoGrupo)
             {
-                var ob = t as Grupo;
+                var ob = t as OrcamentoGrupo;
                 lista.ItemsSource = null;
                 lista.ItemsSource = ob.Ranges;
                 Imagem_Sel.Source = ob.Imagem;
@@ -851,11 +851,11 @@ namespace Orc_Gambi
                     Predio_Editar.Visibility = Visibility.Visible;
                     Predio_Exlcuir.Visibility = Visibility.Visible;
                 }
-                else if (ob is Local)
+                else if (ob is OrcamentoLocal)
                 {
 
                 }
-                else if (ob is Grupo)
+                else if (ob is OrcamentoGrupo)
                 {
 
                 }
@@ -1117,7 +1117,7 @@ namespace Orc_Gambi
 
         private void adicionar_item(object sender, RoutedEventArgs e)
         {
-            if (ObjetoArvore is Grupo)
+            if (ObjetoArvore is OrcamentoGrupo)
             {
                 AddProduto();
 
@@ -1146,10 +1146,10 @@ namespace Orc_Gambi
 
         private void adicionar_item_padrao(object sender, RoutedEventArgs e)
         {
-            if (ObjetoArvore is Grupo)
+            if (ObjetoArvore is OrcamentoGrupo)
             {
-                var grupo = ObjetoArvore as Grupo;
-                Conexoes.Orcamento.Item_Arvore sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.Item_Arvore;
+                var grupo = ObjetoArvore as OrcamentoGrupo;
+                Conexoes.Orcamento.OrcamentoItem_Arvore sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.OrcamentoItem_Arvore;
                 AddRange pp = new AddRange(grupo, sel, this.Obra);
                 pp.ShowDialog();
                 if ((bool)pp.DialogResult)
@@ -1206,9 +1206,9 @@ namespace Orc_Gambi
 
         private void add_verba(object sender, RoutedEventArgs e)
         {
-            if (ObjetoArvore is Grupo)
+            if (ObjetoArvore is OrcamentoGrupo)
             {
-                var p = ObjetoArvore as Grupo;
+                var p = ObjetoArvore as OrcamentoGrupo;
                 Range s = new Range(this.Obra, "", 0, 0, p.Local.Predio, p);
                 AddRange pp = new AddRange(s, this.Obra);
                 pp.ShowDialog();
@@ -1396,10 +1396,10 @@ namespace Orc_Gambi
 
         private void add_verba_pintura(object sender, RoutedEventArgs e)
         {
-            if (ObjetoArvore is Grupo)
+            if (ObjetoArvore is OrcamentoGrupo)
             {
 
-                var p = ObjetoArvore as Grupo;
+                var p = ObjetoArvore as OrcamentoGrupo;
                 var rm = ExplorerPLM.Utilidades.CriaRetornaSAP(Criterio.Orcamento, "TINTA");
                 if (rm == null) { return; }
                 double peso_total = 0;

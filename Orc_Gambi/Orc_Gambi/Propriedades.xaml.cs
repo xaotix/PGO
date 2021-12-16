@@ -210,14 +210,14 @@ namespace Orc_Gambi
                 var t = Selecao as Grupo_De_Mercadoria;
                 t.Salvar();
             }
-            else if (Selecao is Grupo)
+            else if (Selecao is OrcamentoGrupo)
             {
-                var t = Selecao as Grupo;
+                var t = Selecao as OrcamentoGrupo;
                 t.Salvar();
             }
-            else if (Selecao is Local)
+            else if (Selecao is OrcamentoLocal)
             {
-                var t = Selecao as Local;
+                var t = Selecao as OrcamentoLocal;
                 t.Salvar();
             }
             else if (Selecao is Tipo_Pintura)
@@ -283,12 +283,12 @@ namespace Orc_Gambi
             }
             else if (Tipo == Tipologia.Grupo)
             {
-                tt = new Grupo();
+                tt = new OrcamentoGrupo();
                 //Propriedadesm.SelectedObject = tt;
             }
             else if (Tipo == Tipologia.Local)
             {
-                tt = new Local();
+                tt = new OrcamentoLocal();
                 //Propriedadesm.SelectedObject = tt;
             }
             else if (Tipo == Tipologia.Tipo_Pintura)

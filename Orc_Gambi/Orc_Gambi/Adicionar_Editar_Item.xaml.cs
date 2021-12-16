@@ -13,8 +13,8 @@ namespace Orc_Gambi
     /// </summary>
     public partial class Adicionar_Editar_Item : ModernWindow
     {
-        private Item_Arvore novo { get; set; } = new Item_Arvore(-1);
-        public Adicionar_Editar_Item(Item_Arvore item_Arvore)
+        private OrcamentoItem_Arvore novo { get; set; } = new OrcamentoItem_Arvore(-1);
+        public Adicionar_Editar_Item(OrcamentoItem_Arvore item_Arvore)
         {
             InitializeComponent();
             this.novo = item_Arvore;
@@ -44,8 +44,8 @@ namespace Orc_Gambi
             this.Grupos.ItemsSource = PGOVars.GetDbOrc().GetGrupos();
             this.Locais.ItemsSource = PGOVars.GetDbOrc().GetLocais();
             this.Grupos_De_Mercadoria.ItemsSource = PGOVars.GetDbOrc().GetGrupos_De_Mercadoria().FindAll(x => x.descricao != "VERBA");
-            this.Grupos.SelectedValue = this.Grupos.Items.Cast<Grupo>().ToList().Find(x => x.id == novo.Grupo.id);
-            this.Locais.SelectedItem = this.Locais.Items.Cast<Local>().ToList().Find(x => x.id == novo.Local.id);
+            this.Grupos.SelectedValue = this.Grupos.Items.Cast<OrcamentoGrupo>().ToList().Find(x => x.id == novo.Grupo.id);
+            this.Locais.SelectedItem = this.Locais.Items.Cast<OrcamentoLocal>().ToList().Find(x => x.id == novo.Local.id);
             this.Grupos_De_Mercadoria.SelectedItem = novo.Grupo_De_Mercadoria;
             try
             {
@@ -75,8 +75,8 @@ namespace Orc_Gambi
 
         private void adicionar_item_arvore(object sender, RoutedEventArgs e)
         {
-            var local = Locais.SelectedItem as Local;
-            var grupo = Grupos.SelectedItem as Grupo;
+            var local = Locais.SelectedItem as OrcamentoLocal;
+            var grupo = Grupos.SelectedItem as OrcamentoGrupo;
             var grupo_mercadoria = Grupos_De_Mercadoria.SelectedItem as Grupo_De_Mercadoria;
             var produto_padrao = Produto_Padrao.SelectedItem as Produto;
             double multi = Utilz.Double(multilpicador.Text);

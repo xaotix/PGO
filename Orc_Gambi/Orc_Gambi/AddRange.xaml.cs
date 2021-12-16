@@ -11,13 +11,13 @@ namespace Orc_Gambi
     /// </summary>
     public partial class AddRange : Window
     {
-        public Grupo Selecao { get; set; } = new Grupo();
+        public OrcamentoGrupo Selecao { get; set; } = new OrcamentoGrupo();
         private OrcamentoObra Obra { get; set; } = new OrcamentoObra();
 
         public Range Range { get; set; }
 
         public Tipo_Carreta Carreta_User { get; set; }
-        public AddRange(Grupo Selecao, OrcamentoObra Ob)
+        public AddRange(OrcamentoGrupo Selecao, OrcamentoObra Ob)
         {
             this.Selecao = Selecao;
             this.Obra = Ob;
@@ -27,7 +27,7 @@ namespace Orc_Gambi
             Carregar_Dados();
         }
 
-        public AddRange(Grupo Selecao, Item_Arvore Item, OrcamentoObra Ob)
+        public AddRange(OrcamentoGrupo Selecao, OrcamentoItem_Arvore Item, OrcamentoObra Ob)
         {
             this.Obra = Ob;
             this.Selecao = Selecao;
@@ -102,9 +102,9 @@ namespace Orc_Gambi
         private void set_ranges(object sender, SelectionChangedEventArgs e)
         {
             this.Produto_Selecionado.ItemsSource = null;
-            if (this.Grupos_De_Mercadoria.SelectedItem is Item_Arvore)
+            if (this.Grupos_De_Mercadoria.SelectedItem is OrcamentoItem_Arvore)
             {
-                var t = this.Grupos_De_Mercadoria.SelectedItem as Item_Arvore;
+                var t = this.Grupos_De_Mercadoria.SelectedItem as OrcamentoItem_Arvore;
                 this.Produto_Selecionado.ItemsSource = t.Grupo_De_Mercadoria.Produtos.FindAll(x => x.ativo);
                 if (this.Produto_Selecionado.Items.Count > 0)
                 {
