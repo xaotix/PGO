@@ -1400,7 +1400,7 @@ namespace Orc_Gambi
             {
 
                 var p = ObjetoArvore as OrcamentoGrupo;
-                var rm = ExplorerPLM.Utilidades.CriaRetornaSAP(Criterio.Orcamento, "TINTA");
+                var rm = ExplorerPLM.Utilidades.CriaRetornaSAP(Acessos_Criterio.Orcamento, "TINTA");
                 if (rm == null) { return; }
                 double peso_total = 0;
                 double quantidade = 0;

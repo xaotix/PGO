@@ -69,9 +69,6 @@
     <Reference Include="MySqlBackup">
       <HintPath>..\..\..\DLLS\MySqlBackup.dll</HintPath>
     </Reference>
-    <Reference Include="netDxf">
-      <HintPath>..\..\..\DLLS\netDxf.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />

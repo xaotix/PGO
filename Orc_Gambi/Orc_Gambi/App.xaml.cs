@@ -29,7 +29,7 @@ namespace Orc_Gambi
             {
                 ResourceManager = PGO.GridTraducao.ResourceManager
             };
-            DBases.Criterio = Criterio.Orcamento;
+            DBases.Criterio = Acessos_Criterio.Orcamento;
             if (!Utilz.DecimalOk())
             {
                 Conexoes.Utilz.Alerta("Sistema regional de casas decimais configurado incorretamente. Favor ajustar antes de utilizar a ferramenta.", "", MessageBoxImage.Error);

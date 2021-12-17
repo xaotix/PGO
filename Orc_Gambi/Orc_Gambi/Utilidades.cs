@@ -551,7 +551,7 @@ namespace Orc_Gambi
                     }
                     else
                     {
-                        nova.peso = marca.Posicoes.FindAll(x => x.NORMT != Conexoes.NORMT.PERFIL_I_SOLDADO).Sum(x => x.ZPP_PESOPOS * x.ZPP_QTDPOS * x.Qtd_Pai);
+                        nova.peso = marca.Posicoes.FindAll(x => x.NORMT != Conexoes.TAB_NORMT.PERFIL_I_SOLDADO).Sum(x => x.ZPP_PESOPOS * x.ZPP_QTDPOS * x.Qtd_Pai);
                         nova.quantidade = marca.ZPP_QTDMAR;
                         nova.complexidade = marca.Posicoes.Sum(x => x.ZPP_QTDPOS).ToString() + " Posicções";
 
