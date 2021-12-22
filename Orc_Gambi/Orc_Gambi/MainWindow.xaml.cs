@@ -571,7 +571,7 @@ namespace Orc_Gambi
             catch (Exception ex)
             {
 
-                Conexoes.Utilz.Alerta(ex.Message + "\n" + ex.StackTrace);
+                Conexoes.Utilz.Alerta(ex);
             }
 
         }

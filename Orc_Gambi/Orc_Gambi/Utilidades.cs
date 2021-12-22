@@ -508,7 +508,6 @@ namespace Orc_Gambi
             }
             PacoteSAP.SAPRME rme = new PacoteSAP.SAPRME(arquivo_excel);
 
-            rme.Carregar();
             List<Conexoes.Peca_PMP> retorno = getPecas(rme, out erros);
 
             return retorno;
