@@ -6,7 +6,6 @@
                   
                   Title="ORC" 
                    xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"   
-                  xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
                   xmlns:dgx="clr-namespace:DataGridExtensions;assembly=DataGridExtensions"
                   Style="{StaticResource BlankWindow}" Loaded="ModernWindow_Loaded" Closed="ModernWindow_Closed" WindowStartupLocation="CenterScreen" WindowState="Maximized" Height="809.5" Width="1503" FontSize="11">
 
