@@ -73,8 +73,7 @@ namespace Orc_Gambi
                 $"[{System.Windows.Forms.Application.ProductName} - " +
                 $"v {System.Windows.Forms.Application.ProductVersion}" +
                 $" - Obras.: [{Conexoes.Cfg.Init.MySQL_Servidor_Orcamento}] - " +
-                $"Padr.: [{Conexoes.Cfg.Init.MySQL_Servidor}]" +
-                $"{(PGOVars.GetConfig().Acessar_Arquivo ? " - ARQUIVO" : "")}";
+                $"Padr.: [{Conexoes.Cfg.Init.MySQL_Servidor}]";
 
             Funcoes_Mapa.Localizacoes = new Localizacoes(System.Windows.Forms.Application.StartupPath + @"\Locais.setup");
 
@@ -469,7 +468,7 @@ namespace Orc_Gambi
         {
             if (apaga_zeradas)
             {
-                Conexoes.DBases.GetDB_Orcamento().ExecutarComando($"delete from {PGOVars.GetConfig().Database}.{PGOVars.GetConfig().tabela_id_predio} where cod_obra={ob.id} and quantidade is null");
+                Conexoes.DBases.GetDB_Orcamento().ExecutarComando($"delete from {Cfg.Init.db_orcamento}.{PGOVars.GetConfig().tabela_id_predio} where cod_obra={ob.id} and quantidade is null");
                 ob.SetValor("nova", true.ToString());
                 ob.nova = true;
             }

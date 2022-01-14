@@ -1017,8 +1017,8 @@ namespace Orc_Gambi
                 }
         }
 
-        private DateTime De { get; set; } = new DateTime();
-        private DateTime Ate { get; set; } = new DateTime();
+        private DateTime De { get; set; } = Conexoes.Utilz.Calendario.DataDummy();
+        private DateTime Ate { get; set; } = Conexoes.Utilz.Calendario.DataDummy();
         public Resumo Resumo { get; set; } = new Resumo();
         private void get_indicadores(object sender, RoutedEventArgs e)
         {
