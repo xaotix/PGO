@@ -15,13 +15,13 @@ namespace Orc_Gambi
 
         private void ver_ranges(object sender, RoutedEventArgs e)
         {
-            //var t = this.DataContext as Conexoes.Orcamento.PacoteRange;
+            //var t = this.DataContext as Orcamento.PacoteRange;
             //Funcoes.SelecionarRanges(t.Obra.GetPredios(t, false),false);
         }
 
         private void editar_propriedades(object sender, RoutedEventArgs e)
         {
-            //var t = this.DataContext as Conexoes.Orcamento.PacoteRange;
+            //var t = this.DataContext as Orcamento.PacoteRange;
             //Conexoes.Utilz.Propriedades(t, true, true);
             //if(Conexoes.Utilz.Pergunta("Salvar alterações?"))
             //{
@@ -31,20 +31,20 @@ namespace Orc_Gambi
 
         private void gerar_materiais(object sender, RoutedEventArgs e)
         {
-            //var t = this.DataContext as Conexoes.Orcamento.PacoteRange;
+            //var t = this.DataContext as Orcamento.PacoteRange;
             //Conexoes.Utilz.ShowReports(t.GerarMateriais());
         }
 
         private void editar_observacoes(object sender, RoutedEventArgs e)
         {
-            //var t = this.DataContext as Conexoes.Orcamento.PacoteRange;
+            //var t = this.DataContext as Orcamento.PacoteRange;
             //t.SetObservacoes();
 
         }
 
         private void apagar_pacote(object sender, RoutedEventArgs e)
         {
-            //var t = this.DataContext as Conexoes.Orcamento.PacoteRange;
+            //var t = this.DataContext as Orcamento.PacoteRange;
 
             //if (Conexoes.Utilz.Pergunta("Apagar item"))
             //{
@@ -54,7 +54,7 @@ namespace Orc_Gambi
 
         private void editar_ranges(object sender, RoutedEventArgs e)
         {
-            //  var t = this.DataContext as Conexoes.Orcamento.PacoteRange;
+            //  var t = this.DataContext as Orcamento.PacoteRange;
             //if(t.importado_sap)
             //  {
             //      if(Conexoes.Utilz.Pergunta("Esse pacote já foi importado no SAP. Deseja alterá-lo?"))

@@ -1,4 +1,5 @@
-﻿using Conexoes.Orcamento;
+﻿using Orcamento;
+using DLMEnum;
 using ExplorerPLM;
 using FirstFloor.ModernUI.Windows.Controls;
 using System;
@@ -13,11 +14,11 @@ namespace PGO
     /// </summary>
     public partial class TelaPMP : ModernWindow
     {
-        public List<Conexoes.Orcamento.OrcamentoObra> obras { get; set; } = new List<Conexoes.Orcamento.OrcamentoObra>();
-        public List<Conexoes.Orcamento.Pacote_Obra> pacotes { get; set; } = new List<Conexoes.Orcamento.Pacote_Obra>();
-        public List<Conexoes.Orcamento.Pacote_Obra> pacotes_consolidados { get; set; } = new List<Conexoes.Orcamento.Pacote_Obra>();
-        public List<Conexoes.Orcamento.OrcamentoObra> selecao { get; set; } = new List<Conexoes.Orcamento.OrcamentoObra>();
-        public TelaPMP(List<Conexoes.Orcamento.OrcamentoObra> obras)
+        public List<Orcamento.OrcamentoObra> obras { get; set; } = new List<Orcamento.OrcamentoObra>();
+        public List<Orcamento.Pacote_Obra> pacotes { get; set; } = new List<Orcamento.Pacote_Obra>();
+        public List<Orcamento.Pacote_Obra> pacotes_consolidados { get; set; } = new List<Orcamento.Pacote_Obra>();
+        public List<Orcamento.OrcamentoObra> selecao { get; set; } = new List<Orcamento.OrcamentoObra>();
+        public TelaPMP(List<Orcamento.OrcamentoObra> obras)
         {
 
 
@@ -29,7 +30,7 @@ namespace PGO
 
 
         }
-        public TelaPMP(List<Conexoes.Orcamento.OrcamentoObra> obras, List<Conexoes.Pedido_PMP> pedidos_buffer)
+        public TelaPMP(List<Orcamento.OrcamentoObra> obras, List<Conexoes.Pedido_PMP> pedidos_buffer)
         {
             this.obras = obras;
             this.pacotes = PGOVars.GetDbOrc().GetPacotes();
@@ -48,7 +49,7 @@ namespace PGO
 
         private void editar_contrato_sap(object sender, RoutedEventArgs e)
         {
-            Conexoes.Orcamento.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.OrcamentoObra;
+            Orcamento.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as Orcamento.OrcamentoObra;
             if (sel == null) { return; }
 
             sel.SetContrato_SAP(sel.Contrato_SAP);
@@ -57,24 +58,24 @@ namespace PGO
 
         private void editar_etapas(object sender, RoutedEventArgs e)
         {
-            Conexoes.Orcamento.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.OrcamentoObra;
+            Orcamento.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as Orcamento.OrcamentoObra;
             if (sel == null) { return; }
             PGO.Etapas mm = new PGO.Etapas(sel);
             mm.Show();
         }
-        public List<Conexoes.Orcamento.OrcamentoObra> Obras()
+        public List<Orcamento.OrcamentoObra> Obras()
         {
             return this.obras;
         }
         private void adicionar_obras(object sender, RoutedEventArgs e)
         {
             bool somente_consolidadas = Conexoes.Utilz.Pergunta("Mostrar somente obras que tenham consolidação?");
-            List<Conexoes.Orcamento.OrcamentoObra> ss = ListarOrcamentos(somente_consolidadas);
+            List<Orcamento.OrcamentoObra> ss = ListarOrcamentos(somente_consolidadas);
             selecao.AddRange(ss);
             Update();
         }
 
-        private List<Conexoes.Orcamento.OrcamentoObra> ListarOrcamentos(bool somente_consolidadas, bool revisoes = false)
+        private List<Orcamento.OrcamentoObra> ListarOrcamentos(bool somente_consolidadas, bool revisoes = false)
         {
             var lista = Obras();
             if (revisoes)
@@ -86,7 +87,7 @@ namespace PGO
                 lista = lista.FindAll(x => x.Consolidacao);
             }
             var s = Conexoes.Utilz.Selecao.SelecionarObjetos(lista,true);
-            var ss = s.Cast<Conexoes.Orcamento.OrcamentoObra>().ToList().FindAll(x => selecao.Find(y => y == x) == null);
+            var ss = s.Cast<Orcamento.OrcamentoObra>().ToList().FindAll(x => selecao.Find(y => y == x) == null);
             return ss;
         }
 
@@ -103,9 +104,9 @@ namespace PGO
             var pedidos_com_pacote = selecao.FindAll(x => pacotes.Find(y => y.pedido == x.PedidoSAP) != null);
             var obras_duplicadas = selecao.FindAll(x => selecao.FindAll(y => y.PedidoSAP == x.PedidoSAP).Count > 1).FindAll(x => obras_sem_contrato_sap.Find(y => y == x) == null);
 
-            pre_testes.AddRange(obras_sem_contrato_sap.Select(x => x.Contrato + "." + x.Revisao + " - " + x.Nome).Distinct().ToList().Select(x => new Conexoes.Report(x, "Obra com contrato SAP em branco ou inválido", Conexoes.TipoReport.Crítico)));
-            pre_testes.AddRange(obras_duplicadas.Select(x => x.Contrato + "." + x.Revisao + " - " + x.Nome + " Pedido: " + x.PedidoSAP).Distinct().ToList().Select(x => new Conexoes.Report(x, "Mais de Uma obra com o mesmo contrato SAP", Conexoes.TipoReport.Crítico)));
-            pre_testes.AddRange(pedidos_com_pacote.Select(x => x.Contrato + "." + x.Revisao + " - " + x.Nome + " Pedido: " + x.PedidoSAP).Distinct().ToList().Select(x => new Conexoes.Report(x, "Já existe um pacote com este pedido.", Conexoes.TipoReport.Crítico)));
+            pre_testes.AddRange(obras_sem_contrato_sap.Select(x => x.Contrato + "." + x.Revisao + " - " + x.Nome).Distinct().ToList().Select(x => new Conexoes.Report(x, "Obra com contrato SAP em branco ou inválido", TipoReport.Crítico)));
+            pre_testes.AddRange(obras_duplicadas.Select(x => x.Contrato + "." + x.Revisao + " - " + x.Nome + " Pedido: " + x.PedidoSAP).Distinct().ToList().Select(x => new Conexoes.Report(x, "Mais de Uma obra com o mesmo contrato SAP", TipoReport.Crítico)));
+            pre_testes.AddRange(pedidos_com_pacote.Select(x => x.Contrato + "." + x.Revisao + " - " + x.Nome + " Pedido: " + x.PedidoSAP).Distinct().ToList().Select(x => new Conexoes.Report(x, "Já existe um pacote com este pedido.", TipoReport.Crítico)));
 
             return pre_testes;
 
@@ -131,7 +132,7 @@ namespace PGO
 
 
             List<Conexoes.Report> erros = new List<Conexoes.Report>();
-            List<Conexoes.Orcamento.Orcamento_Peca> pecas = new List<Conexoes.Orcamento.Orcamento_Peca>();
+            List<Orcamento.Orcamento_Peca> pecas = new List<Orcamento.Orcamento_Peca>();
             Conexoes.ControleWait w = Conexoes.Utilz.Wait(this.selecao.Count, "Lendo Materiais...");
             foreach (var ob in this.selecao)
             {
@@ -139,7 +140,7 @@ namespace PGO
                 {
                     if (ob.GetEtapas().Count == 0)
                     {
-                        erros.Add(new Conexoes.Report(ob.ToString(), "Obra sem etapas. Criado automaticamente", Conexoes.TipoReport.Status));
+                        erros.Add(new Conexoes.Report(ob.ToString(), "Obra sem etapas. Criado automaticamente", TipoReport.Status));
                         ob.CriarEtapas();
 
                     }
@@ -147,7 +148,7 @@ namespace PGO
                 }
                 catch (Exception ex)
                 {
-                    erros.Add(new Conexoes.Report(ob.ToString(), ex.ToString(), Conexoes.TipoReport.Crítico));
+                    erros.Add(new Conexoes.Report(ob.ToString(), ex.ToString(), TipoReport.Crítico));
 
                 }
 
@@ -160,7 +161,7 @@ namespace PGO
 
         private void trocar_revisao(object sender, RoutedEventArgs e)
         {
-            Conexoes.Orcamento.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.OrcamentoObra;
+            Orcamento.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as Orcamento.OrcamentoObra;
             if (sel == null)
             {
                 return;
@@ -230,7 +231,7 @@ namespace PGO
 
         private void excluir_pacote(object sender, RoutedEventArgs e)
         {
-            Conexoes.Orcamento.Pacote_Obra sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.Pacote_Obra;
+            Orcamento.Pacote_Obra sel = ((FrameworkElement)sender).DataContext as Orcamento.Pacote_Obra;
             if (sel == null)
             {
                 return;
@@ -240,7 +241,7 @@ namespace PGO
             {
                 if (sel.Obra != null)
                 {
-                    Conexoes.Orcamento.PGOVars.LimparPMP_Consolidada(sel.pedido);
+                    Orcamento.PGOVars.LimparPMP_Consolidada(sel.pedido);
                     //sel.Obra.LimparPMP();
                     UpdatePacotes();
                 }
@@ -266,7 +267,7 @@ namespace PGO
 
         private void atualizar_pacote(object sender, RoutedEventArgs e)
         {
-            Conexoes.Orcamento.Pacote_Obra sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.Pacote_Obra;
+            Orcamento.Pacote_Obra sel = ((FrameworkElement)sender).DataContext as Orcamento.Pacote_Obra;
             if (sel == null)
             {
                 return;
@@ -289,7 +290,7 @@ namespace PGO
 
         private void editar_etapas_pacote(object sender, RoutedEventArgs e)
         {
-            Conexoes.Orcamento.Pacote_Obra sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.Pacote_Obra;
+            Orcamento.Pacote_Obra sel = ((FrameworkElement)sender).DataContext as Orcamento.Pacote_Obra;
             if (sel == null)
             {
                 return;
@@ -325,7 +326,7 @@ namespace PGO
 
         private void excluir_pacotes(object sender, RoutedEventArgs e)
         {
-            var sel = Lista_Criados.SelectedItems.Cast<Conexoes.Orcamento.Pacote_Obra>().ToList();
+            var sel = Lista_Criados.SelectedItems.Cast<Orcamento.Pacote_Obra>().ToList();
             if (sel.Count > 0)
             {
                 if (Conexoes.Utilz.Pergunta("Tem certeza que deseja excluir os pacotes selecionados?"))
@@ -339,7 +340,7 @@ namespace PGO
                         }
                         else
                         {
-                            Conexoes.Orcamento.PGOVars.LimparPMP_Orcamento(s.pedido);
+                            Orcamento.PGOVars.LimparPMP_Orcamento(s.pedido);
                             //Conexoes.Utilz.Alerta("Obra ~[id=" + s.id_obra + "] não encontrada. Contacte suporte\n(Daniel Maciel).", "", MessageBoxImage.Error);
 
                         }
@@ -354,7 +355,7 @@ namespace PGO
 
         private void autlizar_pacotes(object sender, RoutedEventArgs e)
         {
-            var sel = Lista_Criados.SelectedItems.Cast<Conexoes.Orcamento.Pacote_Obra>().ToList();
+            var sel = Lista_Criados.SelectedItems.Cast<Orcamento.Pacote_Obra>().ToList();
             if (sel.Count > 0)
             {
                 if (Conexoes.Utilz.Pergunta("Tem certeza que deseja atualizar os pacotes selecionados?"))
@@ -389,7 +390,7 @@ namespace PGO
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
 
-            List<Conexoes.Arquivo> excels = ExplorerPLM.Utilidades.ExplorerArquivos(new Conexoes.Pasta(Conexoes.Orcamento.PGOVars.GetConfig().pasta_consolidadas), "XLSX");
+            List<Conexoes.Arquivo> excels = ExplorerPLM.Utilidades.ExplorerArquivos(new Conexoes.Pasta(Orcamento.PGOVars.GetConfig().pasta_consolidadas), "XLSX");
             if (excels.Count > 0)
             {
 
@@ -464,7 +465,7 @@ namespace PGO
                     limpar_carga_consolidada();
                 }
             }
-            List<Conexoes.Orcamento.OrcamentoObra> ss = ListarOrcamentos(true, true).FindAll(x => x.ContratoSAPValido);
+            List<Orcamento.OrcamentoObra> ss = ListarOrcamentos(true, true).FindAll(x => x.ContratoSAPValido);
             if (ss.Count > 0)
             {
                 List<Conexoes.Report> erros = new List<Conexoes.Report>();
@@ -518,14 +519,14 @@ namespace PGO
 
         private void excluir_pacotes_consolidadas(object sender, RoutedEventArgs e)
         {
-            var sel = Lista_Consolidadas.SelectedItems.Cast<Conexoes.Orcamento.Pacote_Obra>().ToList();
+            var sel = Lista_Consolidadas.SelectedItems.Cast<Orcamento.Pacote_Obra>().ToList();
             if (sel.Count > 0)
             {
                 if (Conexoes.Utilz.Pergunta("Tem certeza que deseja excluir os pacotes selecionados?"))
                 {
                     foreach (var s in sel)
                     {
-                        Conexoes.Orcamento.PGOVars.LimparPMP_Consolidada(s.pedido);
+                        Orcamento.PGOVars.LimparPMP_Consolidada(s.pedido);
                     }
                     UpdatePacotes();
                     Conexoes.Utilz.Alerta("Pacotes removidos");

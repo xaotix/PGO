@@ -1,5 +1,5 @@
 ﻿using Conexoes;
-using Conexoes.Orcamento;
+using Orcamento;
 using FirstFloor.ModernUI.Windows.Controls;
 using System;
 using System.Collections.Generic;

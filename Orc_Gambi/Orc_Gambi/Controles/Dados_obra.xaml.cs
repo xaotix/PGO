@@ -1,5 +1,5 @@
 ﻿using Conexoes;
-using Conexoes.Orcamento;
+using Orcamento;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
@@ -13,8 +13,8 @@ namespace Orc_Gambi.Controles
     /// </summary>
     public partial class Dados_obra : Window
     {
-        public Conexoes.Orcamento.OrcamentoObra Obra { get; set; } = new Conexoes.Orcamento.OrcamentoObra();
-        public Dados_obra(Conexoes.Orcamento.OrcamentoObra Obra)
+        public Orcamento.OrcamentoObra Obra { get; set; } = new Orcamento.OrcamentoObra();
+        public Dados_obra(Orcamento.OrcamentoObra Obra)
         {
             this.Obra = Obra;
             InitializeComponent();

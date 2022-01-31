@@ -13,19 +13,19 @@ namespace PGO
         {
 
             InitializeComponent();
-            this.Lista_Ranges.ItemsSource = Conexoes.Orcamento.PGOVars.GetDbOrc().GetProdutos_Clean();
+            this.Lista_Ranges.ItemsSource = Orcamento.PGOVars.GetDbOrc().GetProdutos_Clean();
         }
 
         private void salvar_alteracoes(object sender, RoutedEventArgs e)
         {
-            Conexoes.Orcamento.Produto sel = ((FrameworkElement)sender).DataContext as Conexoes.Orcamento.Produto;
+            Orcamento.Produto sel = ((FrameworkElement)sender).DataContext as Orcamento.Produto;
             if (sel == null) { return; }
             sel.SalvarDatas();
         }
 
         private void editar_e_dias_1(object sender, RoutedEventArgs e)
         {
-            var sel = Lista_Ranges.SelectedItems.Cast<Conexoes.Orcamento.Produto>().ToList();
+            var sel = Lista_Ranges.SelectedItems.Cast<Orcamento.Produto>().ToList();
             if (sel.Count > 0)
             {
                 int val_atual = sel[0].DIAS_ENGENHARIA_1;
@@ -43,7 +43,7 @@ namespace PGO
 
         private void editar_e_dias(object sender, RoutedEventArgs e)
         {
-            var sel = Lista_Ranges.SelectedItems.Cast<Conexoes.Orcamento.Produto>().ToList();
+            var sel = Lista_Ranges.SelectedItems.Cast<Orcamento.Produto>().ToList();
             if (sel.Count > 0)
             {
                 int val_atual = sel[0].DIAS_ENGENHARIA;
@@ -62,7 +62,7 @@ namespace PGO
 
         private void editar_f_dias(object sender, RoutedEventArgs e)
         {
-            var sel = Lista_Ranges.SelectedItems.Cast<Conexoes.Orcamento.Produto>().ToList();
+            var sel = Lista_Ranges.SelectedItems.Cast<Orcamento.Produto>().ToList();
             if (sel.Count > 0)
             {
                 int val_atual = sel[0].DIAS_FABRICACAO;
@@ -80,7 +80,7 @@ namespace PGO
 
         private void editar_l_dias(object sender, RoutedEventArgs e)
         {
-            var sel = Lista_Ranges.SelectedItems.Cast<Conexoes.Orcamento.Produto>().ToList();
+            var sel = Lista_Ranges.SelectedItems.Cast<Orcamento.Produto>().ToList();
             if (sel.Count > 0)
             {
                 int val_atual = sel[0].DIAS_LOGISTICA;
@@ -98,7 +98,7 @@ namespace PGO
 
         private void editar_m_dias(object sender, RoutedEventArgs e)
         {
-            var sel = Lista_Ranges.SelectedItems.Cast<Conexoes.Orcamento.Produto>().ToList();
+            var sel = Lista_Ranges.SelectedItems.Cast<Orcamento.Produto>().ToList();
             if (sel.Count > 0)
             {
                 int val_atual = sel[0].DIAS_MONTAGEM;
@@ -116,10 +116,10 @@ namespace PGO
 
         private void atribuir_ferts(object sender, RoutedEventArgs e)
         {
-            var sel = Lista_Ranges.SelectedItems.Cast<Conexoes.Orcamento.Produto>().ToList();
+            var sel = Lista_Ranges.SelectedItems.Cast<Orcamento.Produto>().ToList();
             if (sel.Count > 0)
             {
-                var fert = Conexoes.Utilz.Selecao.SelecionarObjeto(Conexoes.Orcamento.PGOVars.GetDbOrc().GetDe_Para(), null, "Selecione");
+                var fert = Conexoes.Utilz.Selecao.SelecionarObjeto(Orcamento.PGOVars.GetDbOrc().GetDe_Para(), null, "Selecione");
                 if (fert != null)
                 {
                     Conexoes.ControleWait w = Conexoes.Utilz.Wait(sel.Count);

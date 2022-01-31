@@ -9,9 +9,9 @@ namespace PGO
     /// </summary>
     public partial class Porcentagem_Editar : ModernWindow
     {
-        public Conexoes.Orcamento.Porcentagem_Grupo Grupo { get; set; } = new Conexoes.Orcamento.Porcentagem_Grupo();
+        public Orcamento.Porcentagem_Grupo Grupo { get; set; } = new Orcamento.Porcentagem_Grupo();
 
-        public Porcentagem_Editar(Conexoes.Orcamento.Porcentagem_Grupo Grupo)
+        public Porcentagem_Editar(Orcamento.Porcentagem_Grupo Grupo)
         {
             this.Grupo = Grupo;
             this.DataContext = this;
@@ -37,9 +37,9 @@ namespace PGO
         private void colocar_resto(object sender, RoutedEventArgs e)
         {
             var sels = ((FrameworkElement)sender).DataContext;
-            if (sels is Conexoes.Orcamento.Porcentagem)
+            if (sels is Orcamento.Porcentagem)
             {
-                var p = sels as Conexoes.Orcamento.Porcentagem;
+                var p = sels as Orcamento.Porcentagem;
                 var tot = p.Externas.Sum(x => x.Valor);
                 var ss = 100 - tot;
                 if (ss >= 0)

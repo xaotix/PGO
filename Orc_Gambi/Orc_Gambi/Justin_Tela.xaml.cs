@@ -13,12 +13,12 @@ namespace PGO
     public partial class Justin_Tela : ModernWindow
     {
         public string var { get; set; } = "";
-        public Conexoes.Orcamento.Consulta_Justin Dados { get; set; } = new Conexoes.Orcamento.Consulta_Justin();
+        public Orcamento.Consulta_Justin Dados { get; set; } = new Orcamento.Consulta_Justin();
         public Justin_Tela()
         {
             InitializeComponent();
             navegador.Navigate("about:blank");
-            Dados = new Conexoes.Orcamento.Consulta_Justin(Conexoes.Orcamento.PGOVars.GetDbOrc().GetJustin());
+            Dados = new Orcamento.Consulta_Justin(Orcamento.PGOVars.GetDbOrc().GetJustin());
             this.DataContext = this;
 
             //this.vao_principal.ItemsSource = Dados.Justin.vaos_principais;

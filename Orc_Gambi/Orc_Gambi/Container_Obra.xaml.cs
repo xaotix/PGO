@@ -1,4 +1,4 @@
-﻿using Conexoes.Orcamento;
+﻿using Orcamento;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Windows.Controls;
