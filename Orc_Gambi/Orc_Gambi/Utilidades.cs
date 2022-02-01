@@ -1,7 +1,7 @@
 ﻿using BingMapsRESTToolkit;
 using Conexoes;
-using Orcamento;
-using DLMEnum;
+using DLMorc;
+using DLMenum;
 using Microsoft.Maps.MapControl.WPF;
 using System;
 using System.Collections.Generic;
@@ -10,14 +10,13 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-
-
+using DLMencoder;
 
 namespace Orc_Gambi
 {
     public class Funcoes_Mapa
     {
-        public static Orcamento.Localizacoes Localizacoes { get; set; }
+        public static DLMorc.Localizacoes Localizacoes { get; set; }
         public static List<Rotas> AgruparEmRotas(List<OrcamentoObra> Obras, Map myMap)
         {
 
@@ -86,7 +85,7 @@ namespace Orc_Gambi
     {
         public static void ExportarPlanilhaCJ20N()
         {
-            List<Conexoes.Arquivo> excels = ExplorerPLM.Utilidades.ExplorerArquivos(new Conexoes.Pasta(Orcamento.PGOVars.GetConfig().pasta_consolidadas), "XLSX");
+            List<Conexoes.Arquivo> excels = ExplorerPLM.Utilidades.ExplorerArquivos(new Conexoes.Pasta(DLMorc.PGOVars.GetConfig().pasta_consolidadas), "XLSX");
             if (excels.Count > 0)
             {
 
@@ -100,7 +99,7 @@ namespace Orc_Gambi
                     }
                 }
 
-                List<Conexoes.Report> erros = new List<Conexoes.Report>();
+                List<Report> erros = new List<Report>();
 
                 var pecas = Orc_Gambi.Funcoes.getPecas(excels, out erros);
 
@@ -122,9 +121,9 @@ namespace Orc_Gambi
                 }
             }
         }
-        public static bool Editar(Orcamento.PEP_Agrupador agrupador, List<PEP_Agrupador> brothers = null)
+        public static bool Editar(DLMorc.PEP_Agrupador agrupador, List<PEP_Agrupador> brothers = null)
         {
-            var porcentagens = new Orcamento.Porcentagem_Grupo(agrupador, brothers == null);
+            var porcentagens = new DLMorc.Porcentagem_Grupo(agrupador, brothers == null);
             PGO.Porcentagem_Editar po = new PGO.Porcentagem_Editar(porcentagens);
             po.ShowDialog();
             if ((bool)po.DialogResult)
@@ -148,7 +147,7 @@ namespace Orc_Gambi
             }
             w.Close();
         }
-        public static void VerMateriais(Orcamento.OrcamentoObra Obra)
+        public static void VerMateriais(DLMorc.OrcamentoObra Obra)
         {
             var w = Conexoes.Utilz.Wait();
             ExplorerPLM.Menus.Lista_Pecas_ORC menu = new ExplorerPLM.Menus.Lista_Pecas_ORC(
@@ -158,7 +157,7 @@ namespace Orc_Gambi
             menu.Show();
             w.Close();
         }
-        public static void VerMateriais(Orcamento.OrcamentoObra Obra, List<Orcamento.Orcamento_Peca> pecas)
+        public static void VerMateriais(DLMorc.OrcamentoObra Obra, List<DLMorc.Orcamento_Peca> pecas)
         {
             if (pecas.Count == 0)
             {
@@ -171,7 +170,7 @@ namespace Orc_Gambi
             menu.Title = Obra.ToString() + " - Etapas - Orçamento";
             menu.Show();
         }
-        public static void VerMateriais(Orcamento.OrcamentoObra Obra, List<object> pecas)
+        public static void VerMateriais(DLMorc.OrcamentoObra Obra, List<object> pecas)
         {
             if (pecas.Count == 0)
             {
@@ -179,12 +178,12 @@ namespace Orc_Gambi
                 return;
             }
             ExplorerPLM.Menus.Lista_Pecas_ORC menu = new ExplorerPLM.Menus.Lista_Pecas_ORC(
-                pecas.FindAll(x => x is Orcamento.Orcamento_Peca).Cast<Orcamento.Orcamento_Peca>().ToList(), Obra
+                pecas.FindAll(x => x is DLMorc.Orcamento_Peca).Cast<DLMorc.Orcamento_Peca>().ToList(), Obra
                 );
             menu.Title = Obra.ToString() + " - Etapas - Orçamento";
             menu.Show();
         }
-        public static void VerMateriais(List<Orcamento.Orcamento_Peca> pecas)
+        public static void VerMateriais(List<DLMorc.Orcamento_Peca> pecas)
         {
 
             if (pecas.Count == 0)
@@ -249,9 +248,9 @@ namespace Orc_Gambi
                 System.Threading.Thread.Sleep(wait);
             }
         }
-        public static List<Conexoes.Pedido_PMP> getPedidos(List<string> codigos_obras, out List<Conexoes.Report> erros, bool prompt = true)
+        public static List<Conexoes.Pedido_PMP> getPedidos(List<string> codigos_obras, out List<Report> erros, bool prompt = true)
         {
-            erros = new List<Conexoes.Report>();
+            erros = new List<Report>();
 
             List<Conexoes.Pedido_PMP> retorno = new List<Conexoes.Pedido_PMP>();
             List<Conexoes.Arquivo> excels = new List<Conexoes.Arquivo>();
@@ -260,9 +259,9 @@ namespace Orc_Gambi
             int tot = 5;
 
 
-            Conexoes.ControleWait w = Conexoes.Utilz.Wait(tot, "Pesquisando " + Orcamento.PGOVars.GetConfig().pasta_consolidadas);
+            Conexoes.ControleWait w = Conexoes.Utilz.Wait(tot, "Pesquisando " + DLMorc.PGOVars.GetConfig().pasta_consolidadas);
             w.somaProgresso();
-            var pastas = Conexoes.Utilz.GetPastas(Orcamento.PGOVars.GetConfig().pasta_consolidadas);
+            var pastas = Conexoes.Utilz.GetPastas(DLMorc.PGOVars.GetConfig().pasta_consolidadas);
             w.somaProgresso("Buscando pedidos...");
 
             foreach (var s in codigos_obras)
@@ -318,7 +317,7 @@ namespace Orc_Gambi
                     }
                     else
                     {
-                        erros.Add(new Conexoes.Report("Cancelado", "Cancelado pelo usuário", TipoReport.Alerta));
+                        erros.Add(new Report("Cancelado", "Cancelado pelo usuário", TipoReport.Alerta));
                     }
                 }
             }
@@ -333,18 +332,18 @@ namespace Orc_Gambi
                 }
                 else
                 {
-                    erros.Add(new Conexoes.Report("Vazio", "Nenhum pedido encontrado.", TipoReport.Alerta));
+                    erros.Add(new Report("Vazio", "Nenhum pedido encontrado.", TipoReport.Alerta));
                 }
             }
             return new List<Conexoes.Pedido_PMP>();
         }
-        public static List<Conexoes.Pedido_PMP> getPedidos(List<Orcamento.OrcamentoObra> codigos, out List<Conexoes.Report> erros)
+        public static List<Conexoes.Pedido_PMP> getPedidos(List<DLMorc.OrcamentoObra> codigos, out List<Report> erros)
         {
-            erros = new List<Conexoes.Report>();
+            erros = new List<Report>();
             List<string> codigos_obras = codigos.Select(x => x.PedidoSAP).Distinct().ToList();
             if (!Directory.Exists(PGOVars.GetConfig().pasta_consolidadas))
             {
-                erros.Add(new Conexoes.Report("Pasta não existe", Orcamento.PGOVars.GetConfig().pasta_consolidadas, TipoReport.Crítico));
+                erros.Add(new Report("Pasta não existe", DLMorc.PGOVars.GetConfig().pasta_consolidadas, TipoReport.Crítico));
 
                 return new List<Conexoes.Pedido_PMP>();
             }
@@ -366,7 +365,7 @@ namespace Orc_Gambi
         }
         public static List<Conexoes.Peca_PMP> getPecas(List<string> excels, List<string> peps = null)
         {
-            List<Conexoes.Report> erros = new List<Conexoes.Report>();
+            List<Report> erros = new List<Report>();
             excels = excels.FindAll(x => File.Exists(x));
             if (peps == null)
             {
@@ -374,10 +373,10 @@ namespace Orc_Gambi
             }
             return getPecas(excels.Select(x => new Conexoes.Arquivo(x)).ToList(), out erros, peps);
         }
-        public static List<Conexoes.Peca_PMP> getPecas(List<Conexoes.Arquivo> arquivos, out List<Conexoes.Report> erros, List<string> peps = null)
+        public static List<Conexoes.Peca_PMP> getPecas(List<Conexoes.Arquivo> arquivos, out List<Report> erros, List<string> peps = null)
         {
             double max_tamanho = 5000;
-            erros = new List<Conexoes.Report>();
+            erros = new List<Report>();
             if (peps == null)
             {
                 peps = new List<string>();
@@ -395,10 +394,10 @@ namespace Orc_Gambi
 
             arqs = arqs.OrderByDescending(x => x.TamKB).ToList();
             var arquivos_fora = arquivos.FindAll(x => arqs.Find(y => y.Endereco == x.Endereco) == null);
-            erros.AddRange(arquivos_fora.Select(z => new Conexoes.Report(z.Endereco, "Arquivo inválido, não contém no nome SAP - RME ou é maior que o tamanho máximo (" + max_tamanho + ") " + "Tam. arq.:(" + z.Tamanho + ")", TipoReport.Crítico)));
+            erros.AddRange(arquivos_fora.Select(z => new Report(z.Endereco, "Arquivo inválido, não contém no nome SAP - RME ou é maior que o tamanho máximo (" + max_tamanho + ") " + "Tam. arq.:(" + z.Tamanho + ")", TipoReport.Crítico)));
 
 
-            var saps_rmes = arqs.Select(x => new PacoteSAP.SAPRME(x.Endereco, false)).ToList();
+            var saps_rmes = arqs.Select(x => new DLMep.SAPRME(x.Endereco, false)).ToList();
             var sub_lista = saps_rmes.Quebrar(5);
             w.SetProgresso(1, saps_rmes.Count);
             var max = 20;
@@ -445,13 +444,13 @@ namespace Orc_Gambi
                         if (!t.Join(TimeSpan.FromSeconds(30)))
                         {
                             t.Abort();
-                            erros.Add(new Conexoes.Report("Abortado - Arquivo demorou demais.", s.Arquivo, TipoReport.Crítico));
+                            erros.Add(new Report("Abortado - Arquivo demorou demais.", s.Arquivo, TipoReport.Crítico));
                         }
                     }
                     catch (Exception ex)
                     {
 
-                        erros.Add(new Conexoes.Report("Erro ao tentar ler o arquivo " + ex.Message, s.Arquivo, TipoReport.Crítico));
+                        erros.Add(new Report("Erro ao tentar ler o arquivo " + ex.Message, s.Arquivo, TipoReport.Crítico));
                     }
 
                 }
@@ -472,11 +471,11 @@ namespace Orc_Gambi
             {
                 try
                 {
-                    List<Conexoes.Report> erros_pcs = new List<Conexoes.Report>();
+                    List<Report> erros_pcs = new List<Report>();
                     var pcs = Orc_Gambi.Funcoes.getPecas(t, out erros_pcs).ToList().FindAll(x => x.pep.Length > 13 && x.pep.Contains(".P"));
                     pecas.AddRange(pcs);
                     peps.AddRange(pcs.Select(x => x.pep).Distinct().ToList());
-                    w.somaProgresso(t.Arquivo.ToUpper().Replace(Orcamento.PGOVars.GetConfig().pasta_consolidadas.ToUpper(), ""));
+                    w.somaProgresso(t.Arquivo.ToUpper().Replace(DLMorc.PGOVars.GetConfig().pasta_consolidadas.ToUpper(), ""));
                     erros.AddRange(erros_pcs);
 
                     if (pcs.Count > 0)
@@ -491,7 +490,7 @@ namespace Orc_Gambi
                 }
                 catch (Exception ex)
                 {
-                    erros.Add(new Conexoes.Report(ex));
+                    erros.Add(new Report(ex));
 
                 }
 
@@ -499,23 +498,23 @@ namespace Orc_Gambi
             w.Close();
             return pecas;
         }
-        public static List<Conexoes.Peca_PMP> getPecas(string arquivo_excel, out List<Conexoes.Report> erros)
+        public static List<Conexoes.Peca_PMP> getPecas(string arquivo_excel, out List<Report> erros)
         {
-            erros = new List<Conexoes.Report>();
+            erros = new List<Report>();
             if (!File.Exists(arquivo_excel))
             {
-                erros.Add(new Conexoes.Report(arquivo_excel, "Arquivo não existe", TipoReport.Crítico));
+                erros.Add(new Report(arquivo_excel, "Arquivo não existe", TipoReport.Crítico));
                 return new List<Conexoes.Peca_PMP>();
             }
-            PacoteSAP.SAPRME rme = new PacoteSAP.SAPRME(arquivo_excel);
+            DLMep.SAPRME rme = new DLMep.SAPRME(arquivo_excel);
 
             List<Conexoes.Peca_PMP> retorno = getPecas(rme, out erros);
 
             return retorno;
         }
-        public static List<Conexoes.Peca_PMP> getPecas(PacoteSAP.SAPRME rme, out List<Conexoes.Report> erros)
+        public static List<Conexoes.Peca_PMP> getPecas(DLMep.SAPRME rme, out List<Report> erros)
         {
-            erros = new List<Conexoes.Report>();
+            erros = new List<Report>();
             List<Conexoes.Peca_PMP> retorno = new List<Conexoes.Peca_PMP>();
             foreach (var marca in rme.Marcas)
             {
@@ -572,7 +571,7 @@ namespace Orc_Gambi
                 }
                 catch (Exception ex)
                 {
-                    erros.Add(new Conexoes.Report(ex));
+                    erros.Add(new Report(ex));
                 }
             }
 

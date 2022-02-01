@@ -1,6 +1,6 @@
 ﻿using Conexoes;
-using Orcamento;
-using DLMEnum;
+using DLMorc;
+using DLMenum;
 using FirstFloor.ModernUI.Windows.Controls;
 using System;
 using System.Globalization;
@@ -15,8 +15,8 @@ namespace PGO
     /// </summary>
     public partial class Tela_Folha_Margem : ModernWindow
     {
-        public Orcamento.Folha_Margem Margem { get; set; } = new Orcamento.Folha_Margem();
-        public Orcamento.OrcamentoObra Obra { get; set; } = new Orcamento.OrcamentoObra();
+        public DLMorc.Folha_Margem Margem { get; set; } = new DLMorc.Folha_Margem();
+        public DLMorc.OrcamentoObra Obra { get; set; } = new DLMorc.OrcamentoObra();
         public Tela_Folha_Margem(OrcamentoObra Ob)
         {
             if (Ob.Nacional)

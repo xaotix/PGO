@@ -1,5 +1,5 @@
 ﻿using Conexoes;
-using Orcamento;
+using DLMorc;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
@@ -13,8 +13,8 @@ namespace Orc_Gambi.Controles
     /// </summary>
     public partial class Dados_obra : Window
     {
-        public Orcamento.OrcamentoObra Obra { get; set; } = new Orcamento.OrcamentoObra();
-        public Dados_obra(Orcamento.OrcamentoObra Obra)
+        public DLMorc.OrcamentoObra Obra { get; set; } = new DLMorc.OrcamentoObra();
+        public Dados_obra(DLMorc.OrcamentoObra Obra)
         {
             this.Obra = Obra;
             InitializeComponent();
@@ -47,7 +47,6 @@ namespace Orc_Gambi.Controles
             var sel = Esquemas_de_Pintura.SelectedItems.Cast<Tratamento>();
             if (sel.Count() > 0)
             {
-                int c = 1;
                 foreach (var s in sel)
                 {
                     bool confirmado = false;

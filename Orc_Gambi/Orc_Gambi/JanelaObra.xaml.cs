@@ -1,6 +1,6 @@
 ﻿using Conexoes;
-using Orcamento;
-using DLMEnum;
+using DLMorc;
+using DLMenum;
 using FirstFloor.ModernUI.Windows.Controls;
 using System;
 using System.Collections.Generic;
@@ -11,6 +11,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
+using DLMencoder;
 
 namespace Orc_Gambi
 {
@@ -567,7 +568,7 @@ namespace Orc_Gambi
 
         private void editar_informacoes(object sender, RoutedEventArgs e)
         {
-            var p = ((FrameworkElement)sender).DataContext as Orcamento.OrcamentoPredio;
+            var p = ((FrameworkElement)sender).DataContext as DLMorc.OrcamentoPredio;
             Utilz.Propriedades(p, true);
             p.Salvar();
         }
@@ -610,7 +611,7 @@ namespace Orc_Gambi
 
         private void apaga_revisao(object sender, RoutedEventArgs e)
         {
-            var p = ((FrameworkElement)sender).DataContext as Orcamento.OrcamentoPredio;
+            var p = ((FrameworkElement)sender).DataContext as DLMorc.OrcamentoPredio;
             if (Utilz.Pergunta("Você tem certeza que deseja apagar o prédio " + p))
             {
                 PGOVars.GetDbOrc().Apagar(p);
@@ -948,7 +949,7 @@ namespace Orc_Gambi
                 Conexoes.Utilz.Alerta("Obra está bloqueada para edições", "Obra Bloqueada", MessageBoxImage.Error);
                 return;
             }
-            Orcamento.Range sel = ((FrameworkElement)sender).DataContext as Orcamento.Range;
+            DLMorc.Range sel = ((FrameworkElement)sender).DataContext as DLMorc.Range;
             if (sel != null)
             {
                 if (sel.Grupo_de_Mercadoria == "VERBA")
@@ -1069,7 +1070,7 @@ namespace Orc_Gambi
                 Conexoes.Utilz.Alerta("Obra está bloqueada para edições", "Obra Bloqueada", MessageBoxImage.Error);
                 return;
             }
-            Orcamento.Range sel = ((FrameworkElement)sender).DataContext as Orcamento.Range;
+            DLMorc.Range sel = ((FrameworkElement)sender).DataContext as DLMorc.Range;
             if (sel == null) { return; }
             var Carreta = Conexoes.Utilz.Selecao.SelecionarObjeto(PGOVars.GetDbOrc().GetTipo_Carreta(), sel.Tipo_De_Carreta) as Tipo_Carreta;
             if (Carreta == null) { return; }
@@ -1102,7 +1103,7 @@ namespace Orc_Gambi
                 Conexoes.Utilz.Alerta("Obra está bloqueada para edições", "Obra Bloqueada", MessageBoxImage.Error);
                 return;
             }
-            Orcamento.Range sel = ((FrameworkElement)sender).DataContext as Orcamento.Range;
+            DLMorc.Range sel = ((FrameworkElement)sender).DataContext as DLMorc.Range;
             if (sel == null) { return; }
             var esquema = this.Obra.GetTratamento();
             if (!Utilz.Pergunta("Atribuir o esquema padrão da obra? [" + esquema.ToString() + "]"))
@@ -1150,7 +1151,7 @@ namespace Orc_Gambi
             if (ObjetoArvore is OrcamentoGrupo)
             {
                 var grupo = ObjetoArvore as OrcamentoGrupo;
-                Orcamento.OrcamentoItem_Arvore sel = ((FrameworkElement)sender).DataContext as Orcamento.OrcamentoItem_Arvore;
+                DLMorc.OrcamentoItem_Arvore sel = ((FrameworkElement)sender).DataContext as DLMorc.OrcamentoItem_Arvore;
                 AddRange pp = new AddRange(grupo, sel, this.Obra);
                 pp.ShowDialog();
                 if ((bool)pp.DialogResult)
@@ -1169,14 +1170,14 @@ namespace Orc_Gambi
             //    Conexoes.Utilz.Alerta("Obra está bloqueada para edições", "Obra Bloqueada", MessageBoxImage.Error);
             //    return;
             //}
-            Orcamento.Range sel = ((FrameworkElement)sender).DataContext as Orcamento.Range;
+            DLMorc.Range sel = ((FrameworkElement)sender).DataContext as DLMorc.Range;
             if (sel == null) { return; }
             SetFert(new List<Range> { sel });
         }
 
         private void excluir_range(object sender, RoutedEventArgs e)
         {
-            Orcamento.Range sel = ((FrameworkElement)sender).DataContext as Orcamento.Range;
+            DLMorc.Range sel = ((FrameworkElement)sender).DataContext as DLMorc.Range;
             if (sel == null) { return; }
             Excluir(new List<Range> { sel });
 
@@ -1189,7 +1190,7 @@ namespace Orc_Gambi
                 Conexoes.Utilz.Alerta("Obra está bloqueada para edições", "Obra Bloqueada", MessageBoxImage.Error);
                 return;
             }
-            Orcamento.Range sel = ((FrameworkElement)sender).DataContext as Orcamento.Range;
+            DLMorc.Range sel = ((FrameworkElement)sender).DataContext as DLMorc.Range;
             if (sel == null) { return; }
             AddRange mm = new AddRange(sel, this.Obra);
             mm.ShowDialog();
@@ -1228,7 +1229,7 @@ namespace Orc_Gambi
                 Conexoes.Utilz.Alerta("Obra está bloqueada para edições", "Obra Bloqueada", MessageBoxImage.Error);
                 return;
             }
-            Orcamento.Range r = ((FrameworkElement)sender).DataContext as Orcamento.Range;
+            DLMorc.Range r = ((FrameworkElement)sender).DataContext as DLMorc.Range;
             if (r == null) { return; }
             double Quantidade = Utilz.Double(Utilz.Prompt("Digite a quantidade", "", r.Quantidade.ToString(), false, "", false, 14));
             if (Quantidade > 0)
@@ -1322,7 +1323,7 @@ namespace Orc_Gambi
 
         private void ver_pecas_fim(object sender, RoutedEventArgs e)
         {
-            Orcamento.Range sel = ((FrameworkElement)sender).DataContext as Orcamento.Range;
+            DLMorc.Range sel = ((FrameworkElement)sender).DataContext as DLMorc.Range;
             if (sel == null) { return; }
             Funcoes.VerMateriais(this.Obra, sel.GetPecas(true));
         }
@@ -1411,7 +1412,7 @@ namespace Orc_Gambi
                 {
                     tudo = Conexoes.Utilz.Pergunta("Calcular para toda a obra? \n Se clicar em não, será calculado somente para o prédio " + p.Local.Predio.ToString());
 
-                    List<Orcamento.Orcamento_Peca> pecas = new List<Orcamento.Orcamento_Peca>();
+                    List<DLMorc.Orcamento_Peca> pecas = new List<DLMorc.Orcamento_Peca>();
                     if (tudo)
                     {
                         pecas = this.Obra.GetPecasRanges();

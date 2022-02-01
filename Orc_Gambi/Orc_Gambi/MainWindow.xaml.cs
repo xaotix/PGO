@@ -1,6 +1,6 @@
 ﻿using Conexoes;
-using Orcamento;
-using DLMEnum;
+using DLMorc;
+using DLMenum;
 using FirstFloor.ModernUI.Presentation;
 using FirstFloor.ModernUI.Windows.Controls;
 using System;
@@ -274,7 +274,7 @@ namespace Orc_Gambi
             {
                 return;
             }
-            this.ObraSelecionada = ((FrameworkElement)sender).DataContext as Orcamento.OrcamentoObra;
+            this.ObraSelecionada = ((FrameworkElement)sender).DataContext as DLMorc.OrcamentoObra;
             if (this.ObraSelecionada != null)
             {
                 string revisao = Conexoes.Utilz.Prompt("Digite o nome da revisão", "", this.ObraSelecionada.Revisao, false, "", false, 3).ToUpper();
@@ -321,7 +321,7 @@ namespace Orc_Gambi
         }
         private void EditarRota(object sender, RoutedEventArgs e)
         {
-            Orcamento.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as Orcamento.OrcamentoObra;
+            DLMorc.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as DLMorc.OrcamentoObra;
             if (sel != null)
             {
                 EditarRota(sel);
@@ -400,7 +400,7 @@ namespace Orc_Gambi
         }
         private void editar_informacoes(object sender, RoutedEventArgs e)
         {
-            Orcamento.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as Orcamento.OrcamentoObra;
+            DLMorc.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as DLMorc.OrcamentoObra;
             if (sel == null) { return; }
             MenuNovaObra = new NovaObra(sel);
             MenuNovaObra.ShowDialog();
@@ -495,7 +495,7 @@ namespace Orc_Gambi
                 return;
             }
 
-            this.ObraSelecionada = ((FrameworkElement)sender).DataContext as Orcamento.OrcamentoObra;
+            this.ObraSelecionada = ((FrameworkElement)sender).DataContext as DLMorc.OrcamentoObra;
             if (this.ObraSelecionada != null)
             {
 
@@ -514,7 +514,7 @@ namespace Orc_Gambi
             {
                 return;
             }
-            this.ObraSelecionada = ((FrameworkElement)sender).DataContext as Orcamento.OrcamentoObra;
+            this.ObraSelecionada = ((FrameworkElement)sender).DataContext as DLMorc.OrcamentoObra;
             if (this.ObraSelecionada != null)
             {
 
@@ -552,7 +552,7 @@ namespace Orc_Gambi
         }
         private void ver_folha_margem(object sender, RoutedEventArgs e)
         {
-            Orcamento.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as Orcamento.OrcamentoObra;
+            DLMorc.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as DLMorc.OrcamentoObra;
             PGO.Tela_Folha_Margem mm = new PGO.Tela_Folha_Margem(sel);
             mm.Show();
         }
@@ -570,7 +570,6 @@ namespace Orc_Gambi
             }
             catch (Exception ex)
             {
-
                 Conexoes.Utilz.Alerta(ex);
             }
 
@@ -590,7 +589,7 @@ namespace Orc_Gambi
         }
         private void abre_etapas(object sender, RoutedEventArgs e)
         {
-            Orcamento.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as Orcamento.OrcamentoObra;
+            DLMorc.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as DLMorc.OrcamentoObra;
             if (sel == null) { return; }
 
             PGO.Etapas mm = new PGO.Etapas(sel);
@@ -656,14 +655,14 @@ namespace Orc_Gambi
         }
         private void abre_etapas_lista_de_peças(object sender, RoutedEventArgs e)
         {
-            Orcamento.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as Orcamento.OrcamentoObra;
+            DLMorc.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as DLMorc.OrcamentoObra;
             if (sel == null) { return; }
 
             ExplorerPLM.Utilidades.VerMateriais(sel);
         }
         private void editar_observacoes(object sender, RoutedEventArgs e)
         {
-            Orcamento.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as Orcamento.OrcamentoObra;
+            DLMorc.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as DLMorc.OrcamentoObra;
             if (sel == null) { return; }
             sel.EditarObservacoes();
         }

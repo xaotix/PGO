@@ -1,5 +1,5 @@
 ﻿using Conexoes;
-using DLMEnum;
+using DLMenum;
 using System;
 using System.Windows;
 using System.Windows.Controls;
