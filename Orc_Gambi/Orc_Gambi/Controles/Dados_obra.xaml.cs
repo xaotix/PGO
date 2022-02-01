@@ -1,20 +1,20 @@
 ﻿using Conexoes;
-using DLMorc;
+using DLM.orc;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Markup;
 
-namespace Orc_Gambi.Controles
+namespace PGO.Controles
 {
     /// <summary>
     /// Interaction logic for Dados_obra.xaml
     /// </summary>
     public partial class Dados_obra : Window
     {
-        public DLMorc.OrcamentoObra Obra { get; set; } = new DLMorc.OrcamentoObra();
-        public Dados_obra(DLMorc.OrcamentoObra Obra)
+        public DLM.orc.OrcamentoObra Obra { get; set; } = new DLM.orc.OrcamentoObra();
+        public Dados_obra(DLM.orc.OrcamentoObra Obra)
         {
             this.Obra = Obra;
             InitializeComponent();

@@ -1,5 +1,5 @@
 ﻿using Conexoes;
-using DLMorc;
+using DLM.orc;
 using FirstFloor.ModernUI.Windows.Controls;
 using System;
 using System.Collections.Generic;
@@ -9,9 +9,10 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
-using DLMini;
+using DLM.ini;
+using DLM.vars;
 
-namespace Orc_Gambi
+namespace PGO
 {
     /// <summary>
     /// Interaction logic for Adiciona_Peca.xaml
@@ -121,9 +122,9 @@ namespace Orc_Gambi
         private void ModernWindow_Closing(object sender, CancelEventArgs e)
         {
             
-            INI.Set(Vars.ArqASetupUser, "ORCLT", "QTD", Selecao.Peca.Quantidade.ToString());
-            INI.Set(Vars.ArqASetupUser, "ORCLT", "COMP", Selecao.Peca.Comprimento.ToString());
-            INI.Set(Vars.ArqASetupUser, "ORCLT", "TIPO", Selecao.Peca.Tipo.ToString());
+            INI.Set(Global.ArqASetupUser, "ORCLT", "QTD", Selecao.Peca.Quantidade.ToString());
+            INI.Set(Global.ArqASetupUser, "ORCLT", "COMP", Selecao.Peca.Comprimento.ToString());
+            INI.Set(Global.ArqASetupUser, "ORCLT", "TIPO", Selecao.Peca.Tipo.ToString());
         }
 
         private void ModernWindow_Loaded(object sender, RoutedEventArgs e)
@@ -131,18 +132,18 @@ namespace Orc_Gambi
 
             if (this.Selecao.Peca.Tipo == "")
             {
-                this.Selecao.Peca.Tipo = INI.Get(Vars.ArqASetupUser, "ORCLT", "TIPO", "0");
+                this.Selecao.Peca.Tipo = INI.Get(Global.ArqASetupUser, "ORCLT", "TIPO", "0");
                 if (this.Selecao.Peca.Ficha == "")
                 {
                     this.Selecao.Peca.Ficha = "SEM PINTURA";
                 }
                 if (this.Selecao.Peca.Quantidade == 0)
                 {
-                    this.Selecao.Peca.Quantidade = Utilz.Double(INI.Get(Vars.ArqASetupUser, "ORCLT", "QTD", "0"));
+                    this.Selecao.Peca.Quantidade = Utilz.Double(INI.Get(Global.ArqASetupUser, "ORCLT", "QTD", "0"));
                 }
                 if (this.Selecao.Peca.Comprimento == 0)
                 {
-                    this.Selecao.Peca.Comprimento = Utilz.Double(INI.Get(Vars.ArqASetupUser, "ORCLT", "COMP", "0"));
+                    this.Selecao.Peca.Comprimento = Utilz.Double(INI.Get(Global.ArqASetupUser, "ORCLT", "COMP", "0"));
                 }
             }
 

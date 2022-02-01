@@ -1,6 +1,6 @@
 ﻿using Conexoes;
-using DLMorc;
-using DLMenum;
+using DLM.orc;
+using DLM.vars;
 using FirstFloor.ModernUI.Windows.Controls;
 using System;
 using System.Globalization;
@@ -15,8 +15,8 @@ namespace PGO
     /// </summary>
     public partial class Tela_Folha_Margem : ModernWindow
     {
-        public DLMorc.Folha_Margem Margem { get; set; } = new DLMorc.Folha_Margem();
-        public DLMorc.OrcamentoObra Obra { get; set; } = new DLMorc.OrcamentoObra();
+        public DLM.orc.Folha_Margem Margem { get; set; } = new DLM.orc.Folha_Margem();
+        public DLM.orc.OrcamentoObra Obra { get; set; } = new DLM.orc.OrcamentoObra();
         public Tela_Folha_Margem(OrcamentoObra Ob)
         {
             if (Ob.Nacional)
@@ -86,7 +86,7 @@ namespace PGO
 
 
 
-                t[i] = t[i].Replace("$SOFTWARE$", "Tipo de cáclulo: " + this.Obra.Folha_Margem.Tipo_Margem.ToString().Replace("_", " ") + "<br>" + System.Windows.Forms.Application.ProductName + " - v." + System.Windows.Forms.Application.ProductVersion + " - User: " + Vars.UsuarioAtual + " - " + DateTime.Now.ToLongDateString());
+                t[i] = t[i].Replace("$SOFTWARE$", "Tipo de cáclulo: " + this.Obra.Folha_Margem.Tipo_Margem.ToString().Replace("_", " ") + "<br>" + System.Windows.Forms.Application.ProductName + " - v." + System.Windows.Forms.Application.ProductVersion + " - User: " + Global.UsuarioAtual + " - " + DateTime.Now.ToLongDateString());
                 t[i] = t[i].Replace("$TITULO$", Obra.ToString() + " - Folha Margem");
                 t[i] = t[i].Replace("$DATA$", Obra.Folha_Margem.Data.ToString());
                 t[i] = t[i].Replace("$CLIENTE$", Obra.Cliente.ToString());
@@ -214,7 +214,7 @@ namespace PGO
             }
             if (Utilz.Pergunta("Deseja alterar o método de cálculo? (Atual: " + this.Obra.Folha_Margem.Tipo_Margem.ToString() + ")"))
             {
-                Orc_Gambi.Funcoes.setdados_Folha(this.Obra);
+                PGO.Funcoes.setdados_Folha(this.Obra);
 
             }
             this.Obra.Folha_Margem.Calcular(this.Obra);

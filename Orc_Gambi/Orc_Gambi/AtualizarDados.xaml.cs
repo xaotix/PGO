@@ -1,11 +1,11 @@
-﻿using DLMorc;
+﻿using DLM.orc;
 using FirstFloor.ModernUI.Windows.Controls;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Markup;
 
 
-namespace Orc_Gambi
+namespace PGO
 {
     /// <summary>
     /// Interaction logic for AtualizarDados.xaml

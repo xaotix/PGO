@@ -1,11 +1,11 @@
 ﻿using Conexoes;
-using DLMenum;
+using DLM.vars;
 using System;
 using System.Windows;
 using System.Windows.Controls;
 using Telerik.Windows.Controls;
 
-namespace Orc_Gambi
+namespace PGO
 {
     /// <summary>
     /// Interaction logic for App.xaml

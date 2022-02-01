@@ -1,4 +1,5 @@
 ﻿using Conexoes;
+using DLM.vars;
 using FirstFloor.ModernUI.Windows.Controls;
 using System;
 using System.IO;
@@ -13,12 +14,12 @@ namespace PGO
     public partial class Justin_Tela : ModernWindow
     {
         public string var { get; set; } = "";
-        public DLMorc.Consulta_Justin Dados { get; set; } = new DLMorc.Consulta_Justin();
+        public DLM.orc.Consulta_Justin Dados { get; set; } = new DLM.orc.Consulta_Justin();
         public Justin_Tela()
         {
             InitializeComponent();
             navegador.Navigate("about:blank");
-            Dados = new DLMorc.Consulta_Justin(DLMorc.PGOVars.GetDbOrc().GetJustin());
+            Dados = new DLM.orc.Consulta_Justin(DLM.vars.PGOVars.GetDbOrc().GetJustin());
             this.DataContext = this;
 
             //this.vao_principal.ItemsSource = Dados.Justin.vaos_principais;
@@ -82,7 +83,7 @@ namespace PGO
             for (int i = 0; i < t.Count; i++)
             {
                 t[i] = t[i].Replace("$software$",
-                    System.Windows.Forms.Application.ProductName + " - v." + System.Windows.Forms.Application.ProductVersion + " - User: " + Vars.UsuarioAtual + " - "
+                    System.Windows.Forms.Application.ProductName + " - v." + System.Windows.Forms.Application.ProductVersion + " - User: " + Global.UsuarioAtual + " - "
                     + DateTime.Now.ToLongDateString()
                     + "<br>Consulta realizada num total de " + this.Dados.Justin.Justin_db.Count + " análises."
                     );
@@ -158,12 +159,12 @@ namespace PGO
 
         private void ModernWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            Utilz.LerVars(this.setup, Vars.ArqASetupUser, "Justin");
+            Utilz.LerVars(this.setup, Global.ArqASetupUser, "Justin");
         }
 
         private void ModernWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            Utilz.GravaVars(this.setup, Vars.ArqASetupUser, "Justin");
+            Utilz.GravaVars(this.setup, Global.ArqASetupUser, "Justin");
         }
     }
 

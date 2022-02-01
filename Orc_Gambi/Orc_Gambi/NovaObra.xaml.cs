@@ -1,6 +1,6 @@
 ﻿using Conexoes;
-using DLMorc;
-using DLMenum;
+using DLM.orc;
+using DLM.vars;
 using ExplorerPLM;
 using System;
 using System.Globalization;
@@ -9,7 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
 
-namespace Orc_Gambi
+namespace PGO
 {
     /// <summary>
     /// Interaction logic for NovaObra.xaml
@@ -21,7 +21,7 @@ namespace Orc_Gambi
         public Visibility Menus_Orcamento { get; set; } = Visibility.Visible;
         bool mudou_cotacao { get; set; } = false;
         public bool Editado { get; set; } = false;
-        public DLMorc.OrcamentoObra Obra { get; set; } = new DLMorc.OrcamentoObra();
+        public DLM.orc.OrcamentoObra Obra { get; set; } = new DLM.orc.OrcamentoObra();
         public NovaObra()
         {
             InitializeComponent();
@@ -40,7 +40,7 @@ namespace Orc_Gambi
                 this.Obra.Segmento = segmentos.FindAll(x => x.ATIVO)[0];
             }
 
-            this.Obra.Orcamentista = Vars.UsuarioAtual;
+            this.Obra.Orcamentista = Global.UsuarioAtual;
             this.Obra.Revisao = "R00";
             this.Obra.getDados(PGOVars.GetDbOrc().GetPadrao_Nacional());
 
@@ -55,7 +55,7 @@ namespace Orc_Gambi
             }
         }
 
-        public NovaObra(DLMorc.OrcamentoObra Obra)
+        public NovaObra(DLM.orc.OrcamentoObra Obra)
         {
             this.Obra = Obra;
             InitializeComponent();
@@ -142,7 +142,7 @@ namespace Orc_Gambi
                     Conexoes.Utilz.Alerta("Contrato Inválido", "Faltam dados", MessageBoxImage.Asterisk);
                     return;
                 }
-                if (DLMorc.PGOVars.GetDbOrc().GetObrasOrcamento().Find(x => x.Contrato == this.Obra.Contrato && x.Revisao == this.Obra.Revisao) != null)
+                if (DLM.vars.PGOVars.GetDbOrc().GetObrasOrcamento().Find(x => x.Contrato == this.Obra.Contrato && x.Revisao == this.Obra.Revisao) != null)
                 {
                     Conexoes.Utilz.Alerta("Já existe uma revisão com este nome neste contrato", "", MessageBoxImage.Asterisk);
                     return;
@@ -189,7 +189,7 @@ namespace Orc_Gambi
 
         private void define_tratamento(object sender, RoutedEventArgs e)
         {
-            var sel = Conexoes.Utilz.Selecao.SelecionarObjeto(DLMorc.PGOVars.GetDbOrc().GetTratamentos(), null) as DLMorc.Tratamento;
+            var sel = Conexoes.Utilz.Selecao.SelecionarObjeto(DLM.vars.PGOVars.GetDbOrc().GetTratamentos(), null) as DLM.orc.Tratamento;
             if (sel != null)
             {
                 this.Obra.SetTratamento(sel);
@@ -215,7 +215,7 @@ namespace Orc_Gambi
 
         private void define_template(object sender, RoutedEventArgs e)
         {
-            var sel = Conexoes.Utilz.Selecao.SelecionarObjeto(DLMorc.PGOVars.GetDbOrc().GetTemplates(), null, "Selecione um Template");
+            var sel = Conexoes.Utilz.Selecao.SelecionarObjeto(DLM.vars.PGOVars.GetDbOrc().GetTemplates(), null, "Selecione um Template");
             if (sel != null)
             {
                 this.Obra.SetTemplate(sel as Template);

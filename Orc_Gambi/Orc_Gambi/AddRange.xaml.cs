@@ -1,10 +1,11 @@
-﻿using DLMorc;
+﻿using DLM.orc;
+using DLM.vars;
 using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Orc_Gambi
+namespace PGO
 {
     /// <summary>
     /// Interaction logic for AddRange.xaml

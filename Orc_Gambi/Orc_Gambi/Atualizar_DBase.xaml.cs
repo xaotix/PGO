@@ -1,4 +1,5 @@
-﻿using DLMorc;
+﻿using DLM.orc;
+using DLM.vars;
 using FirstFloor.ModernUI.Windows.Controls;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 
-namespace Orc_Gambi
+namespace PGO
 {
     /// <summary>
     /// Interaction logic for Atualizar_DBase.xaml
@@ -60,7 +61,7 @@ namespace Orc_Gambi
             string destino = Conexoes.Utilz.SalvarArquivo("sql");
             if (destino != "")
             {
-                Conexoes.DBases.GetDB_Orcamento().Backup(destino, Conexoes.Cfg.Init.db_orcamento, new List<string> { PGOVars.GetConfig().tabela_id_produtos });
+                Conexoes.DBases.GetDB_Orcamento().Backup(destino, DLM.vars.Cfg.Init.db_orcamento, new List<string> { PGOVars.GetConfig().tabela_id_produtos });
                 Conexoes.Utilz.Alerta("Backup realizado!");
             }
         }

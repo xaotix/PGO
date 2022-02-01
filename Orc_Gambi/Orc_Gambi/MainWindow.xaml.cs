@@ -1,6 +1,6 @@
 ﻿using Conexoes;
-using DLMorc;
-using DLMenum;
+using DLM.orc;
+using DLM.vars;
 using FirstFloor.ModernUI.Presentation;
 using FirstFloor.ModernUI.Windows.Controls;
 using System;
@@ -15,7 +15,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Telerik.Windows.Controls;
 
-namespace Orc_Gambi
+namespace PGO
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -70,11 +70,11 @@ namespace Orc_Gambi
             this.Servidor.Content = "[" + this.Obras.Count + " Obras /" + this.Obras.Sum(x => x.Revisoes.Count) + " Revisões] - ";
             this.Title = $"PGO" +
                 $"{(Cfg.Init.Nova_Folha_Margem ? " [Novo Cálculo Folha Margem]" : "")}" +
-                $" - [{Vars.UsuarioAtual}] - " +
+                $" - [{Global.UsuarioAtual}] - " +
                 $"[{System.Windows.Forms.Application.ProductName} - " +
                 $"v {System.Windows.Forms.Application.ProductVersion}" +
-                $" - Obras.: [{Conexoes.Cfg.Init.MySQL_Servidor_Orcamento}] - " +
-                $"Padr.: [{Conexoes.Cfg.Init.MySQL_Servidor}]";
+                $" - Obras.: [{DLM.vars.Cfg.Init.MySQL_Servidor_Orcamento}] - " +
+                $"Padr.: [{DLM.vars.Cfg.Init.MySQL_Servidor}]";
 
             Funcoes_Mapa.Localizacoes = new Localizacoes(System.Windows.Forms.Application.StartupPath + @"\Locais.setup");
 
@@ -274,7 +274,7 @@ namespace Orc_Gambi
             {
                 return;
             }
-            this.ObraSelecionada = ((FrameworkElement)sender).DataContext as DLMorc.OrcamentoObra;
+            this.ObraSelecionada = ((FrameworkElement)sender).DataContext as DLM.orc.OrcamentoObra;
             if (this.ObraSelecionada != null)
             {
                 string revisao = Conexoes.Utilz.Prompt("Digite o nome da revisão", "", this.ObraSelecionada.Revisao, false, "", false, 3).ToUpper();
@@ -321,7 +321,7 @@ namespace Orc_Gambi
         }
         private void EditarRota(object sender, RoutedEventArgs e)
         {
-            DLMorc.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as DLMorc.OrcamentoObra;
+            DLM.orc.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as DLM.orc.OrcamentoObra;
             if (sel != null)
             {
                 EditarRota(sel);
@@ -400,7 +400,7 @@ namespace Orc_Gambi
         }
         private void editar_informacoes(object sender, RoutedEventArgs e)
         {
-            DLMorc.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as DLMorc.OrcamentoObra;
+            DLM.orc.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as DLM.orc.OrcamentoObra;
             if (sel == null) { return; }
             MenuNovaObra = new NovaObra(sel);
             MenuNovaObra.ShowDialog();
@@ -495,7 +495,7 @@ namespace Orc_Gambi
                 return;
             }
 
-            this.ObraSelecionada = ((FrameworkElement)sender).DataContext as DLMorc.OrcamentoObra;
+            this.ObraSelecionada = ((FrameworkElement)sender).DataContext as DLM.orc.OrcamentoObra;
             if (this.ObraSelecionada != null)
             {
 
@@ -514,7 +514,7 @@ namespace Orc_Gambi
             {
                 return;
             }
-            this.ObraSelecionada = ((FrameworkElement)sender).DataContext as DLMorc.OrcamentoObra;
+            this.ObraSelecionada = ((FrameworkElement)sender).DataContext as DLM.orc.OrcamentoObra;
             if (this.ObraSelecionada != null)
             {
 
@@ -552,7 +552,7 @@ namespace Orc_Gambi
         }
         private void ver_folha_margem(object sender, RoutedEventArgs e)
         {
-            DLMorc.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as DLMorc.OrcamentoObra;
+            DLM.orc.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as DLM.orc.OrcamentoObra;
             PGO.Tela_Folha_Margem mm = new PGO.Tela_Folha_Margem(sel);
             mm.Show();
         }
@@ -589,7 +589,7 @@ namespace Orc_Gambi
         }
         private void abre_etapas(object sender, RoutedEventArgs e)
         {
-            DLMorc.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as DLMorc.OrcamentoObra;
+            DLM.orc.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as DLM.orc.OrcamentoObra;
             if (sel == null) { return; }
 
             PGO.Etapas mm = new PGO.Etapas(sel);
@@ -655,14 +655,14 @@ namespace Orc_Gambi
         }
         private void abre_etapas_lista_de_peças(object sender, RoutedEventArgs e)
         {
-            DLMorc.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as DLMorc.OrcamentoObra;
+            DLM.orc.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as DLM.orc.OrcamentoObra;
             if (sel == null) { return; }
 
             ExplorerPLM.Utilidades.VerMateriais(sel);
         }
         private void editar_observacoes(object sender, RoutedEventArgs e)
         {
-            DLMorc.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as DLMorc.OrcamentoObra;
+            DLM.orc.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as DLM.orc.OrcamentoObra;
             if (sel == null) { return; }
             sel.EditarObservacoes();
         }

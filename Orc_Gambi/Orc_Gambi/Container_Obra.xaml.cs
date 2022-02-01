@@ -1,10 +1,10 @@
-﻿using DLMorc;
+﻿using DLM.orc;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Windows.Controls;
 using System.Windows.Markup;
 
-namespace Orc_Gambi
+namespace PGO
 {
     /// <summary>
     /// Interação lógica para Container_Obra.xam

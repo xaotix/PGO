@@ -1,12 +1,13 @@
 ﻿using Conexoes;
-using DLMorc;
+using DLM.orc;
+using DLM.vars;
 using FirstFloor.ModernUI.Windows.Controls;
 using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Orc_Gambi
+namespace PGO
 {
     /// <summary>
     /// Interaction logic for Adicionar_Editar_Item.xaml

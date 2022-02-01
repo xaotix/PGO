@@ -1,5 +1,6 @@
 ﻿using Conexoes;
-using DLMorc;
+using DLM.orc;
+using DLM.vars;
 using FirstFloor.ModernUI.Windows.Controls;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 
-namespace Orc_Gambi
+namespace PGO
 {
     /// <summary>
     /// Interaction logic for Arquivo.xaml

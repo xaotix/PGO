@@ -10,9 +10,9 @@ namespace PGO
     /// </summary>
     public partial class Ponderadores_Determinar : Window
     {
-        public List<DLMorc.Etapa_Ponderador> Ponderadores { get; set; } = new List<DLMorc.Etapa_Ponderador>();
-        public DLMorc.OrcamentoPredio Predio { get; set; } = new DLMorc.OrcamentoPredio();
-        public Ponderadores_Determinar(DLMorc.OrcamentoPredio Predio)
+        public List<DLM.orc.Etapa_Ponderador> Ponderadores { get; set; } = new List<DLM.orc.Etapa_Ponderador>();
+        public DLM.orc.OrcamentoPredio Predio { get; set; } = new DLM.orc.OrcamentoPredio();
+        public Ponderadores_Determinar(DLM.orc.OrcamentoPredio Predio)
         {
             this.Predio = Predio;
 
@@ -21,7 +21,7 @@ namespace PGO
             this.lista.ItemsSource = this.Predio.GetPonderadores();
             this.saldo.Content = "Disp. no prédio: " + this.Predio.Saldo_Etapa + "%";
         }
-        public Ponderadores_Determinar(List<DLMorc.Etapa_Ponderador> ponderadors, DLMorc.OrcamentoPredio Predio)
+        public Ponderadores_Determinar(List<DLM.orc.Etapa_Ponderador> ponderadors, DLM.orc.OrcamentoPredio Predio)
         {
             InitializeComponent();
             this.Predio = Predio;

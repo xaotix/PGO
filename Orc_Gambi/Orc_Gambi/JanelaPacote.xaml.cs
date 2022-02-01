@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace Orc_Gambi
+namespace PGO
 {
     /// <summary>
     /// Interação lógica para JanelaPacote.xam
@@ -72,7 +72,7 @@ namespace Orc_Gambi
             //      {
             //          if (Conexoes.Utilz.Pergunta("Enviar e-mail para " + t.email_importou + " avisando da alteração?"))
             //          {
-            //              Conexoes.Email.Enviar(t.Obra.ToString() + "Pacote alterado", t.ToString() +  " Pacote foi revisado no sistema.", new List<string> { t.email_importou }, new List<string> { Conexoes.Vars.EmailAtual });
+            //              Conexoes.Email.Enviar(t.Obra.ToString() + "Pacote alterado", t.ToString() +  " Pacote foi revisado no sistema.", new List<string> { t.email_importou }, new List<string> { DLM.vars.EmailAtual });
             //              t.importado_sap = false;
             //          }
             //      }

@@ -2,7 +2,7 @@
 using System;
 using System.Windows;
 
-namespace Orc_Gambi
+namespace PGO
 {
     /// <summary>
     /// Interaction logic for Loading.xaml

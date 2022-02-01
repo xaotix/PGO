@@ -1,11 +1,12 @@
-﻿using DLMorc;
+﻿using DLM.orc;
+using DLM.vars;
 using FirstFloor.ModernUI.Windows.Controls;
 using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
-namespace Orc_Gambi
+namespace PGO
 {
     /// <summary>
     /// Interaction logic for Propriedades.xaml

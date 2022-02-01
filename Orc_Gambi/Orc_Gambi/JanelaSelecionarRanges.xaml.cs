@@ -1,10 +1,10 @@
-﻿using DLMorc;
+﻿using DLM.orc;
 using FirstFloor.ModernUI.Windows.Controls;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 
-namespace Orc_Gambi
+namespace PGO
 {
     /// <summary>
     /// Interaction logic for JanelaSelecionarRanges.xaml

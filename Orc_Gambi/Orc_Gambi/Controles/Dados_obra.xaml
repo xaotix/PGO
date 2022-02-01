@@ -1,4 +1,4 @@
-﻿<Window x:Class="Orc_Gambi.Controles.Dados_obra"
+﻿<Window x:Class="PGO.Controles.Dados_obra"
                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -7,7 +7,7 @@
                           xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
                   mc:Ignorable="d"
                   Title="Editar Dados"
-                  xmlns:controles="clr-namespace:Orc_Gambi.Controles" Height="511.504" Width="401.77" >
+                  xmlns:controles="clr-namespace:PGO.Controles" Height="511.504" Width="401.77" >
     <Grid Margin="5,5,5,5">
         <Grid.RowDefinitions>
             <RowDefinition Height="25"></RowDefinition>

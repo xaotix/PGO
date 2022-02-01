@@ -4,7 +4,7 @@
              
                   xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
              
-             xmlns:SearchPanel="clr-namespace:Telerik.Windows.Controls.GridView.SearchPanel;assembly=Telerik.Windows.Controls.GridView" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" xmlns:Themes="clr-namespace:Xceed.Wpf.Toolkit.Themes;assembly=Xceed.Wpf.Toolkit" xmlns:PGO="clr-namespace:PGO" xmlns:Calendar="clr-namespace:Telerik.Windows.Controls.Calendar;assembly=Telerik.Windows.Controls.Input" xmlns:Chromes="clr-namespace:Telerik.Windows.Controls.Chromes;assembly=Telerik.Windows.Controls" x:Class="Orc_Gambi.App"
+             xmlns:SearchPanel="clr-namespace:Telerik.Windows.Controls.GridView.SearchPanel;assembly=Telerik.Windows.Controls.GridView" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" xmlns:Themes="clr-namespace:Xceed.Wpf.Toolkit.Themes;assembly=Xceed.Wpf.Toolkit" xmlns:PGO="clr-namespace:PGO" xmlns:Calendar="clr-namespace:Telerik.Windows.Controls.Calendar;assembly=Telerik.Windows.Controls.Input" xmlns:Chromes="clr-namespace:Telerik.Windows.Controls.Chromes;assembly=Telerik.Windows.Controls" x:Class="PGO.App"
              
     
     Startup="Application_Startup"
