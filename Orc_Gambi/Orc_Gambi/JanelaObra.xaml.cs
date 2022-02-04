@@ -23,7 +23,7 @@ namespace PGO
         public Visibility Menus_Orcamento { get; set; } = Visibility.Visible;
         public Visibility Menus_Editar { get; set; } = Visibility.Visible;
         public bool Menus_Editar_Bool { get; set; } = true;
-        public JanelaObra(OrcamentoObra Ob)
+        public JanelaObra(PGO_Obra Ob)
         {
             this.Obra = Ob;
             InitializeComponent();
@@ -145,7 +145,7 @@ namespace PGO
         private List<string> Grupos_Selecionados { get; set; } = new List<string>();
         private List<Range> RangesFiltro { get; set; } = new List<Range>();
         public List<Tratamento> Tratamentos { get; set; } = new List<Tratamento>();
-        public OrcamentoObra Obra { get; set; } = new OrcamentoObra();
+        public PGO_Obra Obra { get; set; } = new PGO_Obra();
         public List<Range> RangesSelecionados { get; set; } = new List<Range>();
         private List<string> Locais { get; set; } = new List<string>();
 
@@ -568,7 +568,7 @@ namespace PGO
 
         private void editar_informacoes(object sender, RoutedEventArgs e)
         {
-            var p = ((FrameworkElement)sender).DataContext as DLM.orc.OrcamentoPredio;
+            var p = ((FrameworkElement)sender).DataContext as DLM.orc.PGO_Predio;
             Utilz.Propriedades(p, true);
             p.Salvar();
         }
@@ -580,12 +580,12 @@ namespace PGO
                 Conexoes.Utilz.Alerta("Obra está bloqueada para edições", "Obra Bloqueada", MessageBoxImage.Error);
                 return;
             }
-            if (ObjetoArvore is OrcamentoPredio == false) { return; }
-            var p = ObjetoArvore as OrcamentoPredio;
+            if (ObjetoArvore is PGO_Predio == false) { return; }
+            var p = ObjetoArvore as PGO_Predio;
 
 
 
-            OrcamentoPredio s = new OrcamentoPredio(p);
+            PGO_Predio s = new PGO_Predio(p);
             s.id_obra = p.id_obra;
             s.numero = (this.Obra.GetPredios().Count + 1).ToString().PadLeft(3, '0');
 
@@ -611,14 +611,14 @@ namespace PGO
 
         private void apaga_revisao(object sender, RoutedEventArgs e)
         {
-            var p = ((FrameworkElement)sender).DataContext as DLM.orc.OrcamentoPredio;
+            var p = ((FrameworkElement)sender).DataContext as DLM.orc.PGO_Predio;
             if (Utilz.Pergunta("Você tem certeza que deseja apagar o prédio " + p))
             {
                 PGOVars.GetDbOrc().Apagar(p);
                 Update();
             }
         }
-        public bool novopredio(OrcamentoPredio s)
+        public bool novopredio(PGO_Predio s)
         {
 
         retentar:
@@ -706,7 +706,7 @@ namespace PGO
                 Conexoes.Utilz.Alerta("Obra está bloqueada para edições", "Obra Bloqueada", MessageBoxImage.Error);
                 return;
             }
-            OrcamentoPredio p = new OrcamentoPredio(this.Obra, "", "");
+            PGO_Predio p = new PGO_Predio(this.Obra, "", "");
             p.numero = (this.Obra.GetPredios().Count + 1).ToString().PadLeft(3, '0');
             p.nome = this.Obra.GetPredios().Count == 0 ? "PRINCIPAL" : ("ANEXO " + this.Obra.GetPredios().Count.ToString().PadLeft(2, '0'));
             if (novopredio(p))
@@ -715,7 +715,7 @@ namespace PGO
                 {
                     if (Utilz.Pergunta("Deseja copiar os Locais de outro prédio?"))
                     {
-                        var sel = Conexoes.Utilz.Selecao.SelecionarObjeto(this.Obra.GetPredios().ToList(), null) as OrcamentoPredio;
+                        var sel = Conexoes.Utilz.Selecao.SelecionarObjeto(this.Obra.GetPredios().ToList(), null) as PGO_Predio;
                         if (sel != null)
                         {
                             PGOVars.GetDbOrc().CopiarRanges(sel, p);
@@ -774,9 +774,9 @@ namespace PGO
             if (sel == null) { return; }
             var t = sel.Tag;
             this.ObjetoArvore = t;
-            if (t is OrcamentoObra)
+            if (t is PGO_Obra)
             {
-                var ob = t as OrcamentoObra;
+                var ob = t as PGO_Obra;
                 lista.ItemsSource = null;
                 lista.ItemsSource = ob.GetRanges();
                 Imagem_Sel.Source = ob.Imagem;
@@ -784,9 +784,9 @@ namespace PGO
 
 
             }
-            else if (t is OrcamentoPredio)
+            else if (t is PGO_Predio)
             {
-                var ob = t as OrcamentoPredio;
+                var ob = t as PGO_Predio;
                 lista.ItemsSource = null;
                 lista.ItemsSource = ob.Ranges;
                 Predio_Editar.Visibility = Visibility.Visible;
@@ -848,7 +848,7 @@ namespace PGO
             {
                 var s = sender as TreeView;
                 var ob = s.Tag;
-                if (ob is OrcamentoPredio)
+                if (ob is PGO_Predio)
                 {
                     Predio_Editar.Visibility = Visibility.Visible;
                     Predio_Exlcuir.Visibility = Visibility.Visible;
@@ -869,9 +869,9 @@ namespace PGO
         public object ObjetoArvore { get; set; } = null;
         private void editar_dados(object sender, RoutedEventArgs e)
         {
-            if (ObjetoArvore is OrcamentoPredio)
+            if (ObjetoArvore is PGO_Predio)
             {
-                var pr = ObjetoArvore as OrcamentoPredio;
+                var pr = ObjetoArvore as PGO_Predio;
                 Utilz.Propriedades(ObjetoArvore, true);
                 pr.Salvar();
                 GetArvore();
@@ -880,8 +880,8 @@ namespace PGO
 
         private void excluir_predio(object sender, RoutedEventArgs e)
         {
-            if (ObjetoArvore is OrcamentoPredio == false) { return; }
-            var p = ObjetoArvore as OrcamentoPredio;
+            if (ObjetoArvore is PGO_Predio == false) { return; }
+            var p = ObjetoArvore as PGO_Predio;
 
             if (Utilz.Pergunta("Você tem certeza que deseja apagar o prédio " + p))
             {
@@ -1403,7 +1403,7 @@ namespace PGO
                 {
                     tudo = Conexoes.Utilz.Pergunta("Calcular para toda a obra? \n Se clicar em não, será calculado somente para o prédio " + p.Local.Predio.ToString());
 
-                    List<DLM.orc.Orcamento_Peca> pecas = new List<DLM.orc.Orcamento_Peca>();
+                    List<DLM.orc.PGO_Peca> pecas = new List<DLM.orc.PGO_Peca>();
                     if (tudo)
                     {
                         pecas = this.Obra.GetPecasRanges();

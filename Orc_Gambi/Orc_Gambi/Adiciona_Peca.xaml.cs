@@ -55,7 +55,7 @@ namespace PGO
                     RME RME = Conexoes.Utilz.Selecao.SelecionarObjeto(DBases.GetBancoRM().GetRMEt().FindAll(x => x.DESTINO == "RME"), null);
                     if (RME != null)
                     {
-                        this.Selecao.Peca.id_peca = RME.id_db;
+                        this.Selecao.Peca.id_peca = RME.id_codigo;
                         this.Selecao.Peca.GetPeca();
                         AbrePDF();
 
@@ -66,7 +66,7 @@ namespace PGO
                     RMU RMU = Conexoes.Utilz.Selecao.SelecionarObjeto(DBases.GetBancoRM().GetRMUt(), null);
                     if (RMU != null)
                     {
-                        this.Selecao.Peca.id_peca = RMU.id_db;
+                        this.Selecao.Peca.id_peca = RMU.id_codigo;
                         this.Selecao.Peca.GetPeca();
                         AbrePDF();
 
@@ -163,22 +163,9 @@ namespace PGO
             }
         }
     }
-    public class View : INotifyPropertyChanged
+    public class View : Notificar
     {
-        public event PropertyChangedEventHandler PropertyChanged;
 
-        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-        private void OnPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        }
         public PecaDB Peca
         {
             get

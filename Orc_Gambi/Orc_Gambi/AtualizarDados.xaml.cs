@@ -12,8 +12,8 @@ namespace PGO
     /// </summary>
     public partial class AtualizarDados : ModernWindow
     {
-        public OrcamentoObra Obra { get; set; }
-        public AtualizarDados(OrcamentoObra Ob)
+        public PGO_Obra Obra { get; set; }
+        public AtualizarDados(PGO_Obra Ob)
         {
             if (Ob.Nacional)
             {

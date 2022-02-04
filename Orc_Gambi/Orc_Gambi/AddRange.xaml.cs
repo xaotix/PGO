@@ -13,12 +13,12 @@ namespace PGO
     public partial class AddRange : Window
     {
         public OrcamentoGrupo Selecao { get; set; } = new OrcamentoGrupo();
-        private OrcamentoObra Obra { get; set; } = new OrcamentoObra();
+        private PGO_Obra Obra { get; set; } = new PGO_Obra();
 
         public Range Range { get; set; }
 
         public Tipo_Carreta Carreta_User { get; set; }
-        public AddRange(OrcamentoGrupo Selecao, OrcamentoObra Ob)
+        public AddRange(OrcamentoGrupo Selecao, PGO_Obra Ob)
         {
             this.Selecao = Selecao;
             this.Obra = Ob;
@@ -28,7 +28,7 @@ namespace PGO
             Carregar_Dados();
         }
 
-        public AddRange(OrcamentoGrupo Selecao, OrcamentoItem_Arvore Item, OrcamentoObra Ob)
+        public AddRange(OrcamentoGrupo Selecao, OrcamentoItem_Arvore Item, PGO_Obra Ob)
         {
             this.Obra = Ob;
             this.Selecao = Selecao;
@@ -42,7 +42,7 @@ namespace PGO
             this.Grupos_De_Mercadoria.IsEnabled = false;
             this.Produto_Selecionado.IsEnabled = true;
         }
-        public AddRange(Range Range, OrcamentoObra Ob)
+        public AddRange(Range Range, PGO_Obra Ob)
         {
             this.Range = Range;
             this.Title = "Duplicar " + Range.ToString();

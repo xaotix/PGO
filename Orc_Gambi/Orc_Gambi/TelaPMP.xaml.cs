@@ -15,11 +15,11 @@ namespace PGO
     /// </summary>
     public partial class TelaPMP : ModernWindow
     {
-        public List<DLM.orc.OrcamentoObra> obras { get; set; } = new List<DLM.orc.OrcamentoObra>();
+        public List<DLM.orc.PGO_Obra> obras { get; set; } = new List<DLM.orc.PGO_Obra>();
         public List<DLM.orc.Pacote_Obra> pacotes { get; set; } = new List<DLM.orc.Pacote_Obra>();
         public List<DLM.orc.Pacote_Obra> pacotes_consolidados { get; set; } = new List<DLM.orc.Pacote_Obra>();
-        public List<DLM.orc.OrcamentoObra> selecao { get; set; } = new List<DLM.orc.OrcamentoObra>();
-        public TelaPMP(List<DLM.orc.OrcamentoObra> obras)
+        public List<DLM.orc.PGO_Obra> selecao { get; set; } = new List<DLM.orc.PGO_Obra>();
+        public TelaPMP(List<DLM.orc.PGO_Obra> obras)
         {
 
 
@@ -31,7 +31,7 @@ namespace PGO
 
 
         }
-        public TelaPMP(List<DLM.orc.OrcamentoObra> obras, List<Conexoes.Pedido_PMP> pedidos_buffer)
+        public TelaPMP(List<DLM.orc.PGO_Obra> obras, List<Conexoes.Pedido_PMP> pedidos_buffer)
         {
             this.obras = obras;
             this.pacotes = PGOVars.GetDbOrc().GetPacotes();
@@ -50,7 +50,7 @@ namespace PGO
 
         private void editar_contrato_sap(object sender, RoutedEventArgs e)
         {
-            DLM.orc.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as DLM.orc.OrcamentoObra;
+            DLM.orc.PGO_Obra sel = ((FrameworkElement)sender).DataContext as DLM.orc.PGO_Obra;
             if (sel == null) { return; }
 
             sel.SetContrato_SAP(sel.Contrato_SAP);
@@ -59,24 +59,24 @@ namespace PGO
 
         private void editar_etapas(object sender, RoutedEventArgs e)
         {
-            DLM.orc.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as DLM.orc.OrcamentoObra;
+            DLM.orc.PGO_Obra sel = ((FrameworkElement)sender).DataContext as DLM.orc.PGO_Obra;
             if (sel == null) { return; }
             PGO.Etapas mm = new PGO.Etapas(sel);
             mm.Show();
         }
-        public List<DLM.orc.OrcamentoObra> Obras()
+        public List<DLM.orc.PGO_Obra> Obras()
         {
             return this.obras;
         }
         private void adicionar_obras(object sender, RoutedEventArgs e)
         {
             bool somente_consolidadas = Conexoes.Utilz.Pergunta("Mostrar somente obras que tenham consolidação?");
-            List<DLM.orc.OrcamentoObra> ss = ListarOrcamentos(somente_consolidadas);
+            List<DLM.orc.PGO_Obra> ss = ListarOrcamentos(somente_consolidadas);
             selecao.AddRange(ss);
             Update();
         }
 
-        private List<DLM.orc.OrcamentoObra> ListarOrcamentos(bool somente_consolidadas, bool revisoes = false)
+        private List<DLM.orc.PGO_Obra> ListarOrcamentos(bool somente_consolidadas, bool revisoes = false)
         {
             var lista = Obras();
             if (revisoes)
@@ -88,7 +88,7 @@ namespace PGO
                 lista = lista.FindAll(x => x.Consolidacao);
             }
             var s = Conexoes.Utilz.Selecao.SelecionarObjetos(lista,true);
-            var ss = s.Cast<DLM.orc.OrcamentoObra>().ToList().FindAll(x => selecao.Find(y => y == x) == null);
+            var ss = s.Cast<DLM.orc.PGO_Obra>().ToList().FindAll(x => selecao.Find(y => y == x) == null);
             return ss;
         }
 
@@ -133,7 +133,7 @@ namespace PGO
 
 
             List<Report> erros = new List<Report>();
-            List<DLM.orc.Orcamento_Peca> pecas = new List<DLM.orc.Orcamento_Peca>();
+            List<DLM.orc.PGO_Peca> pecas = new List<DLM.orc.PGO_Peca>();
             Conexoes.ControleWait w = Conexoes.Utilz.Wait(this.selecao.Count, "Lendo Materiais...");
             foreach (var ob in this.selecao)
             {
@@ -162,7 +162,7 @@ namespace PGO
 
         private void trocar_revisao(object sender, RoutedEventArgs e)
         {
-            DLM.orc.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as DLM.orc.OrcamentoObra;
+            DLM.orc.PGO_Obra sel = ((FrameworkElement)sender).DataContext as DLM.orc.PGO_Obra;
             if (sel == null)
             {
                 return;
@@ -466,7 +466,7 @@ namespace PGO
                     limpar_carga_consolidada();
                 }
             }
-            List<DLM.orc.OrcamentoObra> ss = ListarOrcamentos(true, true).FindAll(x => x.ContratoSAPValido);
+            List<DLM.orc.PGO_Obra> ss = ListarOrcamentos(true, true).FindAll(x => x.ContratoSAPValido);
             if (ss.Count > 0)
             {
                 List<Report> erros = new List<Report>();

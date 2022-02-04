@@ -352,7 +352,7 @@ namespace PGO
                                         {
                                             PecaDB nova = new PecaDB();
 
-                                            var pcatual = corr.PecasDB.Find(x => x.id_peca == (pc as Conexoes.RME).id_db);
+                                            var pcatual = corr.PecasDB.Find(x => x.id_peca == (pc as Conexoes.RME).id_codigo);
                                             if (pcatual != null)
                                             {
                                                 nova = pcatual;
@@ -361,7 +361,7 @@ namespace PGO
                                             nova.Comprimento = comp;
                                             nova.Arredondar = true;
                                             nova.Ativo = true;
-                                            nova.id_peca = (pc as Conexoes.RME).id_db;
+                                            nova.id_peca = (pc as Conexoes.RME).id_codigo;
                                             nova.Quantidade = qtd;
                                             nova.Tipo = "RMU";
 
@@ -377,7 +377,7 @@ namespace PGO
                                         {
                                             PecaDB nova = new PecaDB();
 
-                                            var pcatual = corr.PecasDB.Find(x => x.id_peca == (pc as Conexoes.RME).id_db);
+                                            var pcatual = corr.PecasDB.Find(x => x.id_peca == (pc as Conexoes.RME).id_codigo);
                                             if (pcatual != null)
                                             {
                                                 nova = pcatual;
@@ -386,7 +386,7 @@ namespace PGO
                                             nova.Comprimento = comp;
                                             nova.Arredondar = true;
                                             nova.Ativo = true;
-                                            nova.id_peca = (pc as Conexoes.RME).id_db;
+                                            nova.id_peca = (pc as Conexoes.RME).id_codigo;
 
                                             nova.Quantidade = qtd;
                                             nova.Tipo = "RME";
@@ -660,7 +660,7 @@ namespace PGO
                 adicionar_item.Visibility = Visibility.Visible;
                 if (DLM.vars.PGOVars.GetDbOrc() == null)
                 {
-                    DLM.vars.PGOVars.SetDbOrc(new DadosOrcamento());
+                    DLM.vars.PGOVars.SetDbOrc(new PGO_Dados());
 
                 }
                 //Orcamento.Variaveis.DbOrc.GetProdutos(true);

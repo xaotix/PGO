@@ -19,10 +19,10 @@ namespace PGO
     /// </summary>
     public partial class Etapas : ModernWindow
     {
-        public DLM.orc.OrcamentoObra Obra { get; set; } = new DLM.orc.OrcamentoObra();
+        public DLM.orc.PGO_Obra Obra { get; set; } = new DLM.orc.PGO_Obra();
         public int etapas { get; set; } = 1;
         public int etapa_inicial { get; set; } = 1;
-        public Etapas(DLM.orc.OrcamentoObra Obra)
+        public Etapas(DLM.orc.PGO_Obra Obra)
         {
             this.Obra = Obra;
 
@@ -242,7 +242,7 @@ namespace PGO
                 UpdateAll();
             }
         }
-        public void AddEtapa(DLM.orc.OrcamentoPredio predio)
+        public void AddEtapa(DLM.orc.PGO_Predio predio)
         {
             this.etapas = Conexoes.Utilz.Int(Conexoes.Utilz.Prompt("Digite o número de etapas que deseja criar", predio.ToString() + "[" + Math.Round(predio.PesoTotal, 2) + "Ton]", Utilz.Int(predio.peso_disponivel / 75).ToString()));
 
@@ -255,11 +255,11 @@ namespace PGO
             {
                 Conexoes.ControleWait w = Conexoes.Utilz.Wait(etapas + 1, predio.ToString() + "\nAnalisando....");
                 w.somaProgresso();
-                List<DLM.orc.Etapa> novas_etapas = new List<DLM.orc.Etapa>();
+                List<DLM.orc.PGO_Etapa> novas_etapas = new List<DLM.orc.PGO_Etapa>();
                 double porcentagem = Math.Round(predio.Saldo_Etapa / etapas, 3);
                 for (int i = 0; i < etapas; i++)
                 {
-                    DLM.orc.Etapa nova_etapa = new DLM.orc.Etapa(this.Obra);
+                    DLM.orc.PGO_Etapa nova_etapa = new DLM.orc.PGO_Etapa(this.Obra);
                     nova_etapa.descricao = predio.nome;
                     nova_etapa.nome = i + etapa_inicial;
                     if (i < etapas - 1)
@@ -295,7 +295,7 @@ namespace PGO
             }
             else if (this.etapas == 1)
             {
-                DLM.orc.Etapa pp = new DLM.orc.Etapa(this.Obra);
+                DLM.orc.PGO_Etapa pp = new DLM.orc.PGO_Etapa(this.Obra);
                 pp.nome = this.Obra.GetEtapas().Count + 1;
                 if (predio != null)
                 {
@@ -327,7 +327,7 @@ namespace PGO
                 UpdateAll();
             }
         }
-        private void move_material(DLM.orc.SubEtapa_Ponderador sel)
+        private void move_material(DLM.orc.PGO_SubEtapa_Ponderador sel)
         {
             Set100(sel);
             foreach (var ss in sel.Getsubponderadores_externos())
@@ -342,7 +342,7 @@ namespace PGO
             {
                 var de_para_novo = DLM.vars.PGOVars.GetDbOrc().GetDe_Para().FindAll(x => peps_selecionados.Find(y => y.PEP == x.PEP && y.fabrica == x.FAB) == null && this.Obra.GetFerts_Etapas().Find(y => y.PEP == x.PEP && y.FAB == x.FAB) == null);
 
-                DLM.orc.De_Para NDE_PARA = new DLM.orc.De_Para();
+                DLM.orc.PGO_De_Para NDE_PARA = new DLM.orc.PGO_De_Para();
                 NDE_PARA.DESC = "Criar novo";
                 //NDE_PARA.FAB = "F2";
                 NDE_PARA.FERT = "XX";
@@ -520,19 +520,19 @@ namespace PGO
         private void ver_pecas_fim(object sender, RoutedEventArgs e)
         {
             var sels = ((FrameworkElement)sender).DataContext;
-            if (sels is DLM.orc.Etapa)
+            if (sels is DLM.orc.PGO_Etapa)
             {
-                var s = sels as DLM.orc.Etapa;
+                var s = sels as DLM.orc.PGO_Etapa;
                 PGO.Funcoes.VerMateriais(this.Obra, s.GetPecas());
             }
-            else if (sels is DLM.orc.Subetapa)
+            else if (sels is DLM.orc.PGO_Subetapa)
             {
-                var s = sels as DLM.orc.Subetapa;
+                var s = sels as DLM.orc.PGO_Subetapa;
                 PGO.Funcoes.VerMateriais(this.Obra, s.GetPecas());
             }
-            else if (sels is DLM.orc.PEP)
+            else if (sels is DLM.orc.PGO_PEP)
             {
-                var s = sels as DLM.orc.PEP;
+                var s = sels as DLM.orc.PGO_PEP;
                 PGO.Funcoes.VerMateriais(this.Obra, s.GetPecas());
             }
             else if (sels is DLM.orc.Range)
@@ -544,9 +544,9 @@ namespace PGO
         private void criar_novo_pep(object sender, RoutedEventArgs e)
         {
             var sels = ((FrameworkElement)sender).DataContext;
-            if (sels is DLM.orc.OrcamentoPredio)
+            if (sels is DLM.orc.PGO_Predio)
             {
-                var ss = sels as DLM.orc.OrcamentoPredio;
+                var ss = sels as DLM.orc.PGO_Predio;
                 var peps = Conexoes.Utilz.Selecao.SelecionarObjetos(ss.GetAgrupadores(),true,"Selecione os PEPs que contenham os FERTs que deseja mover");
                 if (peps.Count > 0)
                 {
@@ -663,7 +663,7 @@ namespace PGO
         }
         private void ver_pecas_selecao_peps(object sender, RoutedEventArgs e)
         {
-            var s = Lista_Subetapas_Fim.SelectedItems.Cast<DLM.orc.Subetapa>().ToList().SelectMany(x => x.GetPecas()).ToList();
+            var s = Lista_Subetapas_Fim.SelectedItems.Cast<DLM.orc.PGO_Subetapa>().ToList().SelectMany(x => x.GetPecas()).ToList();
             PGO.Funcoes.VerMateriais(this.Obra, s);
         }
         private void ativar_faturamento(object sender, RoutedEventArgs e)
@@ -693,9 +693,9 @@ namespace PGO
         private void resetar_peps(object sender, RoutedEventArgs e)
         {
             var sels = ((FrameworkElement)sender).DataContext;
-            if (sels is DLM.orc.OrcamentoPredio)
+            if (sels is DLM.orc.PGO_Predio)
             {
-                var predio = sels as DLM.orc.OrcamentoPredio;
+                var predio = sels as DLM.orc.PGO_Predio;
                 predio.ApagarSubponderadores();
             }
             UpdateAll();
@@ -741,8 +741,8 @@ namespace PGO
         }
         private void reset_peps_sel(object sender, RoutedEventArgs e)
         {
-            var predios = lista_predios_peps.SelectedItems.Cast<DLM.orc.OrcamentoPredio>().ToList();
-            foreach (DLM.orc.OrcamentoPredio predio in predios)
+            var predios = lista_predios_peps.SelectedItems.Cast<DLM.orc.PGO_Predio>().ToList();
+            foreach (DLM.orc.PGO_Predio predio in predios)
             {
                 predio.ApagarSubponderadores();
             }
@@ -751,13 +751,13 @@ namespace PGO
         }
         private void monta_lista(object sender, Telerik.Windows.Controls.SelectionChangeEventArgs e)
         {
-            var sel = lista_predios_2.SelectedItems.Cast<DLM.orc.OrcamentoPredio>().ToList();
+            var sel = lista_predios_2.SelectedItems.Cast<DLM.orc.PGO_Predio>().ToList();
             this.lista_sub_etapas_selecao.ItemsSource = null;
             this.lista_sub_etapas_selecao.ItemsSource = sel.SelectMany(x => x.GetSubEtapaAgrupadores());
         }
         private void monta_lista2(object sender, Telerik.Windows.Controls.SelectionChangeEventArgs e)
         {
-            var sel = lista_predios_3.SelectedItems.Cast<DLM.orc.OrcamentoPredio>().ToList();
+            var sel = lista_predios_3.SelectedItems.Cast<DLM.orc.PGO_Predio>().ToList();
             this.lista_sub_etapas_selecao2.ItemsSource = null;
             this.lista_sub_etapas_selecao2.ItemsSource = sel.SelectMany(x => x.GetSubEtapaAgrupadoresBase()).OrderBy(x => x.chave);
         }
@@ -930,7 +930,7 @@ namespace PGO
         }
         private void editar_numero(object sender, RoutedEventArgs e)
         {
-            DLM.orc.Etapa sel = ((FrameworkElement)sender).DataContext as DLM.orc.Etapa;
+            DLM.orc.PGO_Etapa sel = ((FrameworkElement)sender).DataContext as DLM.orc.PGO_Etapa;
             if (sel == null) { return; }
             int etapa = Conexoes.Utilz.Int(Conexoes.Utilz.Prompt("Digite a etapa", sel.ToString(), sel.nome.ToString()));
 
@@ -943,7 +943,7 @@ namespace PGO
         }
         private void sobe_etapas(object sender, RoutedEventArgs e)
         {
-            List<DLM.orc.Etapa> etapas = lista_etapas.SelectedItems.Cast<DLM.orc.Etapa>().ToList();
+            List<DLM.orc.PGO_Etapa> etapas = lista_etapas.SelectedItems.Cast<DLM.orc.PGO_Etapa>().ToList();
             int etapa = Conexoes.Utilz.Int(Conexoes.Utilz.Prompt("Digite quanto você quer reduzir", "Editar Etapas", "1"));
             if (etapa == 0) { return; }
 
@@ -966,7 +966,7 @@ namespace PGO
         }
         private void desce_etapas(object sender, RoutedEventArgs e)
         {
-            List<DLM.orc.Etapa> etapas = lista_etapas.SelectedItems.Cast<DLM.orc.Etapa>().ToList();
+            List<DLM.orc.PGO_Etapa> etapas = lista_etapas.SelectedItems.Cast<DLM.orc.PGO_Etapa>().ToList();
             int etapa = Conexoes.Utilz.Int(Conexoes.Utilz.Prompt("Digite quanto você quer aumentar", "Editar Etapas", "1"));
             if (etapa == 0) { return; }
             if (etapas.Count > 0)
@@ -1024,7 +1024,7 @@ namespace PGO
         }
         private void edita_pep_subpodenradores(object sender, RoutedEventArgs e)
         {
-            var sel = lista_ponderadores.SelectedItems.Cast<DLM.orc.SubEtapa_Ponderador>().ToList();
+            var sel = lista_ponderadores.SelectedItems.Cast<DLM.orc.PGO_SubEtapa_Ponderador>().ToList();
 
             if (sel.Count > 0)
             {
@@ -1059,7 +1059,7 @@ namespace PGO
         }
         private void set_sequencial(object sender, RoutedEventArgs e)
         {
-            var sel = lista_etapas.SelectedItems.Cast<DLM.orc.Etapa>().ToList();
+            var sel = lista_etapas.SelectedItems.Cast<DLM.orc.PGO_Etapa>().ToList();
             if (sel.Count > 0)
             {
                 int inicio = Conexoes.Utilz.Int(Conexoes.Utilz.Prompt("Digite a etapa inicial", "", "1"));
@@ -1078,7 +1078,7 @@ namespace PGO
         }
         private void apagar_selecao(object sender, RoutedEventArgs e)
         {
-            var s = lista_etapas.SelectedItems.Cast<DLM.orc.Etapa>().ToList();
+            var s = lista_etapas.SelectedItems.Cast<DLM.orc.PGO_Etapa>().ToList();
 
             foreach (var st in s)
             {
@@ -1088,7 +1088,7 @@ namespace PGO
         }
         private void add_etapa_sel(object sender, RoutedEventArgs e)
         {
-            DLM.orc.OrcamentoPredio sel = ((FrameworkElement)sender).DataContext as DLM.orc.OrcamentoPredio;
+            DLM.orc.PGO_Predio sel = ((FrameworkElement)sender).DataContext as DLM.orc.PGO_Predio;
             if (sel == null) { return; }
             if (sel.Saldo_Etapa <= 0)
             {
@@ -1099,7 +1099,7 @@ namespace PGO
         }
         private void editar_descricao(object sender, RoutedEventArgs e)
         {
-            DLM.orc.Etapa sel = ((FrameworkElement)sender).DataContext as DLM.orc.Etapa;
+            DLM.orc.PGO_Etapa sel = ((FrameworkElement)sender).DataContext as DLM.orc.PGO_Etapa;
 
             if (sel == null) { return; }
             sel.SetDescricao(sel.descricao);
@@ -1111,7 +1111,7 @@ namespace PGO
         }
         private void mover_etapa_varios(object sender, RoutedEventArgs e)
         {
-            List<DLM.orc.Etapa> etapas = lista_etapas.SelectedItems.Cast<DLM.orc.Etapa>().ToList();
+            List<DLM.orc.PGO_Etapa> etapas = lista_etapas.SelectedItems.Cast<DLM.orc.PGO_Etapa>().ToList();
             if (etapas.Count > 0)
             {
 
@@ -1152,9 +1152,9 @@ namespace PGO
         private void move_material(object sender, RoutedEventArgs e)
         {
             var sels = ((FrameworkElement)sender).DataContext;
-            if (sels is DLM.orc.SubEtapa_Ponderador)
+            if (sels is DLM.orc.PGO_SubEtapa_Ponderador)
             {
-                DLM.orc.SubEtapa_Ponderador sel = ((FrameworkElement)sender).DataContext as DLM.orc.SubEtapa_Ponderador;
+                DLM.orc.PGO_SubEtapa_Ponderador sel = ((FrameworkElement)sender).DataContext as DLM.orc.PGO_SubEtapa_Ponderador;
                 if (Conexoes.Utilz.Pergunta("Tem certeza que deseja liberar todo o material somente nesta etapa?"))
                 {
                     move_material(sel);
@@ -1209,7 +1209,7 @@ namespace PGO
                 }
             }
         }
-        private void Set100(DLM.orc.SubEtapa_Ponderador sel)
+        private void Set100(DLM.orc.PGO_SubEtapa_Ponderador sel)
         {
             sel.valor = 100;
             sel.Salvar();
@@ -1224,9 +1224,9 @@ namespace PGO
 
 
             var sels = ((FrameworkElement)sender).DataContext;
-            if (sels is DLM.orc.SubEtapa_Ponderador)
+            if (sels is DLM.orc.PGO_SubEtapa_Ponderador)
             {
-                DLM.orc.SubEtapa_Ponderador sel = ((FrameworkElement)sender).DataContext as DLM.orc.SubEtapa_Ponderador;
+                DLM.orc.PGO_SubEtapa_Ponderador sel = ((FrameworkElement)sender).DataContext as DLM.orc.PGO_SubEtapa_Ponderador;
                 if (Conexoes.Utilz.Pergunta("Tem certeza que deseja retornar o valor do ponderador padrão em todo o material somente nesta etapa?"))
                 {
                     Reset_SubPonderador(sel);
@@ -1304,7 +1304,7 @@ namespace PGO
             }
 
         }
-        private void Reset_SubPonderador(DLM.orc.SubEtapa_Ponderador selecao)
+        private void Reset_SubPonderador(DLM.orc.PGO_SubEtapa_Ponderador selecao)
         {
             var ps = selecao.Getpredios_ponderadores().SelectMany(x => x.subponderadores).ToList();
             int c = 1;
@@ -1359,7 +1359,7 @@ namespace PGO
         }
         private void editar_frentes(object sender, RoutedEventArgs e)
         {
-            var sel = lista_etapas.SelectedItems.Cast<DLM.orc.Etapa>().ToList();
+            var sel = lista_etapas.SelectedItems.Cast<DLM.orc.PGO_Etapa>().ToList();
 
             if (sel.Count == 0) { return; }
 
@@ -1392,7 +1392,7 @@ namespace PGO
         }
         private void apaga_etapa(object sender, RoutedEventArgs e)
         {
-            DLM.orc.Etapa sel = ((FrameworkElement)sender).DataContext as DLM.orc.Etapa;
+            DLM.orc.PGO_Etapa sel = ((FrameworkElement)sender).DataContext as DLM.orc.PGO_Etapa;
             if (Conexoes.Utilz.Pergunta("Tem certeza que deseja apagar a etapa " + sel.ToString() + " ?"))
             {
                 this.Obra.RemEtapa(sel);
@@ -1403,7 +1403,7 @@ namespace PGO
         }
         private void add_etapa(object sender, RoutedEventArgs e)
         {
-            var prediossel = this.lista_predios.SelectedItems.Cast<DLM.orc.OrcamentoPredio>().ToList();
+            var prediossel = this.lista_predios.SelectedItems.Cast<DLM.orc.PGO_Predio>().ToList();
             prediossel = prediossel.FindAll(x => x.Saldo_Etapa > 0).ToList();
             if (prediossel.Count == 1)
             {

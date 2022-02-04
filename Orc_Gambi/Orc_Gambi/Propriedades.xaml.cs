@@ -226,14 +226,14 @@ namespace PGO
                 var t = Selecao as Tipo_Pintura;
                 t.Salvar();
             }
-            else if (Selecao is De_Para)
+            else if (Selecao is PGO_De_Para)
             {
-                var t = Selecao as De_Para;
+                var t = Selecao as PGO_De_Para;
                 t.Salvar();
             }
-            else if (Selecao is Frente)
+            else if (Selecao is PGO_Frente)
             {
-                var t = Selecao as Frente;
+                var t = Selecao as PGO_Frente;
                 t.Salvar();
             }
             else if (Selecao is Produto)
@@ -299,12 +299,12 @@ namespace PGO
             }
             else if (Tipo == Tipologia.FERT)
             {
-                tt = new De_Para();
+                tt = new PGO_De_Para();
                 //Propriedadesm.SelectedObject = tt;
             }
             else if (Tipo == Tipologia.Frente)
             {
-                tt = new Frente();
+                tt = new PGO_Frente();
                 //Propriedadesm.SelectedObject = tt;
             }
             if (tt == null)

@@ -35,7 +35,7 @@ namespace PGO
         }
         private void desarquivar_obras(object sender, RoutedEventArgs e)
         {
-            List<OrcamentoObra> sel = Lista_Arquivo.SelectedItems.Cast<OrcamentoObra>().ToList();
+            List<PGO_Obra> sel = Lista_Arquivo.SelectedItems.Cast<PGO_Obra>().ToList();
             if (sel.Count > 0)
             {
                 if (Utilz.Pergunta("Tem certeza que deseja desarquivar as " + sel.Count + " obras selecionadas?"))
@@ -56,7 +56,7 @@ namespace PGO
         }
         private void arquivar_obras(object sender, RoutedEventArgs e)
         {
-            List<OrcamentoObra> sel = Lista.SelectedItems.Cast<OrcamentoObra>().ToList();
+            List<PGO_Obra> sel = Lista.SelectedItems.Cast<PGO_Obra>().ToList();
             if (sel.Count > 0)
             {
                 if (Utilz.Pergunta("Tem certeza que deseja arquivar as " + sel.Count + " obras selecionadas?"))

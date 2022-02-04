@@ -23,7 +23,7 @@ namespace PGO
     public partial class MainWindow : ModernWindow
     {
         private NovaObra MenuNovaObra { get; set; }
-        private OrcamentoObra ObraSelecionada { get; set; }
+        private PGO_Obra ObraSelecionada { get; set; }
         public Visibility Menus_Orcamento { get; set; } = Visibility.Visible;
         public MainWindow()
         {
@@ -53,7 +53,7 @@ namespace PGO
             
             this.Show();
         }
-        public List<OrcamentoObra> Obras { get; set; } = new List<OrcamentoObra>();
+        public List<PGO_Obra> Obras { get; set; } = new List<PGO_Obra>();
         public List<Rotas> Enderecos { get; set; } = new List<Rotas>();
         private void ModernWindow_Loaded(object sender, RoutedEventArgs e)
         {
@@ -88,7 +88,7 @@ namespace PGO
             JanelaObra mm = (JanelaObra)sender;
             this.Abertas.Remove(mm.Obra);
         }
-        public bool VerificarTemplate(OrcamentoObra ob)
+        public bool VerificarTemplate(PGO_Obra ob)
         {
             if (PGOVars.GetDbOrc().GetTemplates().Find(x => x.id == ob.id_template) == null)
             {
@@ -115,13 +115,13 @@ namespace PGO
         }
         private void AbrirObra(object sender, MouseButtonEventArgs e)
         {
-            if ((sender as DataGrid).SelectedItem is OrcamentoObra)
+            if ((sender as DataGrid).SelectedItem is PGO_Obra)
             {
-                OrcamentoObra ob = (sender as DataGrid).SelectedItem as OrcamentoObra;
+                PGO_Obra ob = (sender as DataGrid).SelectedItem as PGO_Obra;
                 AbrirObra(ob);
             }
         }
-        public void AbrirObra(OrcamentoObra ob)
+        public void AbrirObra(PGO_Obra ob)
         {
             if (Abertas.Find(x => x.ContratoRevisao == ob.ContratoRevisao) != null)
             {
@@ -168,7 +168,7 @@ namespace PGO
             mm.Closed += FecharObra;
             mm.Show();
         }
-        private void EditarRota(OrcamentoObra ob)
+        private void EditarRota(PGO_Obra ob)
         {
             ExplorerPLM.Menus.Fretes mmc = new ExplorerPLM.Menus.Fretes(ob);
             this.ObraSelecionada = ob;
@@ -181,8 +181,8 @@ namespace PGO
             this.Visibility = Visibility.Visible;
             AbrirObra(ObraSelecionada);
         }
-        private List<OrcamentoObra> Abertas { get; set; } = new List<OrcamentoObra>();
-        private void ZoomNaObra(OrcamentoObra ob)
+        private List<PGO_Obra> Abertas { get; set; } = new List<PGO_Obra>();
+        private void ZoomNaObra(PGO_Obra ob)
         {
             if (ob.GetRotas() != null)
             {
@@ -274,7 +274,7 @@ namespace PGO
             {
                 return;
             }
-            this.ObraSelecionada = ((FrameworkElement)sender).DataContext as DLM.orc.OrcamentoObra;
+            this.ObraSelecionada = ((FrameworkElement)sender).DataContext as DLM.orc.PGO_Obra;
             if (this.ObraSelecionada != null)
             {
                 string revisao = Conexoes.Utilz.Prompt("Digite o nome da revisão", "", this.ObraSelecionada.Revisao, false, "", false, 3).ToUpper();
@@ -321,7 +321,7 @@ namespace PGO
         }
         private void EditarRota(object sender, RoutedEventArgs e)
         {
-            DLM.orc.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as DLM.orc.OrcamentoObra;
+            DLM.orc.PGO_Obra sel = ((FrameworkElement)sender).DataContext as DLM.orc.PGO_Obra;
             if (sel != null)
             {
                 EditarRota(sel);
@@ -331,7 +331,7 @@ namespace PGO
 
         private async void calcular_fretes(object sender, RoutedEventArgs e)
         {
-            List<OrcamentoObra> ObrasSel = new List<OrcamentoObra>();
+            List<PGO_Obra> ObrasSel = new List<PGO_Obra>();
             if(Conexoes.Utilz.Pergunta("Calcular somente rotas que não foram calculadas?"))
             {
                 ObrasSel = this.Obras.FindAll(x => x.GetRotas().id <= 0);
@@ -400,7 +400,7 @@ namespace PGO
         }
         private void editar_informacoes(object sender, RoutedEventArgs e)
         {
-            DLM.orc.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as DLM.orc.OrcamentoObra;
+            DLM.orc.PGO_Obra sel = ((FrameworkElement)sender).DataContext as DLM.orc.PGO_Obra;
             if (sel == null) { return; }
             MenuNovaObra = new NovaObra(sel);
             MenuNovaObra.ShowDialog();
@@ -443,7 +443,7 @@ namespace PGO
         }
         private void ajustar_ranges(object sender, RoutedEventArgs e)
         {
-            List<OrcamentoObra> Obs = lista.SelectedItems.Cast<OrcamentoObra>().ToList().SelectMany(x => x.Revisoes).ToList();
+            List<PGO_Obra> Obs = lista.SelectedItems.Cast<PGO_Obra>().ToList().SelectMany(x => x.Revisoes).ToList();
             //Obs.AddRange(lista.SelectedItems.Cast<Obra>().ToList());
 
             //Obs.AddRange(lista.SelectedItems.Cast<Obra>().ToList());
@@ -465,7 +465,7 @@ namespace PGO
                 }
             }
         }
-        private static void Apagar(bool apaga_zeradas, OrcamentoObra ob)
+        private static void Apagar(bool apaga_zeradas, PGO_Obra ob)
         {
             if (apaga_zeradas)
             {
@@ -495,7 +495,7 @@ namespace PGO
                 return;
             }
 
-            this.ObraSelecionada = ((FrameworkElement)sender).DataContext as DLM.orc.OrcamentoObra;
+            this.ObraSelecionada = ((FrameworkElement)sender).DataContext as DLM.orc.PGO_Obra;
             if (this.ObraSelecionada != null)
             {
 
@@ -514,7 +514,7 @@ namespace PGO
             {
                 return;
             }
-            this.ObraSelecionada = ((FrameworkElement)sender).DataContext as DLM.orc.OrcamentoObra;
+            this.ObraSelecionada = ((FrameworkElement)sender).DataContext as DLM.orc.PGO_Obra;
             if (this.ObraSelecionada != null)
             {
 
@@ -552,7 +552,7 @@ namespace PGO
         }
         private void ver_folha_margem(object sender, RoutedEventArgs e)
         {
-            DLM.orc.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as DLM.orc.OrcamentoObra;
+            DLM.orc.PGO_Obra sel = ((FrameworkElement)sender).DataContext as DLM.orc.PGO_Obra;
             PGO.Tela_Folha_Margem mm = new PGO.Tela_Folha_Margem(sel);
             mm.Show();
         }
@@ -589,7 +589,7 @@ namespace PGO
         }
         private void abre_etapas(object sender, RoutedEventArgs e)
         {
-            DLM.orc.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as DLM.orc.OrcamentoObra;
+            DLM.orc.PGO_Obra sel = ((FrameworkElement)sender).DataContext as DLM.orc.PGO_Obra;
             if (sel == null) { return; }
 
             PGO.Etapas mm = new PGO.Etapas(sel);
@@ -607,7 +607,7 @@ namespace PGO
             if (sel.Count > 0)
             {
                 Conexoes.ControleWait w = Conexoes.Utilz.Wait(sel.Count, "Gerando...");
-                foreach (OrcamentoObra s in sel)
+                foreach (PGO_Obra s in sel)
                 {
                     if (s.GetEtapas().Count == 0)
                     {
@@ -655,14 +655,14 @@ namespace PGO
         }
         private void abre_etapas_lista_de_peças(object sender, RoutedEventArgs e)
         {
-            DLM.orc.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as DLM.orc.OrcamentoObra;
+            DLM.orc.PGO_Obra sel = ((FrameworkElement)sender).DataContext as DLM.orc.PGO_Obra;
             if (sel == null) { return; }
 
             ExplorerPLM.Utilidades.VerMateriais(sel);
         }
         private void editar_observacoes(object sender, RoutedEventArgs e)
         {
-            DLM.orc.OrcamentoObra sel = ((FrameworkElement)sender).DataContext as DLM.orc.OrcamentoObra;
+            DLM.orc.PGO_Obra sel = ((FrameworkElement)sender).DataContext as DLM.orc.PGO_Obra;
             if (sel == null) { return; }
             sel.EditarObservacoes();
         }
@@ -678,7 +678,7 @@ namespace PGO
         {
             if (lista.SelectedItem != null)
             {
-                OrcamentoObra ob = lista.SelectedItem as OrcamentoObra;
+                PGO_Obra ob = lista.SelectedItem as PGO_Obra;
                 ZoomNaObra(ob);
             }
         }

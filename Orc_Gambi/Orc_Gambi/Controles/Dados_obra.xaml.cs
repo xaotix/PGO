@@ -13,8 +13,8 @@ namespace PGO.Controles
     /// </summary>
     public partial class Dados_obra : Window
     {
-        public DLM.orc.OrcamentoObra Obra { get; set; } = new DLM.orc.OrcamentoObra();
-        public Dados_obra(DLM.orc.OrcamentoObra Obra)
+        public DLM.orc.PGO_Obra Obra { get; set; } = new DLM.orc.PGO_Obra();
+        public Dados_obra(DLM.orc.PGO_Obra Obra)
         {
             this.Obra = Obra;
             InitializeComponent();

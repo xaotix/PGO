@@ -17,7 +17,7 @@ namespace PGO
     public class Funcoes_Mapa
     {
         public static DLM.orc.Localizacoes Localizacoes { get; set; }
-        public static List<Rotas> AgruparEmRotas(List<OrcamentoObra> Obras, Map myMap)
+        public static List<Rotas> AgruparEmRotas(List<PGO_Obra> Obras, Map myMap)
         {
 
             Funcoes_Mapa.Localizacoes.Ler();
@@ -147,7 +147,7 @@ namespace PGO
             }
             w.Close();
         }
-        public static void VerMateriais(DLM.orc.OrcamentoObra Obra)
+        public static void VerMateriais(DLM.orc.PGO_Obra Obra)
         {
             var w = Conexoes.Utilz.Wait();
             ExplorerPLM.Menus.Lista_Pecas_ORC menu = new ExplorerPLM.Menus.Lista_Pecas_ORC(
@@ -157,7 +157,7 @@ namespace PGO
             menu.Show();
             w.Close();
         }
-        public static void VerMateriais(DLM.orc.OrcamentoObra Obra, List<DLM.orc.Orcamento_Peca> pecas)
+        public static void VerMateriais(DLM.orc.PGO_Obra Obra, List<DLM.orc.PGO_Peca> pecas)
         {
             if (pecas.Count == 0)
             {
@@ -170,7 +170,7 @@ namespace PGO
             menu.Title = Obra.ToString() + " - Etapas - Orçamento";
             menu.Show();
         }
-        public static void VerMateriais(DLM.orc.OrcamentoObra Obra, List<object> pecas)
+        public static void VerMateriais(DLM.orc.PGO_Obra Obra, List<object> pecas)
         {
             if (pecas.Count == 0)
             {
@@ -178,12 +178,12 @@ namespace PGO
                 return;
             }
             ExplorerPLM.Menus.Lista_Pecas_ORC menu = new ExplorerPLM.Menus.Lista_Pecas_ORC(
-                pecas.FindAll(x => x is DLM.orc.Orcamento_Peca).Cast<DLM.orc.Orcamento_Peca>().ToList(), Obra
+                pecas.FindAll(x => x is DLM.orc.PGO_Peca).Cast<DLM.orc.PGO_Peca>().ToList(), Obra
                 );
             menu.Title = Obra.ToString() + " - Etapas - Orçamento";
             menu.Show();
         }
-        public static void VerMateriais(List<DLM.orc.Orcamento_Peca> pecas)
+        public static void VerMateriais(List<DLM.orc.PGO_Peca> pecas)
         {
 
             if (pecas.Count == 0)
@@ -195,7 +195,7 @@ namespace PGO
             menu.Title = "Etapas - Orçamento";
             menu.Show();
         }
-        public static void setdados_Folha(OrcamentoObra Obra)
+        public static void setdados_Folha(PGO_Obra Obra)
         {
             var sel = Enum.GetNames(typeof(Tipo_Margem));
             var sel_user = Conexoes.Utilz.Selecao.SelecionarObjeto(sel.ToList(), null, "Selecione o tipo de cálculo");
@@ -337,7 +337,7 @@ namespace PGO
             }
             return new List<Conexoes.Pedido_PMP>();
         }
-        public static List<Conexoes.Pedido_PMP> getPedidos(List<DLM.orc.OrcamentoObra> codigos, out List<Report> erros)
+        public static List<Conexoes.Pedido_PMP> getPedidos(List<DLM.orc.PGO_Obra> codigos, out List<Report> erros)
         {
             erros = new List<Report>();
             List<string> codigos_obras = codigos.Select(x => x.PedidoSAP).Distinct().ToList();
@@ -591,7 +591,7 @@ namespace PGO
             }
             return retorno;
         }
-        public static List<Range> SelecionarRanges(List<OrcamentoPredio> Selecao, bool editavel = true)
+        public static List<Range> SelecionarRanges(List<PGO_Predio> Selecao, bool editavel = true)
         {
             List<Range> retorno = new List<Range>();
 

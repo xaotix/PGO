@@ -21,7 +21,7 @@ namespace PGO
         public Visibility Menus_Orcamento { get; set; } = Visibility.Visible;
         bool mudou_cotacao { get; set; } = false;
         public bool Editado { get; set; } = false;
-        public DLM.orc.OrcamentoObra Obra { get; set; } = new DLM.orc.OrcamentoObra();
+        public DLM.orc.PGO_Obra Obra { get; set; } = new DLM.orc.PGO_Obra();
         public NovaObra()
         {
             InitializeComponent();
@@ -55,7 +55,7 @@ namespace PGO
             }
         }
 
-        public NovaObra(DLM.orc.OrcamentoObra Obra)
+        public NovaObra(DLM.orc.PGO_Obra Obra)
         {
             this.Obra = Obra;
             InitializeComponent();

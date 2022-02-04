@@ -17,10 +17,10 @@ namespace PGO
             this.DataContext = this;
             this.chkraiz.IsVisible = check_visivel;
         }
-        public List<OrcamentoPredio> Predios { get; set; } = new List<OrcamentoPredio>();
+        public List<PGO_Predio> Predios { get; set; } = new List<PGO_Predio>();
 
-        public OrcamentoObra Obra { get; set; } = new OrcamentoObra();
-        public Container_Obra(List<OrcamentoPredio> lista, bool check_visivel)
+        public PGO_Obra Obra { get; set; } = new PGO_Obra();
+        public Container_Obra(List<PGO_Predio> lista, bool check_visivel)
         {
             InitializeComponent();
             this.Predios = lista;

@@ -16,8 +16,8 @@ namespace PGO
     public partial class Tela_Folha_Margem : ModernWindow
     {
         public DLM.orc.Folha_Margem Margem { get; set; } = new DLM.orc.Folha_Margem();
-        public DLM.orc.OrcamentoObra Obra { get; set; } = new DLM.orc.OrcamentoObra();
-        public Tela_Folha_Margem(OrcamentoObra Ob)
+        public DLM.orc.PGO_Obra Obra { get; set; } = new DLM.orc.PGO_Obra();
+        public Tela_Folha_Margem(PGO_Obra Ob)
         {
             if (Ob.Nacional)
             {
@@ -40,7 +40,7 @@ namespace PGO
             this.DataContext = this;
         }
 
-        private void GetMargemHTML(OrcamentoObra Ob)
+        private void GetMargemHTML(PGO_Obra Ob)
         {
 
             string raiz = System.Windows.Forms.Application.StartupPath;
