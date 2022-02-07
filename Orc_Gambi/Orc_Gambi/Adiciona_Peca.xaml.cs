@@ -135,7 +135,7 @@ namespace PGO
                 this.Selecao.Peca.Tipo = INI.Get(Global.ArqASetupUser, "ORCLT", "TIPO", "0");
                 if (this.Selecao.Peca.Ficha == "")
                 {
-                    this.Selecao.Peca.Ficha = "SEM PINTURA";
+                    this.Selecao.Peca.Ficha = DLM.vars.rm.SEM_PINTURA;
                 }
                 if (this.Selecao.Peca.Quantidade == 0)
                 {

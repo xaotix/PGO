@@ -300,7 +300,7 @@ namespace PGO
                                 }
 
                                 //pula linha de marcas de almox
-                                if (marca.Contains("KIT/PIE"))
+                                if (marca.Contains(DLM.vars.rm.KIT_PIE))
                                 {
 
                                     continue;
