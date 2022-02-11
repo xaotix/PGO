@@ -47,7 +47,7 @@ namespace PGO
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             MessageBox.Show(e.ExceptionObject.ToString());
-            DBases.GetDB().Log(DateTime.Now.ToString() + "=========================>" + e.ExceptionObject.ToString(), Conexoes.Utilz.RaizAppData() + @"\SIE.log");
+            DBases.GetDB().Log(DateTime.Now.ToString() + "=========================>" + e.ExceptionObject.ToString(), Cfg.Init.Raiz_AppData+ @"\SIE.log");
             return;
         }
 
