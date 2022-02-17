@@ -323,7 +323,7 @@ namespace PGO
 
         private void exportar_excel(object sender, RoutedEventArgs e)
         {
-            ExplorerPLM.Utilidades.Exportar(lista);
+            lista.Exportar();
 
         }
 

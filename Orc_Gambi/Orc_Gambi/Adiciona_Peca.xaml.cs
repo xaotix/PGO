@@ -175,7 +175,7 @@ namespace PGO
             set
             {
                 _Peca = value;
-                NotifyPropertyChanged("Peca");
+                NotifyPropertyChanged();
             }
         }
         public Produto Produto
@@ -187,7 +187,7 @@ namespace PGO
             set
             {
                 _Produto = value;
-                NotifyPropertyChanged("Produto");
+                NotifyPropertyChanged();
             }
         }
         public List<string> Tratamentos { get; set; } = new List<string>();
