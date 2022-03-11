@@ -1,4 +1,5 @@
-﻿using DLM.orc;
+﻿using Conexoes;
+using DLM.orc;
 using DLM.vars;
 using FirstFloor.ModernUI.Windows.Controls;
 using System;
@@ -312,8 +313,7 @@ namespace PGO
                 return;
             }
 
-            bool confirmado = false;
-            Conexoes.Utilz.Propriedades(tt, out confirmado);
+            bool confirmado = tt.Propriedades();
             if (confirmado)
             {
                 Salvar(tt);

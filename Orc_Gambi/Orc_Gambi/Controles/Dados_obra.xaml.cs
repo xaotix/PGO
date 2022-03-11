@@ -49,8 +49,7 @@ namespace PGO.Controles
             {
                 foreach (var s in sel)
                 {
-                    bool confirmado = false;
-                    Utilz.Propriedades(s,out confirmado);
+                    bool confirmado = s.Propriedades();
                     if (!confirmado) { return; }
                     if (s.Codigo != "" && s.Tipo.descricao != "")
                     {

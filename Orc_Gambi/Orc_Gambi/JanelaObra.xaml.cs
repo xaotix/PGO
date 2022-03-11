@@ -618,17 +618,15 @@ namespace PGO
                 Update();
             }
         }
-        public bool novopredio(PGO_Predio s)
+        public bool novopredio(PGO_Predio nPredio)
         {
 
         retentar:
-            bool status = false;
-            Conexoes.Utilz.Propriedades(s, out status);
-            if(!status)
+            if(!nPredio.Propriedades())
             {
                 return false;
             }
-            if (this.Obra.GetPredios().ToList().Find(x => x.nome == s.nome) != null)
+            if (this.Obra.GetPredios().ToList().Find(x => x.nome == nPredio.nome) != null)
             {
                 if (Conexoes.Utilz.Pergunta(("Já existe um prédio com esse nome. Tentar novamente?")))
                 {
@@ -639,7 +637,7 @@ namespace PGO
                     return false;
                 }
             }
-            if (s.nome == "")
+            if (nPredio.nome == "")
             {
                 if (Conexoes.Utilz.Pergunta(("Campo nome não pode estar em branco. Tentar novamente?")))
                 {
@@ -650,7 +648,7 @@ namespace PGO
                     return false;
                 }
             }
-            if (s.numero == "")
+            if (nPredio.numero == "")
             {
                 if (Conexoes.Utilz.Pergunta(("Campo número não pode estar em branco. Tentar novamente?")))
                 {
@@ -661,7 +659,7 @@ namespace PGO
                     return false;
                 }
             }
-            if (Utilz.Int(s.numero) == 0)
+            if (Utilz.Int(nPredio.numero) == 0)
             {
                 if (Conexoes.Utilz.Pergunta(("Campo número com valor inválido. Tentar novamente?")))
                 {
@@ -672,7 +670,7 @@ namespace PGO
                     return false;
                 }
             }
-            if (this.Obra.GetPredios().ToList().Find(x => x.numero == s.numero) != null)
+            if (this.Obra.GetPredios().ToList().Find(x => x.numero == nPredio.numero) != null)
             {
                 if (Conexoes.Utilz.Pergunta(("Já existe um prédio com esse número. Tentar novamente?")))
                 {
@@ -683,9 +681,9 @@ namespace PGO
                     return false;
                 }
             }
-            if (Utilz.Pergunta("Criar o Prédio " + s.ToString() + " ?"))
+            if (Utilz.Pergunta("Criar o Prédio " + nPredio.ToString() + " ?"))
             {
-                s.Salvar();
+                nPredio.Salvar();
                 return true;
             }
             else
