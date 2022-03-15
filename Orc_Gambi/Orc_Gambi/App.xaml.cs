@@ -30,7 +30,7 @@ namespace PGO
             {
                 ResourceManager = PGO.GridTraducao.ResourceManager
             };
-            DBases.Criterio = Acessos_Criterio.Orcamento;
+            DBases.Criterio = Acessos_Criterio.ORC;
             if (!Utilz.DecimalOk())
             {
                 Conexoes.Utilz.Alerta("Sistema regional de casas decimais configurado incorretamente. Favor ajustar antes de utilizar a ferramenta.", "", MessageBoxImage.Error);

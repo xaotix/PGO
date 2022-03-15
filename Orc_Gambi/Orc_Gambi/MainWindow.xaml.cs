@@ -572,7 +572,6 @@ namespace PGO
             {
                 Conexoes.Utilz.Alerta(ex);
             }
-
         }
         private void abre_team_viewer(object sender, RoutedEventArgs e)
         {

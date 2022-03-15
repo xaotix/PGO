@@ -1391,7 +1391,7 @@ namespace PGO
             {
 
                 var p = ObjetoArvore as OrcamentoGrupo;
-                var rm = ExplorerPLM.Utilidades.CriaRetornaSAP(Acessos_Criterio.Orcamento, "TINTA");
+                var rm = ExplorerPLM.Utilidades.CriaRetornaSAP(Acessos_Criterio.ORC, "TINTA");
                 if (rm == null) { return; }
                 double peso_total = 0;
                 double quantidade = 0;

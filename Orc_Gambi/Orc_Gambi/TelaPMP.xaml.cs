@@ -150,7 +150,6 @@ namespace PGO
                 catch (Exception ex)
                 {
                     erros.Add(new Report(ob.ToString(), ex.ToString(), TipoReport.Crítico));
-
                 }
 
                 w.somaProgresso();

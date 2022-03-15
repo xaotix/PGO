@@ -491,7 +491,6 @@ namespace PGO
                 catch (Exception ex)
                 {
                     erros.Add(new Report(ex));
-
                 }
 
             }
