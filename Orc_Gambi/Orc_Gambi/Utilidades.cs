@@ -397,7 +397,7 @@ namespace PGO
             erros.AddRange(arquivos_fora.Select(z => new Report(z.Endereco, "Arquivo inválido, não contém no nome SAP - RME ou é maior que o tamanho máximo (" + max_tamanho + ") " + "Tam. arq.:(" + z.Tamanho + ")", TipoReport.Crítico)));
 
 
-            var saps_rmes = arqs.Select(x => new DLM.ep.SAPRME(x.Endereco, false)).ToList();
+            var saps_rmes = arqs.Select(x => new DLM.ep.EP_Pacote(PacoteEPTipo.SAPRME, x.Endereco, false)).ToList();
             var sub_lista = saps_rmes.Quebrar(5);
             w.SetProgresso(1, saps_rmes.Count);
             var max = 20;
@@ -438,7 +438,7 @@ namespace PGO
 
                     try
                     {
-                        Thread t = new Thread(() => s.CarregarExcel());
+                        Thread t = new Thread(() => s.GetMarcas());
                         t.Start();
                         trs.Add(t);
                         if (!t.Join(TimeSpan.FromSeconds(30)))
@@ -481,7 +481,6 @@ namespace PGO
                     if (pcs.Count > 0)
                     {
                         erros.AddRange(t.Reports);
-                        erros.AddRange(t.Input.Reports);
                     }
                     else
                     {
@@ -505,13 +504,13 @@ namespace PGO
                 erros.Add(new Report(arquivo_excel, "Arquivo não existe", TipoReport.Crítico));
                 return new List<Conexoes.Peca_PMP>();
             }
-            DLM.ep.SAPRME rme = new DLM.ep.SAPRME(arquivo_excel);
+            var rme = new DLM.ep.EP_Pacote( PacoteEPTipo.SAPRME,arquivo_excel,false,false);
 
             List<Conexoes.Peca_PMP> retorno = getPecas(rme, out erros);
 
             return retorno;
         }
-        public static List<Conexoes.Peca_PMP> getPecas(DLM.ep.SAPRME rme, out List<Report> erros)
+        public static List<Conexoes.Peca_PMP> getPecas(DLM.ep.EP_Pacote rme, out List<Report> erros)
         {
             erros = new List<Report>();
             List<Conexoes.Peca_PMP> retorno = new List<Conexoes.Peca_PMP>();
