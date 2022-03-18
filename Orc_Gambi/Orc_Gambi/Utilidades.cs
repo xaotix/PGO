@@ -541,7 +541,7 @@ namespace PGO
                     nova.pep = marca.PS_POSID;
                     nova.pep_inicial = marca.PS_POSID;
                     var TESTE = Conexoes.Utilz.PEP.SetContrato("123456", marca.PS_POSID);
-                    if (Conexoes.Utilz.NORMT.GetTipoBase(marca.NORMT) == CAM_TIPO_BASE.Almox)
+                    if (marca.NORMT.GetTipoBase()== CAM_TIPO_BASE.Almox)
                     {
                         nova.peso = marca.Posicoes.Sum(x => x.ZPP_PESOPOS);
                         nova.quantidade = marca.Posicoes.Sum(x => x.ZPP_QTDPOS);
