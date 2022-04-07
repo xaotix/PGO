@@ -390,7 +390,7 @@ namespace PGO
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
 
-            List<Conexoes.Arquivo> excels = ExplorerPLM.Utilidades.ExplorerArquivos(new Conexoes.Pasta(DLM.vars.PGOVars.GetConfig().pasta_consolidadas), "XLSX");
+            List<Conexoes.Arquivo> excels = ExplorerPLM.Utilidades.ExplorerArquivos(new Conexoes.Pasta(DLM.vars.Cfg.Init.PGO_pasta_consolidadas), "XLSX");
             if (excels.Count > 0)
             {
 

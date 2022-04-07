@@ -26,7 +26,6 @@
             <MenuItem Header="Consultas" Background="Transparent">
                 <MenuItem Header="Justin" Click="consulta_estimativo" Background="Transparent"/>
                 <MenuItem Header="Consultar Itens Padronizados..." Click="consulta_cadastos" Background="Transparent"/>
-                <MenuItem Header="Consultar Estoque" Click="consulta_estoque" Background="Transparent"/>
                 <MenuItem Header="Simular Frete" Click="mostra_menu_endereco"/>
                 <MenuItem Header="Meus Acessos" Click="meus_acessos" Background="Transparent"/>
             </MenuItem>

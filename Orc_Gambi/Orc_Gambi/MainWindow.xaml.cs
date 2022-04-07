@@ -44,7 +44,7 @@ namespace PGO
 
         private void ModernWindow_Closed(object sender, EventArgs e)
         {
-            PGOVars.GetConfig().Gravar();
+            Cfg.Init.Salvar();
             DBases.GetUserAtual().Salva_Status(false);
             Environment.Exit(0);
         }
@@ -241,10 +241,7 @@ namespace PGO
             ExplorerPLM.RM2._Principal mm = new ExplorerPLM.RM2._Principal();
             mm.Show();
         }
-        private void consulta_estoque(object sender, RoutedEventArgs e)
-        {
-            ExplorerPLM.Utilidades.getEstoque();
-        }
+ 
         private void Arquivo_Obras(object sender, RoutedEventArgs e)
         {
             if (!Utilz.Acesso(DBases.GetUserAtual().orcamento_arquivar))
@@ -469,7 +466,7 @@ namespace PGO
         {
             if (apaga_zeradas)
             {
-                Conexoes.DBases.GetDB_Orcamento().ExecutarComando($"delete from {Cfg.Init.db_orcamento}.{PGOVars.GetConfig().tabela_id_predio} where cod_obra={ob.id} and quantidade is null");
+                Conexoes.DBases.GetDB_Orcamento().ExecutarComando($"delete from {Cfg.Init.db_orcamento}.{Cfg.Init.PGO_tabela_id_predio} where cod_obra={ob.id} and quantidade is null");
                 ob.SetValor("nova", true.ToString());
                 ob.nova = true;
             }

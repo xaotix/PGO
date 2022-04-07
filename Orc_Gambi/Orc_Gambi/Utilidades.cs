@@ -85,7 +85,7 @@ namespace PGO
     {
         public static void ExportarPlanilhaCJ20N()
         {
-            List<Conexoes.Arquivo> excels = ExplorerPLM.Utilidades.ExplorerArquivos(new Conexoes.Pasta(DLM.vars.PGOVars.GetConfig().pasta_consolidadas), "XLSX");
+            List<Conexoes.Arquivo> excels = ExplorerPLM.Utilidades.ExplorerArquivos(new Conexoes.Pasta(DLM.vars.Cfg.Init.PGO_pasta_consolidadas), "XLSX");
             if (excels.Count > 0)
             {
 
@@ -259,9 +259,9 @@ namespace PGO
             int tot = 5;
 
 
-            Conexoes.ControleWait w = Conexoes.Utilz.Wait(tot, "Pesquisando " + DLM.vars.PGOVars.GetConfig().pasta_consolidadas);
+            Conexoes.ControleWait w = Conexoes.Utilz.Wait(tot, "Pesquisando " + DLM.vars.Cfg.Init.PGO_pasta_consolidadas);
             w.somaProgresso();
-            var pastas = Conexoes.Utilz.GetPastas(DLM.vars.PGOVars.GetConfig().pasta_consolidadas);
+            var pastas = Conexoes.Utilz.GetPastas(DLM.vars.Cfg.Init.PGO_pasta_consolidadas);
             w.somaProgresso("Buscando pedidos...");
 
             foreach (var s in codigos_obras)
@@ -341,9 +341,9 @@ namespace PGO
         {
             erros = new List<Report>();
             List<string> codigos_obras = codigos.Select(x => x.PedidoSAP).Distinct().ToList();
-            if (!Directory.Exists(PGOVars.GetConfig().pasta_consolidadas))
+            if (!Directory.Exists(Cfg.Init.PGO_pasta_consolidadas))
             {
-                erros.Add(new Report("Pasta não existe", DLM.vars.PGOVars.GetConfig().pasta_consolidadas, TipoReport.Crítico));
+                erros.Add(new Report("Pasta não existe", DLM.vars.Cfg.Init.PGO_pasta_consolidadas, TipoReport.Crítico));
 
                 return new List<Conexoes.Pedido_PMP>();
             }
@@ -475,7 +475,7 @@ namespace PGO
                     var pcs = PGO.Funcoes.getPecas(t, out erros_pcs).ToList().FindAll(x => x.pep.Length > 13 && x.pep.Contains(".P"));
                     pecas.AddRange(pcs);
                     peps.AddRange(pcs.Select(x => x.pep).Distinct().ToList());
-                    w.somaProgresso(t.Arquivo.ToUpper().Replace(DLM.vars.PGOVars.GetConfig().pasta_consolidadas.ToUpper(), ""));
+                    w.somaProgresso(t.Arquivo.ToUpper().Replace(DLM.vars.Cfg.Init.PGO_pasta_consolidadas.ToUpper(), ""));
                     erros.AddRange(erros_pcs);
 
                     if (pcs.Count > 0)
