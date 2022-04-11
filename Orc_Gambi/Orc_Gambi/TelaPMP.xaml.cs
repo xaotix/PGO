@@ -149,7 +149,7 @@ namespace PGO
                 }
                 catch (Exception ex)
                 {
-                    erros.Add(new Report(ob.ToString(), ex.ToString(), TipoReport.Crítico));
+                    erros.Add(new Report(ex,ob.ToString()));
                 }
 
                 w.somaProgresso();

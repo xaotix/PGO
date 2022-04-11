@@ -397,7 +397,7 @@ namespace PGO
             erros.AddRange(arquivos_fora.Select(z => new Report(z.Endereco, "Arquivo inválido, não contém no nome SAP - RME ou é maior que o tamanho máximo (" + max_tamanho + ") " + "Tam. arq.:(" + z.Tamanho + ")", TipoReport.Crítico)));
 
 
-            var saps_rmes = arqs.Select(x => new DLM.ep.EP_Pacote(PacoteEPTipo.SAPRME, x.Endereco, false)).ToList();
+            var saps_rmes = arqs.Select(x => new DLM.ep.EP_Pacote(PacoteEPTipo.SAPRME, x.Endereco, false,false)).ToList();
             var sub_lista = saps_rmes.Quebrar(5);
             w.SetProgresso(1, saps_rmes.Count);
             var max = 20;
@@ -450,7 +450,7 @@ namespace PGO
                     catch (Exception ex)
                     {
 
-                        erros.Add(new Report("Erro ao tentar ler o arquivo " + ex.Message, s.Arquivo, TipoReport.Crítico));
+                        erros.Add(new Report(ex ,$"Erro ao tentar ler o arquivo {s.Arquivo}"));
                     }
 
                 }

@@ -1186,6 +1186,7 @@ namespace PGO
                 }
                 catch (Exception ex)
                 {
+                    DLM.log.Log(ex);
                     if (Conexoes.Utilz.Pergunta("Não foi possível substituir o arquivo. Tentar novamente?\n" + ex.Message))
                     {
                         goto retentar;
