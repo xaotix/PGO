@@ -1082,7 +1082,7 @@ namespace PGO
 
             foreach (var st in s)
             {
-                this.Obra.RemEtapa(st);
+                this.Obra.Apagar(st);
             }
             UpdateAll();
         }
@@ -1395,7 +1395,7 @@ namespace PGO
             DLM.orc.PGO_Etapa sel = ((FrameworkElement)sender).DataContext as DLM.orc.PGO_Etapa;
             if (Conexoes.Utilz.Pergunta("Tem certeza que deseja apagar a etapa " + sel.ToString() + " ?"))
             {
-                this.Obra.RemEtapa(sel);
+                this.Obra.Apagar(sel);
                 UpdateAll();
             }
 
