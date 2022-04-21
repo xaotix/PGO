@@ -17,132 +17,40 @@
 
     <Window.Resources>
         <MenuItem x:Shared="False" Visibility="{Binding Menus_Orcamento}"  x:Key="menu1" Header="Informações" ToolTip="Propriedades" Name="campo_propriedades">
-            <MenuItem.Icon>
-                <Image Source="Resources/dialog-information.png" Width="16" Height="16"/>
-            </MenuItem.Icon>
-            <MenuItem  Header="Propriedades" Click="ver_props" ToolTip="Propriedades">
-                <MenuItem.Icon>
-                    <Image Source="Resources/dialog-information.png" Width="16" Height="16"/>
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem  Header="Ver Peças" Click="ver_pecas_varios" ToolTip="Ver Peças">
-                <MenuItem.Icon>
-                    <Image Source="Resources/dialog-information.png" Width="16" Height="16"/>
-                </MenuItem.Icon>
-            </MenuItem>
+            <MenuItem  Header="Propriedades" Click="ver_props" ToolTip="Propriedades"/>
+            <MenuItem  Header="Ver Peças" Click="ver_pecas_varios" ToolTip="Ver Peças"/>
         </MenuItem>
+
+
 
         <MenuItem x:Shared="False" Visibility="{Binding Menus_Editar}"  x:Key="menu2" Header="Editar">
-            <MenuItem.Icon>
-                <Image Source="Resources/document-edit3.png" Width="16" Height="16"/>
-            </MenuItem.Icon>
-            <MenuItem Header="Alterar Mercadoria Externa" Click="Editar_Mercadoria_Externa">
-                <MenuItem.Icon>
-                    <Image Source="Resources/document-edit3.png" Width="16" Height="16"/>
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem Header="Quantidade" Click="editar_quantidade" >
-                <MenuItem.Icon>
-                    <Image Source="Resources/document-edit3.png" Width="16" Height="16"/>
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem Header="Esquema de Pintura" Click="set_esquema" >
-                <MenuItem.Icon>
-                    <Image Source="Resources/pintura_32x32.png" Width="16" Height="16"/>
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem Header="Tipo de Carreta" Click="editar_carreta_multiplo" >
-                <MenuItem.Icon>
-                    <Image Source="Resources/truck-icon.png" Width="16" Height="16"/>
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem Header="Excluir" Click="excluir_ranges" >
-                <MenuItem.Icon>
-                    <Image Source="Resources/dialog-error.png" Width="16" Height="16"/>
-                </MenuItem.Icon>
-            </MenuItem>
-        </MenuItem>
-        <MenuItem  x:Shared="False"  x:Key="menu3" Header="Atualizar" Visibility="{Binding Menus_Editar}" >
-            <MenuItem.Icon>
-                <Image Source="Resources/vcs-update-required.png" Width="16" Height="16"/>
-            </MenuItem.Icon>
-            <MenuItem Header="Atualizar Custos" Click="atualizar_custos">
-                <MenuItem.Icon>
-                    <Image Source="Resources/vcs-update-required.png" Width="16" Height="16"/>
-                </MenuItem.Icon>
-            </MenuItem>
+            <MenuItem Header="Alterar Mercadoria Externa" Click="Editar_Mercadoria_Externa"/>
+            <MenuItem Header="Quantidade" Click="editar_quantidade" />
+            <MenuItem Header="Esquema de Pintura" Click="set_esquema" />
+            <MenuItem Header="Tipo de Carreta" Click="editar_carreta_multiplo" />
+            <MenuItem Header="Excluir" Click="excluir_ranges" />
 
         </MenuItem>
-        <MenuItem x:Shared="False" x:Key="menu4" Visibility="{Binding Menus_Orcamento}"  Header="Folha Margem" Click="exportar_folha_margem" Background="Transparent" ToolTip="Gerar Folha Margem">
-            <MenuItem.Icon>
-                <Image Source="Resources/cash.png" Width="16" Height="16"/>
-            </MenuItem.Icon>
+        <MenuItem  x:Shared="False"  x:Key="menu3" Header="Atualizar" Visibility="{Binding Menus_Editar}" >
+            <MenuItem Header="Atualizar Custos" Click="atualizar_custos"/>
         </MenuItem>
+        <MenuItem x:Shared="False" x:Key="menu4" Visibility="{Binding Menus_Orcamento}"  Header="Folha Margem" Click="exportar_folha_margem" Background="Transparent" ToolTip="Gerar Folha Margem"/>
+
         <MenuItem x:Shared="False" x:Key="menu5" Header="Fert" Background="Transparent" VerticalAlignment="Center">
-            <MenuItem.Icon>
-                <Image Source="Resources/view-time-schedule-edit.png" Width="16" Height="16"/>
-            </MenuItem.Icon>
-            <MenuItem Header="Alterar" Click="MenuItem_Click_3">
-                <MenuItem.Icon>
-                    <Image Source="Resources/document-edit3.png" Width="16" Height="16"/>
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem Header="Retornar para o Fert default da LT" Click="retorna_fert">
-                <MenuItem.Icon>
-                    <Image Source="Resources/document-revert.png" Width="16" Height="16"/>
-                </MenuItem.Icon>
-            </MenuItem>
+            <MenuItem Header="Alterar" Click="MenuItem_Click_3"/>
+            <MenuItem Header="Retornar para o Fert default da LT" Click="retorna_fert"/>
         </MenuItem>
         <MenuItem  x:Shared="False" x:Key="menu6" Header="Verbas" Background="Transparent">
-            <MenuItem.Icon>
-                <Image Source="Resources/document-edit3.png" Width="16" Height="16"/>
-            </MenuItem.Icon>
-            <MenuItem Header="Atribuir Código MP" Click="Atribuir_material_range" Visibility="{Binding Menus_Editar}">
-                <MenuItem.Icon>
-                    <Image Source="Resources/document-edit3.png" Width="16" Height="16"/>
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem Header="Atribuir Quantidade MP" Click="atribuir_quantidade_mp" Visibility="{Binding Menus_Editar}">
-                <MenuItem.Icon>
-                    <Image Source="Resources/document-edit3.png" Width="16" Height="16"/>
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem Header="Remover MP" Click="remover_mp" Visibility="{Binding Menus_Editar}">
-                <MenuItem.Icon>
-                    <Image Source="Resources/dialog-error.png" Width="16" Height="16"/>
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem Header="Editar Peso" Click="editar_peso_verba" Visibility="{Binding Menus_Editar}">
-                <MenuItem.Icon>
-                    <Image Source="Resources/document-edit3.png" Width="16" Height="16"/>
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem Header="Zerar Peso" Click="editar_peso_verba_zerar" Visibility="{Binding Menus_Editar}">
-                <MenuItem.Icon>
-                    <Image Source="Resources/document-edit3.png" Width="16" Height="16"/>
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem Header="Visualizar Material" Click="get_material_range">
-                <MenuItem.Icon>
-                    <Image Source="Resources/dialog-information.png" Width="16" Height="16"/>
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem Header="Setar peso baseado no Material SAP" Click="set_material_range">
-                <MenuItem.Icon>
-                    <Image Source="Resources/dialog-information.png" Width="16" Height="16"/>
-                </MenuItem.Icon>
-            </MenuItem>
+            <MenuItem Header="Atribuir Código MP" Click="Atribuir_material_range" Visibility="{Binding Menus_Editar}"/>
+            <MenuItem Header="Atribuir Quantidade MP" Click="atribuir_quantidade_mp" Visibility="{Binding Menus_Editar}"/>
+            <MenuItem Header="Remover MP" Click="remover_mp" Visibility="{Binding Menus_Editar}"/>
+            <MenuItem Header="Editar Peso" Click="editar_peso_verba" Visibility="{Binding Menus_Editar}"/>
+            <MenuItem Header="Zerar Peso" Click="editar_peso_verba_zerar" Visibility="{Binding Menus_Editar}"/>
+            <MenuItem Header="Visualizar Material" Click="get_material_range"/>
+            <MenuItem Header="Setar peso baseado no Material SAP" Click="set_material_range"/>
         </MenuItem>
-        <MenuItem  x:Shared="False" x:Key="menu7" Header="Exportar Excel" Click="exportar_excel">
-            <MenuItem.Icon>
-                <Image Source="Resources/document-export-table.png" Width="16" Height="16"/>
-            </MenuItem.Icon>
-        </MenuItem>
-        <MenuItem x:Shared="False" x:Key="menu8" Header="Atualizar Estrutura" Click="Atualizar_estrutura" >
-            <MenuItem.Icon>
-                <Image Source="Resources/view-refresh.png" Width="16" Height="16"/>
-            </MenuItem.Icon>
-        </MenuItem>
+        <MenuItem  x:Shared="False" x:Key="menu7" Header="Exportar Excel" Click="exportar_excel"/>
+        <MenuItem x:Shared="False" x:Key="menu8" Header="Atualizar Estrutura" Click="Atualizar_estrutura"/>
     </Window.Resources>
     <Grid>
         <Grid.Resources>
@@ -154,7 +62,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="400"></ColumnDefinition>
+            <ColumnDefinition MinWidth="175" Width="auto"></ColumnDefinition>
             <ColumnDefinition Width="5"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
@@ -162,99 +70,32 @@
 
         <Menu Background="Transparent" Grid.ColumnSpan="10" VerticalAlignment="Center" Name="menu_principal">
             <MenuItem Header="Arquivo" Background="Transparent">
-                <MenuItem.Icon>
-                    <Image Source="Resources/list-add.png" Width="16" Height="16"/>
-                </MenuItem.Icon>
-                <MenuItem Header="Novo Prédio" Background="Transparent" Click="adicionar_predio">
-                    <MenuItem.Icon>
-                        <Image Source="Resources/circulo_16x16.png" Width="16" Height="16"/>
-                    </MenuItem.Icon>
-                </MenuItem>
+                <MenuItem Header="Novo Prédio" Background="Transparent" Click="adicionar_predio"/>
             </MenuItem>
             <MenuItem Header="Ferramentas" Background="Transparent">
-                <MenuItem.Icon>
-                    <Image Source="Resources/go-home.png" Width="16" Height="16"/>
-                </MenuItem.Icon>
                 <StaticResource ResourceKey="menu8"/>
-                
-
-                <MenuItem Header="Gerar CSV Comparativo de Atualização" Click="MenuItem_Click" Visibility="{Binding Menus_Orcamento}">
-                    <MenuItem.Icon>
-                        <Image Source="Resources/circulo_16x16.png" Width="16" Height="16"/>
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="Proposta Aberta e Folha Margem" Click="calculo_folha_margem" Visibility="{Binding Menus_Orcamento}">
-                    <MenuItem.Icon>
-                        <Image Source="Resources/circulo_16x16.png" Width="16" Height="16"/>
-                    </MenuItem.Icon>
-                </MenuItem>
-
-                <MenuItem Header="Gerar Excel para análise de custos" Click="FazerAnaliseClick" Visibility="{Binding Menus_Orcamento}">
-                    <MenuItem.Icon>
-                        <Image Source="Resources/circulo_16x16.png" Width="16" Height="16"/>
-                    </MenuItem.Icon>
-                </MenuItem>
-                <Separator>
-
-                </Separator>
-
-                <MenuItem Header="Proposta Consolidada" Click="gerar_materiais_manual">
-                    <MenuItem.Icon>
-                        <Image Source="Resources/circulo_16x16.png" Width="16" Height="16"/>
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="Frete" Click="calculo_frete">
-                    <MenuItem.Icon>
-                        <Image Source="Resources/circulo_16x16.png" Width="16" Height="16"/>
-                    </MenuItem.Icon>
-                </MenuItem>
-                <Separator></Separator>
-                <MenuItem Header="Etapas" Click="ver_etapas" >
-                    <MenuItem.Icon>
-                        <Image Source="Resources/blockdevice.png" Width="16" Height="16"/>
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="Etapas - Listar Materiais" Click="ver_materiais_etapas">
-                    <MenuItem.Icon>
-                        <Image Source="Resources/blockdevice.png" Width="16" Height="16"/>
-                    </MenuItem.Icon>
-                </MenuItem>
-                <Separator></Separator>
-
-                <MenuItem Header="Meus Acessos" Click="ver_acessos">
-                    <MenuItem.Icon>
-                        <Image Source="Resources/circulo_16x16.png" Width="16" Height="16"/>
-                    </MenuItem.Icon>
-                </MenuItem>
-
+                <MenuItem Header="Gerar CSV Comparativo de Atualização" Click="MenuItem_Click" Visibility="{Binding Menus_Orcamento}"/>
+                <MenuItem Header="Proposta Aberta e Folha Margem" Click="calculo_folha_margem" Visibility="{Binding Menus_Orcamento}"/>
+                <MenuItem Header="Gerar Excel para análise de custos" Click="FazerAnaliseClick" Visibility="{Binding Menus_Orcamento}"/>
+                <Separator/>
+                <MenuItem Header="Proposta Consolidada" Click="gerar_materiais_manual"/>
+                <MenuItem Header="Frete" Click="calculo_frete"/>
+                <Separator/>
+                <MenuItem Header="Etapas" Click="ver_etapas" />
+                <MenuItem Header="Etapas - Listar Materiais" Click="ver_materiais_etapas"/>
+                <Separator/>
+                <MenuItem Header="Meus Acessos" Click="ver_acessos"/>
             </MenuItem>
             <MenuItem Header="Editar" Background="Transparent" VerticalAlignment="Center">
-                <MenuItem.Icon>
-                    <Image Source="Resources/document-edit3.png" Width="16" Height="16"/>
-                </MenuItem.Icon>
-                <MenuItem Header="Dados Gerais" Click="propriedades_obra">
-                    <MenuItem.Icon>
-                        <Image Source="Resources/circulo_16x16.png" Width="16" Height="16"/>
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="Dados Financeiros" Click="editar_financeiro">
-                    <MenuItem.Icon>
-                        <Image Source="Resources/circulo_16x16.png" Width="16" Height="16"/>
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="Endereço de Destino" Click="EditarRota">
-                    <MenuItem.Icon>
-                        <Image Source="Resources/circulo_16x16.png" Width="16" Height="16"/>
-                    </MenuItem.Icon>
-                </MenuItem>
+                <MenuItem Header="Dados Gerais" Click="propriedades_obra"/>
+                <MenuItem Header="Dados Financeiros" Click="editar_financeiro"/>
+                <MenuItem Header="Endereço de Destino" Click="EditarRota"/>
             </MenuItem>
 
 
         </Menu>
-        <Image Grid.Row="1" Source="Resources/Novo_Logo_2018.orc.png" HorizontalAlignment="Left">
+        <Image Grid.Row="1" Source="Resources/Novo_Logo_2018.orc.png" HorizontalAlignment="Left"/>
 
-
-        </Image>
         <!--<GridSplitter Grid.Column="1" Grid.Row="1" Grid.RowSpan="3"></GridSplitter>-->
         <Grid Grid.Row="2">
             <Grid.RowDefinitions>
@@ -263,56 +104,29 @@
             </Grid.RowDefinitions>
             <TreeView Name="Arvore" SelectedItemChanged="arvore_selecao" Grid.Row="0" Margin="5,19,5,5">
                 <TreeView.ContextMenu>
-                    <ContextMenu Visibility="{Binding Menus_Editar}">
+                    <ContextMenu Visibility="{Binding Menus_Editar}" Name="menu_arvore">
                         <StaticResource ResourceKey="menu8"/>
-
-                        <MenuItem Header="Novo Predio" Click="novo_predio" Name="Obra_Novo_Predio" Visibility="Visible">
-                            <MenuItem.Icon>
-                                <Image  Source="Resources/get-hot-new-stuff.png"  Width="16" Height="16"/>
-                            </MenuItem.Icon>
-                        </MenuItem>
+                        <MenuItem Header="Novo Predio" Click="novo_predio" Name="Obra_Novo_Predio" Visibility="Visible"/>
                         <Separator></Separator>
-                        <MenuItem Header="Editar" Click="editar_dados" Name="Predio_Editar" Visibility="Collapsed">
-                            <MenuItem.Icon>
-                                <Image  Source="Resources/document-edit3.png"  Width="16" Height="16"/>
-                            </MenuItem.Icon>
-                        </MenuItem>
-                        <MenuItem Header="Excluir" Click="excluir_predio" Visibility="Collapsed" Name="Predio_Exlcuir">
-                            <MenuItem.Icon>
-                                <Image  Source="Resources/dialog-error.png"  Width="16" Height="16"/>
-                            </MenuItem.Icon>
-                        </MenuItem>
-                        <MenuItem Header="Duplicar" Click="criar_revisao" Visibility="Collapsed" Name="Predio_Duplicar">
-                            <MenuItem.Icon>
-                                <Image  Source="Resources/object-ungroup.png"  Width="16" Height="16"/>
-                            </MenuItem.Icon>
-                        </MenuItem>
-                        <MenuItem Header="Adicionar Range" Click="adicionar_range" Visibility="Collapsed" Name="Grupo_AdicionarRange">
-                            <MenuItem.Icon>
-                                <Image  Source="Resources/list-add.png"  Width="16" Height="16"/>
-                            </MenuItem.Icon>
-                        </MenuItem>
+                        <MenuItem Header="Editar" Click="editar_dados" Name="Predio_Editar" Visibility="Collapsed"/>
+                        <MenuItem Header="Excluir" Click="excluir_predio" Visibility="Collapsed" Name="Predio_Exlcuir"/>
+                        <MenuItem Header="Duplicar" Click="duplicar_predio" Visibility="Collapsed" Name="Predio_Duplicar"/>
+                        <MenuItem Header="Adicionar Range" Click="adicionar_range" Visibility="Collapsed" Name="Grupo_AdicionarRange"/>
+
                     </ContextMenu>
                 </TreeView.ContextMenu>
             </TreeView>
-     
-            <Border BorderBrush="Black" BorderThickness="1" CornerRadius="10" Grid.Row="10" Margin="5,5,5,5" Visibility="Collapsed">
-                <Grid>
-                    <Expander  Grid.Row="10" IsExpanded="False" Name="tab_observacoes">
-                        <Expander.Header>
-                            <Button Grid.Column="4" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"  Click="editar_observacoes"  VerticalAlignment="Center" HorizontalAlignment="Left">
-                                <WrapPanel VerticalAlignment="Center">
-                                    <Label Content="Observações" Grid.Column="2" VerticalAlignment="Center" Margin="5,0,5,0"></Label>
-                                    <Image  Source="Resources/document-edit3.png" Width="16" Height="16"  ToolTip="Editar"/>
-                                </WrapPanel>
-                            </Button>
-                        </Expander.Header>
-                    </Expander>
-                </Grid>
-            </Border>
         </Grid>
             <TabControl Margin="5"  Grid.Column="2" Grid.RowSpan="3">
-                <TabItem Header="Ranges">
+                <TabItem>
+                <TabItem.Header>
+                    <WrapPanel>
+                        <Label Content="Ranges ["></Label>
+                        <Label Content="{Binding ElementName=lista, Path=Items.Count}"></Label>
+                        <Label Content="x]"></Label>
+                    </WrapPanel>
+
+                </TabItem.Header>
                     <Grid Grid.Column="2" Grid.RowSpan="3" Grid.Row="1">
                         <Grid.Background>
                             <ImageBrush ImageSource="Resources/logo.png" Opacity="0.17" Stretch="Uniform"/>
@@ -467,7 +281,7 @@
                                 
                                 
                                 <DataGrid.ContextMenu>
-                                    <ContextMenu >
+                                    <ContextMenu Name="menu_lista">
                                         <StaticResource ResourceKey="menu1"/>
                                         <StaticResource ResourceKey="menu2"/>
                                         <StaticResource ResourceKey="menu3"/>

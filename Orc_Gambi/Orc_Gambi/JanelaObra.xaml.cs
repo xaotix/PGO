@@ -38,6 +38,8 @@ namespace PGO
 
             Conexoes.Utilz.SetIcones(this.menu_principal);
             Conexoes.Utilz.SetIcones(this.menu_ranges);
+            Conexoes.Utilz.SetIcones(this.menu_arvore);
+            Conexoes.Utilz.SetIcones(this.menu_lista);
 
 
             if (this.Obra.Bloqueado)
@@ -61,11 +63,6 @@ namespace PGO
             }
             this.DataContext = this;
 
-            if (this.Obra.observacoes.Length > 0)
-            {
-                this.tab_observacoes.IsExpanded = true;
-            }
-            // Input.FontFamily = new FontFamily("Times New Roman");
             Input.FontSize = 11;
         }
 
@@ -573,7 +570,7 @@ namespace PGO
             p.Salvar();
         }
 
-        private void criar_revisao(object sender, RoutedEventArgs e)
+        private void duplicar_predio(object sender, RoutedEventArgs e)
         {
             if (Obra.Bloqueado)
             {
@@ -581,24 +578,23 @@ namespace PGO
                 return;
             }
             if (ObjetoArvore is PGO_Predio == false) { return; }
-            var p = ObjetoArvore as PGO_Predio;
+            var copiar_de = ObjetoArvore as PGO_Predio;
 
 
 
-            PGO_Predio s = new PGO_Predio(p);
-            s.id_obra = p.id_obra;
-            s.numero = (this.Obra.GetPredios().Count + 1).ToString().PadLeft(3, '0');
+            PGO_Predio novo_predio = new PGO_Predio(copiar_de, Obra);
+            novo_predio.numero = (this.Obra.GetPredios().Count + 1).ToString().PadLeft(3, '0');
 
-            if (!novopredio(s))
+            if (!Criar_Predio(novo_predio))
             {
                 return;
             }
 
 
-            if (s.id > 0)
+            if (novo_predio.id > 0)
             {
-                PGOVars.GetDbOrc().CopiarRanges(p, s);
-                s.GetLocais(new List<Range>());
+                PGOVars.GetDbOrc().CopiarRanges(copiar_de, novo_predio);
+                novo_predio.GetLocais(new List<Range>());
                 this.Obra.GetRanges();
                 GetArvore();
             }
@@ -618,7 +614,7 @@ namespace PGO
                 Update();
             }
         }
-        public bool novopredio(PGO_Predio nPredio)
+        public bool Criar_Predio(PGO_Predio nPredio)
         {
 
         retentar:
@@ -704,19 +700,19 @@ namespace PGO
                 Conexoes.Utilz.Alerta("Obra está bloqueada para edições", "Obra Bloqueada", MessageBoxImage.Error);
                 return;
             }
-            PGO_Predio p = new PGO_Predio(this.Obra, "", "");
-            p.numero = (this.Obra.GetPredios().Count + 1).ToString().PadLeft(3, '0');
-            p.nome = this.Obra.GetPredios().Count == 0 ? "PRINCIPAL" : ("ANEXO " + this.Obra.GetPredios().Count.ToString().PadLeft(2, '0'));
-            if (novopredio(p))
+            PGO_Predio copiar_para = new PGO_Predio(this.Obra, "", "");
+            copiar_para.numero = (this.Obra.GetPredios().Count + 1).ToString().PadLeft(3, '0');
+            copiar_para.nome = this.Obra.GetPredios().Count == 0 ? "PRINCIPAL" : ("ANEXO " + this.Obra.GetPredios().Count.ToString().PadLeft(2, '0'));
+            if (Criar_Predio(copiar_para))
             {
-                if (this.Obra.GetPredios().ToList().FindAll(X => X.id != p.id).Count > 0)
+                if (this.Obra.GetPredios().ToList().FindAll(X => X.id != copiar_para.id).Count > 0)
                 {
                     if (Utilz.Pergunta("Deseja copiar os Locais de outro prédio?"))
                     {
-                        var sel = Conexoes.Utilz.Selecao.SelecionarObjeto(this.Obra.GetPredios().ToList(), null) as PGO_Predio;
-                        if (sel != null)
+                        var copiar_de = Conexoes.Utilz.Selecao.SelecionarObjeto(this.Obra.GetPredios().ToList(), null) as PGO_Predio;
+                        if (copiar_de != null)
                         {
-                            PGOVars.GetDbOrc().CopiarRanges(sel, p);
+                            PGOVars.GetDbOrc().CopiarRanges(copiar_de, copiar_para);
                             this.Obra.GetRanges();
                             GetArvore();
                             return;

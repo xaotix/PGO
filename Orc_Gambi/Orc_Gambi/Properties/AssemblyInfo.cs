@@ -10,7 +10,7 @@ using System.Windows.Media;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Medabil")]
 [assembly: AssemblyProduct("PGO")]
-[assembly: AssemblyCopyright("Daniel Lins Maciel ©  2021")]
+[assembly: AssemblyCopyright("Daniel Lins Maciel ©  2022")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -36,5 +36,5 @@ using System.Windows.Media;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.80")]
-[assembly: AssemblyFileVersion("1.0.0.80")]
+[assembly: AssemblyVersion("1.0.0.81")]
+[assembly: AssemblyFileVersion("1.0.0.81")]

@@ -33,7 +33,9 @@
             <SolidColorBrush x:Key="BackSob" Color="Cyan" Opacity="0.3"/>
             <SolidColorBrush x:Key="Back" Color="Transparent"/>
             <SolidColorBrush x:Key="BackTXT" Color="White"/>
-            <SolidColorBrush x:Key="BackTxtSel" Color="Yellow" Opacity="0.5"/>
+            <SolidColorBrush x:Key="BackTxtBlock" Color="LightGray"/>
+
+            <SolidColorBrush x:Key="BackTxtSel" Color="Yellow"/>
             <SolidColorBrush x:Key="ContornoSelecionado" Color="LightSkyBlue"/>
 
             <Style TargetType="TabItem" BasedOn="{StaticResource {x:Type TabItem}}">
@@ -105,6 +107,7 @@
                 <Setter Property="Margin" Value="3"></Setter>
                 <Setter Property="Padding" Value="5"></Setter>
             </Style>
+            
             <Style TargetType="TextBox">
                 <Setter Property="Background" Value="{StaticResource Back}"/>
                 <Setter Property="BorderBrush" Value="{StaticResource Contorno2}"></Setter>
@@ -117,18 +120,20 @@
                 <Setter Property="CharacterCasing" Value="Upper"/>
 
                 <Style.Triggers>
-                    <Trigger Property="IsFocused" Value="True">
-                        <Setter Property="Background" Value="{StaticResource BackTxtSel}"/>
-                    </Trigger>
                     <Trigger Property="IsReadOnly" Value="False">
                         <Setter Property="Background" Value="{StaticResource BackTXT}"/>
                     </Trigger>
+                    <Trigger Property="IsFocused" Value="False">
+                        <Setter Property="Background" Value="{StaticResource BackTXT}"/>
+                    </Trigger>
+                    <Trigger Property="IsFocused" Value="True">
+                        <Setter Property="Background" Value="{StaticResource BackTxtSel}"/>
+                    </Trigger>
                     <Trigger Property="IsReadOnly" Value="True">
-                        <Setter Property="Background" >
-                            <Setter.Value>
-                                <SolidColorBrush Color="LightGray" Opacity="0.5"></SolidColorBrush>
-                            </Setter.Value>
-                        </Setter>
+                        <Setter Property="Background" Value="{StaticResource BackTxtBlock}"/>
+                    </Trigger>
+                    <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Background" Value="{StaticResource BackTxtBlock}"/>
                     </Trigger>
                 </Style.Triggers>
             </Style>

@@ -33,7 +33,6 @@ namespace PGO
             if (!DBases.GetUserAtual().orcamento_ver_obras)
             {
                 Menus_Orcamento = Visibility.Collapsed;
-                //this.Title = this.Title + " (Somente SEC)";
             }
 
             Conexoes.Utilz.SetIcones(this.menu_principal);
@@ -50,7 +49,6 @@ namespace PGO
         }
         private void Fecha(object sender, EventArgs e)
         {
-            
             this.Show();
         }
         public List<PGO_Obra> Obras { get; set; } = new List<PGO_Obra>();
@@ -69,12 +67,9 @@ namespace PGO
 
             this.Servidor.Content = "[" + this.Obras.Count + " Obras /" + this.Obras.Sum(x => x.Revisoes.Count) + " Revisões] - ";
             this.Title = $"PGO" +
-                $"{(Cfg.Init.Nova_Folha_Margem ? " [Novo Cálculo Folha Margem]" : "")}" +
-                $" - [{Global.UsuarioAtual}] - " +
-                $"[{System.Windows.Forms.Application.ProductName} - " +
+                $"{(Cfg.Init.Nova_Folha_Margem ? "" : "Sem Novo Cálculo Folha Margem")}" +
                 $"v {System.Windows.Forms.Application.ProductVersion}" +
-                $" - Obras.: [{DLM.vars.Cfg.Init.MySQL_Servidor_Orcamento}] - " +
-                $"Padr.: [{DLM.vars.Cfg.Init.MySQL_Servidor}]";
+                $"Dbase: [{DLM.vars.Cfg.Init.MySQL_Servidor}]";
 
             Funcoes_Mapa.Localizacoes = new Localizacoes(System.Windows.Forms.Application.StartupPath + @"\Locais.setup");
 
@@ -167,6 +162,8 @@ namespace PGO
             Abertas.Add(ob);
             mm.Closed += FecharObra;
             mm.Show();
+            mm.Focus();
+            this.Visibility = Visibility.Collapsed;
         }
         private void EditarRota(PGO_Obra ob)
         {
@@ -466,7 +463,7 @@ namespace PGO
         {
             if (apaga_zeradas)
             {
-                Conexoes.DBases.GetDB_Orcamento().Consulta($"delete from {Cfg.Init.db_orcamento}.{Cfg.Init.PGO_tabela_id_predio} where cod_obra={ob.id} and quantidade is null");
+                Conexoes.DBases.GetDB_Orcamento().Comando($"DELETE FROM {Cfg.Init.db_orcamento}.{Cfg.Init.PGO_tabela_id_predio} where cod_obra={ob.id} and quantidade is null");
                 ob.SetValor("nova", true.ToString());
                 ob.nova = true;
             }
