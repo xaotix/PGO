@@ -70,6 +70,7 @@
             </MenuItem>
             <MenuItem Header="Ajuda" Background="Transparent">
                 <MenuItem Header="Suporte Remoto" Background="Transparent" Click="abre_team_viewer"/>
+                <MenuItem Header="Ver Logs" Background="Transparent" Click="ver_logs"/>
             </MenuItem>
         </Menu>
         <Image Source="Resources/positivo.png" HorizontalAlignment="Left" Grid.Row="1" Margin="10,10,10,10" Visibility="Hidden"></Image>
@@ -95,9 +96,27 @@
             <Grid Grid.Column="0" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="25"/>
+                    <RowDefinition Height="25"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <TextBox Name="Filtrar" TextChanged="Filtrar_TextChanged" Text="Pesquisar..."/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Name="Filtrar" TextChanged="Filtrar_TextChanged" Text="Pesquisar..."/>
+                    <WrapPanel Grid.Column="1" VerticalAlignment="Center">
+                        <RadioButton Margin="3" Name="ch_tudo" Content="Tudo" IsChecked="True" Checked="filtrar_obras" Unchecked="filtrar_obras"/>
+                        <RadioButton Margin="3" Name="ch_orc" Content="Orçamentos" Checked="filtrar_obras" Unchecked="filtrar_obras"/>
+                        <RadioButton Margin="3" Name="ch_ext" Content="Extras" Checked="filtrar_obras" Unchecked="filtrar_obras"/>
+                        <RadioButton Margin="3" Name="ch_meu" Content="Meus Itens" Checked="filtrar_obras" Unchecked="filtrar_obras"/>
+                    </WrapPanel>
+                </Grid>
+                <WrapPanel Grid.Row="1" VerticalAlignment="Center">
+                    <Label Content="Obras ["/>
+                    <Label Content="{Binding ElementName=lista, Path=Items.Count}"/>
+                    <Label Content="x]"/>
+                </WrapPanel>
                 <DataGrid 
                     Grid.Row="10" 
                     HeadersVisibility="All" 
@@ -116,7 +135,7 @@
                     </DataGrid.Background>
                     <DataGrid.Columns>
                             <DataGridTextColumn  Header="Contr."          Binding="{Binding Contrato}" MinWidth="100"/>
-                            <DataGridTextColumn  Header="Rev."         Binding="{Binding Revisoes.Count}" MinWidth="25" MaxWidth="25"/>
+                            <DataGridTextColumn  Header="R."         Binding="{Binding Revisoes.Count}" MinWidth="35" MaxWidth="35"/>
                             <DataGridTextColumn  Header="Nome"     Binding="{Binding Nome}" Width="*" MinWidth="250"/>
                             <DataGridTextColumn  Header="Orçamentista"         Binding="{Binding Orcamentista}" MinWidth="150" MaxWidth="150"/>
                             <DataGridTextColumn  Header="Comercial"          Binding="{Binding Comercial}" MinWidth="150"/>
@@ -133,7 +152,6 @@
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
                                         <Image Margin="3" Grid.Column="0"  Source="Resources/localizacao.png" Width="16" Height="16" />
-
                                             <Label Margin="3" Grid.Column="1" Content="{Binding Lugar}"/>
                                         </Grid>
                                     </Button>
@@ -256,8 +274,7 @@
             </Grid>
         </Grid>
         <WrapPanel Grid.Row="3"  VerticalAlignment="Center" HorizontalAlignment="Right" Margin="20,3,20,0">
-            <Label Content="₢ Medabil - Todos os direitos reservados - 2018/2022 - Inovação" HorizontalAlignment="Left"  Margin="5,0,5,0"></Label>
-            <Label Name="Servidor"  Margin="5,0,5,0"></Label>
+            <Label Content="₢ Medabil - Todos os direitos reservados - 2018/2022 - Inovação" HorizontalAlignment="Left"  Margin="5,0,5,0"/>
         </WrapPanel>
     </Grid>
 </mui:ModernWindow>

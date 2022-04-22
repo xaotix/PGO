@@ -177,6 +177,7 @@
                                 
                                 >
                                 <DataGrid.Columns>
+                                    <DataGridTextColumn   IsReadOnly="True" Width="auto" Header="Prédio" Binding="{Binding Predio}"/>
                                     <DataGridTextColumn   IsReadOnly="True" Width="auto" Header="Mercadoria" Binding="{Binding Grupo_de_Mercadoria}"/>
 
                                     <DataGridTemplateColumn IsReadOnly="True" Header="Mercadoria Externa" MinWidth="330"  Width="*">
@@ -336,7 +337,7 @@
                                     </Grid.RowDefinitions>
                                     <DataGrid BorderThickness="0" Height="200" Name="Lista_Ranges_Padrao" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" Background="Transparent" MaxHeight="200">
                                         <DataGrid.Columns>
-                                        <DataGridTextColumn   IsReadOnly="True" Width="auto" Header="Mercadoria" Binding="{Binding Grupo_De_Mercadoria.descricao}"/>
+                                             <DataGridTextColumn   IsReadOnly="True" Width="auto" Header="Mercadoria" Binding="{Binding Grupo_De_Mercadoria.descricao}"/>
 
                                             <DataGridTemplateColumn IsReadOnly="True" Header="Mercadoria Externa"  Width="*">
                                                 <DataGridTemplateColumn.CellTemplate>

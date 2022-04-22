@@ -61,7 +61,7 @@ namespace PGO
             string destino = Conexoes.Utilz.SalvarArquivo("sql");
             if (destino != "")
             {
-                Conexoes.DBases.GetDB_Orcamento().Backup(destino, DLM.vars.Cfg.Init.db_orcamento, new List<string> { Cfg.Init.PGO_tabela_id_produtos });
+                Conexoes.DBases.GetDB_Orcamento().Backup(destino, DLM.vars.Cfg.Init.db_orcamento, new List<string> { Cfg.Init.tb_id_produtos });
                 Conexoes.Utilz.Alerta("Backup realizado!");
             }
         }

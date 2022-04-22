@@ -72,35 +72,35 @@ namespace PGO
             var raiz = Conexoes.Utilz.Forms.AddTreeview(this.Obra.Contrato, this.Obra);
             raiz.SetBinding(TreeViewItem.ToolTipProperty, Utilz.GetBinding("ToolTip", raiz.Tag));
 
-            foreach (var p1 in this.Obra.GetPredios(true))
+            foreach (var predio in this.Obra.GetPredios(true))
             {
 
 
-                string nomepredio = p1.numero + " - " + p1.nome + " [" + p1.Area_Predio.ToString() + " m²]";
-                var t1 = Conexoes.Utilz.Forms.AddTreeview(nomepredio, nomepredio, p1.Imagem, p1, "");
-                t1.ItemsSource = null;
-                t1.SetBinding(TreeViewItem.ToolTipProperty, Utilz.GetBinding("ToolTip", t1.Tag));
-                foreach (var p2 in p1.Locais)
+                string nomepredio = predio.numero + " - " + predio.nome + " [" + predio.Area_Predio.ToString() + " m²]";
+                var treeview_item = Conexoes.Utilz.Forms.AddTreeview(nomepredio, nomepredio, predio.Imagem, predio, "");
+                treeview_item.ItemsSource = null;
+                treeview_item.SetBinding(TreeViewItem.ToolTipProperty, Utilz.GetBinding("ToolTip", treeview_item.Tag));
+                foreach (var local in predio.Locais)
                 {
-                    var t2 = Conexoes.Utilz.Forms.AddTreeview(p2.ToString(), p2.nome, p2.Imagem, p2, "");
-                    t2.ItemsSource = null;
-                    t2.SetBinding(TreeViewItem.ToolTipProperty, Utilz.GetBinding("ToolTip", t2.Tag));
+                    var treeview_item2 = Conexoes.Utilz.Forms.AddTreeview(local.ToString(), local.nome, local.Imagem, local, "");
+                    treeview_item2.ItemsSource = null;
+                    treeview_item2.SetBinding(TreeViewItem.ToolTipProperty, Utilz.GetBinding("ToolTip", treeview_item2.Tag));
 
-                    t1.Items.Add(t2);
+                    treeview_item.Items.Add(treeview_item2);
 
-                    foreach (var p3 in p2.Grupos)
+                    foreach (var grupo in local.Grupos)
                     {
 
-                        var t3 = Conexoes.Utilz.Forms.AddTreeview(p3.ToString(), p3.nome, p3.Imagem, p3, "");
-                        t3.SetBinding(TreeViewItem.ToolTipProperty, Utilz.GetBinding("ToolTip", t3.Tag));
+                        var treeview_item3 = Conexoes.Utilz.Forms.AddTreeview(grupo.ToString(), grupo.nome, grupo.Imagem, grupo, "");
+                        treeview_item3.SetBinding(TreeViewItem.ToolTipProperty, Utilz.GetBinding("ToolTip", treeview_item3.Tag));
 
-                        t2.Items.Add(t3);
-                        t3.ItemsSource = null;
-                        t3.Items.Clear();
+                        treeview_item2.Items.Add(treeview_item3);
+                        treeview_item3.ItemsSource = null;
+                        treeview_item3.Items.Clear();
                     }
                 }
                 raiz.ItemsSource = null;
-                raiz.Items.Add(t1);
+                raiz.Items.Add(treeview_item);
             }
             Arvore.Items.Add(raiz);
             (Arvore.Items[0] as TreeViewItem).IsExpanded = true;
@@ -324,55 +324,6 @@ namespace PGO
 
         }
 
-        private void atribuir_codigo_esquema_pintura(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void editar_etapa(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
-        private void salva_primeira_etapa(object sender, RoutedEventArgs e)
-        {
-            //this.Obra.SetPrimeiraEtapa(Conexoes.Utilz.Int(primeira_etapa.Text));
-            //this.Lista_Ponderador.ItemsSource = null;
-            //this.Lista_Ponderador.ItemsSource = this.Obra.Ponderadores;
-        }
-
-        private void novo_ponderador(object sender, RoutedEventArgs e)
-        {
-            //double valor = Conexoes.Utilz.Double(Conexoes.Utilz.Prompt("Digite a porcentagem"), 2);
-            //if (valor > 0)
-            //{
-            //    this.Obra.Ponderadores.Add(new Ponderador((this.Obra.Ponderadores.Count + this.Obra.Primeira_Etapa).ToString().PadLeft(3, '0'), valor));
-            //    this.Obra.SetPonderadores(this.Obra.Ponderadores);
-            //    this.Lista_Ponderador.ItemsSource = null;
-            //    this.Lista_Ponderador.ItemsSource = this.Obra.Ponderadores;
-            //}
-        }
-
-        private void editar_ponderadores(object sender, RoutedEventArgs e)
-        {
-            editar_etapa();
-        }
-
-        private void remover_ponderadores(object sender, RoutedEventArgs e)
-        {
-            //List<Ponderador> pp = this.Lista_Ponderador.SelectedItems.Cast<Ponderador>().ToList();
-            //if (pp.Count > 0)
-            //{
-            //    foreach (var p in pp)
-            //    {
-            //        this.Obra.Ponderadores.Remove(p);
-            //    }
-            //    this.Obra.SetPonderadores(this.Obra.Ponderadores);
-            //    this.Lista_Ponderador.ItemsSource = null;
-            //    this.Lista_Ponderador.ItemsSource = this.Obra.Ponderadores;
-            //}
-
-        }
 
         private void ModernWindow_Loaded(object sender, RoutedEventArgs e)
         {
@@ -866,8 +817,9 @@ namespace PGO
             if (ObjetoArvore is PGO_Predio)
             {
                 var pr = ObjetoArvore as PGO_Predio;
-                Utilz.Propriedades(ObjetoArvore, true);
-                pr.Salvar();
+                if (pr.Propriedades())
+                { pr.Salvar(); }
+
                 GetArvore();
             }
         }

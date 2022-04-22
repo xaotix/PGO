@@ -38,7 +38,7 @@ namespace PGO
             Conexoes.Utilz.SetIcones(this.menu_principal);
 
 
-            Update();
+            Update(true);
         }
 
         private void ModernWindow_Closed(object sender, EventArgs e)
@@ -58,14 +58,11 @@ namespace PGO
             DBases.GetUserAtual().Salva_Status(true);
             Task.Factory.StartNew(() => Funcoes.VerificarVersao());
         }
-        private void Update()
+        private void Update(bool update)
         {
-            this.Obras = PGOVars.GetDbOrc().GetObrasOrcamento(true);
+            this.Obras = PGOVars.GetDbOrc().GetObrasOrcamento(update);
             this.lista.ItemsSource = null;
-            this.lista.ItemsSource = this.Obras.FindAll(x => x.Nome != "PADRÃO EXPORTAÇÃO" && x.Nome != "PADRÃO NACIONAL");
-            CollectionViewSource.GetDefaultView(lista.ItemsSource).Filter = FiltroFuncao;
 
-            this.Servidor.Content = "[" + this.Obras.Count + " Obras /" + this.Obras.Sum(x => x.Revisoes.Count) + " Revisões] - ";
             this.Title = $"PGO" +
                 $"{(Cfg.Init.Nova_Folha_Margem ? "" : "Sem Novo Cálculo Folha Margem")}" +
                 $"v {System.Windows.Forms.Application.ProductVersion}" +
@@ -75,6 +72,7 @@ namespace PGO
 
             this.Enderecos = Funcoes_Mapa.AgruparEmRotas(Obras, myMap);
             myMap.ZoomLevel = 3;
+            filtrar_obras();
         }
         private void FecharObra(object sender, EventArgs e)
         {
@@ -82,6 +80,7 @@ namespace PGO
             this.Visibility = Visibility.Visible;
             JanelaObra mm = (JanelaObra)sender;
             this.Abertas.Remove(mm.Obra);
+            this.Update(true);
         }
         public bool VerificarTemplate(PGO_Obra ob)
         {
@@ -144,7 +143,7 @@ namespace PGO
                             goto Abrir;
                         }
                     }
-                    else if (rota.Cidade == "")
+                    else if (rota.Lista.Count == 0)
                     {
                         if (Utilz.Pergunta("Falta calcular a rota logística. Para isso é necessário definir o endereço de destino. Deseja fazer isso agora?"))
                         {
@@ -251,7 +250,7 @@ namespace PGO
         }
         private void Mm_Closed1(object sender, EventArgs e)
         {
-            Update();
+            Update(true);
         }
         private void Cadastro_Segmentos(object sender, RoutedEventArgs e)
         {
@@ -292,7 +291,8 @@ namespace PGO
                 {
                     this.ObraSelecionada.Pai.Revisoes.Add(t);
                 }
-                this.Update();
+                this.Update(true);
+                this.Filtrar.Text = ObraSelecionada.Contrato;
             }
         }
         private void meus_acessos(object sender, RoutedEventArgs e)
@@ -388,7 +388,7 @@ namespace PGO
             {
                 VerificarTemplate(MenuNovaObra.Obra);
                 EditarRota(MenuNovaObra.Obra);
-                Update();
+                Update(true);
                 this.Filtrar.Text = MenuNovaObra.Obra.Contrato;
             }
         }
@@ -463,7 +463,7 @@ namespace PGO
         {
             if (apaga_zeradas)
             {
-                Conexoes.DBases.GetDB_Orcamento().Comando($"DELETE FROM {Cfg.Init.db_orcamento}.{Cfg.Init.PGO_tabela_id_predio} where cod_obra={ob.id} and quantidade is null");
+                Conexoes.DBases.GetDB_Orcamento().Comando($"DELETE FROM {Cfg.Init.db_orcamento}.{Cfg.Init.tb__ranges} where id_obra={ob.id} and quantidade is null");
                 ob.SetValor("nova", true.ToString());
                 ob.nova = true;
             }
@@ -498,7 +498,7 @@ namespace PGO
                     return;
                 }
                 PGOVars.GetDbOrc().Apagar(this.ObraSelecionada);
-                this.Update();
+                this.Update(true);
 
             }
         }
@@ -517,7 +517,7 @@ namespace PGO
                     return;
                 }
                 PGOVars.GetDbOrc().Arquivar(this.ObraSelecionada);
-                this.Update();
+                this.Update(true);
             }
         }
         private void editar_padroes_nacional(object sender, RoutedEventArgs e)
@@ -552,7 +552,7 @@ namespace PGO
         }
         private void Atualizar_estrutura(object sender, RoutedEventArgs e)
         {
-            Update();
+            Update(true);
 
         }
         private void consulta_estimativo(object sender, RoutedEventArgs e)
@@ -610,7 +610,7 @@ namespace PGO
                     w.somaProgresso();
                 }
                 w.Close();
-                Update();
+                Update(true);
             }
         }
         private void pmp_orcamento(object sender, RoutedEventArgs e)
@@ -690,6 +690,43 @@ namespace PGO
 
             return Conexoes.Utilz.Contem(item, Filtrar.Text);
 
+        }
+
+        private void ver_logs(object sender, RoutedEventArgs e)
+        {
+            DLM.log.PastaLog.Abrir();
+        }
+
+        private void filtrar_obras(object sender, RoutedEventArgs e)
+        {
+            filtrar_obras();
+        }
+
+        private void filtrar_obras()
+        {
+            if (ch_ext == null) { return; }
+            var obras = this.Obras.FindAll(x => x.Nome != "PADRÃO EXPORTAÇÃO" && x.Nome != "PADRÃO NACIONAL");
+            List<PGO_Obra> filtro = new List<PGO_Obra>();
+            if ((bool)ch_ext.IsChecked)
+            {
+                filtro = obras.FindAll(x => x.Tipo == Tipo_Orcamento.SEC);
+            }
+            else if ((bool)ch_meu.IsChecked)
+            {
+                filtro = obras.FindAll(x => x.Orcamentista == Global.UsuarioAtual);
+            }
+            else if ((bool)ch_orc.IsChecked)
+            {
+                filtro = obras.FindAll(x => x.Tipo == Tipo_Orcamento.Orçamento);
+            }
+            else if ((bool)ch_tudo.IsChecked)
+            {
+                filtro.AddRange(obras);
+            }
+
+            this.lista.ItemsSource = null;
+            this.lista.ItemsSource = filtro;
+            CollectionViewSource.GetDefaultView(lista.ItemsSource).Filter = FiltroFuncao;
         }
     }
 }
