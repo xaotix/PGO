@@ -463,7 +463,7 @@ namespace PGO
         {
             if (apaga_zeradas)
             {
-                Conexoes.DBases.GetDB_Orcamento().Comando($"DELETE FROM {Cfg.Init.db_orcamento}.{Cfg.Init.tb__ranges} where id_obra={ob.id} and quantidade is null");
+                DBases.GetDBPGO().Comando($"DELETE FROM {Cfg.Init.db_orcamento}.{Cfg.Init.tb__ranges} where id_obra={ob.id} and quantidade is null");
                 ob.SetValor("nova", true.ToString());
                 ob.nova = true;
             }

@@ -232,8 +232,8 @@ namespace PGO
 
             while (true == true)
             {
-                Conexoes.DBases.ResetUser();
-                Conexoes.DBases.GetUserAtual().Salva_Status(true);
+                DBases.ResetUser();
+                DBases.GetUserAtual().Salva_Status(true);
                 string versao_atual = System.Windows.Forms.Application.ProductVersion;
 
 

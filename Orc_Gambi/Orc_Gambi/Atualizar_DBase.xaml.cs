@@ -1,4 +1,5 @@
-﻿using DLM.orc;
+﻿using Conexoes;
+using DLM.orc;
 using DLM.vars;
 using FirstFloor.ModernUI.Windows.Controls;
 using System;
@@ -61,7 +62,7 @@ namespace PGO
             string destino = Conexoes.Utilz.SalvarArquivo("sql");
             if (destino != "")
             {
-                Conexoes.DBases.GetDB_Orcamento().Backup(destino, DLM.vars.Cfg.Init.db_orcamento, new List<string> { Cfg.Init.tb_id_produtos });
+                DBases.GetDBPGO().Backup(destino, DLM.vars.Cfg.Init.db_orcamento, new List<string> { Cfg.Init.tb_id_produtos });
                 Conexoes.Utilz.Alerta("Backup realizado!");
             }
         }

@@ -326,7 +326,7 @@ namespace PGO
 
                                         if (nova.Codigo != cod)
                                         {
-                                            Conexoes.Bobina bob = Conexoes.DBases.GetBancoRM().GetBobina(cod);
+                                            Bobina bob = DBases.GetBancoRM().GetBobina(cod);
                                             nova.id_materia_prima = bob.id;
                                         }
                                         corr.AddPeca(nova);
@@ -365,7 +365,7 @@ namespace PGO
                                             nova.Quantidade = qtd;
                                             nova.Tipo = "RMU";
 
-                                            Conexoes.Bobina bob = Conexoes.DBases.GetBancoRM().GetBobina(cod);
+                                            Bobina bob = DBases.GetBancoRM().GetBobina(cod);
                                             nova.id_materia_prima = bob.id;
 
 
@@ -525,7 +525,7 @@ namespace PGO
             if (nova.Codigo != cod)
             {
 
-                Conexoes.Bobina bob = Conexoes.DBases.GetBancoRM().GetBobina(cod);
+                Bobina bob = DBases.GetBancoRM().GetBobina(cod);
                 nova.id_materia_prima = bob.id;
             }
             corr.AddPeca(nova);
