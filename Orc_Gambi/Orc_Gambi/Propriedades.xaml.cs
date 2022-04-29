@@ -52,7 +52,7 @@ namespace PGO
             if (Tipo == Tipologia.Tratamento)
             {
                
-                this.Lista.ItemsSource = PGOVars.GetDbOrc().GetTratamentos(true);
+                this.Lista.ItemsSource = DBases.GetDbOrc().GetTratamentos(true);
 
                 this.Propriedadesm.ShowAdvancedOptions = false;
                 this.Propriedadesm.ShowSearchBox = false;
@@ -76,7 +76,7 @@ namespace PGO
             else if (Tipo == Tipologia.Grupo_De_Mercadoria)
             {
 
-                this.Lista.ItemsSource = PGOVars.GetDbOrc().GetGrupos_De_Mercadoria(true);
+                this.Lista.ItemsSource = DBases.GetDbOrc().GetGrupos_De_Mercadoria(true);
                 this.Propriedadesm.ShowAdvancedOptions = false;
                 this.Propriedadesm.ShowSearchBox = false;
                 this.Propriedadesm.ShowTitle = true;
@@ -88,7 +88,7 @@ namespace PGO
             else if (Tipo == Tipologia.Grupo)
             {
 
-                this.Lista.ItemsSource = PGOVars.GetDbOrc().GetGrupos(true);
+                this.Lista.ItemsSource = DBases.GetDbOrc().GetGrupos(true);
                 this.Propriedadesm.ShowAdvancedOptions = false;
                 this.Propriedadesm.ShowSearchBox = false;
                 this.Propriedadesm.ShowTitle = true;
@@ -100,7 +100,7 @@ namespace PGO
             else if (Tipo == Tipologia.Local)
             {
 
-                this.Lista.ItemsSource = PGOVars.GetDbOrc().GetLocais(true);
+                this.Lista.ItemsSource = DBases.GetDbOrc().GetLocais(true);
                 this.Propriedadesm.ShowAdvancedOptions = false;
                 this.Propriedadesm.ShowSearchBox = false;
                 this.Propriedadesm.ShowTitle = true;
@@ -112,7 +112,7 @@ namespace PGO
             else if (Tipo == Tipologia.Tipo_Pintura)
             {
 
-                this.Lista.ItemsSource = PGOVars.GetDbOrc().GetTipo_Pinturas(true);
+                this.Lista.ItemsSource = DBases.GetDbOrc().GetTipo_Pinturas(true);
                 this.Propriedadesm.ShowAdvancedOptions = false;
                 this.Propriedadesm.ShowSearchBox = false;
                 this.Propriedadesm.ShowTitle = true;
@@ -124,7 +124,7 @@ namespace PGO
             else if (Tipo == Tipologia.FERT)
             {
 
-                this.Lista.ItemsSource = PGOVars.GetDbOrc().GetDe_Para(true);
+                this.Lista.ItemsSource = DBases.GetDbOrc().GetDe_Para(true);
                 this.Propriedadesm.ShowAdvancedOptions = false;
                 this.Propriedadesm.ShowSearchBox = false;
                 this.Propriedadesm.ShowTitle = true;
@@ -136,7 +136,7 @@ namespace PGO
             else if (Tipo == Tipologia.Frente)
             {
 
-                this.Lista.ItemsSource = PGOVars.GetDbOrc().GetFrentes(true);
+                this.Lista.ItemsSource = DBases.GetDbOrc().GetFrentes(true);
                 this.Propriedadesm.ShowAdvancedOptions = false;
                 this.Propriedadesm.ShowSearchBox = false;
                 this.Propriedadesm.ShowTitle = true;
@@ -148,7 +148,7 @@ namespace PGO
             else if (Tipo == Tipologia.Produto)
             {
 
-                this.Lista.ItemsSource = PGOVars.GetDbOrc().GetProdutos_Clean();
+                this.Lista.ItemsSource = DBases.GetDbOrc().GetProdutos_Clean();
                 this.Propriedadesm.ShowAdvancedOptions = false;
                 this.Propriedadesm.ShowSearchBox = false;
                 this.Propriedadesm.ShowTitle = true;
@@ -189,7 +189,7 @@ namespace PGO
             if (Selecao is Tratamento)
             {
                 var t = Selecao as Tratamento;
-                if (t.id <= 0 && PGOVars.GetDbOrc().GetTratamentos().Find(x => x.Descricao == t.Descricao) != null)
+                if (t.id <= 0 && DBases.GetDbOrc().GetTratamentos().Find(x => x.Descricao == t.Descricao) != null)
                 {
                     Conexoes.Utilz.Alerta("Já existe um tratamento com esta descrição");
                     return;
@@ -205,7 +205,7 @@ namespace PGO
             else if (Selecao is Segmento)
             {
                 var t = Selecao as Segmento;
-                PGOVars.GetDbOrc().CadastrarAtualizar(t);
+                DBases.GetDbOrc().CadastrarAtualizar(t);
             }
             else if (Selecao is Grupo_De_Mercadoria)
             {
@@ -329,12 +329,12 @@ namespace PGO
                 if (Propriedadesm.SelectedObject is Segmento)
                 {
                     var ss = Propriedadesm.SelectedObject as Segmento;
-                    PGOVars.GetDbOrc().Apagar(ss);
+                    DBases.GetDbOrc().Apagar(ss);
                 }
                 else if (Propriedadesm.SelectedObject is Tratamento)
                 {
                     var ss = Propriedadesm.SelectedObject as Tratamento;
-                    PGOVars.GetDbOrc().Apagar(ss);
+                    DBases.GetDbOrc().Apagar(ss);
                 }
             }
         }

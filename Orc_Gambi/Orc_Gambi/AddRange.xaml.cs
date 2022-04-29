@@ -1,4 +1,5 @@
-﻿using DLM.orc;
+﻿using Conexoes;
+using DLM.orc;
 using DLM.vars;
 using System;
 using System.Linq;
@@ -23,8 +24,8 @@ namespace PGO
             this.Selecao = Selecao;
             this.Obra = Ob;
             InitializeComponent();
-            this.Tipo_Tratamento.ItemsSource = PGOVars.GetDbOrc().GetTratamentos();
-            this.Tipo_Carreta.ItemsSource = PGOVars.GetDbOrc().GetTipo_Carreta();
+            this.Tipo_Tratamento.ItemsSource = DBases.GetDbOrc().GetTratamentos();
+            this.Tipo_Carreta.ItemsSource = DBases.GetDbOrc().GetTipo_Carreta();
             Carregar_Dados();
         }
 
@@ -33,8 +34,8 @@ namespace PGO
             this.Obra = Ob;
             this.Selecao = Selecao;
             InitializeComponent();
-            this.Tipo_Tratamento.ItemsSource = PGOVars.GetDbOrc().GetTratamentos();
-            this.Tipo_Carreta.ItemsSource = PGOVars.GetDbOrc().GetTipo_Carreta();
+            this.Tipo_Tratamento.ItemsSource = DBases.GetDbOrc().GetTratamentos();
+            this.Tipo_Carreta.ItemsSource = DBases.GetDbOrc().GetTipo_Carreta();
             Carregar_Dados();
             this.Grupos_De_Mercadoria.ItemsSource = Selecao.Itens;
             this.Grupos_De_Mercadoria.SelectedItem = Item;
@@ -49,10 +50,10 @@ namespace PGO
             this.Obra = Ob;
             this.Selecao = Range.Grupo;
             InitializeComponent();
-            this.Tipo_Tratamento.ItemsSource = PGOVars.GetDbOrc().GetTratamentos();
-            this.Tipo_Carreta.ItemsSource = PGOVars.GetDbOrc().GetTipo_Carreta();
+            this.Tipo_Tratamento.ItemsSource = DBases.GetDbOrc().GetTratamentos();
+            this.Tipo_Carreta.ItemsSource = DBases.GetDbOrc().GetTipo_Carreta();
             Carregar_Dados();
-            this.Grupos_De_Mercadoria.ItemsSource = PGOVars.GetDbOrc().GetGrupos_De_Mercadoria();
+            this.Grupos_De_Mercadoria.ItemsSource = DBases.GetDbOrc().GetGrupos_De_Mercadoria();
             this.Grupos_De_Mercadoria.SelectedItem = Range.Produto.Grupo_De_Mercadoria;
 
 
@@ -92,7 +93,7 @@ namespace PGO
             this.imglocal.Source = this.Selecao.Local.Imagem;
             this.lbl_predio.Content = this.Selecao.Local.Predio.nome;
             this.img_predio.Source = this.Selecao.Local.Predio.Imagem;
-            this.Grupos_De_Mercadoria.ItemsSource = PGOVars.GetDbOrc().GetGrupos_De_Mercadoria().FindAll(x => x.descricao != "VERBA");
+            this.Grupos_De_Mercadoria.ItemsSource = DBases.GetDbOrc().GetGrupos_De_Mercadoria().FindAll(x => x.descricao != "VERBA");
             if (this.Grupos_De_Mercadoria.Items.Count > 0)
             {
                 this.Grupos_De_Mercadoria.SelectedIndex = 0;
@@ -231,7 +232,7 @@ namespace PGO
                     }
                     else
                     {
-                        this.Tipo_Tratamento.SelectedItem = PGOVars.GetDbOrc().GetTratamentos().Find(x => x.Descricao == "0");
+                        this.Tipo_Tratamento.SelectedItem = DBases.GetDbOrc().GetTratamentos().Find(x => x.Descricao == "0");
                         this.Tipo_Tratamento.IsEnabled = false;
                     }
                 }

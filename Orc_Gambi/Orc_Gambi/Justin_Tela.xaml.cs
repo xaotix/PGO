@@ -19,7 +19,7 @@ namespace PGO
         {
             InitializeComponent();
             navegador.Navigate("about:blank");
-            Dados = new DLM.orc.Consulta_Justin(DLM.vars.PGOVars.GetDbOrc().GetJustin());
+            Dados = new DLM.orc.Consulta_Justin(DBases.GetDbOrc().GetJustin());
             this.DataContext = this;
 
             //this.vao_principal.ItemsSource = Dados.Justin.vaos_principais;

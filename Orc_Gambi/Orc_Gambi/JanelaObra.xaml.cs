@@ -1,4 +1,5 @@
 ﻿using Conexoes;
+using DLM.encoder;
 using DLM.orc;
 using DLM.vars;
 using FirstFloor.ModernUI.Windows.Controls;
@@ -11,7 +12,6 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
-using DLM.encoder;
 
 namespace PGO
 {
@@ -74,8 +74,6 @@ namespace PGO
 
             foreach (var predio in this.Obra.GetPredios(true))
             {
-
-
                 string nomepredio = predio.numero + " - " + predio.nome + " [" + predio.Area_Predio.ToString() + " m²]";
                 var treeview_item = Conexoes.Utilz.Forms.AddTreeview(nomepredio, nomepredio, predio.Imagem, predio, "");
                 treeview_item.ItemsSource = null;
@@ -125,8 +123,6 @@ namespace PGO
         {
             this.Obra.Recarregar();
 
-            this.Obra.GetRanges();
-            //this.Predios.ItemsSource = Obra.Predios;
             this.Tratamentos = this.Obra.GetTratamentos();
             GetArvore();
             Atualizar_Lista();
@@ -234,7 +230,7 @@ namespace PGO
 
 
 
-        private void MenuItem_Click_3(object sender, RoutedEventArgs e)
+        private void define_fert(object sender, RoutedEventArgs e)
         {
             List<Range> Ranges = lista.SelectedItems.Cast<Range>().ToList();
             if (Ranges.Count > 0)
@@ -247,7 +243,7 @@ namespace PGO
         {
             var mts = Ranges.Select(x => x.WERK).Distinct().ToList();
 
-            var sel = Conexoes.Utilz.Selecao.SelecionarObjeto(PGOVars.GetDbOrc().GetFerts(this.Obra.GetSegmento().COD, null), null, "Selecione");
+            var sel = Conexoes.Utilz.Selecao.SelecionarObjeto(DBases.GetDbOrc().GetFerts(this.Obra.GetSegmento().COD, null), null, "Selecione");
             if (sel != null)
             {
                 Conexoes.ControleWait w = Conexoes.Utilz.Wait(Ranges.Count, "Atualizando...");
@@ -544,7 +540,7 @@ namespace PGO
 
             if (novo_predio.id > 0)
             {
-                PGOVars.GetDbOrc().CopiarRanges(copiar_de, novo_predio);
+                DBases.GetDbOrc().CopiarRanges(copiar_de, novo_predio);
                 novo_predio.GetLocais(new List<Range>());
                 this.Obra.GetRanges();
                 GetArvore();
@@ -561,7 +557,7 @@ namespace PGO
             var p = ((FrameworkElement)sender).DataContext as DLM.orc.PGO_Predio;
             if (Utilz.Pergunta("Você tem certeza que deseja apagar o prédio " + p))
             {
-                PGOVars.GetDbOrc().Apagar(p);
+                DBases.GetDbOrc().Apagar(p);
                 Update();
             }
         }
@@ -663,7 +659,7 @@ namespace PGO
                         var copiar_de = Conexoes.Utilz.Selecao.SelecionarObjeto(this.Obra.GetPredios().ToList(), null) as PGO_Predio;
                         if (copiar_de != null)
                         {
-                            PGOVars.GetDbOrc().CopiarRanges(copiar_de, copiar_para);
+                            DBases.GetDbOrc().CopiarRanges(copiar_de, copiar_para);
                             this.Obra.GetRanges();
                             GetArvore();
                             return;
@@ -721,11 +717,11 @@ namespace PGO
             this.ObjetoArvore = t;
             if (t is PGO_Obra)
             {
-                var ob = t as PGO_Obra;
+                var item = t as PGO_Obra;
                 lista.ItemsSource = null;
-                lista.ItemsSource = ob.GetRanges();
-                Imagem_Sel.Source = ob.Imagem;
-                Label_Sel.Content = ob.Contrato;
+                lista.ItemsSource = item.GetRanges();
+                Imagem_Sel.Source = item.Imagem;
+                Label_Sel.Content = item.Contrato;
 
 
             }
@@ -745,11 +741,11 @@ namespace PGO
             }
             else if (t is OrcamentoLocal)
             {
-                var ob = t as OrcamentoLocal;
+                var item = t as OrcamentoLocal;
                 lista.ItemsSource = null;
-                lista.ItemsSource = ob.Ranges;
-                Imagem_Sel.Source = ob.Imagem;
-                Label_Sel.Content = ob.Predio.Obra.Contrato + "/" + ob.Predio.ToString() + "/" + ob.ToString();
+                lista.ItemsSource = item.Ranges;
+                Imagem_Sel.Source = item.Imagem;
+                Label_Sel.Content = item.Predio.Obra.Contrato + "/" + item.Predio.ToString() + "/" + item.ToString();
 
 
             }
@@ -831,7 +827,7 @@ namespace PGO
 
             if (Utilz.Pergunta("Você tem certeza que deseja apagar o prédio " + p))
             {
-                PGOVars.GetDbOrc().Apagar(p);
+                DBases.GetDbOrc().Apagar(p);
                 GetArvore();
             }
         }
@@ -873,7 +869,7 @@ namespace PGO
             var esquema = this.Obra.GetTratamento();
             if (!Utilz.Pergunta("Atribuir o esquema padrão da obra? [" + esquema.ToString() + "]"))
             {
-                esquema = Conexoes.Utilz.Selecao.SelecionarObjeto(PGOVars.GetDbOrc().GetTratamentos(), null) as Tratamento;
+                esquema = Conexoes.Utilz.Selecao.SelecionarObjeto(DBases.GetDbOrc().GetTratamentos(), null) as Tratamento;
             }
             if (esquema != null)
             {
@@ -1009,7 +1005,7 @@ namespace PGO
             }
             DLM.orc.Range sel = ((FrameworkElement)sender).DataContext as DLM.orc.Range;
             if (sel == null) { return; }
-            var Carreta = Conexoes.Utilz.Selecao.SelecionarObjeto(PGOVars.GetDbOrc().GetTipo_Carreta(), sel.Tipo_De_Carreta) as Tipo_Carreta;
+            var Carreta = Conexoes.Utilz.Selecao.SelecionarObjeto(DBases.GetDbOrc().GetTipo_Carreta(), sel.Tipo_De_Carreta) as Tipo_Carreta;
             if (Carreta == null) { return; }
 
             sel.setCarreta_User(Carreta);
@@ -1022,7 +1018,7 @@ namespace PGO
 
             if (Ranges.Count > 0)
             {
-                var Carreta = Conexoes.Utilz.Selecao.SelecionarObjeto(PGOVars.GetDbOrc().GetTipo_Carreta(), null) as Tipo_Carreta;
+                var Carreta = Conexoes.Utilz.Selecao.SelecionarObjeto(DBases.GetDbOrc().GetTipo_Carreta(), null) as Tipo_Carreta;
                 if (Carreta == null) { return; }
 
                 foreach (var r in Ranges)
@@ -1045,7 +1041,7 @@ namespace PGO
             var esquema = this.Obra.GetTratamento();
             if (!Utilz.Pergunta("Atribuir o esquema padrão da obra? [" + esquema.ToString() + "]"))
             {
-                esquema = Conexoes.Utilz.Selecao.SelecionarObjeto(PGOVars.GetDbOrc().GetTratamentos(), null) as Tratamento;
+                esquema = Conexoes.Utilz.Selecao.SelecionarObjeto(DBases.GetDbOrc().GetTratamentos(), null) as Tratamento;
             }
             if (esquema != null)
             {

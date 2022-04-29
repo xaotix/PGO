@@ -17,7 +17,7 @@ namespace PGO
         public Gestao_Arvore()
         {
             InitializeComponent();
-            Templates = PGOVars.GetDbOrc().GetTemplates(true);
+            Templates = DBases.GetDbOrc().GetTemplates(true);
             if (Templates.Count > 0)
             {
                 this.Templates_Selecao.ItemsSource = Templates;
@@ -107,7 +107,7 @@ namespace PGO
             {
                 if (Utilz.Pergunta("Tem certeza que deseja remover o item " + sel + " ?"))
                 {
-                    PGOVars.GetDbOrc().Apagar(sel);
+                    DBases.GetDbOrc().Apagar(sel);
                     UpdateAll();
                 }
             }
@@ -175,7 +175,7 @@ namespace PGO
                 {
                     foreach (var t in sel.Itens)
                     {
-                        PGOVars.GetDbOrc().Apagar(t);
+                        DBases.GetDbOrc().Apagar(t);
                     }
                     UpdateAll();
                 }
@@ -192,7 +192,7 @@ namespace PGO
                 {
                     foreach (var t in sel.Grupos.SelectMany(x => x.Itens))
                     {
-                        PGOVars.GetDbOrc().Apagar(t);
+                        DBases.GetDbOrc().Apagar(t);
                     }
                     UpdateAll();
                 }
@@ -201,7 +201,7 @@ namespace PGO
 
         private void adicionar_local(object sender, RoutedEventArgs e)
         {
-            var ls = PGOVars.GetDbOrc().GetLocais().FindAll(x => Locais.Find(y => y.id == x.id) == null);
+            var ls = DBases.GetDbOrc().GetLocais().FindAll(x => Locais.Find(y => y.id == x.id) == null);
             if (ls.Count == 0) { Conexoes.Utilz.Alerta("Já foram adicionados todos os locais cadastrados."); return; }
             var sel = Conexoes.Utilz.Selecao.SelecionarObjeto(ls, null) as OrcamentoLocal;
             if (sel != null)
@@ -274,7 +274,7 @@ namespace PGO
             if (sel != null)
             {
 
-                var grp = Conexoes.Utilz.Selecao.SelecionarObjeto(PGOVars.GetDbOrc().GetGrupos_De_Mercadoria().FindAll(x => x.id != sel.Grupo_De_Mercadoria.id), null) as Grupo_De_Mercadoria;
+                var grp = Conexoes.Utilz.Selecao.SelecionarObjeto(DBases.GetDbOrc().GetGrupos_De_Mercadoria().FindAll(x => x.id != sel.Grupo_De_Mercadoria.id), null) as Grupo_De_Mercadoria;
                 if (grp != null)
                 {
                     var prod_padrao = Conexoes.Utilz.Selecao.SelecionarObjeto(grp.Produtos.FindAll(x => x.ativo), null) as Produto;
@@ -324,7 +324,7 @@ namespace PGO
             {
                 if (Utilz.Pergunta("Quer copiar os itens de outro template para ele?"))
                 {
-                    var sel = Conexoes.Utilz.Selecao.SelecionarObjeto(PGOVars.GetDbOrc().GetTemplates(), null) as Template;
+                    var sel = Conexoes.Utilz.Selecao.SelecionarObjeto(DBases.GetDbOrc().GetTemplates(), null) as Template;
                     if (sel != null)
                     {
                         pp.Clonar(sel);
@@ -340,7 +340,7 @@ namespace PGO
         private void UpdateArvore()
         {
             this.Templates_Selecao.ItemsSource = null;
-            this.Templates_Selecao.ItemsSource = PGOVars.GetDbOrc().GetTemplates(true);
+            this.Templates_Selecao.ItemsSource = DBases.GetDbOrc().GetTemplates(true);
             if (this.Templates_Selecao.Items.Count > 0)
             {
                 this.Templates_Selecao.SelectedIndex = this.Templates_Selecao.Items.Count - 1;

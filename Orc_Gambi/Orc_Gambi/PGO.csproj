@@ -422,7 +422,7 @@
     <Resource Include="Resources\localizacao.png" />
     <Resource Include="Resources\document-edit3.png" />
     <Resource Include="Resources\view-history.png" />
-    <SplashScreen Include="Resources\Novo_Logo_2018.orc.png" />
+    <Resource Include="Resources\Novo_Logo_2018.orc.png" />
     <Resource Include="Resources\document-revert.png" />
     <Resource Include="Resources\document-export-table.png" />
     <Resource Include="Resources\view-time-schedule-edit.png" />

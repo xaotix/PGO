@@ -60,7 +60,7 @@ namespace PGO
         }
         private void Update(bool update)
         {
-            this.Obras = PGOVars.GetDbOrc().GetObrasOrcamento(update);
+            this.Obras = DBases.GetDbOrc().GetObrasOrcamento(update);
             this.lista.ItemsSource = null;
 
             this.Title = $"PGO" +
@@ -80,19 +80,19 @@ namespace PGO
             this.Visibility = Visibility.Visible;
             JanelaObra mm = (JanelaObra)sender;
             this.Abertas.Remove(mm.Obra);
-            this.Update(true);
+            //this.Update(true);
         }
         public bool VerificarTemplate(PGO_Obra ob)
         {
-            if (PGOVars.GetDbOrc().GetTemplates().Find(x => x.id == ob.id_template) == null)
+            if (DBases.GetDbOrc().GetTemplates().Find(x => x.id == ob.id_template) == null)
             {
-                if (PGOVars.GetDbOrc().GetTemplates().FindAll(x => x.ativo).Count == 1)
+                if (DBases.GetDbOrc().GetTemplates().FindAll(x => x.ativo).Count == 1)
                 {
-                    ob.SetTemplate(PGOVars.GetDbOrc().GetTemplates().FindAll(x => x.ativo)[0]);
+                    ob.SetTemplate(DBases.GetDbOrc().GetTemplates().FindAll(x => x.ativo)[0]);
                 }
                 else
                 {
-                    var sel = Conexoes.Utilz.Selecao.SelecionarObjeto(PGOVars.GetDbOrc().GetTemplates().FindAll(x => x.ativo), null);
+                    var sel = Conexoes.Utilz.Selecao.SelecionarObjeto(DBases.GetDbOrc().GetTemplates().FindAll(x => x.ativo), null);
                     if (sel != null)
                     {
                         ob.SetTemplate(sel);
@@ -286,7 +286,7 @@ namespace PGO
                     Conexoes.Utilz.Alerta("Já existe uma revisão com esse nome", "", MessageBoxImage.Asterisk);
                     return;
                 }
-                var t = PGOVars.GetDbOrc().CriarRevisao(this.ObraSelecionada, revisao);
+                var t = DBases.GetDbOrc().CriarRevisao(this.ObraSelecionada, revisao);
                 if (t != null)
                 {
                     this.ObraSelecionada.Pai.Revisoes.Add(t);
@@ -497,7 +497,7 @@ namespace PGO
                 {
                     return;
                 }
-                PGOVars.GetDbOrc().Apagar(this.ObraSelecionada);
+                DBases.GetDbOrc().Apagar(this.ObraSelecionada);
                 this.Update(true);
 
             }
@@ -516,7 +516,7 @@ namespace PGO
                 {
                     return;
                 }
-                PGOVars.GetDbOrc().Arquivar(this.ObraSelecionada);
+                DBases.GetDbOrc().Arquivar(this.ObraSelecionada);
                 this.Update(true);
             }
         }
@@ -526,7 +526,7 @@ namespace PGO
             {
                 return;
             }
-            MenuNovaObra = new NovaObra(PGOVars.GetDbOrc().GetPadrao_Nacional());
+            MenuNovaObra = new NovaObra(DBases.GetDbOrc().GetPadrao_Nacional());
             MenuNovaObra.nome.IsEnabled = false;
             MenuNovaObra.check_nacional.IsEnabled = false;
             MenuNovaObra.contrato.IsEnabled = false;
@@ -538,7 +538,7 @@ namespace PGO
             {
                 return;
             }
-            MenuNovaObra = new NovaObra(PGOVars.GetDbOrc().GetPadrao_Exportacao());
+            MenuNovaObra = new NovaObra(DBases.GetDbOrc().GetPadrao_Exportacao());
             MenuNovaObra.nome.IsEnabled = false;
             MenuNovaObra.check_nacional.IsEnabled = false;
             MenuNovaObra.contrato.IsEnabled = false;

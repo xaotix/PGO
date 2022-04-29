@@ -1,4 +1,5 @@
-﻿using FirstFloor.ModernUI.Windows.Controls;
+﻿using Conexoes;
+using FirstFloor.ModernUI.Windows.Controls;
 using System.Linq;
 using System.Windows;
 
@@ -13,7 +14,7 @@ namespace PGO
         {
 
             InitializeComponent();
-            this.Lista_Ranges.ItemsSource = DLM.vars.PGOVars.GetDbOrc().GetProdutos_Clean();
+            this.Lista_Ranges.ItemsSource = DBases.GetDbOrc().GetProdutos_Clean();
         }
 
         private void salvar_alteracoes(object sender, RoutedEventArgs e)
@@ -119,7 +120,7 @@ namespace PGO
             var sel = Lista_Ranges.SelectedItems.Cast<DLM.orc.Produto>().ToList();
             if (sel.Count > 0)
             {
-                var fert = Conexoes.Utilz.Selecao.SelecionarObjeto(DLM.vars.PGOVars.GetDbOrc().GetDe_Para(), null, "Selecione");
+                var fert = Conexoes.Utilz.Selecao.SelecionarObjeto(DBases.GetDbOrc().GetDe_Para(), null, "Selecione");
                 if (fert != null)
                 {
                     Conexoes.ControleWait w = Conexoes.Utilz.Wait(sel.Count);

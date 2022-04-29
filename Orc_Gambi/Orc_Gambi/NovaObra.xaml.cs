@@ -42,7 +42,7 @@ namespace PGO
 
             this.Obra.Orcamentista = Global.UsuarioAtual;
             this.Obra.Revisao = "R00";
-            this.Obra.getDados(PGOVars.GetDbOrc().GetPadrao_Nacional());
+            this.Obra.getDados(DBases.GetDbOrc().GetPadrao_Nacional());
 
             if (this.Obra.Tipo == Tipo_Orcamento.SEC)
             {
@@ -142,7 +142,7 @@ namespace PGO
                     Conexoes.Utilz.Alerta("Contrato Inválido", "Faltam dados", MessageBoxImage.Asterisk);
                     return;
                 }
-                if (DLM.vars.PGOVars.GetDbOrc().GetObrasOrcamento().Find(x => x.Contrato == this.Obra.Contrato && x.Revisao == this.Obra.Revisao) != null)
+                if (DBases.GetDbOrc().GetObrasOrcamento().Find(x => x.Contrato == this.Obra.Contrato && x.Revisao == this.Obra.Revisao) != null)
                 {
                     Conexoes.Utilz.Alerta("Já existe uma revisão com este nome neste contrato", "", MessageBoxImage.Asterisk);
                     return;
@@ -189,7 +189,7 @@ namespace PGO
 
         private void define_tratamento(object sender, RoutedEventArgs e)
         {
-            var sel = Conexoes.Utilz.Selecao.SelecionarObjeto(DLM.vars.PGOVars.GetDbOrc().GetTratamentos(), null) as DLM.orc.Tratamento;
+            var sel = Conexoes.Utilz.Selecao.SelecionarObjeto(DBases.GetDbOrc().GetTratamentos(), null) as DLM.orc.Tratamento;
             if (sel != null)
             {
                 this.Obra.SetTratamento(sel);
@@ -215,7 +215,7 @@ namespace PGO
 
         private void define_template(object sender, RoutedEventArgs e)
         {
-            var sel = Conexoes.Utilz.Selecao.SelecionarObjeto(DLM.vars.PGOVars.GetDbOrc().GetTemplates(), null, "Selecione um Template");
+            var sel = Conexoes.Utilz.Selecao.SelecionarObjeto(DBases.GetDbOrc().GetTemplates(), null, "Selecione um Template");
             if (sel != null)
             {
                 this.Obra.SetTemplate(sel as Template);
@@ -225,7 +225,7 @@ namespace PGO
         private void set_dados(object sender, RoutedEventArgs e)
         {
             if (this.Obra.id > 0) { return; }
-            this.Obra.getDados(this.Obra.Nacional ? PGOVars.GetDbOrc().GetPadrao_Nacional() : PGOVars.GetDbOrc().GetPadrao_Exportacao());
+            this.Obra.getDados(this.Obra.Nacional ? DBases.GetDbOrc().GetPadrao_Nacional() : DBases.GetDbOrc().GetPadrao_Exportacao());
             txt_cotacao.IsEnabled = (bool)check_nacional.IsChecked != true;
         }
 

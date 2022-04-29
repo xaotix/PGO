@@ -29,8 +29,8 @@ namespace PGO
             InitializeComponent();
             this.DataContext = this;
             this.Title = "Etapas [" + Obra.ToString() + "]";
-            var Produtos = DLM.vars.PGOVars.GetDbOrc().GetProdutos();
-            var Pecas = DLM.vars.PGOVars.GetDbOrc().GetProdutos().SelectMany(x => x.PecasDB).ToList();
+            var Produtos = DBases.GetDbOrc().GetProdutos();
+            var Pecas = DBases.GetDbOrc().GetProdutos().SelectMany(x => x.PecasDB).ToList();
 
             this.Obra.GetPredios(true);
             Conexoes.Utilz.GetPecas_Orcamento(this.Obra, true, this.Obra.GetRanges().GroupBy(x => x.id).Select(x => x.First()).ToList(), true, true);
@@ -228,7 +228,7 @@ namespace PGO
         {
             var mts = Ranges.Select(x => x.WERK).Distinct().ToList();
             var ferts = this.Obra.GetFerts_Etapas();
-            var sel = Conexoes.Utilz.Selecao.SelecionarObjeto(DLM.vars.PGOVars.GetDbOrc().GetDe_Para()
+            var sel = Conexoes.Utilz.Selecao.SelecionarObjeto(DBases.GetDbOrc().GetDe_Para()
                 , null, "Selecione");
             if (sel != null)
             {
@@ -340,7 +340,7 @@ namespace PGO
         {
             if (peps_selecionados.Count > 0)
             {
-                var de_para_novo = DLM.vars.PGOVars.GetDbOrc().GetDe_Para().FindAll(x => peps_selecionados.Find(y => y.PEP == x.PEP && y.fabrica == x.FAB) == null && this.Obra.GetFerts_Etapas().Find(y => y.PEP == x.PEP && y.FAB == x.FAB) == null);
+                var de_para_novo = DBases.GetDbOrc().GetDe_Para().FindAll(x => peps_selecionados.Find(y => y.PEP == x.PEP && y.fabrica == x.FAB) == null && this.Obra.GetFerts_Etapas().Find(y => y.PEP == x.PEP && y.FAB == x.FAB) == null);
 
                 DLM.orc.PGO_De_Para NDE_PARA = new DLM.orc.PGO_De_Para();
                 NDE_PARA.DESC = "Criar novo";
@@ -367,7 +367,7 @@ namespace PGO
                             }
                             var ndesc = Conexoes.Utilz.Prompt("Digite a descrição", "", "", true, "pep_pgo_desc", false, 20);
                             var fabs = peps_selecionados.Select(x => x.fabrica).Distinct().ToList();
-                            string mt = Conexoes.Utilz.Selecao.SelecionarObjeto(DLM.vars.PGOVars.GetDbOrc().GetMTs(), null);
+                            string mt = Conexoes.Utilz.Selecao.SelecionarObjeto(DBases.GetDbOrc().GetMTs(), null);
                             if (mt == null)
                             {
                                 goto saifora;
@@ -380,7 +380,7 @@ namespace PGO
                             novo.DESC = ndesc;
                             //novo.FAB = fab;
                             novo.MT = mt;
-                            if (DLM.vars.PGOVars.GetDbOrc().GetDe_Para().Find(x => x.PEP == npep && x.FAB == fab) != null | peps_selecionados.SelectMany(x => x.Getpep_agrupadores_fora()).ToList().Find(x => x.PEP == npep && x.fabrica == fab) != null)
+                            if (DBases.GetDbOrc().GetDe_Para().Find(x => x.PEP == npep && x.FAB == fab) != null | peps_selecionados.SelectMany(x => x.Getpep_agrupadores_fora()).ToList().Find(x => x.PEP == npep && x.fabrica == fab) != null)
                             {
                                 if (Conexoes.Utilz.Pergunta("Já existe um PEP com este nome. Tentar novamente?"))
                                 {
@@ -1363,7 +1363,7 @@ namespace PGO
 
             if (sel.Count == 0) { return; }
 
-            var frente = Conexoes.Utilz.Selecao.SelecionarObjeto(DLM.vars.PGOVars.GetDbOrc().GetFrentes(), null, "Selecione");
+            var frente = Conexoes.Utilz.Selecao.SelecionarObjeto(DBases.GetDbOrc().GetFrentes(), null, "Selecione");
             if (frente != null)
             {
                 foreach (var s in sel)

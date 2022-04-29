@@ -38,7 +38,7 @@ namespace PGO
                         try
                         {
 
-                            Produtos.Add(PGOVars.GetDbOrc().GetProduto(l.GetValores()));
+                            Produtos.Add(DBases.GetDbOrc().GetProduto(l.GetValores()));
                             w.somaProgresso();
                         }
                         catch (Exception ex)
@@ -82,7 +82,7 @@ namespace PGO
                 w.Close();
                 Conexoes.Utilz.Alerta("Dados atualizados!");
                 Lista_Ranges.ItemsSource = null;
-                PGOVars.GetDbOrc().GetProdutos_Clean(true);
+                DBases.GetDbOrc().GetProdutos_Clean(true);
             }
         }
     }

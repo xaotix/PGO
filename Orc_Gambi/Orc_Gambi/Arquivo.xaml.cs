@@ -26,8 +26,8 @@ namespace PGO
         {
             this.Lista_Arquivo.ItemsSource = null;
             this.Lista.ItemsSource = null;
-            var t1 = PGOVars.GetDbOrc().GetObras_Arquivadas();
-            var t2 = PGOVars.GetDbOrc().GetObrasOrcamento();
+            var t1 = DBases.GetDbOrc().GetObras_Arquivadas();
+            var t2 = DBases.GetDbOrc().GetObrasOrcamento();
             this.Lista_Arquivo.ItemsSource = t1;
             this.Lista.ItemsSource = t2;
             CollectionViewSource.GetDefaultView(Lista.ItemsSource).Filter = Filtro_Sistema_Funcao;
@@ -45,7 +45,7 @@ namespace PGO
                     {
                         foreach (var ss in t.Revisoes)
                         {
-                            PGOVars.GetDbOrc().Desarquivar(ss);
+                            DBases.GetDbOrc().Desarquivar(ss);
                             w.somaProgresso();
                         }
                     }
@@ -66,7 +66,7 @@ namespace PGO
                     {
                         foreach (var ss in t.Revisoes)
                         {
-                            PGOVars.GetDbOrc().Arquivar(ss);
+                            DBases.GetDbOrc().Arquivar(ss);
                             w.somaProgresso();
                         }
                     }

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using DLM.encoder;
+using Conexoes;
 
 namespace PGO
 {
@@ -34,8 +35,8 @@ namespace PGO
         public TelaPMP(List<DLM.orc.PGO_Obra> obras, List<Conexoes.Pedido_PMP> pedidos_buffer)
         {
             this.obras = obras;
-            this.pacotes = PGOVars.GetDbOrc().GetPacotes();
-            this.pacotes_consolidados = PGOVars.GetDbOrc().GetPacotes_Consolidadas();
+            this.pacotes = DBases.GetDbOrc().GetPacotes();
+            this.pacotes_consolidados = DBases.GetDbOrc().GetPacotes_Consolidadas();
             this.pedidos_importar = pedidos_buffer;
 
             InitializeComponent();
@@ -241,7 +242,7 @@ namespace PGO
             {
                 if (sel.Obra != null)
                 {
-                    DLM.vars.PGOVars.LimparPMP_Consolidada(sel.pedido);
+                    DBases.LimparPMP_Consolidada(sel.pedido);
                     //sel.Obra.LimparPMP();
                     UpdatePacotes();
                 }
@@ -255,8 +256,8 @@ namespace PGO
         public List<Conexoes.Pedido_PMP> pedidos_importar { get; set; } = new List<Conexoes.Pedido_PMP>();
         private void UpdatePacotes()
         {
-            this.pacotes = PGOVars.GetDbOrc().GetPacotes(true);
-            this.pacotes_consolidados = PGOVars.GetDbOrc().GetPacotes_Consolidadas(true);
+            this.pacotes = DBases.GetDbOrc().GetPacotes(true);
+            this.pacotes_consolidados = DBases.GetDbOrc().GetPacotes_Consolidadas(true);
 
             this.Lista_Criados.ItemsSource = null;
             this.Lista_Consolidadas.ItemsSource = null;
@@ -340,8 +341,7 @@ namespace PGO
                         }
                         else
                         {
-                            DLM.vars.PGOVars.LimparPMP_Orcamento(s.pedido);
-                            //Conexoes.Utilz.Alerta("Obra ~[id=" + s.id_obra + "] não encontrada. Contacte suporte\n(Daniel Maciel).", "", MessageBoxImage.Error);
+                            DBases.LimparPMP_Orcamento(s.pedido);
 
                         }
                     }
@@ -526,7 +526,7 @@ namespace PGO
                 {
                     foreach (var s in sel)
                     {
-                        DLM.vars.PGOVars.LimparPMP_Consolidada(s.pedido);
+                        DBases.LimparPMP_Consolidada(s.pedido);
                     }
                     UpdatePacotes();
                     Conexoes.Utilz.Alerta("Pacotes removidos");
