@@ -162,7 +162,7 @@ namespace PGO
             mm.Closed += FecharObra;
             mm.Show();
             mm.Focus();
-            this.Visibility = Visibility.Collapsed;
+            //this.Visibility = Visibility.Collapsed;
         }
         private void EditarRota(PGO_Obra ob)
         {
