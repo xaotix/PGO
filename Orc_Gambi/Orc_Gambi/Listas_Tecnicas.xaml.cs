@@ -299,7 +299,7 @@ namespace PGO
                                 }
 
                                 //pula linha de marcas de almox
-                                if (marca.Contains(Cfg.Init.RM_KIT_PIE))
+                                if (marca.Contains(Cfg.Init.RM_MARCA_ALMOX))
                                 {
 
                                     continue;

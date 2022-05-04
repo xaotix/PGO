@@ -289,7 +289,7 @@ namespace PGO
 
             if (ranges.Count > 0)
             {
-                var rm = ExplorerPLM.Utilidades.CriaRetornaSAP();
+                var rm = Conexoes.DBases.GetBancoRM().CriaRetornaSAP();
                 if (rm != null)
                 {
                 retentar:
@@ -1333,9 +1333,8 @@ namespace PGO
         {
             if (ObjetoArvore is OrcamentoGrupo)
             {
-
                 var p = ObjetoArvore as OrcamentoGrupo;
-                var rm = ExplorerPLM.Utilidades.CriaRetornaSAP(Acessos_Criterio.ORC, "TINTA");
+                var rm = Conexoes.DBases.GetBancoRM().CriaRetornaSAP(Acessos_Criterio.ORC, "TINTA");
                 if (rm == null) { return; }
                 double peso_total = 0;
                 double quantidade = 0;
