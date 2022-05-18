@@ -14,7 +14,7 @@ namespace PGO
         {
 
             InitializeComponent();
-            this.Lista_Ranges.ItemsSource = DBases.GetDbOrc().GetProdutos_Clean();
+            this.Rad_Lista_Ranges.ItemsSource = DBases.GetDbOrc().GetProdutos_Clean();
         }
 
         private void salvar_alteracoes(object sender, RoutedEventArgs e)
@@ -26,7 +26,7 @@ namespace PGO
 
         private void editar_e_dias_1(object sender, RoutedEventArgs e)
         {
-            var sel = Lista_Ranges.SelectedItems.Cast<DLM.orc.Produto>().ToList();
+            var sel = Rad_Lista_Ranges.SelectedItems.Cast<DLM.orc.Produto>().ToList();
             if (sel.Count > 0)
             {
                 int val_atual = sel[0].DIAS_ENGENHARIA_1;
@@ -44,7 +44,7 @@ namespace PGO
 
         private void editar_e_dias(object sender, RoutedEventArgs e)
         {
-            var sel = Lista_Ranges.SelectedItems.Cast<DLM.orc.Produto>().ToList();
+            var sel = Rad_Lista_Ranges.SelectedItems.Cast<DLM.orc.Produto>().ToList();
             if (sel.Count > 0)
             {
                 int val_atual = sel[0].DIAS_ENGENHARIA;
@@ -63,7 +63,7 @@ namespace PGO
 
         private void editar_f_dias(object sender, RoutedEventArgs e)
         {
-            var sel = Lista_Ranges.SelectedItems.Cast<DLM.orc.Produto>().ToList();
+            var sel = Rad_Lista_Ranges.SelectedItems.Cast<DLM.orc.Produto>().ToList();
             if (sel.Count > 0)
             {
                 int val_atual = sel[0].DIAS_FABRICACAO;
@@ -81,7 +81,7 @@ namespace PGO
 
         private void editar_l_dias(object sender, RoutedEventArgs e)
         {
-            var sel = Lista_Ranges.SelectedItems.Cast<DLM.orc.Produto>().ToList();
+            var sel = Rad_Lista_Ranges.SelectedItems.Cast<DLM.orc.Produto>().ToList();
             if (sel.Count > 0)
             {
                 int val_atual = sel[0].DIAS_LOGISTICA;
@@ -99,7 +99,7 @@ namespace PGO
 
         private void editar_m_dias(object sender, RoutedEventArgs e)
         {
-            var sel = Lista_Ranges.SelectedItems.Cast<DLM.orc.Produto>().ToList();
+            var sel = Rad_Lista_Ranges.SelectedItems.Cast<DLM.orc.Produto>().ToList();
             if (sel.Count > 0)
             {
                 int val_atual = sel[0].DIAS_MONTAGEM;
@@ -117,10 +117,10 @@ namespace PGO
 
         private void atribuir_ferts(object sender, RoutedEventArgs e)
         {
-            var sel = Lista_Ranges.SelectedItems.Cast<DLM.orc.Produto>().ToList();
+            var sel = Rad_Lista_Ranges.SelectedItems.Cast<DLM.orc.Produto>().ToList();
             if (sel.Count > 0)
             {
-                var fert = Conexoes.Utilz.Selecao.SelecionarObjeto(DBases.GetDbOrc().GetDe_Para(), null, "Selecione");
+                var fert = Conexoes.Utilz.Selecao.SelecionarObjeto(DBases.GetDbOrc().Get_PEP_FERT(), null, "Selecione");
                 if (fert != null)
                 {
                     Conexoes.ControleWait w = Conexoes.Utilz.Wait(sel.Count);

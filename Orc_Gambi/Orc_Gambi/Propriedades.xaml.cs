@@ -124,7 +124,7 @@ namespace PGO
             else if (Tipo == Tipologia.FERT)
             {
 
-                this.Lista.ItemsSource = DBases.GetDbOrc().GetDe_Para(true);
+                this.Lista.ItemsSource = DBases.GetDbOrc().Get_PEP_FERT(true);
                 this.Propriedadesm.ShowAdvancedOptions = false;
                 this.Propriedadesm.ShowSearchBox = false;
                 this.Propriedadesm.ShowTitle = true;
@@ -227,9 +227,9 @@ namespace PGO
                 var t = Selecao as Tipo_Pintura;
                 t.Salvar();
             }
-            else if (Selecao is PGO_De_Para)
+            else if (Selecao is PGO_PEP_FERT)
             {
-                var t = Selecao as PGO_De_Para;
+                var t = Selecao as PGO_PEP_FERT;
                 t.Salvar();
             }
             else if (Selecao is PGO_Frente)
@@ -300,7 +300,7 @@ namespace PGO
             }
             else if (Tipo == Tipologia.FERT)
             {
-                tt = new PGO_De_Para();
+                tt = new PGO_PEP_FERT();
                 //Propriedadesm.SelectedObject = tt;
             }
             else if (Tipo == Tipologia.Frente)

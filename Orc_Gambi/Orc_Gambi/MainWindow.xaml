@@ -124,7 +124,7 @@
                     FrozenColumnCount="5"
                     Margin="5" 
                     SelectionMode="Extended"  
-                    Name="lista" 
+                    Name="Lista" 
                     AutoGenerateColumns="False" 
                     IsReadOnly="True"  
                     SelectionChanged="lista_SelectionChanged"

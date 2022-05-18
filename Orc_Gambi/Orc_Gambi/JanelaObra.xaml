@@ -162,7 +162,7 @@
                             </Menu>
                             <TextBox Name="Filtrar" TextChanged="Filtrar_TextChanged" Grid.Row="1"/>
                             <DataGrid  
-                                x:Name="lista" 
+                                x:Name="ListaRanges" 
                                 Background="Transparent" 
                                 FontSize="11" 
                                 BorderThickness="0" 

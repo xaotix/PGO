@@ -40,8 +40,8 @@ namespace PGO
             this.pedidos_importar = pedidos_buffer;
 
             InitializeComponent();
-            this.Lista_Criados.ItemsSource = this.pacotes;
-            this.Lista_Consolidadas.ItemsSource = this.pacotes_consolidados;
+            this.Rad_Lista_Criados.ItemsSource = this.pacotes;
+            this.Rad_Lista_Consolidadas.ItemsSource = this.pacotes_consolidados;
 
 
             this.Lista_Criacao.ItemsSource = null;
@@ -259,11 +259,11 @@ namespace PGO
             this.pacotes = DBases.GetDbOrc().GetPacotes(true);
             this.pacotes_consolidados = DBases.GetDbOrc().GetPacotes_Consolidadas(true);
 
-            this.Lista_Criados.ItemsSource = null;
-            this.Lista_Consolidadas.ItemsSource = null;
+            this.Rad_Lista_Criados.ItemsSource = null;
+            this.Rad_Lista_Consolidadas.ItemsSource = null;
 
-            this.Lista_Criados.ItemsSource = this.pacotes;
-            this.Lista_Consolidadas.ItemsSource = this.pacotes_consolidados;
+            this.Rad_Lista_Criados.ItemsSource = this.pacotes;
+            this.Rad_Lista_Consolidadas.ItemsSource = this.pacotes_consolidados;
         }
 
         private void atualizar_pacote(object sender, RoutedEventArgs e)
@@ -327,7 +327,7 @@ namespace PGO
 
         private void excluir_pacotes(object sender, RoutedEventArgs e)
         {
-            var sel = Lista_Criados.SelectedItems.Cast<DLM.orc.Pacote_Obra>().ToList();
+            var sel = Rad_Lista_Criados.SelectedItems.Cast<DLM.orc.Pacote_Obra>().ToList();
             if (sel.Count > 0)
             {
                 if (Conexoes.Utilz.Pergunta("Tem certeza que deseja excluir os pacotes selecionados?"))
@@ -355,7 +355,7 @@ namespace PGO
 
         private void autlizar_pacotes(object sender, RoutedEventArgs e)
         {
-            var sel = Lista_Criados.SelectedItems.Cast<DLM.orc.Pacote_Obra>().ToList();
+            var sel = Rad_Lista_Criados.SelectedItems.Cast<DLM.orc.Pacote_Obra>().ToList();
             if (sel.Count > 0)
             {
                 if (Conexoes.Utilz.Pergunta("Tem certeza que deseja atualizar os pacotes selecionados?"))
@@ -519,7 +519,7 @@ namespace PGO
 
         private void excluir_pacotes_consolidadas(object sender, RoutedEventArgs e)
         {
-            var sel = Lista_Consolidadas.SelectedItems.Cast<DLM.orc.Pacote_Obra>().ToList();
+            var sel = Rad_Lista_Consolidadas.SelectedItems.Cast<DLM.orc.Pacote_Obra>().ToList();
             if (sel.Count > 0)
             {
                 if (Conexoes.Utilz.Pergunta("Tem certeza que deseja excluir os pacotes selecionados?"))

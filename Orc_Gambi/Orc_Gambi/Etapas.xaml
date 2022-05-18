@@ -24,17 +24,9 @@
                 <MenuItem.Icon>
                     <Image  Source="Resources/document-export-table.png"  Width="16" Height="16"/>
                 </MenuItem.Icon>
-                <MenuItem Header="Gerar Pacotes" Click="ver_materiais"></MenuItem>
+                <MenuItem Header="Gerar Pacotes" Click="ver_materiais"/>
                 <MenuItem Header="Extrair Comparativo C00 X P00" Click="extrair_relatorio"></MenuItem>
             </MenuItem>
-            <!--<MenuItem Header="Project Builder"  VerticalAlignment="Center" Background="Transparent">
-                <MenuItem.Icon>
-                    <Image  Source="Resources/document-export-table.png"  Width="16" Height="16"/>
-                </MenuItem.Icon>
-                <MenuItem Header="Exportar Planilha" Click="exporta_cj20n"></MenuItem>
-            </MenuItem>-->
-
-
         </Menu>
         <Grid Grid.Row="1" Grid.ColumnSpan="2">
 
@@ -52,12 +44,12 @@
                     <TabItem.Header>
                         <WrapPanel>
                             <Label Content="Ranges ["></Label>
-                            <Label Content="{Binding ElementName=lista_ranges, Path=Items.Count}"></Label>
+                            <Label Content="{Binding ElementName=Rad_Lista_Ranges, Path=Items.Count}"></Label>
                             <Label Content="x]"></Label>
                         </WrapPanel>
                     </TabItem.Header>
                     <Grid>
-                        <telerik:RadGridView  FontSize="11" BorderThickness="0" Grid.Row="2" Margin="5,5,5,5" x:Name="lista_ranges" ShowColumnFooters="True" AutoGenerateColumns="False" IsReadOnly="True" IsSearchingDeferred="True" ShowSearchPanel="True" ShowGroupPanel="True" SelectionMode="Extended">
+                        <telerik:RadGridView  FontSize="11" BorderThickness="0" Grid.Row="2" Margin="5,5,5,5" x:Name="Rad_Lista_Ranges" ShowColumnFooters="True" AutoGenerateColumns="False" IsReadOnly="True" IsSearchingDeferred="True" ShowSearchPanel="True" ShowGroupPanel="True" SelectionMode="Extended">
                             <telerik:RadGridView.RowStyle>
                                 <Style TargetType="{x:Type telerik:GridViewRow}">
                                     <Style.Triggers>
@@ -166,7 +158,7 @@
                     <TabItem.Header>
                         <WrapPanel>
                             <Label Content="Etapas ["></Label>
-                            <Label Content="{Binding ElementName=lista_etapas, Path=Items.Count}"></Label>
+                            <Label Content="{Binding ElementName=Lista_Etapas, Path=Items.Count}"></Label>
                             <Label Content="x]"></Label>
                         </WrapPanel>
                     </TabItem.Header>
@@ -229,7 +221,7 @@
                                                 </WrapPanel>
                                             </Button>
                                         </Menu>
-                                        <DataGrid FontSize="11" BorderThickness="0" Grid.Row="2" Margin="5,5,5,5" x:Name="lista_etapas"  AutoGenerateColumns="False" IsReadOnly="False"  SelectionMode="Extended" HeadersVisibility="Column">
+                                        <DataGrid FontSize="11" BorderThickness="0" Grid.Row="2" Margin="5,5,5,5" x:Name="Lista_Etapas"  AutoGenerateColumns="False" IsReadOnly="False"  SelectionMode="Extended" HeadersVisibility="Column">
                                             <DataGrid.Columns>
                                                 <DataGridTemplateColumn  Header="" Width="auto" IsReadOnly="True">
                                                     <DataGridTemplateColumn.CellTemplate>
@@ -389,11 +381,11 @@
                                         <TabItem.Header>
                                             <WrapPanel>
                                                 <Label Content="Global ["></Label>
-                                                <Label Content="{Binding ElementName=lista_peps, Path=Items.Count}"></Label>
+                                                <Label Content="{Binding ElementName=Lista_PEPs, Path=Items.Count}"></Label>
                                                 <Label Content="x]"></Label>
                                             </WrapPanel>
                                         </TabItem.Header>
-                                        <DataGrid FontSize="11" Name="lista_peps"  Grid.Row="3" Grid.Column="2" IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Extended" HeadersVisibility="Column">
+                                        <DataGrid FontSize="11" Name="Lista_PEPs"  Grid.Row="3" Grid.Column="2" IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Extended" HeadersVisibility="Column">
                                             <DataGrid.RowStyle>
                                                 <Style TargetType="DataGridRow">
                                                     <Setter Property="Background" Value="{Binding cor}"></Setter>
@@ -458,119 +450,147 @@
                                                 <Label Content="x]"></Label>
                                             </WrapPanel>
                                         </TabItem.Header>
-                                        <DataGrid FontSize="11"  Name="lista_predios_peps"  Grid.Row="3" Grid.Column="2" IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Extended">
+                                        <DataGrid FontSize="11" HeadersVisibility="None"  Name="lista_predios_peps"  Grid.Row="3" Grid.Column="2" IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Extended">
                                             <DataGrid.RowStyle>
                                                 <Style TargetType="DataGridRow">
                                                     <Style.Triggers>
                                                         <DataTrigger Binding="{Binding ponderadores.Count}" Value="0">
-                                                            <Setter Property="Background" Value="LightSalmon"></Setter>
+                                                            <Setter Property="Background">
+                                                                <Setter.Value>
+                                                                    <SolidColorBrush Color="LightSalmon" Opacity="0.5"/>
+                                                                </Setter.Value>
+                                                            </Setter>
                                                         </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
                                             </DataGrid.RowStyle>
                                             <DataGrid.Columns>
-
-                                                <DataGridTextColumn  Header="Prédio"  Binding="{Binding nome}" Width="*" MinWidth="100"/>
-                                                <DataGridTextColumn  Header="Pond."   Binding="{Binding ponderadores.Count}" Width="100"/>
-                                                <DataGridTextColumn  Header="Área (m²)" Binding="{Binding Area_Predio, StringFormat='0,0.00'}" Width="50"/>
-                                                <DataGridTextColumn  Header="Peso (Ton)" Binding="{Binding PesoTotal, StringFormat='0,0.00'}" Width="50"/>
-
-
-                                                <DataGridTemplateColumn  Header="Saldo Disp." Width="auto"  IsReadOnly="True">
+                                                <DataGridTemplateColumn  Header="Ações" Width="auto">
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
-                                                            <WrapPanel>
-                                                                <Label Content="{Binding Saldo_Etapa}"></Label>
-                                                                <Label Content="% / "></Label>
-                                                                <Label Content="{Binding peso_disponivel, StringFormat='0,0.00'}"></Label>
-                                                                <Label Content=" Ton / "></Label>
-                                                                <Label Content="{Binding area_disponivel, StringFormat='0,0.00'}"></Label>
-                                                                <Label Content=" m²"></Label>
-                                                            </WrapPanel>
-                                                        </DataTemplate>
-                                                    </DataGridTemplateColumn.CellTemplate>          
-                                                </DataGridTemplateColumn>
-                                                <DataGridTemplateColumn  Header="Ações" Width="100">
-                                                    <DataGridTemplateColumn.CellTemplate>
-                                                        <DataTemplate>
-                                                            <WrapPanel>
-                                                                <Button Grid.Column="1" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="criar_novo_pep" VerticalAlignment="Center" ToolTip="Criar PEP Custom">
-                                                                    <Image Source="Resources/get-hot-new-stuff.png" Width="16" Height="16" Margin="0,0,0,0" />
+                                                            <StackPanel>
+                                                                <Label FontWeight="Bold" FontSize="18" Content="{Binding nome}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                                    <Label FontWeight="Bold" Content="Saldo: "></Label>
+                                                                    <Label Content="{Binding Saldo_Etapa}"></Label>
+                                                                    <Label Content="% / "></Label>
+                                                                    <Label Content="{Binding peso_disponivel, StringFormat='0,0.00'}"></Label>
+                                                                    <Label Content=" Ton / "></Label>
+                                                                    <Label Content="{Binding area_disponivel, StringFormat='0,0.00'}"></Label>
+                                                                    <Label Content=" m²"></Label>
+                                                                </WrapPanel>
+                                                                <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                                    <Label FontWeight="Bold" Content="Peso: "/>
+                                                                    <Label Content="{Binding PesoTotal, StringFormat='0,0.00'}"></Label>
+                                                                    <Label Content=" ton"/>
+                                                                </WrapPanel>
+                                                                <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="criar_novo_pep" VerticalAlignment="Center" ToolTip="Criar PEP Custom">
+                                                                    <WrapPanel VerticalAlignment="Center">
+                                                                        <Image VerticalAlignment="Center" Margin="2" Source="Resources/get-hot-new-stuff.png" Width="16" Height="16" />
+                                                                        <Label FontWeight="Bold" VerticalAlignment="Center" Margin="2" Content="Novo PEP Custom"/>
+                                                                    </WrapPanel>
                                                                 </Button>
-                                                               
-                                                                <Button Grid.Column="1" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="resetar_peps" VerticalAlignment="Center" ToolTip="Resetar PEPs e Carregar configurações Padrão">
-                                                                    <Image Source="Resources/revisao.png" Width="16" Height="16" Margin="0,0,0,0" />
+                                                                <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="resetar_peps" VerticalAlignment="Center" ToolTip="Resetar PEPs e Carregar configurações Padrão">
+                                                                    <WrapPanel VerticalAlignment="Center">
+                                                                        <Image VerticalAlignment="Center" Margin="2" Source="Resources/revisao.png" Width="16" Height="16" />
+                                                                        <Label FontWeight="Bold" VerticalAlignment="Center" Margin="2" Content="Resetar"/>
+                                                                    </WrapPanel>
                                                                 </Button>
-                                                                
-                                                            </WrapPanel>
+                                                              
+                                                            </StackPanel>
                                                         </DataTemplate>
                                                     </DataGridTemplateColumn.CellTemplate>
                                                 </DataGridTemplateColumn>
-                                            </DataGrid.Columns>
-                                            <DataGrid.ContextMenu>
-                                                <ContextMenu>
-                                                    <MenuItem Header="Resetar PEPs" Click="reset_peps_sel"></MenuItem>
-                                                    <MenuItem Header="Editar PEP" Click="editar_pep_varios"></MenuItem>
-                                                </ContextMenu>
-                                            </DataGrid.ContextMenu>
-                                          
-                                            <DataGrid.RowDetailsTemplate>
-                                                <DataTemplate>
-                                                    <Border Margin="10,0,0,0" BorderBrush="Black" BorderThickness="1" Width="450">
-                                                        <DataGrid FontSize="11" ItemsSource="{Binding pep_agrupadores}"   Grid.Row="3" Grid.Column="2" IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Extended" HeadersVisibility="Column">
-                                                            <DataGrid.RowStyle>
-                                                                <Style TargetType="{x:Type DataGridRow}">
-                                                                    <Style.Triggers>
-                                                                        <DataTrigger Binding="{Binding ferts.Count}" Value="0">
-                                                                            <Setter Property="Background" Value="LightSalmon"></Setter>
-                                                                        </DataTrigger>
-                                                                    </Style.Triggers>
-                                                                </Style>
-                                                            </DataGrid.RowStyle>
-                                                            <DataGrid.Columns>
-                                                                <DataGridTextColumn  Header="PEP" Binding="{Binding PEP}" Width="50"/>
-                                                                <DataGridTextColumn  Header="FAB" Binding="{Binding fabrica}" Width="50"/>
-                                                                <DataGridTextColumn  Header="Prédios" Binding="{Binding predios.Count,Mode=OneWay}" Width="50" IsReadOnly="True"/>
-                                                                <DataGridTextColumn  Header="Etapas" Binding="{Binding etapas.Count,Mode=OneWay}" Width="50" IsReadOnly="True"/>
-                                                                <DataGridTextColumn  Header="Ferts" Binding="{Binding ferts.Count,Mode=OneWay}" Width="50" IsReadOnly="True"/>
-                                                                <DataGridTemplateColumn  Header="Ações" Width="100">
-                                                                    <DataGridTemplateColumn.CellTemplate>
-                                                                        <DataTemplate>
-                                                                            <WrapPanel>
-                                                                                <Button Grid.Column="1" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="edit_nome_pep" VerticalAlignment="Center" ToolTip="Editar nome do PEP...">
-                                                                                    <Image Source="Resources/document-edit3.png" Width="16" Height="16" Margin="0,0,0,0" />
-                                                                                </Button>
-                                                                                <Button Grid.Column="1" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="edit_fab_pep" VerticalAlignment="Center" ToolTip="Alterar Unidade Fabril">
-                                                                                    <Image Source="Resources/fabrica.png" Width="16" Height="16" Margin="0,0,0,0" />
-                                                                                </Button>
-                                                                                <Button Grid.Column="1" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="add_fert_peps_obra" VerticalAlignment="Center" ToolTip="Adicionar PEP...">
-                                                                                    <Image Source="Resources/list-add.png" Width="16" Height="16" Margin="0,0,0,0" />
-                                                                                </Button>
-                                                                            </WrapPanel>
-                                                                        </DataTemplate>
-                                                                    </DataGridTemplateColumn.CellTemplate>
-                                                                </DataGridTemplateColumn>
-                                                            </DataGrid.Columns>
+                                                <DataGridTemplateColumn  Width="*"  Header="Agrupadores">
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <DataGrid ItemsSource="{Binding pep_agrupadores}"  IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Extended" HeadersVisibility="None" BorderThickness="0">
+                                                                <DataGrid.RowStyle>
+                                                                    <Style TargetType="{x:Type DataGridRow}">
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding ferts.Count}" Value="0">
+                                                                                <Setter Property="Background" Value="LightSalmon"></Setter>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </DataGrid.RowStyle>
+                                                                <DataGrid.Columns>
+                                                                    <DataGridTemplateColumn  Width="auto">
+                                                                        <DataGridTemplateColumn.CellTemplate>
+                                                                            <DataTemplate>
+                                                                                <Grid>
 
-                                                            <DataGrid.RowDetailsTemplate>
-                                                                <DataTemplate>
-                                                                    <Border Margin="10,0,0,0" BorderBrush="Black" BorderThickness="1" Width="350">
-                                                                        <DataGrid  HeadersVisibility="Column"  HorizontalAlignment="Left" ItemsSource="{Binding ferts}" Grid.Row="3" Grid.Column="2" IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Extended">
-                                                                            <DataGrid.Columns>
-                                                                                <DataGridTextColumn Header="PEP" Binding="{Binding PEP}" Width="50"/>
-                                                                                <DataGridTextColumn Header="FAB" Binding="{Binding FAB}" Width="50"/>
-                                                                                <DataGridTextColumn Header="FERT" Binding="{Binding FERT}" Width="50"/>
-                                                                                <DataGridTextColumn Header="PEP F" Binding="{Binding Faturamento}" Width="50"/>
-                                                                                <DataGridTextColumn Header="DESC" Binding="{Binding DESC}" Width="200"/>
-                                                                            </DataGrid.Columns>
-                                                                        </DataGrid>
-                                                                    </Border>
-                                                                </DataTemplate>
-                                                            </DataGrid.RowDetailsTemplate>
-                                                        </DataGrid>
-                                                    </Border>
-                                                </DataTemplate>
-                                            </DataGrid.RowDetailsTemplate>
+                                                                                    <Grid.RowDefinitions>
+                                                                                        <RowDefinition Height="*"/>
+                                                                                        <RowDefinition Height="*"/>
+                                                                                        <RowDefinition Height="*"/>
+                                                                                        <RowDefinition Height="*"/>
+                                                                                    </Grid.RowDefinitions>
+
+                                                                                    <WrapPanel Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                                                        <Label FontSize="16" FontWeight="Bold" VerticalAlignment="Center" Content="{Binding PEP}"/>
+                                                                                        <Label FontSize="16" FontWeight="Bold" VerticalAlignment="Center" Content="."/>
+                                                                                        <Label FontSize="16" FontWeight="Bold" VerticalAlignment="Center" Content="{Binding fabrica}"/>
+                                                                                    </WrapPanel>
+
+                                                                                    <WrapPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                                                                                        <Label Margin="3" Grid.Column="0" Content="Ferts:"/>
+                                                                                        <Label Margin="3" Grid.Column="2" VerticalAlignment="Center" Content="{Binding ferts.Count}"/>
+
+                                                                                    </WrapPanel>
+
+                                                                                    <WrapPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                                                        <Button Grid.Row="2" Grid.Column="0" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="edit_nome_pep" VerticalAlignment="Center" ToolTip="Editar nome do PEP...">
+                                                                                            <Image Source="Resources/document-edit3.png" Width="16" Height="16"/>
+                                                                                        </Button>
+                                                                                        <Button Grid.Row="2" Grid.Column="1" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="edit_fab_pep" VerticalAlignment="Center" ToolTip="Alterar Unidade Fabril">
+                                                                                            <Image Source="Resources/fabrica.png" Width="16" Height="16" />
+                                                                                        </Button>
+                                                                                        <Button Grid.Row="2" Grid.Column="2" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="add_fert_peps_obra" VerticalAlignment="Center" ToolTip="Adicionar PEP...">
+                                                                                            <Image Source="Resources/list-add.png" Width="16" Height="16" />
+                                                                                        </Button>
+                                                                                    </WrapPanel>
+
+                                                                                    <WrapPanel Grid.Row="10" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                                                        <Label Margin="3" Grid.Column="0" Content="P:"/>
+                                                                                        <Label Margin="3" Grid.Column="1" VerticalAlignment="Center" Content="{Binding predios.Count}"/>
+                                                                                        <Label Margin="3" Grid.Column="0" Content="E:"/>
+                                                                                        <Label Margin="3" Grid.Column="2" VerticalAlignment="Center" Content="{Binding etapas.Count}"/>
+                                                                                    </WrapPanel>
+                                                                                </Grid>
+
+                                                                            </DataTemplate>
+                                                                        </DataGridTemplateColumn.CellTemplate>
+                                                                    </DataGridTemplateColumn>
+                                                                    <DataGridTemplateColumn  Header="Ferts" Width="*">
+                                                                        <DataGridTemplateColumn.CellTemplate>
+                                                                            <DataTemplate>
+                                                                                <DataGrid HeadersVisibility="None"  HorizontalAlignment="Left" ItemsSource="{Binding ferts}" Grid.Row="3" Grid.Column="2" IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Extended">
+                                                                                    <DataGrid.Columns>
+                                                                                        <DataGridTextColumn Header="PEP" Binding="{Binding PEP}" Width="50"/>
+                                                                                        <DataGridTextColumn Header="FERT" Binding="{Binding FERT}" Width="50"/>
+                                                                                        <DataGridTextColumn Header="FAB" Binding="{Binding WERKS}" Width="50"/>
+                                                                                        <DataGridCheckBoxColumn Header="Fat" Binding="{Binding Path=Faturamento, Mode=OneWay}" MinWidth="40"/>
+                                                                                        <DataGridTextColumn Header="DESC" Binding="{Binding DESC}" Width="*"/>
+                                                                                    </DataGrid.Columns>
+                                                                                </DataGrid>
+                                                                            </DataTemplate>
+                                                                        </DataGridTemplateColumn.CellTemplate>
+                                                                    </DataGridTemplateColumn>
+
+                                                                </DataGrid.Columns>
+
+                                                            </DataGrid>
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+
+          
+                                            </DataGrid.Columns>
+
+                                          
+                                 
                                         </DataGrid>
 
                                     </TabItem>
@@ -650,7 +670,7 @@
                                                 <ColumnDefinition Width="2"></ColumnDefinition>
                                                 <ColumnDefinition Width="*"></ColumnDefinition>
                                             </Grid.ColumnDefinitions>
-                                            <telerik:RadGridView FontSize="11" Background="Transparent" SelectionChanged="monta_lista2" ShowColumnHeaders="True" Name="lista_predios_3" ShowSearchPanel="True" ShowColumnFooters="True" ShowGroupPanel="True"  IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Extended">
+                                            <telerik:RadGridView FontSize="11" Background="Transparent" SelectionChanged="monta_lista2" ShowColumnHeaders="True" Name="Rad_Lista_Predios_3" ShowSearchPanel="True" ShowColumnFooters="True" ShowGroupPanel="True"  IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Extended">
                                                 <telerik:RadGridView.RowStyle>
                                                     <Style TargetType="{x:Type telerik:GridViewRow}">
                                                         <Style.Triggers>
@@ -731,7 +751,7 @@
                                                 <ColumnDefinition Width="2"></ColumnDefinition>
                                                 <ColumnDefinition Width="*"></ColumnDefinition>
                                             </Grid.ColumnDefinitions>
-                                        <telerik:RadGridView FontSize="11" Background="Transparent" SelectionChanged="monta_lista" ShowColumnHeaders="True" Name="lista_predios_2" ShowSearchPanel="True" ShowColumnFooters="True" ShowGroupPanel="True"  IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Extended">
+                                        <telerik:RadGridView FontSize="11" Background="Transparent" SelectionChanged="monta_lista" ShowColumnHeaders="True" Name="Rad_Lista_Predios_2" ShowSearchPanel="True" ShowColumnFooters="True" ShowGroupPanel="True"  IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Extended">
                                             <telerik:RadGridView.RowStyle>
                                                 <Style TargetType="{x:Type telerik:GridViewRow}">
                                                     <Style.Triggers>
@@ -756,7 +776,7 @@
                                                 </telerik:GridViewDataColumn>
                                             </telerik:RadGridView.Columns>
                                         </telerik:RadGridView>
-                                            <telerik:RadGridView FontSize="11" Name="lista_sub_etapas_selecao" ShowColumnHeaders="True" ItemsSource="{Binding subetapa_agrupadores}" ShowSearchPanel="True" ShowColumnFooters="True" ShowGroupPanel="False"  Grid.Row="3" Grid.Column="20" IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Extended">
+                                            <telerik:RadGridView FontSize="11" Name="Rad_Lista_SubEtapas_Selecao" ShowColumnHeaders="True" ItemsSource="{Binding subetapa_agrupadores}" ShowSearchPanel="True" ShowColumnFooters="True" ShowGroupPanel="False"  Grid.Row="3" Grid.Column="20" IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Extended">
                                                 <telerik:RadGridView.RowStyle>
                                                     <Style TargetType="telerik:GridViewRow">
                                                         <Setter Property="Background" Value="{Binding cor}"></Setter>
@@ -815,7 +835,7 @@
                             </Grid>
                         </TabItem>
                         <TabItem Header="Ponderadores" Name="tab_ponderadores">
-                            <telerik:RadGridView  FontSize="11" ShowColumnHeaders="True" Name="lista_ponderadores" ShowSearchPanel="True" ShowColumnFooters="True" ShowGroupPanel="True"  Grid.Row="3" Grid.Column="2" IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Extended">
+                            <telerik:RadGridView  FontSize="11" ShowColumnHeaders="True" Name="Rad_Lista_Ponderadores" ShowSearchPanel="True" ShowColumnFooters="True" ShowGroupPanel="True"  Grid.Row="3" Grid.Column="2" IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Extended">
 
                                 <telerik:RadGridView.RowStyle>
                                     <Style TargetType="telerik:GridViewRow">
@@ -842,7 +862,7 @@
                             </telerik:RadGridView>
                         </TabItem>
                         <TabItem Header="Resultado"  Background="Transparent" Name="tab_resultado">
-                            <telerik:RadGridView Name="Lista_Subetapas_Fim" FontSize="11" HorizontalAlignment="Left"  ShowColumnHeaders="True" ShowSearchPanel="True" ShowColumnFooters="True" ShowGroupPanel="True"  Grid.Row="3" Grid.Column="2" IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Extended">
+                            <telerik:RadGridView Name="Rad_Lista_Subetapas_Fim" FontSize="11" HorizontalAlignment="Left"  ShowColumnHeaders="True" ShowSearchPanel="True" ShowColumnFooters="True" ShowGroupPanel="True"  Grid.Row="3" Grid.Column="2" IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Extended">
                                 <telerik:RadGridView.RowStyle>
                                     <Style TargetType="telerik:GridViewRow">
                                         <Setter Property="Background" Value="{Binding cor}"></Setter>

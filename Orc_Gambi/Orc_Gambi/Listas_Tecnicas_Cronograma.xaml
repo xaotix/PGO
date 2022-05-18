@@ -14,7 +14,7 @@
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
       
-        <telerik:RadGridView BorderThickness="0" Grid.Row="2" Margin="5,5,5,5" x:Name="Lista_Ranges" ShowColumnFooters="False" AutoGenerateColumns="False" IsReadOnly="False" IsSearchingDeferred="True" ShowSearchPanel="True" ShowGroupPanel="True" SelectionMode="Extended">
+        <telerik:RadGridView BorderThickness="0" Grid.Row="2" Margin="5,5,5,5" x:Name="Rad_Lista_Ranges" ShowColumnFooters="False" AutoGenerateColumns="False" IsReadOnly="False" IsSearchingDeferred="True" ShowSearchPanel="True" ShowGroupPanel="True" SelectionMode="Extended">
             <telerik:RadGridView.Columns>
                 <telerik:GridViewDataColumn  Header="PEP" DataMemberBinding="{Binding De_Para.PEP,Mode=OneWay}" Width="auto"  IsReadOnly="True"/>
                 <telerik:GridViewDataColumn  Header="FERT" DataMemberBinding="{Binding De_Para.FERT,Mode=OneWay}" Width="auto"  IsReadOnly="True"/>

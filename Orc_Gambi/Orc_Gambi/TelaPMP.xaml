@@ -183,7 +183,7 @@
                         </Grid>
                     </TabItem>
                     <TabItem Header="Editar Criados">
-                            <telerik:RadGridView  FontSize="11"  Grid.Row="1" Name="Lista_Criados"  ShowColumnHeaders="True" ItemsSource="{Binding ponderadores}" ShowSearchPanel="True" ShowColumnFooters="True" ShowGroupPanel="True"  Grid.Column="2" IsReadOnly="False" AutoGenerateColumns="False" SelectionMode="Extended">
+                            <telerik:RadGridView  FontSize="11"  Grid.Row="1" Name="Rad_Lista_Criados"  ShowColumnHeaders="True" ItemsSource="{Binding ponderadores}" ShowSearchPanel="True" ShowColumnFooters="True" ShowGroupPanel="True"  Grid.Column="2" IsReadOnly="False" AutoGenerateColumns="False" SelectionMode="Extended">
                             <telerik:RadGridView.Columns>
                                 <telerik:GridViewDataColumn  IsReadOnly="True"   Header="Contrato"          DataMemberBinding="{Binding numerocontrato}" Width="auto"></telerik:GridViewDataColumn>
                                 <telerik:GridViewDataColumn  IsReadOnly="True"   Header="Revisão"          DataMemberBinding="{Binding revisao}" Width="auto"></telerik:GridViewDataColumn>
@@ -389,7 +389,7 @@
                         </Grid>
                     </TabItem>
                         <TabItem Header="Editar Pacotes">
-                            <telerik:RadGridView  FontSize="11"  Grid.Row="1" Name="Lista_Consolidadas"  ShowColumnHeaders="True"  ShowSearchPanel="True" ShowColumnFooters="True" ShowGroupPanel="True"  Grid.Column="2" IsReadOnly="False" AutoGenerateColumns="False" SelectionMode="Extended">
+                            <telerik:RadGridView  FontSize="11"  Grid.Row="1" Name="Rad_Lista_Consolidadas"  ShowColumnHeaders="True"  ShowSearchPanel="True" ShowColumnFooters="True" ShowGroupPanel="True"  Grid.Column="2" IsReadOnly="False" AutoGenerateColumns="False" SelectionMode="Extended">
                                 <telerik:RadGridView.Columns>
                                     <telerik:GridViewDataColumn  IsReadOnly="True"   Header="Pedido"          DataMemberBinding="{Binding pedido}" Width="auto"></telerik:GridViewDataColumn>
                                     <telerik:GridViewDataColumn  IsReadOnly="True"   Header="Descrição"          DataMemberBinding="{Binding nome}" Width="auto"></telerik:GridViewDataColumn>

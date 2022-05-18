@@ -104,21 +104,7 @@ namespace PGO
             (Arvore.Items[0] as TreeViewItem).IsExpanded = true;
         }
 
-        private void editar_etapa()
-        {
-            //List<Ponderador> pp = this.Lista_Ponderador.SelectedItems.Cast<Ponderador>().ToList();
-            //if (pp.Count > 0)
-            //{
-            //    double porcentagem = Conexoes.Utilz.Double(Conexoes.Utilz.Prompt("Digite o valor", "", pp[0]._Porcentagem.ToString()));
-            //    foreach (var p in pp)
-            //    {
-            //        p._Porcentagem = porcentagem;
-            //    }
-            //    this.Obra.SetPonderadores(this.Obra.Ponderadores);
-            //    this.Lista_Ponderador.ItemsSource = null;
-            //    this.Lista_Ponderador.ItemsSource = this.Obra.Ponderadores;
-            //}
-        }
+
         private void Update()
         {
             this.Obra.Recarregar();
@@ -218,7 +204,7 @@ namespace PGO
 
         private void ver_props(object sender, RoutedEventArgs e)
         {
-            List<Range> Ranges = lista.SelectedItems.Cast<Range>().ToList();
+            List<Range> Ranges = ListaRanges.Selecao<Range>().ToList();
             if (Ranges.Count > 0)
             {
                 foreach (var range in Ranges)
@@ -232,7 +218,7 @@ namespace PGO
 
         private void define_fert(object sender, RoutedEventArgs e)
         {
-            List<Range> Ranges = lista.SelectedItems.Cast<Range>().ToList();
+            List<Range> Ranges = ListaRanges.Selecao<Range>().ToList();
             if (Ranges.Count > 0)
             {
                 SetFert(Ranges);
@@ -258,7 +244,7 @@ namespace PGO
 
         private void retorna_fert(object sender, RoutedEventArgs e)
         {
-            RetornaFert(lista.SelectedItems.Cast<Range>().ToList());
+            RetornaFert(ListaRanges.Selecao<Range>().ToList());
         }
 
         private static void RetornaFert(List<Range> Ranges)
@@ -285,7 +271,7 @@ namespace PGO
                 Conexoes.Utilz.Alerta("Obra está bloqueada para edições", "Obra Bloqueada", MessageBoxImage.Error);
                 return;
             }
-            var ranges = lista.SelectedItems.Cast<Range>().ToList().FindAll(x => x.Verba);
+            var ranges = ListaRanges.Selecao<Range>().ToList().FindAll(x => x.Verba);
 
             if (ranges.Count > 0)
             {
@@ -316,7 +302,7 @@ namespace PGO
 
         private void exportar_excel(object sender, RoutedEventArgs e)
         {
-            lista.Exportar();
+            ListaRanges.Exportar();
 
         }
 
@@ -407,7 +393,7 @@ namespace PGO
 
         private void get_material_range(object sender, RoutedEventArgs e)
         {
-            var ranges = lista.SelectedItems.Cast<Range>().ToList().FindAll(x => x.Verba);
+            var ranges = ListaRanges.Selecao<Range>().ToList().FindAll(x => x.Verba);
             if (ranges.Count > 0)
             {
                 foreach (var range in ranges)
@@ -443,7 +429,7 @@ namespace PGO
 
         private void atribuir_quantidade_mp(object sender, RoutedEventArgs e)
         {
-            var ranges = lista.SelectedItems.Cast<Range>().ToList().FindAll(x => x.Verba);
+            var ranges = ListaRanges.Selecao<Range>().ToList().FindAll(x => x.Verba);
 
             if (ranges.Count > 0)
             {
@@ -457,7 +443,7 @@ namespace PGO
 
         private void remover_mp(object sender, RoutedEventArgs e)
         {
-            var ranges = lista.SelectedItems.Cast<Range>().ToList().FindAll(x => x.Verba);
+            var ranges = ListaRanges.Selecao<Range>().ToList().FindAll(x => x.Verba);
 
             if (ranges.Count > 0)
             {
@@ -718,8 +704,8 @@ namespace PGO
             if (t is PGO_Obra)
             {
                 var item = t as PGO_Obra;
-                lista.ItemsSource = null;
-                lista.ItemsSource = item.GetRanges();
+                ListaRanges.ItemsSource = null;
+                ListaRanges.ItemsSource = item.GetRanges();
                 Imagem_Sel.Source = item.Imagem;
                 Label_Sel.Content = item.Contrato;
 
@@ -728,8 +714,8 @@ namespace PGO
             else if (t is PGO_Predio)
             {
                 var ob = t as PGO_Predio;
-                lista.ItemsSource = null;
-                lista.ItemsSource = ob.Ranges;
+                ListaRanges.ItemsSource = null;
+                ListaRanges.ItemsSource = ob.Ranges;
                 Predio_Editar.Visibility = Visibility.Visible;
                 Predio_Exlcuir.Visibility = Visibility.Visible;
                 Predio_Duplicar.Visibility = Visibility.Visible;
@@ -742,8 +728,8 @@ namespace PGO
             else if (t is OrcamentoLocal)
             {
                 var item = t as OrcamentoLocal;
-                lista.ItemsSource = null;
-                lista.ItemsSource = item.Ranges;
+                ListaRanges.ItemsSource = null;
+                ListaRanges.ItemsSource = item.Ranges;
                 Imagem_Sel.Source = item.Imagem;
                 Label_Sel.Content = item.Predio.Obra.Contrato + "/" + item.Predio.ToString() + "/" + item.ToString();
 
@@ -752,8 +738,8 @@ namespace PGO
             else if (t is OrcamentoGrupo)
             {
                 var ob = t as OrcamentoGrupo;
-                lista.ItemsSource = null;
-                lista.ItemsSource = ob.Ranges;
+                ListaRanges.ItemsSource = null;
+                ListaRanges.ItemsSource = ob.Ranges;
                 Imagem_Sel.Source = ob.Imagem;
                 Label_Sel.Content = ob.Local.Predio.Obra.Contrato + "/" + ob.Local.Predio.ToString() + "/" + ob.Local.ToString() + "/" + ob.ToString();
                 Grupo_AdicionarRange.Visibility = Visibility.Visible;
@@ -762,13 +748,13 @@ namespace PGO
 
             }
             UpdateLabels();
-            CollectionViewSource.GetDefaultView(lista.ItemsSource).Filter = FiltroFuncao;
+            CollectionViewSource.GetDefaultView(ListaRanges.ItemsSource).Filter = FiltroFuncao;
         }
 
         private void UpdateLabels()
         {
-            this.total_valor.Content = $"{lista.Items.Cast<Range>().Sum(x => x.Atual.Valor_Total).ToString("C")}";
-            this.total_peso.Content = $"{lista.Items.Cast<Range>().Sum(x => x.PesoTotal).ToString("N2")} Kg";
+            this.total_valor.Content = $"{ListaRanges.Items.Cast<Range>().Sum(x => x.Atual.Valor_Total).ToString("C")}";
+            this.total_peso.Content = $"{ListaRanges.Items.Cast<Range>().Sum(x => x.PesoTotal).ToString("N2")} Kg";
         }
 
         private bool FiltroFuncao(object item)
@@ -839,7 +825,7 @@ namespace PGO
 
         private void Excluir()
         {
-            List<Range> Ranges = lista.SelectedItems.Cast<Range>().ToList();
+            List<Range> Ranges = ListaRanges.Selecao<Range>().ToList();
 
             if (Ranges.Count > 0)
             {
@@ -864,7 +850,7 @@ namespace PGO
 
         private void set_esquema(object sender, RoutedEventArgs e)
         {
-            List<Range> Ranges = lista.SelectedItems.Cast<Range>().ToList().FindAll(x => x.Produto.pintura > 0);
+            List<Range> Ranges = ListaRanges.Selecao<Range>().FindAll(x => x.Produto.pintura > 0);
             if (Ranges.Count == 0) { return; }
             var esquema = this.Obra.GetTratamento();
             if (!Utilz.Pergunta("Atribuir o esquema padrão da obra? [" + esquema.ToString() + "]"))
@@ -979,7 +965,7 @@ namespace PGO
                 Conexoes.Utilz.Alerta("Obra está bloqueada para edições", "Obra Bloqueada", MessageBoxImage.Error);
                 return;
             }
-            List<Range> Ranges = lista.SelectedItems.Cast<Range>().ToList();
+            List<Range> Ranges = ListaRanges.Selecao<Range>().ToList();
 
             if (Ranges.Count > 0)
             {
@@ -1014,7 +1000,7 @@ namespace PGO
 
         private void editar_carreta_multiplo(object sender, RoutedEventArgs e)
         {
-            List<Range> Ranges = lista.SelectedItems.Cast<Range>().ToList();
+            List<Range> Ranges = ListaRanges.Selecao<Range>().ToList();
 
             if (Ranges.Count > 0)
             {
@@ -1191,7 +1177,7 @@ namespace PGO
 
         private void atualizar_custos(object sender, RoutedEventArgs e)
         {
-            var t = lista.SelectedItems.Cast<Range>();
+            var t = ListaRanges.Selecao<Range>();
             if (t.Count() > 0)
             {
                 if (Utilz.Pergunta("Tem certeza que deseja atualizar o custo dos " + t.Count() + " itens selecionados?"))
@@ -1210,7 +1196,7 @@ namespace PGO
 
         private void Editar_Mercadoria_Externa(object sender, RoutedEventArgs e)
         {
-            var rs = lista.SelectedItems.Cast<Range>().ToList();
+            var rs = ListaRanges.Selecao<Range>().ToList();
             Editar_Produtos(rs);
         }
 
@@ -1263,7 +1249,7 @@ namespace PGO
 
         private void ver_pecas_varios(object sender, RoutedEventArgs e)
         {
-            List<Range> Ranges = lista.SelectedItems.Cast<Range>().ToList();
+            List<Range> Ranges = ListaRanges.Selecao<Range>().ToList();
             if (Ranges.Count > 0)
             {
                 Funcoes.VerMateriais(this.Obra, Conexoes.Utilz.GetPecas_Orcamento(this.Obra, true, Ranges));
@@ -1273,7 +1259,7 @@ namespace PGO
 
         private void editar_peso_verba(object sender, RoutedEventArgs e)
         {
-            var ranges = lista.SelectedItems.Cast<Range>().ToList().FindAll(x => x.Verba);
+            var ranges = ListaRanges.Selecao<Range>().ToList().FindAll(x => x.Verba);
 
             if (ranges.Count > 0)
             {
@@ -1386,7 +1372,7 @@ namespace PGO
 
         private void editar_peso_verba_zerar(object sender, RoutedEventArgs e)
         {
-            var ranges = lista.SelectedItems.Cast<Range>().ToList().FindAll(x => x.Verba);
+            var ranges = ListaRanges.Selecao<Range>().ToList().FindAll(x => x.Verba);
 
             if (ranges.Count > 0)
             {
@@ -1400,7 +1386,7 @@ namespace PGO
 
         private void set_material_range(object sender, RoutedEventArgs e)
         {
-            var ranges = lista.SelectedItems.Cast<Range>().ToList().FindAll(x => x.Verba);
+            var ranges = ListaRanges.Selecao<Range>().ToList().FindAll(x => x.Verba);
             if (ranges.Count > 0)
             {
                 foreach (var range in ranges)
@@ -1423,7 +1409,7 @@ namespace PGO
         {
             if (Filtrar.Text != "Pesquisar...")
             {
-                CollectionViewSource.GetDefaultView(lista.ItemsSource).Refresh();
+                CollectionViewSource.GetDefaultView(ListaRanges.ItemsSource).Refresh();
             }
         }
     }

@@ -45,21 +45,21 @@ namespace PGO
             try
             {
 
-                this.lista_etapas.ItemsSource = null;
-                this.lista_ranges.ItemsSource = null;
-                this.lista_sub_etapas_selecao.ItemsSource = null;
-                this.lista_ponderadores.ItemsSource = null;
+                this.Lista_Etapas.ItemsSource = null;
+                this.Rad_Lista_Ranges.ItemsSource = null;
+                this.Rad_Lista_SubEtapas_Selecao.ItemsSource = null;
+                this.Rad_Lista_Ponderadores.ItemsSource = null;
                 this.lista_sub_etapas_selecao2.ItemsSource = null;
                 this.lista_predios.ItemsSource = null;
-                this.Lista_Subetapas_Fim.ItemsSource = null;
-                this.lista_peps.ItemsSource = null;
+                this.Rad_Lista_Subetapas_Fim.ItemsSource = null;
+                this.Lista_PEPs.ItemsSource = null;
                 this.lista_subetapas.ItemsSource = null;
-                this.lista_predios_2.ItemsSource = null;
-                this.lista_predios_3.ItemsSource = null;
+                this.Rad_Lista_Predios_2.ItemsSource = null;
+                this.Rad_Lista_Predios_3.ItemsSource = null;
                 this.lista_predios_peps.ItemsSource = null;
 
                 w.somaProgresso("Mapeando Ranges...");
-                this.lista_ranges.ItemsSource = this.Obra.GetRanges();
+                this.Rad_Lista_Ranges.ItemsSource = this.Obra.GetRanges();
 
               
                 this.Obra.GetEtapas(true);
@@ -79,10 +79,10 @@ namespace PGO
                 }
 
                 w.somaProgresso("Mapeando Etapas...");
-                this.lista_etapas.ItemsSource = Obra.GetEtapas();
+                this.Lista_Etapas.ItemsSource = Obra.GetEtapas();
 
                 w.somaProgresso("Mapeando Sub-Ponderadores...");
-                this.lista_ponderadores.ItemsSource = this.Obra.Getsubponderadores().FindAll(x=>x.valor>0);
+                this.Rad_Lista_Ponderadores.ItemsSource = this.Obra.Getsubponderadores().FindAll(x=>x.valor>0);
 
 
 
@@ -94,7 +94,7 @@ namespace PGO
 
 
                 w.somaProgresso("Mapeando Agrupadores de PEPs...1/4");
-                this.lista_peps.ItemsSource = this.Obra.Getpep_agrupadores();
+                this.Lista_PEPs.ItemsSource = this.Obra.Getpep_agrupadores();
 
                 w.somaProgresso("Mapeando Agrupadores de PEPs...2/4");
                 var agrupadores = this.Obra.Getpep_agrupadores().FindAll(x => x.GetFerts().Count > 0);
@@ -113,12 +113,12 @@ namespace PGO
                 w.somaProgresso("Mapeando Peças...2/3");
                 var predios_edicao = this.Obra.GetPredios().ToList().FindAll(x => x.GetPonderadores().Count > 0);
 
-                this.lista_predios_2.ItemsSource = predios_edicao;
+                this.Rad_Lista_Predios_2.ItemsSource = predios_edicao;
                 w.somaProgresso("Mapeando Peças...3/3");
-                this.lista_predios_3.ItemsSource = predios_edicao;
+                this.Rad_Lista_Predios_3.ItemsSource = predios_edicao;
 
                 w.somaProgresso("Mapeando Sub-Etapas e ordenando...");
-                this.Lista_Subetapas_Fim.ItemsSource = this.Obra.GetEtapas().SelectMany(x => x.Getsubetapas_ordenadas()).ToList();
+                this.Rad_Lista_Subetapas_Fim.ItemsSource = this.Obra.GetEtapas().SelectMany(x => x.Getsubetapas_ordenadas()).ToList();
 
                 w.somaProgresso("Mapeando peças...");
                 this.Obra.GetPecasEtapas();
@@ -128,8 +128,8 @@ namespace PGO
                 {
                     foreach (var predio in predios_edicao)
                     {
-                        this.lista_predios_3.SelectedItems.Add(predio);
-                        this.lista_predios_2.SelectedItems.Add(predio);
+                        this.Rad_Lista_Predios_3.SelectedItems.Add(predio);
+                        this.Rad_Lista_Predios_2.SelectedItems.Add(predio);
                     }
 
                 }
@@ -157,13 +157,13 @@ namespace PGO
                 }
                 w.somaProgresso();
 
-                ExplorerPLM.Utilidades.LimparFiltros(lista_ranges);
-                ExplorerPLM.Utilidades.LimparFiltros(lista_sub_etapas_selecao);
+                ExplorerPLM.Utilidades.LimparFiltros(Rad_Lista_Ranges);
+                ExplorerPLM.Utilidades.LimparFiltros(Rad_Lista_SubEtapas_Selecao);
                 ExplorerPLM.Utilidades.LimparFiltros(lista_sub_etapas_selecao2);
-                ExplorerPLM.Utilidades.LimparFiltros(Lista_Subetapas_Fim);
+                ExplorerPLM.Utilidades.LimparFiltros(Rad_Lista_Subetapas_Fim);
                 ExplorerPLM.Utilidades.LimparFiltros(lista_subetapas);
-                ExplorerPLM.Utilidades.LimparFiltros(lista_predios_2);
-                ExplorerPLM.Utilidades.LimparFiltros(lista_predios_3);
+                ExplorerPLM.Utilidades.LimparFiltros(Rad_Lista_Predios_2);
+                ExplorerPLM.Utilidades.LimparFiltros(Rad_Lista_Predios_3);
                 //ExplorerPLM.Utilidades.LimparFiltros(lista_predios_peps);
 
                 w.somaProgresso();
@@ -228,7 +228,7 @@ namespace PGO
         {
             var mts = Ranges.Select(x => x.WERK).Distinct().ToList();
             var ferts = this.Obra.GetFerts_Etapas();
-            var sel = Conexoes.Utilz.Selecao.SelecionarObjeto(DBases.GetDbOrc().GetDe_Para()
+            var sel = Conexoes.Utilz.Selecao.SelecionarObjeto(DBases.GetDbOrc().Get_PEP_FERT()
                 , null, "Selecione");
             if (sel != null)
             {
@@ -340,23 +340,30 @@ namespace PGO
         {
             if (peps_selecionados.Count > 0)
             {
-                var de_para_novo = DBases.GetDbOrc().GetDe_Para().FindAll(x => peps_selecionados.Find(y => y.PEP == x.PEP && y.fabrica == x.FAB) == null && this.Obra.GetFerts_Etapas().Find(y => y.PEP == x.PEP && y.FAB == x.FAB) == null);
+                var sss = peps_selecionados.SelectMany(x => x.GetFerts()).ToList().GroupBy(x => x.ToString()).Select(x => x.First()).ToList();
+                var peps_mover = Conexoes.Utilz.Selecao.SelecionarObjetos(sss, true," => Seleciones os Ferts para mover");
+                if (peps_mover.Count == 0) { goto saifora; }
 
-                DLM.orc.PGO_De_Para NDE_PARA = new DLM.orc.PGO_De_Para();
+                var lista_peps = DBases.GetDbOrc().Get_PEP_FERT().FindAll(x => peps_selecionados.Find(y => y.PEP == x.PEP && y.fabrica == x.FAB) == null /*&& this.Obra.GetFerts_Etapas().Find(y => y.PEP == x.PEP && y.FAB == x.FAB) == null*/);
+
+                DLM.orc.PGO_PEP_FERT NDE_PARA = new DLM.orc.PGO_PEP_FERT();
                 NDE_PARA.DESC = "Criar novo";
-                //NDE_PARA.FAB = "F2";
                 NDE_PARA.FERT = "XX";
                 NDE_PARA.MT = "MT2";
                 NDE_PARA.PEP = "XXX";
-                de_para_novo.Insert(0, NDE_PARA);
+
+                lista_peps.Insert(0, NDE_PARA);
                 bool faturamento = false;
-                if (de_para_novo.Count > 0)
+                if (lista_peps.Count > 0)
                 {
-                    var novo = Conexoes.Utilz.Selecao.SelecionarObjeto(de_para_novo, null, "Selecione");
+                    var novo = Conexoes.Utilz.Selecao.SelecionarObjeto(lista_peps, null, "Selecione o destino dos PEPs Selecionados");
 
 
                     if (novo != null)
                     {
+
+                   
+
                         if (novo.PEP == "XXX")
                         {
                         retentar:
@@ -367,7 +374,7 @@ namespace PGO
                             }
                             var ndesc = Conexoes.Utilz.Prompt("Digite a descrição", "", "", true, "pep_pgo_desc", false, 20);
                             var fabs = peps_selecionados.Select(x => x.fabrica).Distinct().ToList();
-                            string mt = Conexoes.Utilz.Selecao.SelecionarObjeto(DBases.GetDbOrc().GetMTs(), null);
+                            string mt = DBases.GetDbOrc().GetMTs().ListaSelecionar();
                             if (mt == null)
                             {
                                 goto saifora;
@@ -378,9 +385,8 @@ namespace PGO
 
                             novo.PEP = npep;
                             novo.DESC = ndesc;
-                            //novo.FAB = fab;
                             novo.MT = mt;
-                            if (DBases.GetDbOrc().GetDe_Para().Find(x => x.PEP == npep && x.FAB == fab) != null | peps_selecionados.SelectMany(x => x.Getpep_agrupadores_fora()).ToList().Find(x => x.PEP == npep && x.fabrica == fab) != null)
+                            if (DBases.GetDbOrc().Get_PEP_FERT().Find(x => x.PEP == npep && x.FAB == fab) != null | peps_selecionados.SelectMany(x => x.Getpep_agrupadores_fora()).ToList().Find(x => x.PEP == npep && x.fabrica == fab) != null)
                             {
                                 if (Conexoes.Utilz.Pergunta("Já existe um PEP com este nome. Tentar novamente?"))
                                 {
@@ -390,12 +396,11 @@ namespace PGO
                             }
 
                         }
-                        var sss = peps_selecionados.SelectMany(x => x.GetFerts()).ToList().GroupBy(x => x.ToString()).Select(x => x.First()).ToList();
-                        var peps_mover = Conexoes.Utilz.Selecao.SelecionarObjetos(sss, true,  novo.PEP + "." + novo.FAB + " => Seleciones os Ferts para mover");
-                        if (peps_mover.Count == 0) { goto saifora; }
-                        foreach (var s in peps_selecionados)
+                    
+                    
+                        foreach (var agrupador in peps_selecionados)
                         {
-                            s.AddSubPonderador(novo.PEP, novo.WERKS, null, faturamento);
+                            agrupador.AddSubPonderador(novo.PEP, novo.WERKS, null, faturamento);
                         }
                         UpdateAll();
                         var criado = this.Obra.Getpep_agrupadores().Find(x => x.PEP == novo.PEP && x.fabrica == novo.FAB);
@@ -406,7 +411,6 @@ namespace PGO
                                 criado.moveFert(s.FERT, s.WERKS, faturamento);
                             }
                             UpdateAll();
-
                         }
                     }
                 }
@@ -451,16 +455,16 @@ namespace PGO
         }
         private void altera_fert_varios(object sender, RoutedEventArgs e)
         {
-            SetFert(lista_ranges.SelectedItems.Cast<DLM.orc.Range>().ToList());
+            SetFert(Rad_Lista_Ranges.SelectedItems.Cast<DLM.orc.Range>().ToList());
         }
         private void reset_fert_varios(object sender, RoutedEventArgs e)
         {
 
-            RetornaFert(lista_ranges.SelectedItems.Cast<DLM.orc.Range>().ToList());
+            RetornaFert(Rad_Lista_Ranges.SelectedItems.Cast<DLM.orc.Range>().ToList());
         }
         private void add_novo_pep(object sender, RoutedEventArgs e)
         {
-            var peps_selecionados = lista_peps.SelectedItems.Cast<DLM.orc.PEP_Agrupador>().ToList().FindAll(x => x.GetFerts().Count > 0);
+            var peps_selecionados = Lista_PEPs.Selecao<DLM.orc.PEP_Agrupador>().FindAll(x => x.GetFerts().Count > 0);
             move_materiais(peps_selecionados);
         }
         private void edit_nome_pep(object sender, RoutedEventArgs e)
@@ -479,7 +483,7 @@ namespace PGO
             if (pp != null)
             {
                 var novo = Conexoes.Utilz.Prompt("Digite o nome do PEP", "", pp.PEP, false, "", false, 3).ToUpper();
-                if (novo == null) { return; }
+                if (novo == null | novo == pp.PEP) { return; }
                 if (novo.Length != 3) { return; }
 
                 bool faturamento = Utilz.Pergunta("Forçar o mesmo PEP de fabricação que o de faturamento?");
@@ -547,7 +551,7 @@ namespace PGO
             if (sels is DLM.orc.PGO_Predio)
             {
                 var ss = sels as DLM.orc.PGO_Predio;
-                var peps = Conexoes.Utilz.Selecao.SelecionarObjetos(ss.GetAgrupadores(),true,"Selecione os PEPs que contenham os FERTs que deseja mover");
+                var peps = Conexoes.Utilz.Selecao.SelecionarObjetos(ss.GetAgrupadores().FindAll(x=>x.GetFerts().Count>0),true,"Selecione os PEPs que contenham os FERTs que deseja mover");
                 if (peps.Count > 0)
                 {
                     move_materiais(peps);
@@ -591,7 +595,7 @@ namespace PGO
         }
         private void ver_pecas_ranges(object sender, RoutedEventArgs e)
         {
-            var s = lista_ranges.SelectedItems.Cast<DLM.orc.Range>().ToList();
+            var s = Rad_Lista_Ranges.SelectedItems.Cast<DLM.orc.Range>().ToList();
             PGO.Funcoes.VerMateriais(this.Obra, s.SelectMany(x => x.GetPecas()).ToList());
 
         }
@@ -663,12 +667,12 @@ namespace PGO
         }
         private void ver_pecas_selecao_peps(object sender, RoutedEventArgs e)
         {
-            var s = Lista_Subetapas_Fim.SelectedItems.Cast<DLM.orc.PGO_Subetapa>().ToList().SelectMany(x => x.GetPecas()).ToList();
+            var s = Rad_Lista_Subetapas_Fim.SelectedItems.Cast<DLM.orc.PGO_Subetapa>().ToList().SelectMany(x => x.GetPecas()).ToList();
             PGO.Funcoes.VerMateriais(this.Obra, s);
         }
         private void ativar_faturamento(object sender, RoutedEventArgs e)
         {
-            var s = lista_peps.SelectedItems.Cast<DLM.orc.PEP_Agrupador>().ToList().FindAll(x => x.GetFerts().Count > 0);
+            var s = Lista_PEPs.Selecao<DLM.orc.PEP_Agrupador>().FindAll(x => x.GetFerts().Count > 0);
             bool ativar = true;
             foreach (var t in s)
             {
@@ -680,7 +684,7 @@ namespace PGO
         }
         private void desativar_faturamento(object sender, RoutedEventArgs e)
         {
-            var s = lista_peps.SelectedItems.Cast<DLM.orc.PEP_Agrupador>().ToList().FindAll(x => x.GetFerts().Count > 0);
+            var s = Lista_PEPs.Selecao<DLM.orc.PEP_Agrupador>().FindAll(x => x.GetFerts().Count > 0);
             bool ativar = false;
             foreach (var t in s)
             {
@@ -705,10 +709,9 @@ namespace PGO
             DLM.orc.PEP_Agrupador sel = ((FrameworkElement)sender).DataContext as DLM.orc.PEP_Agrupador;
             if (sel != null)
             {
-                var novo = Conexoes.Utilz.Prompt("Digite o nome da Unidade Fabril", "", sel.werk, false, "", false, 4).ToUpper();
+                var novo = DBases.GetDbOrc().GetWERKs().ListaSelecionar();
                 if (novo == null) { return; }
-                if (novo.Length != 4 | !Conexoes.Utilz.ESoNumero(novo)) { return; }
-
+                if (novo== sel.werk) { return; }
                 bool faturamento = Utilz.Pergunta("Forçar o mesmo PEP de fabricação que o de faturamento?");
 
                 List<DLM.orc.PEP_Agrupador> peps = new List<DLM.orc.PEP_Agrupador>();
@@ -741,7 +744,7 @@ namespace PGO
         }
         private void reset_peps_sel(object sender, RoutedEventArgs e)
         {
-            var predios = lista_predios_peps.SelectedItems.Cast<DLM.orc.PGO_Predio>().ToList();
+            var predios = lista_predios_peps.Selecao<DLM.orc.PGO_Predio>();
             foreach (DLM.orc.PGO_Predio predio in predios)
             {
                 predio.ApagarSubponderadores();
@@ -751,13 +754,13 @@ namespace PGO
         }
         private void monta_lista(object sender, Telerik.Windows.Controls.SelectionChangeEventArgs e)
         {
-            var sel = lista_predios_2.SelectedItems.Cast<DLM.orc.PGO_Predio>().ToList();
-            this.lista_sub_etapas_selecao.ItemsSource = null;
-            this.lista_sub_etapas_selecao.ItemsSource = sel.SelectMany(x => x.GetSubEtapaAgrupadores());
+            var sel = Rad_Lista_Predios_2.SelectedItems.Cast<DLM.orc.PGO_Predio>().ToList();
+            this.Rad_Lista_SubEtapas_Selecao.ItemsSource = null;
+            this.Rad_Lista_SubEtapas_Selecao.ItemsSource = sel.SelectMany(x => x.GetSubEtapaAgrupadores());
         }
         private void monta_lista2(object sender, Telerik.Windows.Controls.SelectionChangeEventArgs e)
         {
-            var sel = lista_predios_3.SelectedItems.Cast<DLM.orc.PGO_Predio>().ToList();
+            var sel = Rad_Lista_Predios_3.SelectedItems.Cast<DLM.orc.PGO_Predio>().ToList();
             this.lista_sub_etapas_selecao2.ItemsSource = null;
             this.lista_sub_etapas_selecao2.ItemsSource = sel.SelectMany(x => x.GetSubEtapaAgrupadoresBase()).OrderBy(x => x.chave);
         }
@@ -934,7 +937,7 @@ namespace PGO
             if (sel == null) { return; }
             int etapa = Conexoes.Utilz.Int(Conexoes.Utilz.Prompt("Digite a etapa", sel.ToString(), sel.nome.ToString()));
 
-            if (etapa > 0)
+            if (etapa > 0 && sel.nome!=etapa)
             {
                 sel.nome = etapa;
                 sel.Salvar(false, false);
@@ -943,7 +946,7 @@ namespace PGO
         }
         private void sobe_etapas(object sender, RoutedEventArgs e)
         {
-            List<DLM.orc.PGO_Etapa> etapas = lista_etapas.SelectedItems.Cast<DLM.orc.PGO_Etapa>().ToList();
+            List<DLM.orc.PGO_Etapa> etapas = Lista_Etapas.Selecao<DLM.orc.PGO_Etapa>();
             int etapa = Conexoes.Utilz.Int(Conexoes.Utilz.Prompt("Digite quanto você quer reduzir", "Editar Etapas", "1"));
             if (etapa == 0) { return; }
 
@@ -966,7 +969,7 @@ namespace PGO
         }
         private void desce_etapas(object sender, RoutedEventArgs e)
         {
-            List<DLM.orc.PGO_Etapa> etapas = lista_etapas.SelectedItems.Cast<DLM.orc.PGO_Etapa>().ToList();
+            List<DLM.orc.PGO_Etapa> etapas = Lista_Etapas.Selecao<DLM.orc.PGO_Etapa>().ToList();
             int etapa = Conexoes.Utilz.Int(Conexoes.Utilz.Prompt("Digite quanto você quer aumentar", "Editar Etapas", "1"));
             if (etapa == 0) { return; }
             if (etapas.Count > 0)
@@ -987,7 +990,7 @@ namespace PGO
         }
         private void editar_pep_varios(object sender, RoutedEventArgs e)
         {
-            var s = lista_peps.SelectedItems.Cast<DLM.orc.PEP_Agrupador>().ToList().FindAll(x => x.GetFerts().Count > 0);
+            var s = Lista_PEPs.Selecao<DLM.orc.PEP_Agrupador>().ToList().FindAll(x => x.GetFerts().Count > 0);
             if (s.Count == 0) { return; }
             var novo = Conexoes.Utilz.Prompt("Digite o nome do PEP", "", s[0].PEP, false, "", false, 3).ToUpper();
             if (novo == null) { return; }
@@ -1005,7 +1008,7 @@ namespace PGO
         }
         private void edita_pep_subetapas(object sender, RoutedEventArgs e)
         {
-            var sel = lista_sub_etapas_selecao.SelectedItems.Cast<DLM.orc.SubEtapa_Agrupador>().ToList();
+            var sel = Rad_Lista_SubEtapas_Selecao.SelectedItems.Cast<DLM.orc.SubEtapa_Agrupador>().ToList();
             if (sel.Count == 0) { return; }
 
             var novo = Conexoes.Utilz.Prompt("Digite o nome do PEP", "", sel[0].agrupador.PEP, false, "", false, 3).ToUpper();
@@ -1024,7 +1027,7 @@ namespace PGO
         }
         private void edita_pep_subpodenradores(object sender, RoutedEventArgs e)
         {
-            var sel = lista_ponderadores.SelectedItems.Cast<DLM.orc.PGO_SubEtapa_Ponderador>().ToList();
+            var sel = Rad_Lista_Ponderadores.SelectedItems.Cast<DLM.orc.PGO_SubEtapa_Ponderador>().ToList();
 
             if (sel.Count > 0)
             {
@@ -1053,13 +1056,14 @@ namespace PGO
                         }
 
                     }
+                    UpdateAll();
                 }
-                UpdateAll();
+
             }
         }
         private void set_sequencial(object sender, RoutedEventArgs e)
         {
-            var sel = lista_etapas.SelectedItems.Cast<DLM.orc.PGO_Etapa>().ToList();
+            var sel = Lista_Etapas.Selecao<DLM.orc.PGO_Etapa>().ToList();
             if (sel.Count > 0)
             {
                 int inicio = Conexoes.Utilz.Int(Conexoes.Utilz.Prompt("Digite a etapa inicial", "", "1"));
@@ -1078,7 +1082,7 @@ namespace PGO
         }
         private void apagar_selecao(object sender, RoutedEventArgs e)
         {
-            var s = lista_etapas.SelectedItems.Cast<DLM.orc.PGO_Etapa>().ToList();
+            var s = Lista_Etapas.Selecao<DLM.orc.PGO_Etapa>().ToList();
 
             foreach (var st in s)
             {
@@ -1111,7 +1115,7 @@ namespace PGO
         }
         private void mover_etapa_varios(object sender, RoutedEventArgs e)
         {
-            List<DLM.orc.PGO_Etapa> etapas = lista_etapas.SelectedItems.Cast<DLM.orc.PGO_Etapa>().ToList();
+            List<DLM.orc.PGO_Etapa> etapas = Lista_Etapas.Selecao<DLM.orc.PGO_Etapa>().ToList();
             if (etapas.Count > 0)
             {
 
@@ -1330,10 +1334,10 @@ namespace PGO
             DLM.orc.PEP_Agrupador sel = ((FrameworkElement)sender).DataContext as DLM.orc.PEP_Agrupador;
             var opcoes = sel.Getferts_fora().ToList();
             if (opcoes.Count == 0) { return; }
-            if (Conexoes.Utilz.Pergunta("Filtrar somente PEPs de mesma unidade fabril?"))
-            {
-                opcoes = opcoes.FindAll(x => x.FAB == sel.fabrica);
-            }
+            //if (Conexoes.Utilz.Pergunta("Filtrar somente PEPs de mesma unidade fabril?"))
+            //{
+            //    opcoes = opcoes.FindAll(x => x.FAB == sel.fabrica);
+            //}
             if (opcoes.Count == 0) { return; }
 
             var selecao = Conexoes.Utilz.Selecao.SelecionarObjetos(opcoes);
@@ -1359,7 +1363,7 @@ namespace PGO
         }
         private void editar_frentes(object sender, RoutedEventArgs e)
         {
-            var sel = lista_etapas.SelectedItems.Cast<DLM.orc.PGO_Etapa>().ToList();
+            var sel = Lista_Etapas.Selecao<DLM.orc.PGO_Etapa>();
 
             if (sel.Count == 0) { return; }
 
@@ -1403,7 +1407,7 @@ namespace PGO
         }
         private void add_etapa(object sender, RoutedEventArgs e)
         {
-            var prediossel = this.lista_predios.SelectedItems.Cast<DLM.orc.PGO_Predio>().ToList();
+            var prediossel = this.lista_predios.Selecao<DLM.orc.PGO_Predio>().ToList();
             prediossel = prediossel.FindAll(x => x.Saldo_Etapa > 0).ToList();
             if (prediossel.Count == 1)
             {

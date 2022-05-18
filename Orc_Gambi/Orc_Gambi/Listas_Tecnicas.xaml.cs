@@ -55,46 +55,34 @@ namespace PGO
                 {
 
                     mm.Selecao.Produto.AddPeca(mm.Selecao.Peca);
-                    Lista_Pecas.ItemsSource = null;
-                    Lista_Pecas.ItemsSource = Produto_Selecionado.PecasDB;
+                    Rad_Lista_Pecas.ItemsSource = null;
+                    Rad_Lista_Pecas.ItemsSource = Produto_Selecionado.PecasDB;
                 }
             }
         }
 
         private void MenuItem_Click_1(object sender, RoutedEventArgs e)
         {
-            if (Lista_Pecas.SelectedItems.Count > 0)
+            if (Rad_Lista_Pecas.SelectedItems.Count > 0)
             {
-                if (Conexoes.Utilz.Pergunta("Tem certeza que deseja remover os " + Lista_Pecas.SelectedItems.Count))
+                if (Conexoes.Utilz.Pergunta("Tem certeza que deseja remover os " + Rad_Lista_Pecas.SelectedItems.Count))
                 {
-
                     if ((bool)Um_Item.IsChecked | (bool)ver_agrupado.IsChecked)
                     {
-
-                        DBases.GetDbOrc().Apagar(Lista_Pecas.SelectedItems.Cast<PecaDB>().ToList());
+                        DBases.GetDbOrc().Apagar(Rad_Lista_Pecas.SelectedItems.Cast<PecaDB>().ToList());
                         DBases.SetDbOrc(null);
                         setFiltro();
-
                     }
                     else
                     {
-
-
-                        foreach (var t in Lista_Pecas.SelectedItems.Cast<PecaDB>())
+                        foreach (var t in Rad_Lista_Pecas.SelectedItems.Cast<PecaDB>())
                         {
                             Produto_Selecionado.ApagarPeca(t);
-
                         }
 
-                        Lista_Pecas.ItemsSource = null;
-                        Lista_Pecas.ItemsSource = Produto_Selecionado.PecasDB;
+                        Rad_Lista_Pecas.ItemsSource = null;
+                        Rad_Lista_Pecas.ItemsSource = Produto_Selecionado.PecasDB;
                     }
-                    //else
-                    //{
-                    //    this.Produto_Selecionado.RemoverPeca(Lista_Pecas.SelectedItems.Cast<PecaDB>().ToList());
-                    //    Lista_Pecas.ItemsSource = Produto_Selecionado.PecasDB;
-                    //    Lista_Pecas.ItemsSource = null;
-                    //}
                 }
             }
         }
@@ -121,29 +109,29 @@ namespace PGO
 
 
                 Input.Text = Produto_Selecionado.Observacoes;
-                Lista_Pecas.ItemsSource = Produto_Selecionado.PecasDB;
+                Rad_Lista_Pecas.ItemsSource = Produto_Selecionado.PecasDB;
                 propriedades_produto.SelectedObject = Produto_Selecionado;
 
                 //fert.Text = Produto_Selecionado.FERT;
                 //unidade_produto.Content = Produto_Selecionado.unidade;
                 nome_selecao.Content = Produto_Selecionado.Chave;
-                Lista_Pecas.IsEnabled = true;
+                Rad_Lista_Pecas.IsEnabled = true;
                 Edicao.Visibility = Visibility.Visible;
 
                 return;
 
             }
             Edicao.Visibility = Visibility.Collapsed;
-            Lista_Pecas.ItemsSource = null;
+            Rad_Lista_Pecas.ItemsSource = null;
             Produto_Selecionado = null;
-            Lista_Pecas.IsEnabled = false;
+            Rad_Lista_Pecas.IsEnabled = false;
         }
 
         private void MenuItem_Click_2(object sender, RoutedEventArgs e)
         {
-            if (Lista_Pecas.SelectedItem is PecaDB)
+            if (Rad_Lista_Pecas.SelectedItem is PecaDB)
             {
-                var p = Lista_Pecas.SelectedItem as PecaDB;
+                var p = Rad_Lista_Pecas.SelectedItem as PecaDB;
                 Adiciona_Peca mm = new Adiciona_Peca(p, Produto_Selecionado);
                 mm.Title = "Editar " + p.ToString();
                 mm.ShowDialog();
@@ -155,8 +143,8 @@ namespace PGO
                         if (mm.Selecao.Produto != null)
                         {
                             mm.Selecao.Produto.AddPeca(mm.Selecao.Peca);
-                            Lista_Pecas.ItemsSource = null;
-                            Lista_Pecas.ItemsSource = Produto_Selecionado.PecasDB;
+                            Rad_Lista_Pecas.ItemsSource = null;
+                            Rad_Lista_Pecas.ItemsSource = Produto_Selecionado.PecasDB;
                         }
 
                     }
@@ -232,7 +220,7 @@ namespace PGO
                         }
                         tt++;
                     }
-                    Lista_Pecas.ItemsSource = null;
+                    Rad_Lista_Pecas.ItemsSource = null;
                     w.Close();
                     Conexoes.Utilz.ShowReports(reports);
 
@@ -487,7 +475,7 @@ namespace PGO
                         }
                         tt++;
                     }
-                    Lista_Pecas.ItemsSource = null;
+                    Rad_Lista_Pecas.ItemsSource = null;
                     w.Close();
                     Conexoes.Utilz.ShowReports(reports);
 
@@ -532,12 +520,12 @@ namespace PGO
 
         private void Exportar(object sender, RoutedEventArgs e)
         {
-            ExplorerPLM.Utilidades.Exportar(Lista_Pecas);
+            ExplorerPLM.Utilidades.Exportar(Rad_Lista_Pecas);
         }
 
         private void editar_quantidade(object sender, RoutedEventArgs e)
         {
-            var lits = Lista_Pecas.SelectedItems.Cast<PecaDB>().ToList();
+            var lits = Rad_Lista_Pecas.SelectedItems.Cast<PecaDB>().ToList();
             if (lits.Count > 0)
             {
                 double qtd = Conexoes.Utilz.Double(Conexoes.Utilz.Prompt("Digite a quantidade", "", lits[0].Quantidade.ToString()));
@@ -553,7 +541,7 @@ namespace PGO
 
         private void editar_observacoes(object sender, RoutedEventArgs e)
         {
-            var lits = Lista_Pecas.SelectedItems.Cast<PecaDB>().ToList();
+            var lits = Rad_Lista_Pecas.SelectedItems.Cast<PecaDB>().ToList();
             if (lits.Count > 0)
             {
                 string qtd = Conexoes.Utilz.Prompt("Digite a observação", "", lits[0].Observacoes, false, "", true);
@@ -569,7 +557,7 @@ namespace PGO
 
         private void set_arredondar1(object sender, RoutedEventArgs e)
         {
-            var lits = Lista_Pecas.SelectedItems.Cast<PecaDB>().ToList();
+            var lits = Rad_Lista_Pecas.SelectedItems.Cast<PecaDB>().ToList();
 
                 foreach (var t in lits)
                 {
@@ -579,7 +567,7 @@ namespace PGO
 
         private void set_arredondar2(object sender, RoutedEventArgs e)
         {
-            var lits = Lista_Pecas.SelectedItems.Cast<PecaDB>().ToList();
+            var lits = Rad_Lista_Pecas.SelectedItems.Cast<PecaDB>().ToList();
             foreach (var t in lits)
             {
 
@@ -589,7 +577,7 @@ namespace PGO
 
         private void set_ativar1(object sender, RoutedEventArgs e)
         {
-            var lits = Lista_Pecas.SelectedItems.Cast<PecaDB>().ToList();
+            var lits = Rad_Lista_Pecas.SelectedItems.Cast<PecaDB>().ToList();
 
                 foreach (var t in lits)
                 {
@@ -599,7 +587,7 @@ namespace PGO
 
         private void setativo2(object sender, RoutedEventArgs e)
         {
-            var lits = Lista_Pecas.SelectedItems.Cast<PecaDB>().ToList();
+            var lits = Rad_Lista_Pecas.SelectedItems.Cast<PecaDB>().ToList();
 
                 foreach (var t in lits)
                 {
@@ -621,7 +609,7 @@ namespace PGO
 
         private void editar_comprimento(object sender, RoutedEventArgs e)
         {
-            var lits = Lista_Pecas.SelectedItems.Cast<PecaDB>().ToList();
+            var lits = Rad_Lista_Pecas.SelectedItems.Cast<PecaDB>().ToList();
             if (lits.Count > 0)
             {
                 string qtd = Conexoes.Utilz.Prompt("Digite o comprimento", "", lits[0].Comprimento.ToString());
@@ -652,10 +640,10 @@ namespace PGO
                 lista_esquerda.Visibility = Visibility.Collapsed;
                 Edicao.Visibility = Visibility.Collapsed;
                 edicao_completa.Visibility = Visibility.Collapsed;
-                Lista_Pecas.ItemsSource = null;
+                Rad_Lista_Pecas.ItemsSource = null;
 
                 Produto_Selecionado = null;
-                Lista_Pecas.IsEnabled = false;
+                Rad_Lista_Pecas.IsEnabled = false;
                 adicionar_item.Visibility = Visibility.Visible;
                 if (DBases.GetDbOrc() == null)
                 {
@@ -759,8 +747,8 @@ namespace PGO
                     {
                         var ch = sel.Split('@');
                         Pecas = DBases.GetDbOrc().GetProdutos().SelectMany(x => x.PecasDB).ToList().FindAll(x => x.id_peca == Conexoes.Utilz.Int(ch[0]) && x.Tipo == ch[1].ToString());
-                        Lista_Pecas.ItemsSource = Pecas;
-                        Lista_Pecas.IsEnabled = true;
+                        Rad_Lista_Pecas.ItemsSource = Pecas;
+                        Rad_Lista_Pecas.IsEnabled = true;
                     }
                     Lista_Produtos.IsEnabled = false;
                     Lista_Produtos.ItemsSource = null;
@@ -789,7 +777,7 @@ namespace PGO
                 {
                     if ((bool)Tudo.IsChecked)
                     {
-                        Lista_Pecas.ItemsSource = Pecas;
+                        Rad_Lista_Pecas.ItemsSource = Pecas;
                     }
                     fert_grid.IsVisible = true;
                     grupo_grid.IsVisible = true;
@@ -806,7 +794,7 @@ namespace PGO
                     edicao_completa.Visibility = Visibility.Collapsed;
                     lista_esquerda.Visibility = Visibility.Collapsed;
                     ferts.Visibility = Visibility.Collapsed;
-                    Lista_Pecas.IsEnabled = true;
+                    Rad_Lista_Pecas.IsEnabled = true;
 
                 }
 
@@ -859,7 +847,7 @@ namespace PGO
 
         private void MenuItem_Click_4(object sender, RoutedEventArgs e)
         {
-            List<PecaDB> sel = Lista_Pecas.SelectedItems.Cast<PecaDB>().ToList();
+            List<PecaDB> sel = Rad_Lista_Pecas.SelectedItems.Cast<PecaDB>().ToList();
             if (sel.Count > 0)
             {
                 Adiciona_Peca mm = new Adiciona_Peca(new PecaDB(), null);
@@ -919,8 +907,8 @@ namespace PGO
                     {
                         Produto_Selecionado.AddPeca(t);
                     }
-                    Lista_Pecas.ItemsSource = null;
-                    Lista_Pecas.ItemsSource = Produto_Selecionado.PecasDB;
+                    Rad_Lista_Pecas.ItemsSource = null;
+                    Rad_Lista_Pecas.ItemsSource = Produto_Selecionado.PecasDB;
                 }
             }
         }
@@ -941,7 +929,7 @@ namespace PGO
 
         private void duplica_pcs(object sender, RoutedEventArgs e)
         {
-            List<PecaDB> lista = Lista_Pecas.SelectedItems.Cast<PecaDB>().ToList();
+            List<PecaDB> lista = Rad_Lista_Pecas.SelectedItems.Cast<PecaDB>().ToList();
 
             int c = 1;
             foreach (var t in lista)
@@ -955,8 +943,8 @@ namespace PGO
                     {
 
                         mm.Selecao.Produto.AddPeca(mm.Selecao.Peca);
-                        Lista_Pecas.ItemsSource = null;
-                        Lista_Pecas.ItemsSource = Produto_Selecionado.PecasDB;
+                        Rad_Lista_Pecas.ItemsSource = null;
+                        Rad_Lista_Pecas.ItemsSource = Produto_Selecionado.PecasDB;
                     }
                 }
                 c++;
@@ -992,7 +980,7 @@ namespace PGO
 
         private void set_forcar_peso1(object sender, RoutedEventArgs e)
         {
-            var lits = Lista_Pecas.SelectedItems.Cast<PecaDB>().ToList();
+            var lits = Rad_Lista_Pecas.SelectedItems.Cast<PecaDB>().ToList();
 
             var com_mais_de_um = lits.FindAll(x => x.Produto.PecasDB.Count > 1);
             if (com_mais_de_um.Count > 0)
@@ -1010,7 +998,7 @@ namespace PGO
 
         private void set_forcar_peso2(object sender, RoutedEventArgs e)
         {
-            var lits = Lista_Pecas.SelectedItems.Cast<PecaDB>().ToList();
+            var lits = Rad_Lista_Pecas.SelectedItems.Cast<PecaDB>().ToList();
 
                 foreach (var t in lits)
                 {
@@ -1086,7 +1074,7 @@ namespace PGO
 
         private void editar_ficha(object sender, RoutedEventArgs e)
         {
-            var lits = Lista_Pecas.SelectedItems.Cast<PecaDB>().ToList();
+            var lits = Rad_Lista_Pecas.SelectedItems.Cast<PecaDB>().ToList();
             if (lits.Count > 0)
             {
                 string ficha = Conexoes.Utilz.Selecao.SelecionarObjeto(new its.TipoPintura().GetValues().ToList().Select(x => x.Value.ToString()).ToList(), null);
@@ -1101,7 +1089,7 @@ namespace PGO
 
         private void set_forcar_area_pintura(object sender, RoutedEventArgs e)
         {
-            var lits = Lista_Pecas.SelectedItems.Cast<PecaDB>().ToList();
+            var lits = Rad_Lista_Pecas.SelectedItems.Cast<PecaDB>().ToList();
 
                 foreach (var t in lits)
                 {
@@ -1111,7 +1099,7 @@ namespace PGO
 
         private void set_forcar_area_pintura_false(object sender, RoutedEventArgs e)
         {
-            var lits = Lista_Pecas.SelectedItems.Cast<PecaDB>().ToList();
+            var lits = Rad_Lista_Pecas.SelectedItems.Cast<PecaDB>().ToList();
 
                 foreach (var t in lits)
                 {
@@ -1121,7 +1109,7 @@ namespace PGO
 
         private void area_x_kilo_valor(object sender, RoutedEventArgs e)
         {
-            var lits = Lista_Pecas.SelectedItems.Cast<PecaDB>().ToList();
+            var lits = Rad_Lista_Pecas.SelectedItems.Cast<PecaDB>().ToList();
 
             if (lits.Count == 0) { return; }
 
@@ -1135,7 +1123,7 @@ namespace PGO
 
         private void abre_pecas(object sender, RoutedEventArgs e)
         {
-            var lits = Lista_Pecas.SelectedItems.Cast<PecaDB>().ToList();
+            var lits = Rad_Lista_Pecas.SelectedItems.Cast<PecaDB>().ToList();
 
             var pdfs = lits.Select(x => x.Peca.GetPDF()).Distinct().ToList();
             foreach (var t in pdfs.FindAll(x => File.Exists(x)))
@@ -1146,7 +1134,7 @@ namespace PGO
 
         private void propriedades_pecas(object sender, RoutedEventArgs e)
         {
-            var lits = Lista_Pecas.SelectedItems.Cast<PecaDB>().ToList();
+            var lits = Rad_Lista_Pecas.SelectedItems.Cast<PecaDB>().ToList();
 
             foreach (var L in lits)
             {
@@ -1230,7 +1218,7 @@ namespace PGO
             if (Produto_Selecionado == null) { return; }
             else
             {
-                var fert = Conexoes.Utilz.Selecao.SelecionarObjeto(DBases.GetDbOrc().GetDe_Para(), null, "Selecione");
+                var fert = Conexoes.Utilz.Selecao.SelecionarObjeto(DBases.GetDbOrc().Get_PEP_FERT(), null, "Selecione");
                 if (fert != null)
                 {
                     Produto_Selecionado.setFERT(fert.FERT, fert.WERKS.Int());

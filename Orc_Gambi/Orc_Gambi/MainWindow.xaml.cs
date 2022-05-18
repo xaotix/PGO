@@ -61,7 +61,7 @@ namespace PGO
         private void Update(bool update)
         {
             this.Obras = DBases.GetDbOrc().GetObrasOrcamento(update);
-            this.lista.ItemsSource = null;
+            this.Lista.ItemsSource = null;
 
             this.Title = $"PGO" +
                 $"{(Cfg.Init.Nova_Folha_Margem ? "" : "Sem Novo Cálculo Folha Margem")}" +
@@ -437,10 +437,8 @@ namespace PGO
         }
         private void ajustar_ranges(object sender, RoutedEventArgs e)
         {
-            List<PGO_Obra> Obs = lista.SelectedItems.Cast<PGO_Obra>().ToList().SelectMany(x => x.Revisoes).ToList();
-            //Obs.AddRange(lista.SelectedItems.Cast<Obra>().ToList());
+            List<PGO_Obra> Obs = Lista.Selecao<PGO_Obra>().ToList().SelectMany(x => x.Revisoes).ToList();
 
-            //Obs.AddRange(lista.SelectedItems.Cast<Obra>().ToList());
             if (Obs.Count > 0)
             {
                 if (Utilz.Pergunta("Tem certeza que deseja atualizar as " + Obs.Count + " obras selecionadas?"))
@@ -669,9 +667,9 @@ namespace PGO
         }
         private void lista_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (lista.SelectedItem != null)
+            if (Lista.SelectedItem != null)
             {
-                PGO_Obra ob = lista.SelectedItem as PGO_Obra;
+                PGO_Obra ob = Lista.SelectedItem as PGO_Obra;
                 ZoomNaObra(ob);
             }
         }
@@ -679,7 +677,7 @@ namespace PGO
         {
            if (Filtrar.Text != "Pesquisar...")
             {
-                CollectionViewSource.GetDefaultView(lista.ItemsSource).Refresh();
+                CollectionViewSource.GetDefaultView(Lista.ItemsSource).Refresh();
             }
         }
         private bool FiltroFuncao(object item)
@@ -724,9 +722,9 @@ namespace PGO
                 filtro.AddRange(obras);
             }
 
-            this.lista.ItemsSource = null;
-            this.lista.ItemsSource = filtro;
-            CollectionViewSource.GetDefaultView(lista.ItemsSource).Filter = FiltroFuncao;
+            this.Lista.ItemsSource = null;
+            this.Lista.ItemsSource = filtro;
+            CollectionViewSource.GetDefaultView(Lista.ItemsSource).Filter = FiltroFuncao;
         }
     }
 }

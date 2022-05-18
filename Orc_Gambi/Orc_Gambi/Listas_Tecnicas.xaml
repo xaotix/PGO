@@ -137,7 +137,7 @@
                         </TabControl.Background>
                         <TabItem Header="Itens" Background="Transparent">
                             
-                            <telerik:RadGridView ShowSearchPanel="True"  ShowColumnFooters="False" Grid.Row="3" Grid.Column="2" IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Extended"   Name="Lista_Pecas" RowStyle="{StaticResource GridRowStyle}" AlternateRowStyle="{StaticResource GridAlternateRowStyle}">
+                            <telerik:RadGridView ShowSearchPanel="True"  ShowColumnFooters="False" Grid.Row="3" Grid.Column="2" IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Extended"   Name="Rad_Lista_Pecas" RowStyle="{StaticResource GridRowStyle}" AlternateRowStyle="{StaticResource GridAlternateRowStyle}">
 
                                 <telerik:RadGridView.Columns>
 
