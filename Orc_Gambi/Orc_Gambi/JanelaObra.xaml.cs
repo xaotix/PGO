@@ -204,7 +204,7 @@ namespace PGO
 
         private void ver_props(object sender, RoutedEventArgs e)
         {
-            List<Range> Ranges = ListaRanges.Selecao<Range>().ToList();
+            List<Range> Ranges = ListaRanges.Selecao<Range>();
             if (Ranges.Count > 0)
             {
                 foreach (var range in Ranges)
@@ -218,7 +218,7 @@ namespace PGO
 
         private void define_fert(object sender, RoutedEventArgs e)
         {
-            List<Range> Ranges = ListaRanges.Selecao<Range>().ToList();
+            List<Range> Ranges = ListaRanges.Selecao<Range>();
             if (Ranges.Count > 0)
             {
                 SetFert(Ranges);
@@ -244,7 +244,7 @@ namespace PGO
 
         private void retorna_fert(object sender, RoutedEventArgs e)
         {
-            RetornaFert(ListaRanges.Selecao<Range>().ToList());
+            RetornaFert(ListaRanges.Selecao<Range>());
         }
 
         private static void RetornaFert(List<Range> Ranges)
@@ -271,7 +271,7 @@ namespace PGO
                 Conexoes.Utilz.Alerta("Obra está bloqueada para edições", "Obra Bloqueada", MessageBoxImage.Error);
                 return;
             }
-            var ranges = ListaRanges.Selecao<Range>().ToList().FindAll(x => x.Verba);
+            var ranges = ListaRanges.Selecao<Range>().FindAll(x => x.Verba);
 
             if (ranges.Count > 0)
             {
@@ -393,7 +393,7 @@ namespace PGO
 
         private void get_material_range(object sender, RoutedEventArgs e)
         {
-            var ranges = ListaRanges.Selecao<Range>().ToList().FindAll(x => x.Verba);
+            var ranges = ListaRanges.Selecao<Range>().FindAll(x => x.Verba);
             if (ranges.Count > 0)
             {
                 foreach (var range in ranges)
@@ -429,7 +429,7 @@ namespace PGO
 
         private void atribuir_quantidade_mp(object sender, RoutedEventArgs e)
         {
-            var ranges = ListaRanges.Selecao<Range>().ToList().FindAll(x => x.Verba);
+            var ranges = ListaRanges.Selecao<Range>().FindAll(x => x.Verba);
 
             if (ranges.Count > 0)
             {
@@ -443,7 +443,7 @@ namespace PGO
 
         private void remover_mp(object sender, RoutedEventArgs e)
         {
-            var ranges = ListaRanges.Selecao<Range>().ToList().FindAll(x => x.Verba);
+            var ranges = ListaRanges.Selecao<Range>().FindAll(x => x.Verba);
 
             if (ranges.Count > 0)
             {
@@ -825,7 +825,7 @@ namespace PGO
 
         private void Excluir()
         {
-            List<Range> Ranges = ListaRanges.Selecao<Range>().ToList();
+            List<Range> Ranges = ListaRanges.Selecao<Range>();
 
             if (Ranges.Count > 0)
             {
@@ -965,7 +965,7 @@ namespace PGO
                 Conexoes.Utilz.Alerta("Obra está bloqueada para edições", "Obra Bloqueada", MessageBoxImage.Error);
                 return;
             }
-            List<Range> Ranges = ListaRanges.Selecao<Range>().ToList();
+            List<Range> Ranges = ListaRanges.Selecao<Range>();
 
             if (Ranges.Count > 0)
             {
@@ -1000,7 +1000,7 @@ namespace PGO
 
         private void editar_carreta_multiplo(object sender, RoutedEventArgs e)
         {
-            List<Range> Ranges = ListaRanges.Selecao<Range>().ToList();
+            List<Range> Ranges = ListaRanges.Selecao<Range>();
 
             if (Ranges.Count > 0)
             {
@@ -1196,7 +1196,7 @@ namespace PGO
 
         private void Editar_Mercadoria_Externa(object sender, RoutedEventArgs e)
         {
-            var rs = ListaRanges.Selecao<Range>().ToList();
+            var rs = ListaRanges.Selecao<Range>();
             Editar_Produtos(rs);
         }
 
@@ -1249,7 +1249,7 @@ namespace PGO
 
         private void ver_pecas_varios(object sender, RoutedEventArgs e)
         {
-            List<Range> Ranges = ListaRanges.Selecao<Range>().ToList();
+            List<Range> Ranges = ListaRanges.Selecao<Range>();
             if (Ranges.Count > 0)
             {
                 Funcoes.VerMateriais(this.Obra, Conexoes.Utilz.GetPecas_Orcamento(this.Obra, true, Ranges));
@@ -1259,7 +1259,7 @@ namespace PGO
 
         private void editar_peso_verba(object sender, RoutedEventArgs e)
         {
-            var ranges = ListaRanges.Selecao<Range>().ToList().FindAll(x => x.Verba);
+            var ranges = ListaRanges.Selecao<Range>().FindAll(x => x.Verba);
 
             if (ranges.Count > 0)
             {
@@ -1372,7 +1372,7 @@ namespace PGO
 
         private void editar_peso_verba_zerar(object sender, RoutedEventArgs e)
         {
-            var ranges = ListaRanges.Selecao<Range>().ToList().FindAll(x => x.Verba);
+            var ranges = ListaRanges.Selecao<Range>().FindAll(x => x.Verba);
 
             if (ranges.Count > 0)
             {
@@ -1386,7 +1386,7 @@ namespace PGO
 
         private void set_material_range(object sender, RoutedEventArgs e)
         {
-            var ranges = ListaRanges.Selecao<Range>().ToList().FindAll(x => x.Verba);
+            var ranges = ListaRanges.Selecao<Range>().FindAll(x => x.Verba);
             if (ranges.Count > 0)
             {
                 foreach (var range in ranges)
