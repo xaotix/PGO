@@ -63,10 +63,10 @@ namespace PGO
             this.Obras = DBases.GetDbOrc().GetObrasOrcamento(update);
             this.Lista.ItemsSource = null;
 
-            this.Title = $"PGO" +
+            this.Title = $"PGO " +
                 $"{(Cfg.Init.Nova_Folha_Margem ? "" : "Sem Novo Cálculo Folha Margem")}" +
                 $"v {System.Windows.Forms.Application.ProductVersion}" +
-                $"Dbase: [{DLM.vars.Cfg.Init.MySQL_Servidor}]";
+                $" Dbase: [{DLM.vars.Cfg.Init.MySQL_Servidor}]";
 
             Funcoes_Mapa.Localizacoes = new Localizacoes(System.Windows.Forms.Application.StartupPath + @"\Locais.setup");
 
@@ -716,6 +716,10 @@ namespace PGO
             else if ((bool)ch_orc.IsChecked)
             {
                 filtro = obras.FindAll(x => x.Tipo == Tipo_Orcamento.Orçamento);
+            }
+            else if ((bool)ch_con.IsChecked)
+            {
+                filtro = obras.FindAll(x => x.Revisoes.FindAll(y=>y.Consolidacao).Count>0);
             }
             else if ((bool)ch_tudo.IsChecked)
             {

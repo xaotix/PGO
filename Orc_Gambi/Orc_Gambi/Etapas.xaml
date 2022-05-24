@@ -21,11 +21,14 @@
         <Menu VerticalAlignment="Center" Background="Transparent" Grid.ColumnSpan="2" Margin="0,0,0,1">
 
             <MenuItem Header="Materiais"  VerticalAlignment="Center" Background="Transparent">
-                <MenuItem.Icon>
-                    <Image  Source="Resources/document-export-table.png"  Width="16" Height="16"/>
-                </MenuItem.Icon>
+
                 <MenuItem Header="Gerar Pacotes" Click="ver_materiais"/>
-                <MenuItem Header="Extrair Comparativo C00 X P00" Click="extrair_relatorio"></MenuItem>
+                <MenuItem Header="Extrair Comparativo C00 X P00" Click="extrair_relatorio"/>
+            </MenuItem>
+            <MenuItem Header="Ferramentas">
+            <MenuItem Header="Resetar Sub-Ponderadores" Click="resetar_subponderadores"/>
+            <MenuItem Header="Limpar Etapas" Click="clear_etapas"/>
+                
             </MenuItem>
         </Menu>
         <Grid Grid.Row="1" Grid.ColumnSpan="2">
@@ -39,6 +42,7 @@
                 <Image Source="Resources/administrador.png" HorizontalAlignment="Right" Margin="30,0,0,0"></Image>
 
             </WrapPanel>
+            <Label Name="resumo" VerticalAlignment="Top" HorizontalAlignment="Right" FontWeight="Bold" FontSize="14"/>
             <TabControl Grid.Row="1" Grid.ColumnSpan="2" SelectionChanged="TabControl_SelectionChanged" Name="tabela">
                 <TabItem>
                     <TabItem.Header>

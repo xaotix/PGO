@@ -110,11 +110,12 @@
                         <RadioButton Margin="3" Name="ch_orc" Content="Orçamentos" Checked="filtrar_obras" Unchecked="filtrar_obras"/>
                         <RadioButton Margin="3" Name="ch_ext" Content="Extras" Checked="filtrar_obras" Unchecked="filtrar_obras"/>
                         <RadioButton Margin="3" Name="ch_meu" Content="Meus Itens" Checked="filtrar_obras" Unchecked="filtrar_obras"/>
+                        <RadioButton Margin="3" Name="ch_con" Content="Com Consolidação" Checked="filtrar_obras" Unchecked="filtrar_obras"/>
                     </WrapPanel>
                 </Grid>
                 <WrapPanel Grid.Row="1" VerticalAlignment="Center">
                     <Label Content="Obras ["/>
-                    <Label Content="{Binding ElementName=lista, Path=Items.Count}"/>
+                    <Label Content="{Binding ElementName=Lista, Path=Items.Count}"/>
                     <Label Content="x]"/>
                 </WrapPanel>
                 <DataGrid 

@@ -203,6 +203,12 @@ namespace PGO
                 }
             }
 
+
+            this.resumo.Content = 
+                $"Ranges: {this.Obra.Ranges.Sum(x => x.PesoTotal/1000).ToString("0,0.00")} Kg " +
+                $"\n Consolidada: {this.Obra.Ranges.Sum(x => x.PesoPecas / 1000).ToString("0,0.00")} Kg" +
+                $"\n Etapas: {this.Obra.Getsubponderadores().Sum(x=>x.peso).ToString("0,0.00")} Kg";
+
         }
         private void RetornaFert(List<DLM.orc.Range> Ranges)
         {
@@ -1445,6 +1451,16 @@ namespace PGO
         private void exporta_cj20n(object sender, RoutedEventArgs e)
         {
             Conexoes.Utilz.ExportarPlanilhaCJ20N(this.Obra);
+        }
+
+        private void resetar_subponderadores(object sender, RoutedEventArgs e)
+        {
+            if(!Conexoes.Utilz.Pergunta("Tem certeza? Não é possível desfazer")) { return; }
+            foreach(var predio in this.Obra.Predios)
+            {
+                predio.ApagarSubponderadores();
+            }
+            UpdateAll();
         }
     }
 }
