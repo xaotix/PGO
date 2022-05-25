@@ -1,4 +1,5 @@
 ﻿using Conexoes;
+using DLM.encoder;
 using DLM.orc;
 using DLM.vars;
 using FirstFloor.ModernUI.Presentation;
@@ -729,6 +730,16 @@ namespace PGO
             this.Lista.ItemsSource = null;
             this.Lista.ItemsSource = filtro;
             CollectionViewSource.GetDefaultView(Lista.ItemsSource).Filter = FiltroFuncao;
+        }
+
+        private void importa_pgo_pacote(object sender, RoutedEventArgs e)
+        {
+            var arquivo = Conexoes.Utilz.Abrir_String("xlsx", "", "", Cfg.Init.PGO_pasta_consolidadas);
+            if (arquivo.Existe())
+            {
+                List<Report> erros = new List<Report>();
+             var pcs =  PGO.Funcoes.getPecas(new List<Conexoes.Arquivo> { new Conexoes.Arquivo(arquivo) }, out erros);
+            }
         }
     }
 }

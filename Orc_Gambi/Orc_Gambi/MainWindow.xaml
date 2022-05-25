@@ -44,6 +44,9 @@
                 <MenuItem Header="Calcular Novamente os Fretes" Click="calcular_fretes"/>
                 <MenuItem Header="Converter Obras para novo Formato" Click="ajustar_ranges"/>
             </MenuItem>
+            <MenuItem Header="Avançado">
+                <MenuItem Header="Teste - Importar Excel Pacote" Click="importa_pgo_pacote"/>
+            </MenuItem>
             <MenuItem Header="Banco de dados" Background="Transparent" Name="dbases">
                 <MenuItem Header="Atualizar Banco de dados" Click="atualizar_dbase"  Visibility="{Binding Menus_Orcamento}" />
                 <MenuItem Header="Padrão de Preenchimentos" Background="Transparent"  Visibility="{Binding Menus_Orcamento}" >
