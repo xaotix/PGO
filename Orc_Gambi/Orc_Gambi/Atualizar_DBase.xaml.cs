@@ -22,7 +22,7 @@ namespace PGO
         public List<Produto> Produtos { get; set; } = new List<Produto>();
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            arquivo.Text = Conexoes.Utilz.Abrir_String("xlsx", "Selecione o arquivo", "Arquivo DBase");
+            arquivo.Text = Conexoes.Utilz.Abrir_String("xlsx");
             if (File.Exists(arquivo.Text))
             {
                 //string planilha = "";

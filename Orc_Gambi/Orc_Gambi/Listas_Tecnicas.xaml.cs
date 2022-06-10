@@ -159,7 +159,7 @@ namespace PGO
 
         private void Importar_Almox(object sender, RoutedEventArgs e)
         {
-            string ss = Conexoes.Utilz.Abrir_String("xlsx", "", "");
+            string ss = Conexoes.Utilz.Abrir_String("xlsx");
             if (File.Exists(ss))
             {
                 string planilha = "";
@@ -231,7 +231,7 @@ namespace PGO
 
         private void Importar_Arremates(object sender, RoutedEventArgs e)
         {
-            string ss = Conexoes.Utilz.Abrir_String("xlsx", "", "");
+            string ss = Conexoes.Utilz.Abrir_String("xlsx");
             if (File.Exists(ss))
             {
                 string planilha = "";

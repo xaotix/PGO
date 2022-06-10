@@ -734,7 +734,7 @@ namespace PGO
 
         private void importa_pgo_pacote(object sender, RoutedEventArgs e)
         {
-            var arquivo = Conexoes.Utilz.Abrir_String("xlsx", "", "", Cfg.Init.PGO_pasta_consolidadas);
+            var arquivo = Conexoes.Utilz.Abrir_String("xlsx",Cfg.Init.PGO_pasta_consolidadas);
             if (arquivo.Existe())
             {
                 List<Report> erros = new List<Report>();
