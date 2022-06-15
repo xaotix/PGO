@@ -149,7 +149,9 @@ namespace PGO
                 if (sem_fert.Count > 0)
                 {
                     this.tab_principal_etapas.Visibility = Visibility.Collapsed;
-                    Conexoes.Utilz.ShowReports(sem_fert.Select(x => new Report("Falta definir o FERT", x.ToString(), TipoReport.Crítico)).ToList());
+                    List<Report> Reports = new List<Report>();
+                    Reports.AddRange(sem_fert.Select(x => new Report("Falta definir o FERT", x.ToString(), TipoReport.Crítico)).ToList());
+                    Conexoes.Utilz.ShowReports(Reports);
                 }
                 else
                 {

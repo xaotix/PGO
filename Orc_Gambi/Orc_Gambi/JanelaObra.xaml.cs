@@ -157,31 +157,31 @@ namespace PGO
 
         private void gerar_lista_pecas(object sender, RoutedEventArgs e)
         {
-            List<Report> Reports_pre = new List<Report>();
+            List<Report> Reports = new List<Report>();
             var sem_tratamento = this.Tratamentos.FindAll(x => !x.Tipo.descricao.Contains("GALV") && x.Codigo == "");
             if (sem_tratamento.Count > 0)
             {
-                Reports_pre.AddRange(sem_tratamento.Select(x => new Report("Falta definir o esquema de pintura.", x.Descricao)).ToList());
+                Reports.AddRange(sem_tratamento.Select(x => new Report("Falta definir o esquema de pintura.", x.Descricao)).ToList());
             }
             if (this.Obra.Contrato_SAP == "")
             {
-                Reports_pre.Add(new Report("Faltam dados", "Falta preencher o contrato sap"));
+                Reports.Add(new Report("Faltam dados", "Falta preencher o contrato sap"));
             }
 
             if (this.Tratamentos.FindAll(x => x.Tipo.descricao == "").Count > 0)
             {
-                Reports_pre.Add(new Report("Faltam dados", "Há esquemas de pintura faltando definição de tratamento. Preencha-os antes de continuar."));
+                Reports.Add(new Report("Faltam dados", "Há esquemas de pintura faltando definição de tratamento. Preencha-os antes de continuar."));
             }
 
             if (this.Tratamentos.FindAll(x => !x.Tipo.descricao.Contains("GALV") && x.Codigo == "").Count > 0)
             {
-                Reports_pre.Add(new Report("Faltam dados", "HHá esquemas de pintura faltando definição de código. Preencha-os antes de continuar."));
+                Reports.Add(new Report("Faltam dados", "HHá esquemas de pintura faltando definição de código. Preencha-os antes de continuar."));
 
             }
 
-            if (Reports_pre.Count > 0)
+            if (Reports.Count > 0)
             {
-                Conexoes.Utilz.ShowReports(Reports_pre);
+                Conexoes.Utilz.ShowReports(Reports);
                 return;
             }
 

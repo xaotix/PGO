@@ -100,17 +100,17 @@ namespace PGO
         }
         public List<Report> Validar()
         {
-            List<Report> pre_testes = new List<Report>();
+            List<Report> Reports = new List<Report>();
 
             var obras_sem_contrato_sap = selecao.FindAll(x => x.Contrato_SAP.Replace("0", "").Replace(" ", "") == "" /*| !Conexoes.Utilz.ESoNumero(x.Contrato_SAP)*/ | x.Contrato_SAP.Length != 6);
             var pedidos_com_pacote = selecao.FindAll(x => pacotes.Find(y => y.pedido == x.PedidoSAP) != null);
             var obras_duplicadas = selecao.FindAll(x => selecao.FindAll(y => y.PedidoSAP == x.PedidoSAP).Count > 1).FindAll(x => obras_sem_contrato_sap.Find(y => y == x) == null);
 
-            pre_testes.AddRange(obras_sem_contrato_sap.Select(x => x.Contrato + "." + x.Revisao + " - " + x.Nome).Distinct().ToList().Select(x => new Report(x, "Obra com contrato SAP em branco ou inválido", TipoReport.Crítico)));
-            pre_testes.AddRange(obras_duplicadas.Select(x => x.Contrato + "." + x.Revisao + " - " + x.Nome + " Pedido: " + x.PedidoSAP).Distinct().ToList().Select(x => new Report(x, "Mais de Uma obra com o mesmo contrato SAP", TipoReport.Crítico)));
-            pre_testes.AddRange(pedidos_com_pacote.Select(x => x.Contrato + "." + x.Revisao + " - " + x.Nome + " Pedido: " + x.PedidoSAP).Distinct().ToList().Select(x => new Report(x, "Já existe um pacote com este pedido.", TipoReport.Crítico)));
+            Reports.AddRange(obras_sem_contrato_sap.Select(x => x.Contrato + "." + x.Revisao + " - " + x.Nome).Distinct().ToList().Select(x => new Report(x, "Obra com contrato SAP em branco ou inválido", TipoReport.Crítico)));
+            Reports.AddRange(obras_duplicadas.Select(x => x.Contrato + "." + x.Revisao + " - " + x.Nome + " Pedido: " + x.PedidoSAP).Distinct().ToList().Select(x => new Report(x, "Mais de Uma obra com o mesmo contrato SAP", TipoReport.Crítico)));
+            Reports.AddRange(pedidos_com_pacote.Select(x => x.Contrato + "." + x.Revisao + " - " + x.Nome + " Pedido: " + x.PedidoSAP).Distinct().ToList().Select(x => new Report(x, "Já existe um pacote com este pedido.", TipoReport.Crítico)));
 
-            return pre_testes;
+            return Reports;
 
         }
         private void gerar_material(object sender, RoutedEventArgs e)

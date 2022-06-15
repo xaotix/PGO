@@ -248,9 +248,9 @@ namespace PGO
                 System.Threading.Thread.Sleep(wait);
             }
         }
-        public static List<Conexoes.Pedido_PMP> getPedidos(List<string> codigos_obras, out List<Report> erros, bool prompt = true)
+        public static List<Conexoes.Pedido_PMP> getPedidos(List<string> codigos_obras, out List<Report> Reports, bool prompt = true)
         {
-            erros = new List<Report>();
+            Reports = new List<Report>();
 
             List<Conexoes.Pedido_PMP> retorno = new List<Conexoes.Pedido_PMP>();
             List<Conexoes.Arquivo> excels = new List<Conexoes.Arquivo>();
@@ -310,14 +310,14 @@ namespace PGO
                 {
                     if (Conexoes.Utilz.Pergunta("Deseja carregar os " + excels.Count + " encontrados?"))
                     {
-                        var pcs = getPecas(excels, out erros);
-                        var pacote_atual = new Conexoes.Pacote_PMP(pcs, erros);
+                        var pcs = getPecas(excels, out Reports);
+                        var pacote_atual = new Conexoes.Pacote_PMP(pcs, Reports);
 
                         return pacote_atual.pedidos;
                     }
                     else
                     {
-                        erros.Add(new Report("Cancelado", "Cancelado pelo usuário", TipoReport.Alerta));
+                        Reports.Add(new Report("Cancelado", "Cancelado pelo usuário", TipoReport.Alerta));
                     }
                 }
             }
@@ -325,30 +325,30 @@ namespace PGO
             {
                 if (excels.Count > 0)
                 {
-                    var pcs = getPecas(excels, out erros);
-                    var pacote_atual = new Conexoes.Pacote_PMP(pcs, erros);
+                    var pcs = getPecas(excels, out Reports);
+                    var pacote_atual = new Conexoes.Pacote_PMP(pcs, Reports);
 
                     return pacote_atual.pedidos.FindAll(x => codigos_obras.Find(y => x.pep.ToUpper().Replace(" ", "").Replace(".", "").Replace("-", "").Contains(y.ToUpper().Replace(" ", "").Replace(".", "").Replace("-", ""))) != null);
                 }
                 else
                 {
-                    erros.Add(new Report("Vazio", "Nenhum pedido encontrado.", TipoReport.Alerta));
+                    Reports.Add(new Report("Vazio", "Nenhum pedido encontrado.", TipoReport.Alerta));
                 }
             }
             return new List<Conexoes.Pedido_PMP>();
         }
-        public static List<Conexoes.Pedido_PMP> getPedidos(List<DLM.orc.PGO_Obra> codigos, out List<Report> erros)
+        public static List<Conexoes.Pedido_PMP> getPedidos(List<DLM.orc.PGO_Obra> codigos, out List<Report> Reports)
         {
-            erros = new List<Report>();
+            Reports = new List<Report>();
             List<string> codigos_obras = codigos.Select(x => x.PedidoSAP).Distinct().ToList();
             if (!Directory.Exists(Cfg.Init.PGO_pasta_consolidadas))
             {
-                erros.Add(new Report("Pasta não existe", DLM.vars.Cfg.Init.PGO_pasta_consolidadas, TipoReport.Crítico));
+                Reports.Add(new Report("Pasta não existe", DLM.vars.Cfg.Init.PGO_pasta_consolidadas, TipoReport.Crítico));
 
                 return new List<Conexoes.Pedido_PMP>();
             }
 
-            var pedidos = getPedidos(codigos_obras, out erros);
+            var pedidos = getPedidos(codigos_obras, out Reports);
 
 
             foreach (var ped in pedidos)
@@ -373,10 +373,10 @@ namespace PGO
             }
             return getPecas(excels.Select(x => new Conexoes.Arquivo(x)).ToList(), out erros, peps);
         }
-        public static List<Conexoes.Peca_PMP> getPecas(List<Conexoes.Arquivo> arquivos, out List<Report> erros, List<string> peps = null)
+        public static List<Conexoes.Peca_PMP> getPecas(List<Conexoes.Arquivo> arquivos, out List<Report> Reports, List<string> peps = null)
         {
             double max_tamanho = 5000;
-            erros = new List<Report>();
+            Reports = new List<Report>();
             if (peps == null)
             {
                 peps = new List<string>();
@@ -394,7 +394,7 @@ namespace PGO
 
             arqs = arqs.OrderByDescending(x => x.TamKB).ToList();
             var arquivos_fora = arquivos.FindAll(x => arqs.Find(y => y.Endereco == x.Endereco) == null);
-            erros.AddRange(arquivos_fora.Select(z => new Report(z.Endereco, "Arquivo inválido, não contém no nome SAP - RME ou é maior que o tamanho máximo (" + max_tamanho + ") " + "Tam. arq.:(" + z.Tamanho + ")", TipoReport.Crítico)));
+            Reports.AddRange(arquivos_fora.Select(z => new Report(z.Endereco, "Arquivo inválido, não contém no nome SAP - RME ou é maior que o tamanho máximo (" + max_tamanho + ") " + "Tam. arq.:(" + z.Tamanho + ")", TipoReport.Crítico)));
 
 
             var saps_rmes = arqs.Select(x => new DLM.ep.EP_Pacote(PacoteEPTipo.SAPRME, x.Endereco, false,false)).ToList();
@@ -444,13 +444,13 @@ namespace PGO
                         if (!t.Join(TimeSpan.FromSeconds(30)))
                         {
                             t.Abort();
-                            erros.Add(new Report("Abortado - Arquivo demorou demais.", s.Arquivo, TipoReport.Crítico));
+                            Reports.Add(new Report("Abortado - Arquivo demorou demais.", s.Arquivo, TipoReport.Crítico));
                         }
                     }
                     catch (Exception ex)
                     {
 
-                        erros.Add(new Report(ex ,$"Erro ao tentar ler o arquivo {s.Arquivo}"));
+                        Reports.Add(new Report(ex ,$"Erro ao tentar ler o arquivo {s.Arquivo}"));
                     }
 
                 }
@@ -476,11 +476,11 @@ namespace PGO
                     pecas.AddRange(pcs);
                     peps.AddRange(pcs.Select(x => x.pep).Distinct().ToList());
                     w.somaProgresso(t.Arquivo.ToUpper().Replace(DLM.vars.Cfg.Init.PGO_pasta_consolidadas.ToUpper(), ""));
-                    erros.AddRange(erros_pcs);
+                    Reports.AddRange(erros_pcs);
 
                     if (pcs.Count > 0)
                     {
-                        erros.AddRange(t.Reports);
+                        Reports.AddRange(t.Reports);
                     }
                     else
                     {
@@ -489,7 +489,7 @@ namespace PGO
                 }
                 catch (Exception ex)
                 {
-                    erros.Add(new Report(ex));
+                    Reports.Add(new Report(ex));
                 }
 
             }
@@ -501,7 +501,7 @@ namespace PGO
             erros = new List<Report>();
             if (!File.Exists(arquivo_excel))
             {
-                erros.Add(new Report(arquivo_excel, "Arquivo não existe", TipoReport.Crítico));
+                erros.Add(new Report("Falta Arquivo" ,arquivo_excel, TipoReport.Crítico));
                 return new List<Conexoes.Peca_PMP>();
             }
             var rme = new DLM.ep.EP_Pacote( PacoteEPTipo.SAPRME,arquivo_excel,false,false);
