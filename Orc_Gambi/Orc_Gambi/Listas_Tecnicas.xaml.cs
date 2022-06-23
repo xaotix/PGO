@@ -11,6 +11,7 @@ using Telerik.Charting;
 using Telerik.Windows.Controls;
 using Telerik.Windows.Controls.ChartView;
 using DLM.encoder;
+using DLM.mbs;
 
 namespace PGO
 {
@@ -332,7 +333,7 @@ namespace PGO
                                     {
                                         cod = lts[i + 1][id_codigo].ToString();
                                     }
-                                    var pc = Conexoes.DBases.GetBancoRM().GetPeca(new Marca_Ship(new Marca() { Nome = marca.Replace(" ", ""), Comprimento = comp }) { CustomCod = maktx, MateriaPrima = cod });
+                                    var pc = Conexoes.DBases.GetBancoRM().GetPeca(new MBS_Marca_Ship(new Marca() { Nome = marca.Replace(" ", ""), Comprimento = comp }) { CustomCod = maktx, MateriaPrima = cod });
                                     if (pc != null)
                                     {
                                         if (pc is Conexoes.RMU)
