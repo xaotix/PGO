@@ -333,7 +333,7 @@ namespace PGO
                                     {
                                         cod = lts[i + 1][id_codigo].ToString();
                                     }
-                                    var pc = Conexoes.DBases.GetBancoRM().GetPeca(new MBS_Marca_Ship(new Marca() { Nome = marca.Replace(" ", ""), Comprimento = comp }) { CustomCod = maktx, MateriaPrima = cod });
+                                    var pc = Conexoes.DBases.GetBancoRM().GetPeca(new Marca_Pesquisa(new Marca() { Nome = marca.Replace(" ", ""), Comprimento = comp }) { CustomCod = maktx, MateriaPrima = cod });
                                     if (pc != null)
                                     {
                                         if (pc is Conexoes.RMU)
