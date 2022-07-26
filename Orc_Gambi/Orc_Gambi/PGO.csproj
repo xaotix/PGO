@@ -451,7 +451,7 @@
       <Project>{def82547-9fab-457e-89bf-c10ed1dd9162}</Project>
       <Name>Conexoes</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\ExplorerMedabil\ModernUIApp1\SIE.csproj">
+    <ProjectReference Include="..\..\..\Sistema-Integrado-de-Engenharia\ModernUIApp1\SIE.csproj">
       <Project>{a255d36a-5f9c-4189-9d9d-6a40955f847a}</Project>
       <Name>SIE</Name>
     </ProjectReference>
