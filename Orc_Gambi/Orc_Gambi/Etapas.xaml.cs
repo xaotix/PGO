@@ -472,7 +472,7 @@ namespace PGO
         }
         private void add_novo_pep(object sender, RoutedEventArgs e)
         {
-            var peps_selecionados = Lista_PEPs.Selecao<DLM.orc.PEP_Agrupador>().FindAll(x => x.GetFerts().Count > 0);
+            var peps_selecionados = Lista_PEPs.Selecoes<DLM.orc.PEP_Agrupador>().FindAll(x => x.GetFerts().Count > 0);
             move_materiais(peps_selecionados);
         }
         private void edit_nome_pep(object sender, RoutedEventArgs e)
@@ -680,7 +680,7 @@ namespace PGO
         }
         private void ativar_faturamento(object sender, RoutedEventArgs e)
         {
-            var s = Lista_PEPs.Selecao<DLM.orc.PEP_Agrupador>().FindAll(x => x.GetFerts().Count > 0);
+            var s = Lista_PEPs.Selecoes<DLM.orc.PEP_Agrupador>().FindAll(x => x.GetFerts().Count > 0);
             bool ativar = true;
             foreach (var t in s)
             {
@@ -692,7 +692,7 @@ namespace PGO
         }
         private void desativar_faturamento(object sender, RoutedEventArgs e)
         {
-            var s = Lista_PEPs.Selecao<DLM.orc.PEP_Agrupador>().FindAll(x => x.GetFerts().Count > 0);
+            var s = Lista_PEPs.Selecoes<DLM.orc.PEP_Agrupador>().FindAll(x => x.GetFerts().Count > 0);
             bool ativar = false;
             foreach (var t in s)
             {
@@ -752,7 +752,7 @@ namespace PGO
         }
         private void reset_peps_sel(object sender, RoutedEventArgs e)
         {
-            var predios = lista_predios_peps.Selecao<DLM.orc.PGO_Predio>();
+            var predios = lista_predios_peps.Selecoes<DLM.orc.PGO_Predio>();
             foreach (DLM.orc.PGO_Predio predio in predios)
             {
                 predio.ApagarSubponderadores();
@@ -954,7 +954,7 @@ namespace PGO
         }
         private void sobe_etapas(object sender, RoutedEventArgs e)
         {
-            List<DLM.orc.PGO_Etapa> etapas = Lista_Etapas.Selecao<DLM.orc.PGO_Etapa>();
+            List<DLM.orc.PGO_Etapa> etapas = Lista_Etapas.Selecoes<DLM.orc.PGO_Etapa>();
             int etapa = Conexoes.Utilz.Int(Conexoes.Utilz.Prompt("Digite quanto você quer reduzir", "Editar Etapas", "1"));
             if (etapa == 0) { return; }
 
@@ -977,7 +977,7 @@ namespace PGO
         }
         private void desce_etapas(object sender, RoutedEventArgs e)
         {
-            List<DLM.orc.PGO_Etapa> etapas = Lista_Etapas.Selecao<DLM.orc.PGO_Etapa>();
+            List<DLM.orc.PGO_Etapa> etapas = Lista_Etapas.Selecoes<DLM.orc.PGO_Etapa>();
             int etapa = Conexoes.Utilz.Int(Conexoes.Utilz.Prompt("Digite quanto você quer aumentar", "Editar Etapas", "1"));
             if (etapa == 0) { return; }
             if (etapas.Count > 0)
@@ -998,7 +998,7 @@ namespace PGO
         }
         private void editar_pep_varios(object sender, RoutedEventArgs e)
         {
-            var s = Lista_PEPs.Selecao<DLM.orc.PEP_Agrupador>().FindAll(x => x.GetFerts().Count > 0);
+            var s = Lista_PEPs.Selecoes<DLM.orc.PEP_Agrupador>().FindAll(x => x.GetFerts().Count > 0);
             if (s.Count == 0) { return; }
             var novo = Conexoes.Utilz.Prompt("Digite o nome do PEP", "", s[0].PEP, false, "", false, 3).ToUpper();
             if (novo == null) { return; }
@@ -1071,7 +1071,7 @@ namespace PGO
         }
         private void set_sequencial(object sender, RoutedEventArgs e)
         {
-            var sel = Lista_Etapas.Selecao<DLM.orc.PGO_Etapa>();
+            var sel = Lista_Etapas.Selecoes<DLM.orc.PGO_Etapa>();
             if (sel.Count > 0)
             {
                 int inicio = Conexoes.Utilz.Int(Conexoes.Utilz.Prompt("Digite a etapa inicial", "", "1"));
@@ -1090,7 +1090,7 @@ namespace PGO
         }
         private void apagar_selecao(object sender, RoutedEventArgs e)
         {
-            var s = Lista_Etapas.Selecao<DLM.orc.PGO_Etapa>();
+            var s = Lista_Etapas.Selecoes<DLM.orc.PGO_Etapa>();
 
             foreach (var st in s)
             {
@@ -1118,7 +1118,7 @@ namespace PGO
         }
         private void mover_etapa_varios(object sender, RoutedEventArgs e)
         {
-            List<DLM.orc.PGO_Etapa> etapas = Lista_Etapas.Selecao<DLM.orc.PGO_Etapa>();
+            List<DLM.orc.PGO_Etapa> etapas = Lista_Etapas.Selecoes<DLM.orc.PGO_Etapa>();
             if (etapas.Count > 0)
             {
 
@@ -1366,7 +1366,7 @@ namespace PGO
         }
         private void editar_frentes(object sender, RoutedEventArgs e)
         {
-            var sel = Lista_Etapas.Selecao<DLM.orc.PGO_Etapa>();
+            var sel = Lista_Etapas.Selecoes<DLM.orc.PGO_Etapa>();
 
             if (sel.Count == 0) { return; }
 
@@ -1410,7 +1410,7 @@ namespace PGO
         }
         private void add_etapa(object sender, RoutedEventArgs e)
         {
-            var prediossel = this.lista_predios.Selecao<DLM.orc.PGO_Predio>();
+            var prediossel = this.lista_predios.Selecoes<DLM.orc.PGO_Predio>();
             prediossel = prediossel.FindAll(x => x.Saldo_Etapa > 0).ToList();
             if (prediossel.Count == 1)
             {

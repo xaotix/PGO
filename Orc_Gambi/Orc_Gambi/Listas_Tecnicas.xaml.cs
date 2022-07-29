@@ -23,7 +23,7 @@ namespace PGO
         public Listas_Tecnicas()
         {
             InitializeComponent();
-
+            this.SetIcones();
         }
 
         private Produto Produto_Selecionado { get; set; }
@@ -117,12 +117,12 @@ namespace PGO
                 //unidade_produto.Content = Produto_Selecionado.unidade;
                 nome_selecao.Content = Produto_Selecionado.Chave;
                 Rad_Lista_Pecas.IsEnabled = true;
-                Edicao.Visibility = Visibility.Visible;
+                menu_Edicao.Visibility = Visibility.Visible;
 
                 return;
 
             }
-            Edicao.Visibility = Visibility.Collapsed;
+            menu_Edicao.Visibility = Visibility.Collapsed;
             Rad_Lista_Pecas.ItemsSource = null;
             Produto_Selecionado = null;
             Rad_Lista_Pecas.IsEnabled = false;
@@ -336,49 +336,52 @@ namespace PGO
                                     var pc = Conexoes.DBases.GetBancoRM().GetPeca(new Marca_Pesquisa(new Marca() { Nome = marca.Replace(" ", ""), Comprimento = comp }) { CustomCod = maktx, MateriaPrima = cod });
                                     if (pc != null)
                                     {
-                                        if (pc is Conexoes.RMU)
+                                        if (pc is RME)
                                         {
-                                            PecaDB nova = new PecaDB();
-
-                                            var pcatual = corr.PecasDB.Find(x => x.id_peca == (pc as Conexoes.RME).id_codigo);
-                                            if (pcatual != null)
+                                            var rm = pc as RME;
+                                            if(rm.DESTINO == "RMU")
                                             {
-                                                nova = pcatual;
+                                                PecaDB nova = new PecaDB();
+
+                                                var pcatual = corr.PecasDB.Find(x => x.id_peca == (pc as Conexoes.RME).id_codigo);
+                                                if (pcatual != null)
+                                                {
+                                                    nova = pcatual;
+                                                }
+
+                                                nova.Comprimento = comp;
+                                                nova.Arredondar = true;
+                                                nova.Ativo = true;
+                                                nova.id_peca = (pc as Conexoes.RME).id_codigo;
+                                                nova.Quantidade = qtd;
+                                                nova.Tipo = "RMU";
+
+                                                Bobina bob = DBases.GetBancoRM().GetBobina(cod);
+                                                nova.id_materia_prima = bob.id;
+
+
+                                                corr.AddPeca(nova);
                                             }
-
-                                            nova.Comprimento = comp;
-                                            nova.Arredondar = true;
-                                            nova.Ativo = true;
-                                            nova.id_peca = (pc as Conexoes.RME).id_codigo;
-                                            nova.Quantidade = qtd;
-                                            nova.Tipo = "RMU";
-
-                                            Bobina bob = DBases.GetBancoRM().GetBobina(cod);
-                                            nova.id_materia_prima = bob.id;
-
-
-                                            corr.AddPeca(nova);
-
-
-                                        }
-                                        else if (pc is Conexoes.RME)
-                                        {
-                                            PecaDB nova = new PecaDB();
-
-                                            var pcatual = corr.PecasDB.Find(x => x.id_peca == (pc as Conexoes.RME).id_codigo);
-                                            if (pcatual != null)
+                                            else
                                             {
-                                                nova = pcatual;
-                                            }
-       
-                                            nova.Comprimento = comp;
-                                            nova.Arredondar = true;
-                                            nova.Ativo = true;
-                                            nova.id_peca = (pc as Conexoes.RME).id_codigo;
+                                                PecaDB nova = new PecaDB();
 
-                                            nova.Quantidade = qtd;
-                                            nova.Tipo = "RME";
-                                            corr.AddPeca(nova);
+                                                var pcatual = corr.PecasDB.Find(x => x.id_peca == (pc as Conexoes.RME).id_codigo);
+                                                if (pcatual != null)
+                                                {
+                                                    nova = pcatual;
+                                                }
+
+                                                nova.Comprimento = comp;
+                                                nova.Arredondar = true;
+                                                nova.Ativo = true;
+                                                nova.id_peca = (pc as Conexoes.RME).id_codigo;
+
+                                                nova.Quantidade = qtd;
+                                                nova.Tipo = "RME";
+                                                corr.AddPeca(nova);
+                                            }
+                                            
                                         }
                                         else if (pc is Conexoes.RMA)
                                         {
@@ -400,7 +403,7 @@ namespace PGO
                                             nova.Tipo = "RMA";
                                             corr.AddPeca(nova);
                                         }
-                                        else if (pc is Conexoes.RMT)
+                                        else if (pc is RMT)
                                         {
                                             PecaDB nova = new PecaDB();
 
@@ -639,7 +642,7 @@ namespace PGO
             try
             {
                 lista_esquerda.Visibility = Visibility.Collapsed;
-                Edicao.Visibility = Visibility.Collapsed;
+                menu_Edicao.Visibility = Visibility.Collapsed;
                 edicao_completa.Visibility = Visibility.Collapsed;
                 Rad_Lista_Pecas.ItemsSource = null;
 
@@ -756,7 +759,7 @@ namespace PGO
                     ferts.Visibility = Visibility.Collapsed;
                     adicionar_item.Visibility = Visibility.Collapsed;
                     Importar.Visibility = Visibility.Collapsed;
-                    Edicao.Visibility = Visibility.Visible;
+                    menu_Edicao.Visibility = Visibility.Visible;
 
 
                 }
@@ -791,7 +794,7 @@ namespace PGO
                     ferts.Visibility = Visibility.Collapsed;
                     adicionar_item.Visibility = Visibility.Collapsed;
                     Importar.Visibility = Visibility.Collapsed;
-                    Edicao.Visibility = Visibility.Visible;
+                    menu_Edicao.Visibility = Visibility.Visible;
                     edicao_completa.Visibility = Visibility.Collapsed;
                     lista_esquerda.Visibility = Visibility.Collapsed;
                     ferts.Visibility = Visibility.Collapsed;

@@ -63,7 +63,7 @@ namespace PGO
                     }
                     break;
                 case "RMU":
-                    RMU RMU = Conexoes.Utilz.Selecao.SelecionarObjeto(DBases.GetBancoRM().GetRMUt(), null);
+                    RME RMU = Conexoes.Utilz.Selecao.SelecionarObjeto(DBases.GetBancoRM().GetRMUt(), null);
                     if (RMU != null)
                     {
                         this.Selecao.Peca.id_peca = RMU.id_codigo;

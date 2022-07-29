@@ -44,7 +44,7 @@ namespace PGO.Controles
 
         private void atribuir_esquema()
         {
-            var sel = Esquemas_de_Pintura.Selecao<Tratamento>();
+            var sel = Esquemas_de_Pintura.Selecoes<Tratamento>();
             if (sel.Count() > 0)
             {
                 foreach (var s in sel)

@@ -205,40 +205,28 @@
                                 </telerik:RadGridView.Columns>
                                 <telerik:RadGridView.ContextMenu>
 
-                                    <ContextMenu Name="Edicao">
+                                    <ContextMenu Name="menu_Edicao">
                                         <MenuItem Header="Ver Desenho" Click="abre_pecas"></MenuItem>
                                         <MenuItem Header="Propriedades" Click="propriedades_pecas"></MenuItem>
                                         <Separator></Separator>
-                                        
-                                        <MenuItem Header="Exportar" Click="Exportar">
-                                            <MenuItem.Icon>
-                                                <Image Source="Resources/circulo_16x16.png" Width="16" Height="16"/>
-                                            </MenuItem.Icon>
-                                        </MenuItem>
-                                        <MenuItem Header="Adicionar / Duplicar" Name="adicionar_item">
-                                            <MenuItem.Icon>
-                                                <Image Source="Resources/circulo_16x16.png" Width="16" Height="16"/>
-                                            </MenuItem.Icon>
+
+                                            <MenuItem Header="Exportar" Click="Exportar"/>
+
+
+                                            <MenuItem Header="Adicionar / Duplicar" Name="adicionar_item">
                                             <MenuItem Header="Adicionar" Click="MenuItem_Click"></MenuItem>
                                             <MenuItem Header="Duplicar" Click="duplica_pcs"></MenuItem>
                                         </MenuItem>
-                                        <MenuItem Header="Remover" Click="MenuItem_Click_1">
-                                            <MenuItem.Icon>
-                                                <Image Source="Resources/circulo_16x16.png" Width="16" Height="16"/>
-                                            </MenuItem.Icon>
-                                        </MenuItem>
-                                        <!--<MenuItem Header="Importar de Outro Range..."></MenuItem>-->
+                                            <MenuItem Header="Remover" Click="MenuItem_Click_1"/>
+
+
+                                            <!--<MenuItem Header="Importar de Outro Range..."></MenuItem>-->
                                         <MenuItem Header="Editar">
-                                            <MenuItem.Icon>
-                                                <Image Source="Resources/circulo_16x16.png" Width="16" Height="16"/>
-                                            </MenuItem.Icon>
                                             <MenuItem Header="Edição Completa" Click="MenuItem_Click_2" Name="edicao_completa"></MenuItem>
                                             <MenuItem Header="Quantidade" Click="editar_quantidade"></MenuItem>
-                                            <!--<MenuItem Header="Atualizar Descrição e código" Click="editar_descricao"></MenuItem>-->
                                             <MenuItem Header="Comprimento" Click="editar_comprimento"></MenuItem>
                                             <MenuItem Header="Observações" Click="editar_observacoes"></MenuItem>
                                             <MenuItem Header="Ficha" Click="editar_ficha"></MenuItem>
-                                            <!--<MenuItem Header="Unidade Fabril" Click="editar_unidade_fabril"></MenuItem>-->
                                             <MenuItem Header="Arredontar">
                                                 <MenuItem Header="Sim" Click="set_arredondar1"></MenuItem>
                                                 <MenuItem Header="Não" Click="set_arredondar2"></MenuItem>

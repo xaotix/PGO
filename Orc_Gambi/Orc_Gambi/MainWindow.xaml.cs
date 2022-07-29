@@ -36,7 +36,7 @@ namespace PGO
                 Menus_Orcamento = Visibility.Collapsed;
             }
 
-            Conexoes.Utilz.SetIcones(this.menu_principal);
+            this.SetIcones();
 
 
             Update(true);
@@ -438,7 +438,7 @@ namespace PGO
         }
         private void ajustar_ranges(object sender, RoutedEventArgs e)
         {
-            List<PGO_Obra> Obs = Lista.Selecao<PGO_Obra>().ToList().SelectMany(x => x.Revisoes).ToList();
+            List<PGO_Obra> Obs = Lista.Selecoes<PGO_Obra>().ToList().SelectMany(x => x.Revisoes).ToList();
 
             if (Obs.Count > 0)
             {

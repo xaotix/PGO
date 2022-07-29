@@ -36,10 +36,7 @@ namespace PGO
             }
 
 
-            Conexoes.Utilz.SetIcones(this.menu_principal);
-            Conexoes.Utilz.SetIcones(this.menu_ranges);
-            Conexoes.Utilz.SetIcones(this.menu_arvore);
-            Conexoes.Utilz.SetIcones(this.menu_lista);
+            this.SetIcones();
 
 
             if (this.Obra.Bloqueado)
@@ -204,7 +201,7 @@ namespace PGO
 
         private void ver_props(object sender, RoutedEventArgs e)
         {
-            List<Range> Ranges = ListaRanges.Selecao<Range>();
+            List<Range> Ranges = ListaRanges.Selecoes<Range>();
             if (Ranges.Count > 0)
             {
                 foreach (var range in Ranges)
@@ -218,7 +215,7 @@ namespace PGO
 
         private void define_fert(object sender, RoutedEventArgs e)
         {
-            List<Range> Ranges = ListaRanges.Selecao<Range>();
+            List<Range> Ranges = ListaRanges.Selecoes<Range>();
             if (Ranges.Count > 0)
             {
                 SetFert(Ranges);
@@ -244,7 +241,7 @@ namespace PGO
 
         private void retorna_fert(object sender, RoutedEventArgs e)
         {
-            RetornaFert(ListaRanges.Selecao<Range>());
+            RetornaFert(ListaRanges.Selecoes<Range>());
         }
 
         private static void RetornaFert(List<Range> Ranges)
@@ -271,7 +268,7 @@ namespace PGO
                 Conexoes.Utilz.Alerta("Obra está bloqueada para edições", "Obra Bloqueada", MessageBoxImage.Error);
                 return;
             }
-            var ranges = ListaRanges.Selecao<Range>().FindAll(x => x.Verba);
+            var ranges = ListaRanges.Selecoes<Range>().FindAll(x => x.Verba);
 
             if (ranges.Count > 0)
             {
@@ -393,7 +390,7 @@ namespace PGO
 
         private void get_material_range(object sender, RoutedEventArgs e)
         {
-            var ranges = ListaRanges.Selecao<Range>().FindAll(x => x.Verba);
+            var ranges = ListaRanges.Selecoes<Range>().FindAll(x => x.Verba);
             if (ranges.Count > 0)
             {
                 foreach (var range in ranges)
@@ -429,7 +426,7 @@ namespace PGO
 
         private void atribuir_quantidade_mp(object sender, RoutedEventArgs e)
         {
-            var ranges = ListaRanges.Selecao<Range>().FindAll(x => x.Verba);
+            var ranges = ListaRanges.Selecoes<Range>().FindAll(x => x.Verba);
 
             if (ranges.Count > 0)
             {
@@ -443,7 +440,7 @@ namespace PGO
 
         private void remover_mp(object sender, RoutedEventArgs e)
         {
-            var ranges = ListaRanges.Selecao<Range>().FindAll(x => x.Verba);
+            var ranges = ListaRanges.Selecoes<Range>().FindAll(x => x.Verba);
 
             if (ranges.Count > 0)
             {
@@ -825,7 +822,7 @@ namespace PGO
 
         private void Excluir()
         {
-            List<Range> Ranges = ListaRanges.Selecao<Range>();
+            List<Range> Ranges = ListaRanges.Selecoes<Range>();
 
             if (Ranges.Count > 0)
             {
@@ -850,7 +847,7 @@ namespace PGO
 
         private void set_esquema(object sender, RoutedEventArgs e)
         {
-            List<Range> Ranges = ListaRanges.Selecao<Range>().FindAll(x => x.Produto.pintura > 0);
+            List<Range> Ranges = ListaRanges.Selecoes<Range>().FindAll(x => x.Produto.pintura > 0);
             if (Ranges.Count == 0) { return; }
             var esquema = this.Obra.GetTratamento();
             if (!Utilz.Pergunta("Atribuir o esquema padrão da obra? [" + esquema.ToString() + "]"))
@@ -965,7 +962,7 @@ namespace PGO
                 Conexoes.Utilz.Alerta("Obra está bloqueada para edições", "Obra Bloqueada", MessageBoxImage.Error);
                 return;
             }
-            List<Range> Ranges = ListaRanges.Selecao<Range>();
+            List<Range> Ranges = ListaRanges.Selecoes<Range>();
 
             if (Ranges.Count > 0)
             {
@@ -1000,7 +997,7 @@ namespace PGO
 
         private void editar_carreta_multiplo(object sender, RoutedEventArgs e)
         {
-            List<Range> Ranges = ListaRanges.Selecao<Range>();
+            List<Range> Ranges = ListaRanges.Selecoes<Range>();
 
             if (Ranges.Count > 0)
             {
@@ -1177,7 +1174,7 @@ namespace PGO
 
         private void atualizar_custos(object sender, RoutedEventArgs e)
         {
-            var t = ListaRanges.Selecao<Range>();
+            var t = ListaRanges.Selecoes<Range>();
             if (t.Count() > 0)
             {
                 if (Utilz.Pergunta("Tem certeza que deseja atualizar o custo dos " + t.Count() + " itens selecionados?"))
@@ -1196,7 +1193,7 @@ namespace PGO
 
         private void Editar_Mercadoria_Externa(object sender, RoutedEventArgs e)
         {
-            var rs = ListaRanges.Selecao<Range>();
+            var rs = ListaRanges.Selecoes<Range>();
             Editar_Produtos(rs);
         }
 
@@ -1249,7 +1246,7 @@ namespace PGO
 
         private void ver_pecas_varios(object sender, RoutedEventArgs e)
         {
-            List<Range> Ranges = ListaRanges.Selecao<Range>();
+            List<Range> Ranges = ListaRanges.Selecoes<Range>();
             if (Ranges.Count > 0)
             {
                 Funcoes.VerMateriais(this.Obra, Conexoes.Utilz.GetPecas_Orcamento(this.Obra, true, Ranges));
@@ -1259,7 +1256,7 @@ namespace PGO
 
         private void editar_peso_verba(object sender, RoutedEventArgs e)
         {
-            var ranges = ListaRanges.Selecao<Range>().FindAll(x => x.Verba);
+            var ranges = ListaRanges.Selecoes<Range>().FindAll(x => x.Verba);
 
             if (ranges.Count > 0)
             {
@@ -1372,7 +1369,7 @@ namespace PGO
 
         private void editar_peso_verba_zerar(object sender, RoutedEventArgs e)
         {
-            var ranges = ListaRanges.Selecao<Range>().FindAll(x => x.Verba);
+            var ranges = ListaRanges.Selecoes<Range>().FindAll(x => x.Verba);
 
             if (ranges.Count > 0)
             {
@@ -1386,7 +1383,7 @@ namespace PGO
 
         private void set_material_range(object sender, RoutedEventArgs e)
         {
-            var ranges = ListaRanges.Selecao<Range>().FindAll(x => x.Verba);
+            var ranges = ListaRanges.Selecoes<Range>().FindAll(x => x.Verba);
             if (ranges.Count > 0)
             {
                 foreach (var range in ranges)
